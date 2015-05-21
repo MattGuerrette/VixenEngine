@@ -11,20 +11,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{A049FDB7-F63B-4517-A50C-DF79C694F6AF}</ProjectGuid>
+    <ProjectGuid>{2F6F1D02-BFC6-402F-BDD7-0422E26337A3}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>VCore</RootNamespace>
+    <RootNamespace>VTest</RootNamespace>
     <TargetPlatformVersion>8.1</TargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -44,18 +44,18 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(SolutionDir)..\include\;$(SolutionDir)..\include\vcore\;$(SolutionDir)..\include\vgraphics\;$(SolutionDir)..\include\vgame\;$(SolutionDir)..\dependencies\glm\;$(SolutionDir)..\dependencies\GL\;$(SolutionDir)..\dependencies\FreeImage\;$(SolutionDir)..\dependencies\assimp\include\;$(SolutionDir)..\dependencies\libarchive\include\;$(SolutionDir)..\dependencies\SDL\include\;$(SolutionDir)..\dependencies\TinyXML\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\dependencies\assimp\;$(SolutionDir)..\dependencies\GL\;$(SolutionDir)..\dependencies\TinyXML\Debug\;$(SolutionDir)..\dependencies\SDL\;$(SolutionDir)..\dependencies\FreeImage\;$(SolutionDir)..\dependencies\libarchive\Debug\;$(SolutionDir)Debug\;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)$(Configuration)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)$(ProjectName)_Temp\</IntDir>
     <TargetName>$(ProjectName)_D</TargetName>
-    <IncludePath>$(SolutionDir)..\include\;$(SolutionDir)..\include\vcore\;$(SolutionDir)..\dependencies\libarchive\include\;$(IncludePath)</IncludePath>
-    <SourcePath>..\$(SolutionDir)source\vcore\;$(SourcePath)</SourcePath>
-    <LibraryPath>$(SolutionDir)..\dependencies\libarchive\Debug\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(SolutionDir)..\include\;$(SolutionDir)..\include\vcore\;$(SolutionDir)..\include\vgraphics\;$(SolutionDir)..\include\vgame\;$(SolutionDir)..\dependencies\glm\;$(SolutionDir)..\dependencies\GL\;$(SolutionDir)..\dependencies\FreeImage\;$(SolutionDir)..\dependencies\assimp\include\;$(SolutionDir)..\dependencies\libarchive\include\;$(SolutionDir)..\dependencies\SDL\include\;$(SolutionDir)..\dependencies\TinyXML\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\dependencies\assimp\;$(SolutionDir)..\dependencies\GL\;$(SolutionDir)..\dependencies\TinyXML\Release\;$(SolutionDir)..\dependencies\SDL\;$(SolutionDir)..\dependencies\FreeImage\;$(SolutionDir)..\dependencies\libarchive\Release\;$(SolutionDir)Release;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)$(Configuration)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)$(ProjectName)_Temp\</IntDir>
-    <IncludePath>$(SolutionDir)..\include\;$(SolutionDir)..\include\vcore\;$(SolutionDir)..\dependencies\libarchive\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)..\dependencies\libarchive\Release\;$(LibraryPath)</LibraryPath>
-    <SourcePath>$(SolutionDir)..\source\vcore\;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -63,14 +63,17 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;VIX_NONCLIENT_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>archive.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>assimp.lib;tinyxml2.lib;glew32.lib;opengl32.lib;glu32.lib;FreeImage.lib;archive.lib;SDL2.lib;VCore_D.lib;VGraphics_D.lib;VGame_D.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>manifest.xml</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -80,49 +83,19 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;VIX_NONCLIENT_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>archive.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>assimp.lib;tinyxml2.lib;glew32.lib;opengl32.lib;glu32.lib;FreeImage.lib;archive.lib;SDL2.lib;VCore.lib;VGraphics.lib;VGame.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\vcore\vix_algorithms.h" />
-    <ClInclude Include="..\..\include\vcore\vix_containers.h" />
-    <ClInclude Include="..\..\include\vcore\vix_content.h" />
-    <ClInclude Include="..\..\include\vcore\vix_debugutil.h" />
-    <ClInclude Include="..\..\include\vcore\vix_enumutil.h" />
-    <ClInclude Include="..\..\include\vcore\vix_errglobals.h" />
-    <ClInclude Include="..\..\include\vcore\vix_file.h" />
-    <ClInclude Include="..\..\include\vcore\vix_filesystem.h" />
-    <ClInclude Include="..\..\include\vcore\vix_libarchive.h" />
-    <ClInclude Include="..\..\include\vcore\vix_list.h" />
-    <ClInclude Include="..\..\include\vcore\vix_manager.h" />
-    <ClInclude Include="..\..\include\vcore\vix_noncopy.h" />
-    <ClInclude Include="..\..\include\vcore\vix_osutil.h" />
-    <ClInclude Include="..\..\include\vcore\vix_paths.h" />
-    <ClInclude Include="..\..\include\vcore\vix_singleton.h" />
-    <ClInclude Include="..\..\include\vcore\vix_stlutil.h" />
-    <ClInclude Include="..\..\include\vcore\vix_stringutil.h" />
-    <ClInclude Include="..\..\include\vcore\vix_tinyxml.h" />
-    <ClInclude Include="..\..\include\vcore\vix_typedefs.h" />
-    <ClInclude Include="..\..\include\vix_platform.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\source\vcore\vix_debugutil.cpp" />
-    <ClCompile Include="..\..\source\vcore\vix_enumutil.cpp" />
-    <ClCompile Include="..\..\source\vcore\vix_errglobals.cpp" />
-    <ClCompile Include="..\..\source\vcore\vix_file.cpp" />
-    <ClCompile Include="..\..\source\vcore\vix_filesystem.cpp" />
-    <ClCompile Include="..\..\source\vcore\vix_libarchive.cpp" />
-    <ClCompile Include="..\..\source\vcore\vix_list.cpp" />
-    <ClCompile Include="..\..\source\vcore\vix_osutil.cpp" />
-    <ClCompile Include="..\..\source\vcore\vix_stringutil.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

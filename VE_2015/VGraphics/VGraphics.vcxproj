@@ -14,16 +14,17 @@
     <ProjectGuid>{B05F16D5-4BE1-4B26-AB9F-C4D69C17E3F3}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>VGraphics</RootNamespace>
+    <TargetPlatformVersion>8.1</TargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -43,13 +44,18 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)..\include\;$(SolutionDir)..\include\vcore\;$(SolutionDir)..\include\vgraphics\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\include\;$(SolutionDir)..\include\vcore\;$(SolutionDir)..\include\vgraphics\;$(SolutionDir)..\dependencies\glm\;$(SolutionDir)..\dependencies\GL\;$(SolutionDir)..\dependencies\FreeImage\;$(SolutionDir)..\dependencies\TinyXML\;$(SolutionDir)..\dependencies\assimp\include\;$(IncludePath)</IncludePath>
     <SourcePath>$(SolutionDir)..\source\vgraphics\;$(SourcePath)</SourcePath>
+    <LibraryPath>$(SolutionDir)..\dependencies\assimp\;$(SolutionDir)..\dependencies\TinyXML\Debug\;$(SolutionDir)..\dependencies\FreeImage\;$(SolutionDir)..\dependencies\GL\;$(SolutionDir)Debug\;$(LibraryPath)</LibraryPath>
+    <IntDir>$(SolutionDir)$(ProjectName)_Temp\</IntDir>
+    <TargetName>$(ProjectName)_D</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)..\include\;$(SolutionDir)..\include\vcore\;$(SolutionDir)..\include\vgraphics\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\include\;$(SolutionDir)..\include\vcore\;$(SolutionDir)..\include\vgraphics\;$(SolutionDir)..\dependencies\glm\;$(SolutionDir)..\dependencies\GL\;$(SolutionDir)..\dependencies\FreeImage\;$(SolutionDir)..\dependencies\TinyXML\;$(SolutionDir)..\dependencies\assimp\include\;$(IncludePath)</IncludePath>
     <SourcePath>$(SolutionDir)..\source\vgraphics\;$(SourcePath)</SourcePath>
+    <LibraryPath>$(SolutionDir)..\dependencies\assimp\;$(SolutionDir)..\dependencies\TinyXML\Release\;$(SolutionDir)..\dependencies\FreeImage\;$(SolutionDir)..\dependencies\GL\;$(SolutionDir)Release\;$(LibraryPath)</LibraryPath>
+    <IntDir>$(SolutionDir)$(ProjectName)_Temp\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -57,12 +63,13 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);VIX_NONCLIENT_BUILD</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>FreeImage.lib;glew32.lib;opengl32.lib;glu32.lib;assimp.lib;tinyxml2.lib;VCore_D.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -73,7 +80,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);VIX_NONCLIENT_BUILD</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -81,6 +88,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>FreeImage.lib;glew32.lib;opengl32.lib;glu32.lib;assimp.lib;tinyxml2.lib;VCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
