@@ -103,6 +103,9 @@
   <ItemGroup>
     <Xml Include="fonts.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Debug\VTest\vtest.config" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

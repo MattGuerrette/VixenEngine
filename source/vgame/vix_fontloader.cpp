@@ -21,7 +21,8 @@ namespace Vixen {
 		//Start thread and detach to load font files
 		//asynchronously.
 		std::thread t([](std::vector<BMFont*>& fonts, BMFont* font, std::atomic<bool>* finished) {
-			UString _path = FONT_FOLDER_PATH + VTEXT("HanWan_24.fnt");
+			/*Example of loading a large font set (Chinese Font at roughly 13000 characters)*/
+			UString _path = FONT_FOLDER_PATH + VTEXT("Consolas_24.fnt");
 			font = new BMFont(_path);
 			fonts.push_back(font);
 
@@ -29,14 +30,12 @@ namespace Vixen {
 
 			/*load textures for font*/
 			for (auto& page : font->FontFile().pages) {
-				//Texture* tex = new GLTexture(_texPath + page.file);
-				//if (tex)
-					//font->AddPageTexture(tex);
+				font->LoadPageBitmap(_texPath + page.file);
 			}
 
 			*finished = true;
 		}, std::ref(m_fonts), m_font, &m_finished);
-		t.detach();
+		t.detach(); //run the async thread
 	}
 
 	BMFont* FontLoader::GetFont()

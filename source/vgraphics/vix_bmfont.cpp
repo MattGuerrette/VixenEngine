@@ -26,6 +26,7 @@
 #include <vix_errglobals.h>
 #include <vix_algorithms.h>
 #include <vix_texture.h>
+#include <vix_gltexture.h>
 #ifndef VIX_SYS_LINUX
 #include <codecvt>
 #endif
@@ -110,6 +111,8 @@ namespace Vixen {
 
 	BMFont::BMFont(const UString& filePath)
 	{
+		m_initialized = false;
+
 		m_fontFile = LoadFile(filePath);
 
 		/*Create character map*/
@@ -139,6 +142,44 @@ namespace Vixen {
 				        texture->name().c_str());
 			return;
 		}
+	}
+
+	void BMFont::LoadPageBitmap(const UString filePath)
+	{
+		/*if (!bitmap) {
+			DebugPrintF(VTEXT("Cannot add NULL bitmap"));
+			return;
+		}*/
+		FREEIMAGE_BMP* bmp = Vixen::FREEIMAGE_LoadImage(filePath);
+		if(bmp)
+			m_bitmaps.push_back(bmp);
+	}
+
+	void BMFont::InitTextures()
+	{
+		if (!m_initialized) {
+			for (auto& bitmap : m_bitmaps) {
+				GLTexture* tex = new GLTexture;
+				tex->InitFromFIBMP(bitmap);
+				m_textures.push_back(tex);
+			}
+			ReleaseBitmaps();
+			m_initialized = true;
+		}
+	}
+
+	void BMFont::ReleaseBitmaps()
+	{
+		size_t numBitmaps = m_bitmaps.size();
+		for (size_t i = 0; i < numBitmaps; i++)
+		{
+			delete m_bitmaps[i];
+		}
+	}
+
+	bool BMFont::IsInitialized()
+	{
+		return m_initialized;
 	}
 
 	const BMFontFile BMFont::FontFile() const

@@ -29,8 +29,10 @@ TestGame::TestGame()
 
 void TestGame::VOnStartup()
 {
+	//Non-threaded loading
 	//m_font = m_content.LoadFont(VTEXT("HanWan_24.fnt"));
 
+	//Threaded loading
 	fontLoader.Load();
 }
 
@@ -41,11 +43,15 @@ void TestGame::VOnUpdate(float dt)
 
 void TestGame::VOnRender(float dt)
 {
+	
 	if (fontLoader.IsFinished()) {
 		BMFont* font = fontLoader.GetFont();
 		if(font)
-			GLRENDERER->Render2DText(font, VTEXT("你好"), Vector2(20, 20), 1.0f, Colors::White);
+			GLRENDERER->Render2DText(font, VTEXT("VE"), Vector2(20, 20), 1.0f, Colors::White);
 	}
+	
+	
+	//GLRENDERER->Render2DText(m_font, VTEXT("你好"), Vector2(20, 20), 1.0f, Colors::White);
 }
 
 void TestGame::VOnShutdown()

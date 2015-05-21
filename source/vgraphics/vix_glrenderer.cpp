@@ -252,6 +252,9 @@ namespace Vixen {
 
 	void GLRenderer::Render2DText(BMFont * font, UString text, const Vector2 & position, float alpha, const Color & color)
 	{
+		if (!font->IsInitialized())
+			font->InitTextures();
+
 		m_Render2DBatcher->Begin(BatchSortMode::IMMEDITATE);
 
 		float x = position.x;

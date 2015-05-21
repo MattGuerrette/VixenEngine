@@ -30,6 +30,7 @@
 #include <vix_tinyxml.h>
 #include <vix_rectangle.h>
 #include <vix_content.h>
+#include <vix_freeimage.h>
 #include <vector>
 #include <map>
 
@@ -148,6 +149,9 @@ namespace Vixen {
 		/*Adds a texture to the font page tex collection*/
 		void AddPageTexture(Texture* texture);
 
+		/*Adds a bitmap to the font page bitmap collection*/
+		void LoadPageBitmap(const UString filePath);
+
 		/*Getter functions*/
 		const BMFontFile FontFile() const;
 
@@ -173,6 +177,10 @@ namespace Vixen {
 
 		/*Initialize Textures*/
 		void InitTextures();
+
+		void ReleaseBitmaps();
+
+		bool IsInitialized();
 
 	private:
 		std::vector<FREEIMAGE_BMP*> m_bitmaps;
