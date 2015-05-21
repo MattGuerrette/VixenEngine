@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A049FDB7-F63B-4517-A50C-DF79C694F6AF}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>VCore</RootNamespace>
+    <TargetPlatformVersion>8.1</TargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IntDir>$(SolutionDir)temp\</IntDir>
+    <TargetName>$(ProjectName)_D</TargetName>
+    <IncludePath>$(SolutionDir)..\include\;$(SolutionDir)..\include\vcore\;$(SolutionDir)..\dependencies\libarchive\include\;$(IncludePath)</IncludePath>
+    <SourcePath>..\$(SolutionDir)source\vcore\;$(SourcePath)</SourcePath>
+    <LibraryPath>$(SolutionDir)..\dependencies\libarchive\;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IntDir>$(SolutionDir)temp\</IntDir>
+    <IncludePath>$(SolutionDir)..\include\;$(SolutionDir)..\include\vcore\;$(SolutionDir)..\dependencies\libarchive\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\dependencies\libarchive\;$(LibraryPath)</LibraryPath>
+    <SourcePath>$(SolutionDir)..\source\vcore\;$(SourcePath)</SourcePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;VIX_NONCLIENT_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>archive.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;VIX_NONCLIENT_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>archive.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\vcore\vix_algorithms.h" />
+    <ClInclude Include="..\..\include\vcore\vix_containers.h" />
+    <ClInclude Include="..\..\include\vcore\vix_content.h" />
+    <ClInclude Include="..\..\include\vcore\vix_debugutil.h" />
+    <ClInclude Include="..\..\include\vcore\vix_enumutil.h" />
+    <ClInclude Include="..\..\include\vcore\vix_errglobals.h" />
+    <ClInclude Include="..\..\include\vcore\vix_file.h" />
+    <ClInclude Include="..\..\include\vcore\vix_filesystem.h" />
+    <ClInclude Include="..\..\include\vcore\vix_libarchive.h" />
+    <ClInclude Include="..\..\include\vcore\vix_list.h" />
+    <ClInclude Include="..\..\include\vcore\vix_manager.h" />
+    <ClInclude Include="..\..\include\vcore\vix_noncopy.h" />
+    <ClInclude Include="..\..\include\vcore\vix_osutil.h" />
+    <ClInclude Include="..\..\include\vcore\vix_paths.h" />
+    <ClInclude Include="..\..\include\vcore\vix_singleton.h" />
+    <ClInclude Include="..\..\include\vcore\vix_stlutil.h" />
+    <ClInclude Include="..\..\include\vcore\vix_stringutil.h" />
+    <ClInclude Include="..\..\include\vcore\vix_tinyxml.h" />
+    <ClInclude Include="..\..\include\vcore\vix_typedefs.h" />
+    <ClInclude Include="..\..\include\vix_platform.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\source\vcore\vix_debugutil.cpp" />
+    <ClCompile Include="..\..\source\vcore\vix_enumutil.cpp" />
+    <ClCompile Include="..\..\source\vcore\vix_errglobals.cpp" />
+    <ClCompile Include="..\..\source\vcore\vix_file.cpp" />
+    <ClCompile Include="..\..\source\vcore\vix_filesystem.cpp" />
+    <ClCompile Include="..\..\source\vcore\vix_libarchive.cpp" />
+    <ClCompile Include="..\..\source\vcore\vix_list.cpp" />
+    <ClCompile Include="..\..\source\vcore\vix_osutil.cpp" />
+    <ClCompile Include="..\..\source\vcore\vix_stringutil.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
