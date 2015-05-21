@@ -1,6 +1,9 @@
 ## Ignore custom files and directories
 
-
+VCore_Temp/
+VGraphics_Temp/
+VGame_Temp/
+VTest_Temp/
 
 
 ## Ignore Visual Studio temporary files, build results, and
