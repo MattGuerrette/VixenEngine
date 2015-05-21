@@ -93,6 +93,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>assimp.lib;tinyxml2.lib;glew32.lib;opengl32.lib;glu32.lib;FreeImage.lib;archive.lib;SDL2.lib;VCore.lib;VGraphics.lib;VGame.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>manifest.xml</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
