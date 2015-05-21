@@ -57,9 +57,9 @@ namespace Vixen {
 			BMFont* font = new BMFont(_path);
 			/*load textures for font*/
 			for (auto& page : font->FontFile().pages) {
-				Texture* tex = LoadTexture(_texPath + page.file);
-				if (tex)
-					font->AddPageTexture(tex);
+				//Texture* tex = LoadTexture(_texPath + page.file);
+				//if (tex)
+					//font->AddPageTexture(tex);
 			}
 			m_fonts[_path] = (IContent*)font;
 			return font;

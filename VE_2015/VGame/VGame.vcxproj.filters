@@ -54,6 +54,9 @@
     <ClInclude Include="..\..\include\vgame\vix_tmxmap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\vgame\vix_fontloader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\vgame\vix_contentmanager.cpp">
@@ -84,6 +87,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\vgame\vix_tmxmap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\vgame\vix_fontloader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

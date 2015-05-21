@@ -53,23 +53,6 @@ namespace Vixen {
 		friend UOStream& operator << (UOStream& o, const BMFontChar& c);
 	};
 
-	/*UOStream& operator << (UOStream& o, const BMFontChar& c)
-	{
-		o << "[BMFontChar]\n"
-			<< "\tID=" << c.id << "\n"
-			<< "\tX=" << c.x << "\n"
-			<< "\tY=" << c.y << "\n"
-			<< "\tW=" << c.width << "\n"
-			<< "\tH=" << c.height << "\n"
-			<< "\tXOFF=" << c.xOffset << "\n"
-			<< "\tYOFF=" << c.yOffset << "\n"
-			<< "\tXADV=" << c.xAdvance << "\n"
-			<< "\tPage=" << c.page << "\n"
-			<< "\tChannel=" << c.channel << "\n";
-
-		return o;
-	}*/
-
 
 	struct VIX_API BMFontInfo
 	{
@@ -188,10 +171,15 @@ namespace Vixen {
 		/*Find font character in char map*/
 		bool FindChar(UChar c, BMFontChar& fc);
 
+		/*Initialize Textures*/
+		void InitTextures();
+
 	private:
-		std::vector<Texture*>   m_textures;
-		BMCharMap               m_charMap;
-		BMFontFile              m_fontFile;
+		std::vector<FREEIMAGE_BMP*> m_bitmaps;
+		std::vector<Texture*>		m_textures;
+		BMCharMap					m_charMap;
+		BMFontFile					m_fontFile;
+		bool                        m_initialized;
 	};
 
 

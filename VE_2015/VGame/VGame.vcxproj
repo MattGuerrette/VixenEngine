@@ -71,6 +71,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>SDL2.lib;tinyxml2.lib;opengl32.lib;glu32.lib;VCore_D.lib;VGraphics_D.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y "$(OutDir)$(ProjectName)_D.dll" "$(OutDir)VTest"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -90,10 +93,14 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>SDL2.lib;tinyxml2.lib;opengl32.lib;glu32.lib;VCore.lib;VGraphics.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y "$(OutDir)$(ProjectName).dll" "$(OutDir)VTest\</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\vgame\vix_console.h" />
     <ClInclude Include="..\..\include\vgame\vix_contentmanager.h" />
+    <ClInclude Include="..\..\include\vgame\vix_fontloader.h" />
     <ClInclude Include="..\..\include\vgame\vix_game.h" />
     <ClInclude Include="..\..\include\vgame\vix_gameconfig.h" />
     <ClInclude Include="..\..\include\vgame\vix_gameobject.h" />
@@ -108,6 +115,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\vgame\vix_contentmanager.cpp" />
+    <ClCompile Include="..\..\source\vgame\vix_fontloader.cpp" />
     <ClCompile Include="..\..\source\vgame\vix_game.cpp" />
     <ClCompile Include="..\..\source\vgame\vix_gameconfig.cpp" />
     <ClCompile Include="..\..\source\vgame\vix_gameobject.cpp" />

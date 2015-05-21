@@ -51,6 +51,7 @@ namespace Vixen {
 		void Unbind();
 
 		ErrCode InitFromFile(const UString& filePath);
+		ErrCode InitFromFIBMP(FREEIMAGE_BMP* bitmap);
 	};
 }
 

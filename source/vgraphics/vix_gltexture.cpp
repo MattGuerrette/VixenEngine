@@ -163,4 +163,35 @@ namespace Vixen {
 		return ErrCode::ERR_SUCCESS;
 	}
 
+	ErrCode GLTexture::InitFromFIBMP(FREEIMAGE_BMP* bitmap)
+	{
+
+		//store width and height
+		m_width = bitmap->header.width;
+		m_height = bitmap->header.height;
+
+		//now that we have our image data, create opengl texture handle
+		glGenTextures(1, &m_id);
+		m_uniqueID = m_id; //store gl texture id as unique id
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//bind opengl texture handle
+		glBindTexture(m_target, m_id);
+
+
+
+		//retrieve internal format
+		GLenum internalFormat = vixFIBmpToInternalFormat(bitmap->bitmap);
+		//retrieve format
+		GLenum format = vixFIBmpToFormat(bitmap->bitmap);
+		glTexImage2D(m_target, 0, internalFormat, bitmap->header.width, bitmap->header.height, 0, format, GL_UNSIGNED_BYTE, bitmap->data);
+		glGenerateMipmap(m_target);
+		glTexParameterf(m_target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameterf(m_target, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+
+
+		return ErrCode::ERR_SUCCESS;
+	}
+
 }

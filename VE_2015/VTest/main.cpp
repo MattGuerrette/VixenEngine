@@ -1,11 +1,10 @@
-
+﻿
 #include <vix_game.h>
-
-#include <vix_osutil.h>
-#include <vix_stringutil.h>
-#include <vix_debugutil.h>
+#include <vix_fontloader.h>
 
 using namespace Vixen;
+
+#define GLRENDERER ((GLRenderer*)m_renderer)
 
 class TestGame : public IGame
 {
@@ -18,7 +17,8 @@ public:
 	void VOnShutdown() override;
 
 private:
-	
+	BMFont* m_font;
+	FontLoader fontLoader;
 };
 
 TestGame::TestGame()
@@ -29,7 +29,9 @@ TestGame::TestGame()
 
 void TestGame::VOnStartup()
 {
+	//m_font = m_content.LoadFont(VTEXT("HanWan_24.fnt"));
 
+	fontLoader.Load();
 }
 
 void TestGame::VOnUpdate(float dt)
@@ -39,7 +41,11 @@ void TestGame::VOnUpdate(float dt)
 
 void TestGame::VOnRender(float dt)
 {
-
+	if (fontLoader.IsFinished()) {
+		BMFont* font = fontLoader.GetFont();
+		if(font)
+			GLRENDERER->Render2DText(font, VTEXT("你好"), Vector2(20, 20), 1.0f, Colors::White);
+	}
 }
 
 void TestGame::VOnShutdown()

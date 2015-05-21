@@ -71,6 +71,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>FreeImage.lib;glew32.lib;opengl32.lib;glu32.lib;assimp.lib;tinyxml2.lib;VCore_D.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y "$(OutDir)$(ProjectName)_D.dll" "$(OutDir)VTest"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -90,6 +93,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>FreeImage.lib;glew32.lib;opengl32.lib;glu32.lib;assimp.lib;tinyxml2.lib;VCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y "$(OutDir)$(ProjectName).dll" "$(OutDir)VTest"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\vgraphics\vix_aabb.h" />
