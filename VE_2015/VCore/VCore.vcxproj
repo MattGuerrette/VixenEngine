@@ -101,7 +101,6 @@
     <ClInclude Include="..\..\include\vcore\vix_file.h" />
     <ClInclude Include="..\..\include\vcore\vix_filesystem.h" />
     <ClInclude Include="..\..\include\vcore\vix_libarchive.h" />
-    <ClInclude Include="..\..\include\vcore\vix_list.h" />
     <ClInclude Include="..\..\include\vcore\vix_manager.h" />
     <ClInclude Include="..\..\include\vcore\vix_noncopy.h" />
     <ClInclude Include="..\..\include\vcore\vix_osutil.h" />
@@ -120,7 +119,6 @@
     <ClCompile Include="..\..\source\vcore\vix_file.cpp" />
     <ClCompile Include="..\..\source\vcore\vix_filesystem.cpp" />
     <ClCompile Include="..\..\source\vcore\vix_libarchive.cpp" />
-    <ClCompile Include="..\..\source\vcore\vix_list.cpp" />
     <ClCompile Include="..\..\source\vcore\vix_osutil.cpp" />
     <ClCompile Include="..\..\source\vcore\vix_stringutil.cpp" />
   </ItemGroup>
