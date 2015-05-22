@@ -255,7 +255,7 @@ namespace Vixen {
 											aiProcess_SortByPType |
 											aiProcess_GenUVCoords);
 		if(!scene) {
-			DebugPrintF(VTEXT("ASSIMP: Error could not read file [%s]"), _path);
+		  //	DebugPrintF(VTEXT("ASSIMP: Error could not read file [%s]"), _path);
 			return;
 		}
 
@@ -289,8 +289,8 @@ namespace Vixen {
 		}
 
 		if(diffuse.C_Str()) {
-			UString texPath = cv.from_bytes(diffuse.data);
-			model->GetTexture()->InitFromFile(texPath);
+		  UString texPath = Vixen::UStringFromCharArray(diffuse.data);
+		  model->GetTexture()->InitFromFile(texPath);
 		}
 
 		/*if(bump.C_Str()) {
@@ -320,7 +320,7 @@ namespace Vixen {
 											aiProcess_SortByPType |
 											aiProcess_GenUVCoords);
 		if(!scene) {
-			DebugPrintF(VTEXT("ASSIMP: Error could not read file [%s]"), _path);
+		  //	DebugPrintF(VTEXT("ASSIMP: Error could not read file [%s]"), _path);
 			return;
 		}
 
@@ -353,12 +353,12 @@ namespace Vixen {
 		}
 
 		if(diffuse.C_Str()) {
-			UString texPath = cv.from_bytes(diffuse.data);
+		  UString texPath = Vixen::UStringFromCharArray(diffuse.data);
 			m_texture = new GLTexture(texPath);
 		}
 
 		if(bump.C_Str()) {
-			UString texPath = cv.from_bytes(bump.data);
+		  UString texPath = Vixen::UStringFromCharArray(bump.data);
 			m_bump = new GLTexture(texPath);
 		}
 

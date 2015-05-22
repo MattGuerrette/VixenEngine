@@ -22,7 +22,7 @@ namespace Vixen {
 		//asynchronously.
 		std::thread t([](std::vector<BMFont*>& fonts, BMFont* font, std::atomic<bool>* finished) {
 			/*Example of loading a large font set (Chinese Font at roughly 13000 characters)*/
-			UString _path = FONT_FOLDER_PATH + VTEXT("Consolas_24.fnt");
+			UString _path = FONT_FOLDER_PATH + VTEXT("HanWan_24.fnt");
 			font = new BMFont(_path);
 			fonts.push_back(font);
 
