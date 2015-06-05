@@ -38,7 +38,7 @@ namespace Vixen {
 
 	public:
 		virtual ~IGameWindow() { }
-		
+
 		virtual ErrCode            VInit() = 0;
 		virtual void               VSetFullscreen(bool flag,
 			                                      bool keep_res = false) = 0;
@@ -46,7 +46,7 @@ namespace Vixen {
 		virtual void               VSwapBuffers() = 0;
 		virtual const std::string& VGetTitle() = 0;
 		virtual const Rect&        VGetClientBounds() = 0;
-	
+
 		static const size_t DEF_WINDOW_WIDTH  = 800;
 		static const size_t DEF_WINDOW_HEIGHT = 600;
 	};
@@ -86,6 +86,15 @@ namespace Vixen {
 		virtual void VSetClearColor(const Color& c) = 0;
 	};
 
+
+	/* SINGLETON DEFINITIONS */
+
+	class VIX_API IPathManagerSingleton
+	{
+	public:
+
+		static IPathManagerSingleton& GetInstance() = 0;
+	};
 
 }
 

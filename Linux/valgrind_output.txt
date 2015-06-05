@@ -1,0 +1,178 @@
+==22355== Memcheck, a memory error detector
+==22355== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
+==22355== Using Valgrind-3.10.0 and LibVEX; rerun with -h for copyright info
+==22355== Command: ./vtest
+==22355== Parent PID: 22354
+==22355== 
+==22355== Conditional jump or move depends on uninitialised value(s)
+==22355==    at 0x50EFA20: Vixen::GLShaderProgram::VCreateShadersFromArgs() (in /usr/local/lib/libvgraphics.so)
+==22355==    by 0x50EF8BB: Vixen::GLShaderProgram::GLShaderProgram(std::array<Vixen::ShaderInfo, 5ul>) (in /usr/local/lib/libvgraphics.so)
+==22355==    by 0x50D8A0C: Vixen::GLTextureBatcher::init_shader_program() (in /usr/local/lib/libvgraphics.so)
+==22355==    by 0x50D86B2: Vixen::GLTextureBatcher::GLTextureBatcher(Vixen::GLCamera2D*) (in /usr/local/lib/libvgraphics.so)
+==22355==    by 0x50D09FA: Vixen::GLRenderer::VInit() (in /usr/local/lib/libvgraphics.so)
+==22355==    by 0x4E655FC: Vixen::SDLGameWindow::VInit() (in /usr/local/lib/libvgame.so)
+==22355==    by 0x4E657A5: Vixen::SDLGameWindow::VRun() (in /usr/local/lib/libvgame.so)
+==22355==    by 0x4E6BD19: Vixen::IGame::Run() (in /usr/local/lib/libvgame.so)
+==22355==    by 0x401887: main (main.cpp:58)
+==22355==  Uninitialised value was created by a stack allocation
+==22355==    at 0x50D88BD: Vixen::GLTextureBatcher::init_shader_program() (in /usr/local/lib/libvgraphics.so)
+==22355== 
+==22355== Use of uninitialised value of size 8
+==22355==    at 0x50EFA37: Vixen::GLShaderProgram::VCreateShadersFromArgs() (in /usr/local/lib/libvgraphics.so)
+==22355==    by 0x50EF8BB: Vixen::GLShaderProgram::GLShaderProgram(std::array<Vixen::ShaderInfo, 5ul>) (in /usr/local/lib/libvgraphics.so)
+==22355==    by 0x50D8A0C: Vixen::GLTextureBatcher::init_shader_program() (in /usr/local/lib/libvgraphics.so)
+==22355==    by 0x50D86B2: Vixen::GLTextureBatcher::GLTextureBatcher(Vixen::GLCamera2D*) (in /usr/local/lib/libvgraphics.so)
+==22355==    by 0x50D09FA: Vixen::GLRenderer::VInit() (in /usr/local/lib/libvgraphics.so)
+==22355==    by 0x4E655FC: Vixen::SDLGameWindow::VInit() (in /usr/local/lib/libvgame.so)
+==22355==    by 0x4E657A5: Vixen::SDLGameWindow::VRun() (in /usr/local/lib/libvgame.so)
+==22355==    by 0x4E6BD19: Vixen::IGame::Run() (in /usr/local/lib/libvgame.so)
+==22355==    by 0x401887: main (main.cpp:58)
+==22355==  Uninitialised value was created by a stack allocation
+==22355==    at 0x50D88BD: Vixen::GLTextureBatcher::init_shader_program() (in /usr/local/lib/libvgraphics.so)
+==22355== 
+==22355== Conditional jump or move depends on uninitialised value(s)
+==22355==    at 0x9E1F2F5: ??? (in /usr/lib/nvidia-331-updates/libGL.so.331.113)
+==22355==    by 0x127B8417: ???
+==22355==    by 0x127B8417: ???
+==22355==  Uninitialised value was created by a heap allocation
+==22355==    at 0x4C2ABA0: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==22355==    by 0x9E75C48: ??? (in /usr/lib/nvidia-331-updates/libGL.so.331.113)
+==22355==    by 0x1100: ???
+==22355==    by 0x1359903F: ???
+==22355==    by 0x1224F91F: ???
+==22355==    by 0x9E1F4A0: ??? (in /usr/lib/nvidia-331-updates/libGL.so.331.113)
+==22355==    by 0x1100: ???
+==22355==    by 0x406353F: ???
+==22355==    by 0x1100: ???
+==22355==    by 0x406353F: ???
+==22355==    by 0x27: ???
+==22355==    by 0x9E7603B: ??? (in /usr/lib/nvidia-331-updates/libGL.so.331.113)
+==22355== 
+==22355== 
+==22355== HEAP SUMMARY:
+==22355==     in use at exit: 80,836 bytes in 658 blocks
+==22355==   total heap usage: 23,983 allocs, 23,325 frees, 527,251,979 bytes allocated
+==22355== 
+==22355== 12 bytes in 2 blocks are definitely lost in loss record 8 of 110
+==22355==    at 0x4C2ABA0: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==22355==    by 0x70497C9: strdup (strdup.c:42)
+==22355==    by 0x80397F6: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0)
+==22355==    by 0x803A5D4: _XimSetICValueData (in /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0)
+==22355==    by 0x8035C75: _XimLocalCreateIC (in /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0)
+==22355==    by 0x801BDF4: XCreateIC (in /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0)
+==22355==    by 0x55EFD62: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==22355==    by 0x55F0187: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==22355==    by 0x55E367F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==22355==    by 0x55E348F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==22355==    by 0x554E4FE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==22355==    by 0x4E65490: Vixen::SDLGameWindow::VInit() (in /usr/local/lib/libvgame.so)
+==22355== 
+==22355== 12 bytes in 2 blocks are definitely lost in loss record 9 of 110
+==22355==    at 0x4C2ABA0: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==22355==    by 0x70497C9: strdup (strdup.c:42)
+==22355==    by 0x80397F6: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0)
+==22355==    by 0x803A5D4: _XimSetICValueData (in /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0)
+==22355==    by 0x8035C75: _XimLocalCreateIC (in /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0)
+==22355==    by 0x801BDF4: XCreateIC (in /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0)
+==22355==    by 0x55EFD62: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==22355==    by 0x55F0187: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==22355==    by 0x55E367F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==22355==    by 0x4E65534: Vixen::SDLGameWindow::VInit() (in /usr/local/lib/libvgame.so)
+==22355==    by 0x4E657A5: Vixen::SDLGameWindow::VRun() (in /usr/local/lib/libvgame.so)
+==22355==    by 0x4E6BD19: Vixen::IGame::Run() (in /usr/local/lib/libvgame.so)
+==22355== 
+==22355== 28 bytes in 1 blocks are definitely lost in loss record 19 of 110
+==22355==    at 0x4C2B100: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==22355==    by 0x4E6BBB7: Vixen::IGame::IGame() (in /usr/local/lib/libvgame.so)
+==22355==    by 0x40169E: TestGame::TestGame() (main.cpp:23)
+==22355==    by 0x401878: main (main.cpp:56)
+==22355== 
+==22355== 70 (40 direct, 30 indirect) bytes in 1 blocks are definitely lost in loss record 64 of 110
+==22355==    at 0x4C2B100: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==22355==    by 0x4E6BAFB: Vixen::IGame::IGame() (in /usr/local/lib/libvgame.so)
+==22355==    by 0x40169E: TestGame::TestGame() (main.cpp:23)
+==22355==    by 0x401878: main (main.cpp:56)
+==22355== 
+==22355== 96 bytes in 1 blocks are definitely lost in loss record 69 of 110
+==22355==    at 0x4C2B100: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==22355==    by 0x4E6BB97: Vixen::IGame::IGame() (in /usr/local/lib/libvgame.so)
+==22355==    by 0x40169E: TestGame::TestGame() (main.cpp:23)
+==22355==    by 0x401878: main (main.cpp:56)
+==22355== 
+==22355== 160 bytes in 1 blocks are definitely lost in loss record 74 of 110
+==22355==    at 0x4C2ABA0: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==22355==    by 0x9E48B2F: ??? (in /usr/lib/nvidia-331-updates/libGL.so.331.113)
+==22355==    by 0x300000002: ???
+==22355==    by 0x1: ???
+==22355== 
+==22355== 165 bytes in 5 blocks are definitely lost in loss record 75 of 110
+==22355==    at 0x4C2ABA0: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==22355==    by 0x7FF6620: XGetWindowProperty (in /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0)
+==22355==    by 0x55E8234: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==22355==    by 0x55E8A27: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==22355==    by 0x557D556: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==22355==    by 0x557D5B3: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==22355==    by 0x4E65936: Vixen::SDLGameWindow::VRun() (in /usr/local/lib/libvgame.so)
+==22355==    by 0x4E6BD19: Vixen::IGame::Run() (in /usr/local/lib/libvgame.so)
+==22355==    by 0x401887: main (main.cpp:58)
+==22355== 
+==22355== 313 bytes in 1 blocks are possibly lost in loss record 87 of 110
+==22355==    at 0x4C2B100: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==22355==    by 0x6B5E668: std::string::_Rep::_S_create(unsigned long, unsigned long, std::allocator<char> const&) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.20)
+==22355==    by 0x6B5F30A: std::string::_Rep::_M_clone(std::allocator<char> const&, unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.20)
+==22355==    by 0x6B5F3BF: std::string::reserve(unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.20)
+==22355==    by 0x6B5F4B7: std::string::append(std::string const&) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.20)
+==22355==    by 0x40417A: std::basic_string<char, std::char_traits<char>, std::allocator<char> > std::operator+<char, std::char_traits<char>, std::allocator<char> >(std::basic_string<char, std::char_traits<char>, std::allocator<char> >&&, std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (basic_string.h:2451)
+==22355==    by 0x50DCDA8: __static_initialization_and_destruction_0(int, int) (in /usr/local/lib/libvgraphics.so)
+==22355==    by 0x50DD48B: _GLOBAL__sub_I_vix_gltexturebatcher.cpp (in /usr/local/lib/libvgraphics.so)
+==22355==    by 0x4010139: call_init.part.0 (dl-init.c:78)
+==22355==    by 0x4010222: call_init (dl-init.c:36)
+==22355==    by 0x4010222: _dl_init (dl-init.c:126)
+==22355==    by 0x4001249: ??? (in /lib/x86_64-linux-gnu/ld-2.19.so)
+==22355== 
+==22355== 465 bytes in 1 blocks are possibly lost in loss record 93 of 110
+==22355==    at 0x4C2B100: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==22355==    by 0x6B5E668: std::string::_Rep::_S_create(unsigned long, unsigned long, std::allocator<char> const&) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.20)
+==22355==    by 0x6B5F30A: std::string::_Rep::_M_clone(std::allocator<char> const&, unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.20)
+==22355==    by 0x6B5F3BF: std::string::reserve(unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.20)
+==22355==    by 0x6B5F669: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.20)
+==22355==    by 0x6B5F796: std::string::append(char const*) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.20)
+==22355==    by 0x404133: std::basic_string<char, std::char_traits<char>, std::allocator<char> > std::operator+<char, std::char_traits<char>, std::allocator<char> >(std::basic_string<char, std::char_traits<char>, std::allocator<char> >&&, char const*) (basic_string.h:2487)
+==22355==    by 0x50DC8CC: __static_initialization_and_destruction_0(int, int) (in /usr/local/lib/libvgraphics.so)
+==22355==    by 0x50DD48B: _GLOBAL__sub_I_vix_gltexturebatcher.cpp (in /usr/local/lib/libvgraphics.so)
+==22355==    by 0x4010139: call_init.part.0 (dl-init.c:78)
+==22355==    by 0x4010222: call_init (dl-init.c:36)
+==22355==    by 0x4010222: _dl_init (dl-init.c:126)
+==22355==    by 0x4001249: ??? (in /lib/x86_64-linux-gnu/ld-2.19.so)
+==22355== 
+==22355== 1,580 (624 direct, 956 indirect) bytes in 1 blocks are definitely lost in loss record 100 of 110
+==22355==    at 0x4C2B100: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==22355==    by 0x4E6BB4E: Vixen::IGame::IGame() (in /usr/local/lib/libvgame.so)
+==22355==    by 0x40169E: TestGame::TestGame() (main.cpp:23)
+==22355==    by 0x401878: main (main.cpp:56)
+==22355== 
+==22355== 12,048 bytes in 2 blocks are definitely lost in loss record 108 of 110
+==22355==    at 0x4C2CC90: calloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==22355==    by 0x9E884FE: ??? (in /usr/lib/nvidia-331-updates/libGL.so.331.113)
+==22355== 
+==22355== 26,073 (312 direct, 25,761 indirect) bytes in 1 blocks are definitely lost in loss record 110 of 110
+==22355==    at 0x4C2B100: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==22355==    by 0x4E5FA5F: Vixen::FontLoader::Load()::{lambda(std::vector<Vixen::BMFont*, std::allocator<Vixen::BMFont*> >&, Vixen::BMFont*, std::atomic<bool>*)#1}::operator()(std::vector<Vixen::BMFont*, std::allocator<Vixen::BMFont*> >&, Vixen::BMFont*, std::atomic<bool>*) const (in /usr/local/lib/libvgame.so)
+==22355==    by 0x4E612FA: void std::_Bind_simple<Vixen::FontLoader::Load()::{lambda(std::vector<Vixen::BMFont*, std::allocator<Vixen::BMFont*> >&, Vixen::BMFont*, std::atomic<bool>*)#1} (std::reference_wrapper<std::vector<Vixen::BMFont*, std::allocator<Vixen::BMFont*> > >, Vixen::BMFont*, std::atomic<bool>*)>::_M_invoke<0ul, 1ul, 2ul>(std::_Index_tuple<0ul, 1ul, 2ul>) (in /usr/local/lib/libvgame.so)
+==22355==    by 0x4E61183: std::_Bind_simple<Vixen::FontLoader::Load()::{lambda(std::vector<Vixen::BMFont*, std::allocator<Vixen::BMFont*> >&, Vixen::BMFont*, std::atomic<bool>*)#1} (std::reference_wrapper<std::vector<Vixen::BMFont*, std::allocator<Vixen::BMFont*> > >, Vixen::BMFont*, std::atomic<bool>*)>::operator()() (in /usr/local/lib/libvgame.so)
+==22355==    by 0x4E610F1: std::thread::_Impl<std::_Bind_simple<Vixen::FontLoader::Load()::{lambda(std::vector<Vixen::BMFont*, std::allocator<Vixen::BMFont*> >&, Vixen::BMFont*, std::atomic<bool>*)#1} (std::reference_wrapper<std::vector<Vixen::BMFont*, std::allocator<Vixen::BMFont*> > >, Vixen::BMFont*, std::atomic<bool>*)> >::_M_run() (in /usr/local/lib/libvgame.so)
+==22355==    by 0x6B55DCF: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.20)
+==22355==    by 0x99AA0A4: start_thread (pthread_create.c:309)
+==22355==    by 0x70BACFC: clone (clone.S:111)
+==22355== 
+==22355== LEAK SUMMARY:
+==22355==    definitely lost: 13,497 bytes in 17 blocks
+==22355==    indirectly lost: 26,747 bytes in 211 blocks
+==22355==      possibly lost: 778 bytes in 2 blocks
+==22355==    still reachable: 39,814 bytes in 428 blocks
+==22355==         suppressed: 0 bytes in 0 blocks
+==22355== Reachable blocks (those to which a pointer was found) are not shown.
+==22355== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==22355== 
+==22355== For counts of detected and suppressed errors, rerun with: -v
+==22355== ERROR SUMMARY: 18 errors from 15 contexts (suppressed: 5 from 1)
