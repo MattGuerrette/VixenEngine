@@ -22,90 +22,154 @@
 */
 
 #include <vix_file.h>
+#include <vix_fileutil.h>
+#include <cstring>
+#include <cerrno>
+
+#ifdef VIX_SYS_LINUX
+	#include <sys/stat.h>
+#endif
+
 
 namespace Vixen {
 
-	////////////////////////////////////////////////////////////////
-	//	Zip File Implementation
-	////////////////////////////////////////////////////////////////
-
-	ZipFile::ZipFile(void)
+	File::File()
+		: IFile()
 	{
-
+		m_position = 0;
+		m_size = 0;
 	}
 
-	ZipFile::~ZipFile(void)
+	File::~File()
 	{
-
+		Close();
 	}
 
-	UString ZipFile::GetName(void)
-	{
-		return VTEXT("");
-	}
 
-	UString ZipFile::GetPath(void)
+	bool File::Open(UString path)
 	{
-		return VTEXT("");
-	}
+		m_filePath = os_path(path);
+		m_fileName = getFileName(m_filePath);
+		m_baseName = getFileName(m_filePath, false);
 
-	int ZipFile::Read(void* buffer, int len)
-	{
-		return 0;
-	}
-
-	int ZipFile::Write(const void* buffer, int len)
-	{
-		return 0;
-	}
-
-	int ZipFile::Length(void)
-	{
-		return 0;
-	}
-
-	int ZipFile::Tell(void)
-	{
-		return 0;
-	}
-
-	int ZipFile::Seek(long offset, FSOrigin origin)
-	{
-		return 0;
-	}
-
-	UString getFileExtension(const UString& filePath, bool wd /* = true */)
-	{
-		UString ext = VTEXT("");
-		size_t pos = filePath.find_first_of(VTEXT("."));
-		if (pos != UString::npos) {
-			if (wd)
-				ext = filePath.substr(pos);
-			else
-				ext = filePath.substr(pos + 1);
+		m_handle = fopen(m_filePath.c_str(), "r");
+		if(!m_handle) {
+			m_error = FileError::Open;
+			PError();
+			return false;
 		}
 
-		return ext;
+		return true;
 	}
 
-	UString getFileName(const UString& filePath)
+	bool File::Close()
 	{
-		UString name = VTEXT("");
-		UString path = os_path(filePath);
-		size_t pos = 0;
-#ifdef VIX_SYS_WINDOWS
-		pos = path.find_last_of(WIN_PATH_DELIM);
-		if(pos != UString::npos) {
-			path.erase(0, pos + 1);
+		int ret = 0;
+		//Close file if handle still active
+		if(m_handle)
+		{
+			ret = fclose(m_handle);
+			m_handle = NULL;
 		}
-#elif defined (VIX_SYS_LINUX) || defined (VIX_SYS_MACOS)
-		pos = path.find_last_of(UNIX_PATH_DELIM);
-		if (pos != UString::npos) {
-			path.erase(0, pos + 1);
-		}
-#endif
 
-		return path;
+		return (ret < 0) ? false : true;
 	}
+
+	bool File::Flush()
+	{
+		return false;
+	}
+
+	void File::Read(BYTE* out, size_t len)
+	{
+		fread(out, sizeof(char), len, m_handle);
+	}
+
+	bool File::Seek(size_t pos, FileSeek mode)
+	{
+		if(!m_handle)
+			return false;
+
+		int ret = 0;
+		switch(mode)
+		{
+			case FileSeek::Set:
+			{
+				ret = fseek(m_handle, pos, SEEK_SET);
+			} break;
+
+			case FileSeek::Current:
+			{
+				ret = fseek(m_handle, pos, SEEK_CUR);
+			} break;
+
+			case FileSeek::End:
+			{
+				ret = fseek(m_handle, pos, SEEK_END);
+			} break;
+		}
+
+		m_position = Tell();
+
+		return (ret != 0) ? false : true;
+	}
+
+	bool File::PError(int err /* = 0 */)
+	{
+		DebugPrintF(VTEXT("FileError: %s"), strerror(errno));
+		return (err < 0) ? true : false;
+	}
+
+	size_t File::Tell()
+	{
+		return ftell(m_handle);
+	}
+
+	size_t File::Position()
+	{
+		return m_position;
+	}
+
+	size_t File::SizeBytes()
+	{
+		//Need to grab size from stat struct in order to allow for
+		//files > 2GB in size
+		struct stat st;
+		stat(m_filePath.c_str(), &st);
+		m_size = st.st_size;
+
+		return m_size;
+	}
+
+	size_t File::SizeKBytes()
+	{
+		return SizeBytes() / 1024;
+	}
+
+	FileError File::Error()
+	{
+		return m_error;
+	}
+
+	UString File::BaseName()
+	{
+		return m_baseName;
+	}
+
+	UString File::FileName()
+	{
+		return m_fileName;
+	}
+
+	UString File::FilePath()
+	{
+		return m_filePath;
+	}
+
+	FILE* File::Handle()
+	{
+		return m_handle;
+	}
+
 
 }

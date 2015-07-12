@@ -25,77 +25,48 @@
 #define VIX_FILE_H
 
 #include <vix_platform.h>
-#include <vix_noncopy.h>
-#include <vix_stringutil.h>
-#include <vix_osutil.h>
+#include <vix_file_interface.h>
+#include <cstdio>
 
 namespace Vixen {
 
-	//Seek mode
-	enum FSOrigin
-	{
-		FS_SEEK_CUR,
-		FS_SEEK_END,
-		FS_SEET_SET
-	};
 
-	class VIX_API File : public INonCopy
+
+	class VIX_API File : public IFile
 	{
 	public:
-		virtual ~File(void) { };
+		File();
 
-		virtual UString		GetName(void) = 0;
-		virtual UString		GetPath(void) = 0;
-		virtual int			Read(void* buffer, int len) = 0;
-		virtual int			Write(const void* buffer, int len) = 0;
-		virtual int			Length(void) = 0;
-		virtual int			Tell(void) = 0;
-		virtual int			Seek(long offset, FSOrigin origin) = 0;
+		~File(void);
+
+		virtual FileError Error();
+		virtual UString   FileName();
+		virtual UString   FilePath();
+		virtual UString   BaseName();
+		virtual bool      Flush();
+		virtual bool	  Open(UString path);
+		virtual bool      Seek(size_t offset, FileSeek mode);
+		virtual void      Read(BYTE* out, size_t len);
+		virtual bool	  Close();
+		virtual size_t    Tell();
+		virtual size_t    SizeBytes();
+        virtual size_t    SizeKBytes();
+		virtual size_t    Position();
+		virtual FILE*	  Handle();
+		virtual bool      PError(int err = 0);
+
+
+	protected:
+		FileError 	m_error;
+		UString 	m_filePath;
+		UString 	m_fileName;
+		UString     m_baseName;
+		size_t  	m_position;
+		size_t  	m_size;
+		FILE*       m_handle;
 	};
 
 
-	/**
-	*	ZipFile class
-	*
-	*	Describes a file contained in ZIP pak
-	*/
-	class VIX_API ZipFile : public File
-	{
-	public:
-		ZipFile(void);
-
-		~ZipFile(void);
-
-		UString		GetName(void);
-		UString		GetPath(void);
-		int			Read(void* buffer, int len);
-		int			Write(const void* buffer, int len);
-		int			Length(void);
-		int			Tell(void);
-		int			Seek(long offset, FSOrigin origin);
-
-	private:
-		UString		m_name;  /*zip name*/
-		UString     m_path;  /*full path with name*/
-		size_t		m_size;  /*filesize*/
-		BYTE*		m_data;  /*zip data*/
-	};
-
-	/*
-	* Retrieves extension for file.
-	* @param filePath
-	* Path or Name of file
-	* @param wd
-	* Flag determines if user wants (.) included in extension
-	*/
-	VIX_API UString getFileExtension(const UString& filePath, bool wd = true);
-
-	/*
-	* Retrieves filename with extension.
-	* @param filePath
-	* Path of file
-	*/
-	VIX_API UString getFileName(const UString& filePath);
 
 }
 

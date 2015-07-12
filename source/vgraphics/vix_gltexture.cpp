@@ -24,6 +24,7 @@
 
 #include <vix_gltexture.h>
 #include <vix_debugutil.h>
+#include <vix_fileutil.h>
 
 namespace Vixen {
 
@@ -89,6 +90,18 @@ namespace Vixen {
 		m_target = target;
 
 		ErrCode error = InitFromFile(filePath);
+		if (CheckError(error)) {
+			DebugPrintF(VTEXT("Texture failed to initialize"));
+		}
+	}
+
+	GLTexture::GLTexture(FREEIMAGE_BMP* bmp, GLenum target /* = GL_TEXTURE_2D */)
+	{
+		m_width = 0;
+		m_height = 0;
+		m_target = target;
+
+		ErrCode error = InitFromFIBMP(bmp);
 		if (CheckError(error)) {
 			DebugPrintF(VTEXT("Texture failed to initialize"));
 		}

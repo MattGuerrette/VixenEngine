@@ -259,8 +259,8 @@ namespace Vixen {
 		XMLError err = document.LoadFile(filePath.c_str());
 		UString errorString;
 		if (XMLErrCheck(err, errorString)) {
-			DebugPrintF(VTEXT("XMLDocument Load Failed: %s\n"),
-				        errorString.c_str());
+			DebugPrintF(VTEXT("XMLDocument [%s] Load Failed\n"),
+				        filePath.c_str());
 			return file;
 		}
 

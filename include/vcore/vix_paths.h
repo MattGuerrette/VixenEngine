@@ -33,6 +33,13 @@ namespace Vixen {
 	static const UString MUSIC_FOLDER_PATH = VTEXT("Music/");
 	static const UString SCRIPTS_FOLDER_PATH = VTEXT("Scripts/");
 
+	class VIX_API PathManager
+	{
+	public:
+
+	};
+
+
 }
 
 #endif

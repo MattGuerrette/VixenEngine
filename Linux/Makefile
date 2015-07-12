@@ -1,5 +1,5 @@
 CC=g++
-LIB_FLAGS= -std=c++11 -Wall -w -shared -fPIC
+LIB_FLAGS= -std=c++11 -Wall -w -g -shared -fPIC
 EXE_FLAGS= -std=c++11 -Wall -w -g
 USR_INC:= -I/usr/include/ -I/usr/local/include/
 VCORE_INC:= -I../include/ -I../include/vcore/ -I../dependencies/jsoncpp/ $(USR_INC)
@@ -11,9 +11,9 @@ VGRAPHICS_LIB:= -L/usr/lib64/
 VGAME_INC:= -I../include/ -I../include/vcore/ -I../include/vgraphics/ -I../include/vgame/ $(USR_INC)
 VGAME_SRC:= $(wildcard ../source/vgame/*.cpp)
 VGAME_LIB:= -L/usr/lib64/
-EXE_INC:= -I../include/ -I../include/vcore/ -I../include/vgraphics/ -I../include/vgame/ $(USR_INC) -I/include/
+EXE_INC:= -I../include/ -I../include/vcore/ -I../include/vgraphics/ -I../include/vgame/ $(USR_INC) -Iinclude/
 EXE_SRC:= $(wildcard src/*.cpp)
-EXE_LIB:= -L/usr/lib64/nvidia-bumblebee/tls -L/usr/lib64/nvidia-bumblebee  -L/usr/lib64  -L/usr/local/lib -lvgame -lvgraphics -lvaudio -lvcore -lSDL2 -lGLEW -lGL -lGLU -lfreeimage -larchive -ltinyxml2 -lassimp
+EXE_LIB:= -L/usr/lib64/nvidia-bumblebee/tls -L/usr/lib64/nvidia-bumblebee  -L/usr/lib64  -L/usr/local/lib -lvgame -lvgraphics -lvcore -lSDL2 -lGLEW -lGL -lGLU -lfreeimage -larchive -ltinyxml2 -lassimp
 LIB_OUTDIR:= /usr/local/lib/
 
 VCORE_TARGET:= libvcore.so

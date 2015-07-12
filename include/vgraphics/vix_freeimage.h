@@ -57,6 +57,7 @@ namespace Vixen {
 	VIX_API FREE_IMAGE_FORMAT	FREEIMAGE_FormatFromExtension(const UString& ext);
 	VIX_API FREEIMAGE_BMP*		FREEIMAGE_LoadImage(const UString& filePath);
 	VIX_API FREEIMAGE_BMP*		FREEIMAGE_LoadImage(const UString& filePath, BYTE* raw_data, int len);
+	VIX_API FREEIMAGE_BMP*		FREEIMAGE_LoadImage(File* file);
 	VIX_API void                FREEIMAGE_LoadPNGHeader(FREEIMAGE_HEADER* header, BYTE* raw_data);
 	VIX_API void                FREEIMAGE_LoadJPGHeader(FREEIMAGE_HEADER* header, BYTE* raw_data);
 	VIX_API void                FREEIMAGE_LoadTGAHeader(FREEIMAGE_HEADER* header, BYTE* raw_data);

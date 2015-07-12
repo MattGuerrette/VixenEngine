@@ -22,6 +22,7 @@
 */
 
 #include <vix_freeimage.h>
+#include <vix_fileutil.h>
 
 namespace Vixen {
 
@@ -176,6 +177,66 @@ namespace Vixen {
 		//return bitmap
 		return vix_bmp;
 	}
+
+
+	void ReadFile(void *buffer, unsigned size, unsigned count, fi_handle handle)
+	{
+		fread(buffer, size, count, (FILE*)handle);
+	}
+
+	void SeekFile(fi_handle handle, long offset, int origin)
+	{
+		fseek((FILE*)handle, offset, origin);
+	}
+
+	void TellFile(fi_handle handle)
+	{
+		ftell((FILE*)handle);
+	}
+
+	FREEIMAGE_BMP*
+	FREEIMAGE_LoadImage(File* file)
+	{
+		FREEIMAGE_BMP* vix_bmp = new FREEIMAGE_BMP;
+		vix_bmp->path = file->FilePath();
+		vix_bmp->name = file->FileName();
+		vix_bmp->format = FREEIMAGE_FormatFromExtension(getFileExtension(file->FilePath(), false));
+		vix_bmp->data = NULL;
+		vix_bmp->bitmap = NULL;
+
+		FreeImageIO io;
+		io.read_proc = reinterpret_cast<FI_ReadProc>(&ReadFile);
+		io.write_proc = NULL;
+		io.seek_proc = reinterpret_cast<FI_SeekProc>(&SeekFile);
+		io.tell_proc = reinterpret_cast<FI_TellProc>(&TellFile);
+
+		vix_bmp->bitmap = FreeImage_LoadFromHandle(vix_bmp->format, &io, (fi_handle)file->Handle(), NULL);
+		if(vix_bmp->bitmap)
+		{
+			//Successful load
+			DebugPrintF(VTEXT("Successfully loaded bitmap"));
+		}
+		else
+			DebugPrintF(VTEXT("Load bitmap failed"));
+
+		//If image failed to load, return NULL
+		if (!vix_bmp->bitmap)
+			return NULL;
+			
+		//Flip image Y
+		FreeImage_FlipVertical(vix_bmp->bitmap);
+
+		//Retrieve image data
+		vix_bmp->data = FreeImage_GetBits(vix_bmp->bitmap);
+		//Retrieve image width
+		vix_bmp->header.width = FreeImage_GetWidth(vix_bmp->bitmap);
+		//Retrieve image height
+		vix_bmp->header.height = FreeImage_GetHeight(vix_bmp->bitmap);
+
+		//return bitmap
+		return vix_bmp;
+	}
+
 
 
 }

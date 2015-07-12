@@ -44,6 +44,8 @@ namespace Vixen {
 
 		GLTexture(const UString& filePath, GLenum target = GL_TEXTURE_2D);
 
+		GLTexture(FREEIMAGE_BMP* bmp, GLenum target = GL_TEXTURE_2D);
+
 		~GLTexture();
 
 		void Bind(GLenum unit);

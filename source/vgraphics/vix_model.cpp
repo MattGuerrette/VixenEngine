@@ -267,11 +267,11 @@ namespace Vixen {
 			aiMesh* mesh = scene->mMeshes[i];
 			size_t matIndex = mesh->mMaterialIndex;
 			aiMaterial* mat = scene->mMaterials[matIndex];
-			aiGetMaterialTexture(mat, aiTextureType_DIFFUSE, 0, &diffuse); 
+			aiGetMaterialTexture(mat, aiTextureType_DIFFUSE, 0, &diffuse);
 			aiGetMaterialTexture(mat, aiTextureType_HEIGHT, 0, &bump);
 			aiColor4D color;
 			aiGetMaterialColor(mat, AI_MATKEY_COLOR_DIFFUSE, &color);
-			printf("MATCOLOR [%f, %f, %f, %f]\n", color.r, color.g, color.b, color.a); 
+			printf("MATCOLOR [%f, %f, %f, %f]\n", color.r, color.g, color.b, color.a);
 			printf("MATTEXT [DIFFUSE: %s]\n", diffuse.data);
 			printf("MATTEXT [BUMP: %s]\n", bump.data);
 
@@ -299,7 +299,7 @@ namespace Vixen {
 		}*/
 
 		model->SetInitialized(true);
-		
+
 	}
 
 	void Model::init_model(UString filePath)
@@ -332,11 +332,11 @@ namespace Vixen {
 			aiMesh* mesh = scene->mMeshes[i];
 			size_t matIndex = mesh->mMaterialIndex;
 			aiMaterial* mat = scene->mMaterials[matIndex];
-			aiGetMaterialTexture(mat, aiTextureType_DIFFUSE, 0, &diffuse); 
+			aiGetMaterialTexture(mat, aiTextureType_DIFFUSE, 0, &diffuse);
 			aiGetMaterialTexture(mat, aiTextureType_HEIGHT, 0, &bump);
 			aiColor4D color;
 			aiGetMaterialColor(mat, AI_MATKEY_COLOR_DIFFUSE, &color);
-			printf("MATCOLOR [%f, %f, %f, %f]\n", color.r, color.g, color.b, color.a); 
+			printf("MATCOLOR [%f, %f, %f, %f]\n", color.r, color.g, color.b, color.a);
 			printf("MATTEXT [DIFFUSE: %s]\n", diffuse.data);
 			printf("MATTEXT [BUMP: %s]\n", bump.data);
 
@@ -354,7 +354,7 @@ namespace Vixen {
 
 		if(diffuse.C_Str()) {
 		  UString texPath = Vixen::UStringFromCharArray(diffuse.data);
-			m_texture = new GLTexture(texPath);
+			m_texture = new GLTexture("Textures/floor.jpg");
 		}
 
 		if(bump.C_Str()) {
@@ -362,7 +362,7 @@ namespace Vixen {
 			m_bump = new GLTexture(texPath);
 		}
 
-		
+
 		m_initialized = true;
 	}
 

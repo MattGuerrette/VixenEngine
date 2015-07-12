@@ -13,6 +13,17 @@ void STLMAP_DELETE(std::map<K, T>& _map)
         delete it->second;
         it->second = NULL;
     }
+    _map.clear();
+}
+
+template <typename T>
+void STLVEC_DELETE(std::vector<T>& _vec)
+{
+    typename std::vector<T>::iterator it = _vec.begin();
+    for(; it != _vec.end(); it++) {
+        delete *it;
+    }
+    _vec.clear();
 }
 
 #endif // VIX_STLUTIL_H
