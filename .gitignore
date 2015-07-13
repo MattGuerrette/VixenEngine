@@ -4,6 +4,7 @@ VCore_Temp/
 VGraphics_Temp/
 VGame_Temp/
 VTest_Temp/
+VTest/
 
 
 ## Ignore Visual Studio temporary files, build results, and
