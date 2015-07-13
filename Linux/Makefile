@@ -20,6 +20,7 @@ VCORE_TARGET:= libvcore.so
 VGRAPHICS_TARGET:= libvgraphics.so
 VGAME_TARGET:= libvgame.so
 
+OUT_DIR:= ../VTest/
 EXE:= vtest
 
 all: vcore vgraphics vgame $(EXE)
@@ -34,9 +35,9 @@ vgame:
 	$(CC) $(LIB_FLAGS) $(VGAME_INC) $(VGAME_SRC) $(VGAME_LIB) -o $(LIB_OUTDIR)$(VGAME_TARGET)
 
 $(EXE):
-	$(CC) $(EXE_FLAGS) $(EXE_INC) $(EXE_SRC) $(EXE_LIB) -o $(EXE)
+	$(CC) $(EXE_FLAGS) $(EXE_INC) $(EXE_SRC) $(EXE_LIB) -o $(OUT_DIR)$(EXE)
 
 valgrind:
-	valgrind --leak-check=yes --log-file="valgrind_output.txt" --track-origins=yes ./$(EXE)
+	valgrind --leak-check=yes --log-file="valgrind_output.txt" --track-origins=yes ./$(OUT_DIR)$(EXE)
 clean:
 	rm $(EXE)

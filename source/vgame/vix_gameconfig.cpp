@@ -25,27 +25,34 @@
 #include <vix_gameconfig.h>
 #include <vix_stringutil.h>
 #include <vix_debugutil.h>
+#include <vix_filemanager.h>
 
 namespace Vixen {
 
-	GameConfig::GameConfig(const UString& path)
+	GameConfig::GameConfig()
 	{
-		LoadConfig(path);
+		LoadConfig();
 	}
 
-	ErrCode GameConfig::LoadConfig(const UString& path)
+	ErrCode GameConfig::LoadConfig()
 	{
+		using namespace tinyxml2;
+
+        //Open Environment Config File
+        FileManager::instance().OpenFile(os_exec_dir() + VTEXT("vtest.config"));
+
+        //Access file
+        FILE* configFile = FileManager::instance().AccessFile(os_exec_dir() + VTEXT("vtest.config"))->Handle();
+
 		ErrCode error = ErrCode::ERR_SUCCESS;
 
-		using namespace tinyxml2;
-		/*Load config file*/
 		XMLDOC document;
-		XMLError err = document.LoadFile(path.c_str());
+        XMLError err = document.LoadFile(configFile);
 		UString errMsg;
 		if (XMLErrCheck(err, errMsg)) {
 			DebugPrintF(VTEXT("GameConfig file failed to load: %s\n"),
 				errMsg.c_str());
-			return ErrCode::ERR_XML_READ_FAIL;
+			return error;
 		}
 
 		/*Parse config file*/

@@ -4,6 +4,7 @@ option=$1
 input=$2
 input2=$3
 directory=/home/debunez/Development/VixenEngine
+exec_dir=/home/debunez/Development/VixenEngine/VTest
 makefile_dir=/home/debunez/Development/VixenEngine/Linux
 include_dir=/home/debunez/Development/VixenEngine/include
 source_dir=/home/debunez/Development/VixenEngine/source
@@ -22,7 +23,7 @@ fi
 
 #Handle run command, -run
 if [ "$option" == "-run" ]; then
-  $makefile_dir/$exec_name
+  $exec_dir/$exec_name
 fi
 
 #Handle the print command, -p
@@ -207,7 +208,7 @@ if [ "$option" == "-o" ]; then
     file=$(find "$source_dir" -name "$input")
   fi
 
-  if [ $file ]; then
+  if [ "$file" ]; then
     atom $file
   fi
 fi

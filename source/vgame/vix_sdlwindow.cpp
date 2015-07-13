@@ -29,8 +29,6 @@
 #include <vix_gltexturebatcher.h>
 #include <vix_primitive_triangle.h>
 #include <vix_primitive_cube.h>
-//#include <vix_audiomanager.h>
-#include <vix_contentmanager.h>
 #include <vix_math.h>
 
 namespace Vixen {
@@ -155,7 +153,7 @@ namespace Vixen {
 		/*LOAD ONLY NECESSARY CONTENT FOR STARTUP*/
 		m_parent->VOnStartup();
 
-       
+
         m_timer.Start();
 		//run application loop
 		m_running = true;

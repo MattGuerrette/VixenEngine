@@ -52,7 +52,7 @@ namespace Vixen {
 		m_fileName = getFileName(m_filePath);
 		m_baseName = getFileName(m_filePath, false);
 
-		m_handle = fopen(m_filePath.c_str(), "r");
+		m_handle = fopen(m_filePath.c_str(), "rb");
 		if(!m_handle) {
 			m_error = FileError::Open;
 			PError();

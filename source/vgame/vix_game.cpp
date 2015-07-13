@@ -24,14 +24,13 @@
 #include <vix_game.h>
 #include <vix_sdlwindow.h>
 #include <vix_debugutil.h>
-#include <vix_contentmanager.h>
 #include <vix_glrenderer.h>
 
 namespace Vixen {
 
 	IGame::IGame()
 	{
-	    m_config = new GameConfig(os_exec_dir() + VTEXT("vtest.config"));
+	    m_config = new GameConfig;
 		m_window = new SDLGameWindow(m_config->WindowArgs());
 		m_renderer = new GLRenderer;
 		m_keyboard = new SDLKeyboardState;
@@ -44,9 +43,7 @@ namespace Vixen {
 	{
 		/*if application window exists*/
 		if (m_window) {
-			m_content.VStartUp();
 			ErrCode error = m_window->VRun();
-			m_content.VShutDown();
 			if (CheckError(error)) {
 			  DebugPrintF(VTEXT("Application loop encountered error"));
 				return -1;

@@ -2,20 +2,21 @@
 #define VIX_PATHMANAGER_H
 
 #include <vix_platform.h>
+#include <vix_singleton.h>
 #include <vix_osutil.h>
-#include <json/json.h>
 
 namespace Vixen
 {
-    class VIX_API PathManager
+    class VIX_API PathManager : public Singleton<PathManager>
     {
-        static const char*  FONT_LOC_KEY;
-        static const char*  MEDIA_LOC_KEY;
-        static const char*  TEXTURES_LOC_KEY;
     public:
-        PathManager();
+        ~PathManager();
+
+        static void    Initialize();
+        static UString AssetPath();
 
     private:
+        static UString _AssetPath;
     };
 }
 

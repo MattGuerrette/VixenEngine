@@ -1,0 +1,271 @@
+\hypertarget{namespaceVixen}{}\section{Vixen Namespace Reference}
+\label{namespaceVixen}\index{Vixen@{Vixen}}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classVixen_1_1File}{File}
+\item 
+class \hyperlink{classVixen_1_1FileManager}{File\+Manager}
+\item 
+class \hyperlink{classVixen_1_1IContent}{I\+Content}
+\item 
+class \hyperlink{classVixen_1_1IFile}{I\+File}
+\item 
+class \hyperlink{classVixen_1_1IManager}{I\+Manager}
+\item 
+class \hyperlink{classVixen_1_1INonCopy}{I\+Non\+Copy}
+\item 
+class \hyperlink{classVixen_1_1PathManager}{Path\+Manager}
+\item 
+class \hyperlink{classVixen_1_1ResourceManager}{Resource\+Manager}
+\item 
+class \hyperlink{classVixen_1_1Singleton}{Singleton}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86}{File\+Error} \{ \\*
+\hyperlink{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86a6adf97f83acf6453d4a6a4b1070f3754}{File\+Error\+::\+None}, 
+\hyperlink{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86a7a1a5f3e79fdc91edf2f5ead9d66abb4}{File\+Error\+::\+Read}, 
+\hyperlink{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86a1129c0e4d43f2d121652a7302712cff6}{File\+Error\+::\+Write}, 
+\hyperlink{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86a882384ec38ce8d9582b57e70861730e4}{File\+Error\+::\+Fatal}, 
+\\*
+\hyperlink{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86abe8545ae7ab0276e15898aae7acfbd7a}{File\+Error\+::\+Resource}, 
+\hyperlink{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86ac3bf447eabe632720a3aa1a7ce401274}{File\+Error\+::\+Open}, 
+\hyperlink{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86a727b63583e01fa2b3952dab580c84dc2}{File\+Error\+::\+Abort}, 
+\hyperlink{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86ac85a251cc457840f1e032f1b733e9398}{File\+Error\+::\+Timeout}, 
+\\*
+\hyperlink{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86a6fcdc090caeade09d0efd6253932b6f5}{File\+Error\+::\+Unspecified}, 
+\hyperlink{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86a1063e38cb53d94d386f21227fcd84717}{File\+Error\+::\+Remove}, 
+\hyperlink{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86a904a8304056d77e4547744781b7ceb50}{File\+Error\+::\+Rename}, 
+\hyperlink{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86a52f5e0bc3859bc5f5e25130b6c7e8881}{File\+Error\+::\+Position}, 
+\\*
+\hyperlink{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86a5fb63579fc981698f97d55bfecb213ea}{File\+Error\+::\+Copy}
+ \}
+\item 
+enum \hyperlink{namespaceVixen_a3819245066e95e1d70b59a549654e606}{File\+Seek} \{ \hyperlink{namespaceVixen_a3819245066e95e1d70b59a549654e606a222a267cc5778206b253be35ee3ddab5}{File\+Seek\+::\+Current}, 
+\hyperlink{namespaceVixen_a3819245066e95e1d70b59a549654e606a87557f11575c0ad78e4e28abedc13b6e}{File\+Seek\+::\+End}, 
+\hyperlink{namespaceVixen_a3819245066e95e1d70b59a549654e606a5d5b78699e57104f2fa03bbdf7b9197b}{File\+Seek\+::\+Set}
+ \}
+\item 
+enum \hyperlink{namespaceVixen_a0ddb8e6066715322f5a48e9b2beb2461}{Resource\+Type} \{ \hyperlink{namespaceVixen_a0ddb8e6066715322f5a48e9b2beb2461aa3e8ae43188ae76d38f414b2bdb0077b}{Resource\+Type\+::\+Texture}, 
+\hyperlink{namespaceVixen_a0ddb8e6066715322f5a48e9b2beb2461aa559b87068921eec05086ce5485e9784}{Resource\+Type\+::\+Model}, 
+\hyperlink{namespaceVixen_a0ddb8e6066715322f5a48e9b2beb2461a194f5394ae2e9c74dc3c441b92862d1d}{Resource\+Type\+::\+Font}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{namespaceVixen_ae5d8286e89335780589abef43cffe82b}{Console\+Write\+Err} (const \hyperlink{vix__stringutil_8h_a561c282c415a5c38fd9a26325701e3bf}{U\+String} \&text)
+\item 
+int \hyperlink{namespaceVixen_a98ec16e2cd362c7bc44690a5197c6c1e}{V\+Debug\+Print\+F} (const \hyperlink{vix__stringutil_8h_adc2ae6d46e5cd3718f5446c8d2a2c5ac}{U\+Char} $\ast$format, va\+\_\+list arg\+List)
+\item 
+int \hyperlink{namespaceVixen_acedf76acc71be060abeab28f299d1314}{Debug\+Print\+F} (const \hyperlink{vix__stringutil_8h_adc2ae6d46e5cd3718f5446c8d2a2c5ac}{U\+Char} $\ast$format,...)
+\item 
+\hyperlink{vix__platform_8h_afdaa33aa7411dace34f16eb161ffaf35}{V\+I\+X\+\_\+\+A\+P\+I} \hyperlink{vix__stringutil_8h_a561c282c415a5c38fd9a26325701e3bf}{U\+String} \hyperlink{namespaceVixen_a2ad0f14ebc1c95e994a11867d2daf6cf}{Debug\+Time\+Stamp} ()
+\item 
+\hyperlink{vix__platform_8h_afdaa33aa7411dace34f16eb161ffaf35}{V\+I\+X\+\_\+\+A\+P\+I} \hyperlink{vix__stringutil_8h_a561c282c415a5c38fd9a26325701e3bf}{U\+String} \hyperlink{namespaceVixen_af23964b344031d71c4cf7e9f45960416}{get\+File\+Extension} (const \hyperlink{vix__stringutil_8h_a561c282c415a5c38fd9a26325701e3bf}{U\+String} \&file\+Path, bool wd=true)
+\item 
+\hyperlink{vix__platform_8h_afdaa33aa7411dace34f16eb161ffaf35}{V\+I\+X\+\_\+\+A\+P\+I} \hyperlink{vix__stringutil_8h_a561c282c415a5c38fd9a26325701e3bf}{U\+String} \hyperlink{namespaceVixen_ab901825efc373f2e098582164cae28f3}{get\+File\+Name} (const \hyperlink{vix__stringutil_8h_a561c282c415a5c38fd9a26325701e3bf}{U\+String} \&file\+Path, bool we=true)
+\item 
+\hyperlink{vix__platform_8h_afdaa33aa7411dace34f16eb161ffaf35}{V\+I\+X\+\_\+\+A\+P\+I} void \hyperlink{namespaceVixen_a4a37f3800c98f3e543a147281c755a3b}{os\+\_\+mkdir} (const \hyperlink{vix__stringutil_8h_a561c282c415a5c38fd9a26325701e3bf}{U\+String} \&dir)
+\item 
+\hyperlink{vix__platform_8h_afdaa33aa7411dace34f16eb161ffaf35}{V\+I\+X\+\_\+\+A\+P\+I} bool \hyperlink{namespaceVixen_aba11616d2c0a99f62f71b49ac63692bb}{os\+\_\+isdir} (const \hyperlink{vix__stringutil_8h_a561c282c415a5c38fd9a26325701e3bf}{U\+String} \&dir)
+\item 
+\hyperlink{vix__platform_8h_afdaa33aa7411dace34f16eb161ffaf35}{V\+I\+X\+\_\+\+A\+P\+I} \hyperlink{vix__stringutil_8h_a561c282c415a5c38fd9a26325701e3bf}{U\+String} \hyperlink{namespaceVixen_a5cea209f095e563191139e04fb84fa5d}{os\+\_\+path} (const \hyperlink{vix__stringutil_8h_a561c282c415a5c38fd9a26325701e3bf}{U\+String} \&path)
+\item 
+\hyperlink{vix__platform_8h_afdaa33aa7411dace34f16eb161ffaf35}{V\+I\+X\+\_\+\+A\+P\+I} \hyperlink{vix__stringutil_8h_a561c282c415a5c38fd9a26325701e3bf}{U\+String} \hyperlink{namespaceVixen_a1436c4df827d9ba7144c01232062a154}{os\+\_\+dir} (const \hyperlink{vix__stringutil_8h_a561c282c415a5c38fd9a26325701e3bf}{U\+String} \&path, bool wt=true)
+\item 
+\hyperlink{vix__platform_8h_afdaa33aa7411dace34f16eb161ffaf35}{V\+I\+X\+\_\+\+A\+P\+I} \hyperlink{vix__stringutil_8h_a561c282c415a5c38fd9a26325701e3bf}{U\+String} \hyperlink{namespaceVixen_a085bab7fcc31cfe3a319d50ac77fa3d2}{os\+\_\+exec\+\_\+dir} ()
+\item 
+\hyperlink{vix__platform_8h_afdaa33aa7411dace34f16eb161ffaf35}{V\+I\+X\+\_\+\+A\+P\+I} void \hyperlink{namespaceVixen_a8fab89425ce5e860158a1c8b0f830f12}{str\+\_\+replace\+All} (\hyperlink{vix__stringutil_8h_a561c282c415a5c38fd9a26325701e3bf}{U\+String} \&input, const \hyperlink{vix__stringutil_8h_a561c282c415a5c38fd9a26325701e3bf}{U\+String} \&from, const \hyperlink{vix__stringutil_8h_a561c282c415a5c38fd9a26325701e3bf}{U\+String} \&to)
+\item 
+\hyperlink{vix__platform_8h_afdaa33aa7411dace34f16eb161ffaf35}{V\+I\+X\+\_\+\+A\+P\+I} std\+::string \hyperlink{namespaceVixen_a6088f3b08203805710aa3a4c729473e3}{U\+String\+To\+Std} (const \hyperlink{vix__stringutil_8h_a561c282c415a5c38fd9a26325701e3bf}{U\+String} \&str)
+\item 
+\hyperlink{vix__platform_8h_afdaa33aa7411dace34f16eb161ffaf35}{V\+I\+X\+\_\+\+A\+P\+I} \hyperlink{vix__stringutil_8h_a561c282c415a5c38fd9a26325701e3bf}{U\+String} \hyperlink{namespaceVixen_af128e4c5b3178378f4a0147a167633aa}{U\+String\+From\+Char\+Array} (const char $\ast$str)
+\item 
+{\footnotesize template$<$typename T $>$ }\\\hyperlink{vix__platform_8h_afdaa33aa7411dace34f16eb161ffaf35}{V\+I\+X\+\_\+\+A\+P\+I} std\+::vector$<$ T $>$ \hyperlink{namespaceVixen_a92e7b6218f75ee5ac1ef34896daefea7}{parse} (const \hyperlink{vix__stringutil_8h_a561c282c415a5c38fd9a26325701e3bf}{U\+String} s, const \hyperlink{vix__stringutil_8h_adc2ae6d46e5cd3718f5446c8d2a2c5ac}{U\+Char} delim)
+\end{DoxyCompactItemize}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86}{}\index{Vixen@{Vixen}!File\+Error@{File\+Error}}
+\index{File\+Error@{File\+Error}!Vixen@{Vixen}}
+\subsubsection[{File\+Error}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Vixen\+::\+File\+Error}\hspace{0.3cm}{\ttfamily [strong]}}\label{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{None@{None}!Vixen@{Vixen}}\index{Vixen@{Vixen}!None@{None}}\item[{\em 
+\hypertarget{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86a6adf97f83acf6453d4a6a4b1070f3754}{}None\label{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86a6adf97f83acf6453d4a6a4b1070f3754}
+}]\index{Read@{Read}!Vixen@{Vixen}}\index{Vixen@{Vixen}!Read@{Read}}\item[{\em 
+\hypertarget{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86a7a1a5f3e79fdc91edf2f5ead9d66abb4}{}Read\label{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86a7a1a5f3e79fdc91edf2f5ead9d66abb4}
+}]\index{Write@{Write}!Vixen@{Vixen}}\index{Vixen@{Vixen}!Write@{Write}}\item[{\em 
+\hypertarget{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86a1129c0e4d43f2d121652a7302712cff6}{}Write\label{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86a1129c0e4d43f2d121652a7302712cff6}
+}]\index{Fatal@{Fatal}!Vixen@{Vixen}}\index{Vixen@{Vixen}!Fatal@{Fatal}}\item[{\em 
+\hypertarget{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86a882384ec38ce8d9582b57e70861730e4}{}Fatal\label{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86a882384ec38ce8d9582b57e70861730e4}
+}]\index{Resource@{Resource}!Vixen@{Vixen}}\index{Vixen@{Vixen}!Resource@{Resource}}\item[{\em 
+\hypertarget{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86abe8545ae7ab0276e15898aae7acfbd7a}{}Resource\label{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86abe8545ae7ab0276e15898aae7acfbd7a}
+}]\index{Open@{Open}!Vixen@{Vixen}}\index{Vixen@{Vixen}!Open@{Open}}\item[{\em 
+\hypertarget{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86ac3bf447eabe632720a3aa1a7ce401274}{}Open\label{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86ac3bf447eabe632720a3aa1a7ce401274}
+}]\index{Abort@{Abort}!Vixen@{Vixen}}\index{Vixen@{Vixen}!Abort@{Abort}}\item[{\em 
+\hypertarget{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86a727b63583e01fa2b3952dab580c84dc2}{}Abort\label{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86a727b63583e01fa2b3952dab580c84dc2}
+}]\index{Timeout@{Timeout}!Vixen@{Vixen}}\index{Vixen@{Vixen}!Timeout@{Timeout}}\item[{\em 
+\hypertarget{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86ac85a251cc457840f1e032f1b733e9398}{}Timeout\label{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86ac85a251cc457840f1e032f1b733e9398}
+}]\index{Unspecified@{Unspecified}!Vixen@{Vixen}}\index{Vixen@{Vixen}!Unspecified@{Unspecified}}\item[{\em 
+\hypertarget{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86a6fcdc090caeade09d0efd6253932b6f5}{}Unspecified\label{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86a6fcdc090caeade09d0efd6253932b6f5}
+}]\index{Remove@{Remove}!Vixen@{Vixen}}\index{Vixen@{Vixen}!Remove@{Remove}}\item[{\em 
+\hypertarget{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86a1063e38cb53d94d386f21227fcd84717}{}Remove\label{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86a1063e38cb53d94d386f21227fcd84717}
+}]\index{Rename@{Rename}!Vixen@{Vixen}}\index{Vixen@{Vixen}!Rename@{Rename}}\item[{\em 
+\hypertarget{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86a904a8304056d77e4547744781b7ceb50}{}Rename\label{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86a904a8304056d77e4547744781b7ceb50}
+}]\index{Position@{Position}!Vixen@{Vixen}}\index{Vixen@{Vixen}!Position@{Position}}\item[{\em 
+\hypertarget{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86a52f5e0bc3859bc5f5e25130b6c7e8881}{}Position\label{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86a52f5e0bc3859bc5f5e25130b6c7e8881}
+}]\index{Copy@{Copy}!Vixen@{Vixen}}\index{Vixen@{Vixen}!Copy@{Copy}}\item[{\em 
+\hypertarget{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86a5fb63579fc981698f97d55bfecb213ea}{}Copy\label{namespaceVixen_a28cf3e45633036dc0ae46d5ab701af86a5fb63579fc981698f97d55bfecb213ea}
+}]\end{description}
+\end{Desc}
+\hypertarget{namespaceVixen_a3819245066e95e1d70b59a549654e606}{}\index{Vixen@{Vixen}!File\+Seek@{File\+Seek}}
+\index{File\+Seek@{File\+Seek}!Vixen@{Vixen}}
+\subsubsection[{File\+Seek}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Vixen\+::\+File\+Seek}\hspace{0.3cm}{\ttfamily [strong]}}\label{namespaceVixen_a3819245066e95e1d70b59a549654e606}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Current@{Current}!Vixen@{Vixen}}\index{Vixen@{Vixen}!Current@{Current}}\item[{\em 
+\hypertarget{namespaceVixen_a3819245066e95e1d70b59a549654e606a222a267cc5778206b253be35ee3ddab5}{}Current\label{namespaceVixen_a3819245066e95e1d70b59a549654e606a222a267cc5778206b253be35ee3ddab5}
+}]\index{End@{End}!Vixen@{Vixen}}\index{Vixen@{Vixen}!End@{End}}\item[{\em 
+\hypertarget{namespaceVixen_a3819245066e95e1d70b59a549654e606a87557f11575c0ad78e4e28abedc13b6e}{}End\label{namespaceVixen_a3819245066e95e1d70b59a549654e606a87557f11575c0ad78e4e28abedc13b6e}
+}]\index{Set@{Set}!Vixen@{Vixen}}\index{Vixen@{Vixen}!Set@{Set}}\item[{\em 
+\hypertarget{namespaceVixen_a3819245066e95e1d70b59a549654e606a5d5b78699e57104f2fa03bbdf7b9197b}{}Set\label{namespaceVixen_a3819245066e95e1d70b59a549654e606a5d5b78699e57104f2fa03bbdf7b9197b}
+}]\end{description}
+\end{Desc}
+\hypertarget{namespaceVixen_a0ddb8e6066715322f5a48e9b2beb2461}{}\index{Vixen@{Vixen}!Resource\+Type@{Resource\+Type}}
+\index{Resource\+Type@{Resource\+Type}!Vixen@{Vixen}}
+\subsubsection[{Resource\+Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Vixen\+::\+Resource\+Type}\hspace{0.3cm}{\ttfamily [strong]}}\label{namespaceVixen_a0ddb8e6066715322f5a48e9b2beb2461}
+Resource\+Type enum class
+
+Defines the different available resource types usable by \hyperlink{namespaceVixen}{Vixen} Game Engine \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Texture@{Texture}!Vixen@{Vixen}}\index{Vixen@{Vixen}!Texture@{Texture}}\item[{\em 
+\hypertarget{namespaceVixen_a0ddb8e6066715322f5a48e9b2beb2461aa3e8ae43188ae76d38f414b2bdb0077b}{}Texture\label{namespaceVixen_a0ddb8e6066715322f5a48e9b2beb2461aa3e8ae43188ae76d38f414b2bdb0077b}
+}]\index{Model@{Model}!Vixen@{Vixen}}\index{Vixen@{Vixen}!Model@{Model}}\item[{\em 
+\hypertarget{namespaceVixen_a0ddb8e6066715322f5a48e9b2beb2461aa559b87068921eec05086ce5485e9784}{}Model\label{namespaceVixen_a0ddb8e6066715322f5a48e9b2beb2461aa559b87068921eec05086ce5485e9784}
+}]\index{Font@{Font}!Vixen@{Vixen}}\index{Vixen@{Vixen}!Font@{Font}}\item[{\em 
+\hypertarget{namespaceVixen_a0ddb8e6066715322f5a48e9b2beb2461a194f5394ae2e9c74dc3c441b92862d1d}{}Font\label{namespaceVixen_a0ddb8e6066715322f5a48e9b2beb2461a194f5394ae2e9c74dc3c441b92862d1d}
+}]\end{description}
+\end{Desc}
+
+
+\subsection{Function Documentation}
+\hypertarget{namespaceVixen_ae5d8286e89335780589abef43cffe82b}{}\index{Vixen@{Vixen}!Console\+Write\+Err@{Console\+Write\+Err}}
+\index{Console\+Write\+Err@{Console\+Write\+Err}!Vixen@{Vixen}}
+\subsubsection[{Console\+Write\+Err}]{\setlength{\rightskip}{0pt plus 5cm}void Vixen\+::\+Console\+Write\+Err (
+\begin{DoxyParamCaption}
+\item[{const {\bf U\+String} \&}]{text}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{namespaceVixen_ae5d8286e89335780589abef43cffe82b}
+\hypertarget{namespaceVixen_acedf76acc71be060abeab28f299d1314}{}\index{Vixen@{Vixen}!Debug\+Print\+F@{Debug\+Print\+F}}
+\index{Debug\+Print\+F@{Debug\+Print\+F}!Vixen@{Vixen}}
+\subsubsection[{Debug\+Print\+F}]{\setlength{\rightskip}{0pt plus 5cm}int Vixen\+::\+Debug\+Print\+F (
+\begin{DoxyParamCaption}
+\item[{const {\bf U\+Char} $\ast$}]{format, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{namespaceVixen_acedf76acc71be060abeab28f299d1314}
+\hypertarget{namespaceVixen_a2ad0f14ebc1c95e994a11867d2daf6cf}{}\index{Vixen@{Vixen}!Debug\+Time\+Stamp@{Debug\+Time\+Stamp}}
+\index{Debug\+Time\+Stamp@{Debug\+Time\+Stamp}!Vixen@{Vixen}}
+\subsubsection[{Debug\+Time\+Stamp}]{\setlength{\rightskip}{0pt plus 5cm}{\bf U\+String} Vixen\+::\+Debug\+Time\+Stamp (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{namespaceVixen_a2ad0f14ebc1c95e994a11867d2daf6cf}
+\hypertarget{namespaceVixen_af23964b344031d71c4cf7e9f45960416}{}\index{Vixen@{Vixen}!get\+File\+Extension@{get\+File\+Extension}}
+\index{get\+File\+Extension@{get\+File\+Extension}!Vixen@{Vixen}}
+\subsubsection[{get\+File\+Extension}]{\setlength{\rightskip}{0pt plus 5cm}{\bf U\+String} Vixen\+::get\+File\+Extension (
+\begin{DoxyParamCaption}
+\item[{const {\bf U\+String} \&}]{file\+Path, }
+\item[{bool}]{wd = {\ttfamily true}}
+\end{DoxyParamCaption}
+)}\label{namespaceVixen_af23964b344031d71c4cf7e9f45960416}
+\hypertarget{namespaceVixen_ab901825efc373f2e098582164cae28f3}{}\index{Vixen@{Vixen}!get\+File\+Name@{get\+File\+Name}}
+\index{get\+File\+Name@{get\+File\+Name}!Vixen@{Vixen}}
+\subsubsection[{get\+File\+Name}]{\setlength{\rightskip}{0pt plus 5cm}{\bf U\+String} Vixen\+::get\+File\+Name (
+\begin{DoxyParamCaption}
+\item[{const {\bf U\+String} \&}]{file\+Path, }
+\item[{bool}]{we = {\ttfamily true}}
+\end{DoxyParamCaption}
+)}\label{namespaceVixen_ab901825efc373f2e098582164cae28f3}
+\hypertarget{namespaceVixen_a1436c4df827d9ba7144c01232062a154}{}\index{Vixen@{Vixen}!os\+\_\+dir@{os\+\_\+dir}}
+\index{os\+\_\+dir@{os\+\_\+dir}!Vixen@{Vixen}}
+\subsubsection[{os\+\_\+dir}]{\setlength{\rightskip}{0pt plus 5cm}{\bf U\+String} Vixen\+::os\+\_\+dir (
+\begin{DoxyParamCaption}
+\item[{const {\bf U\+String} \&}]{path, }
+\item[{bool}]{wt = {\ttfamily true}}
+\end{DoxyParamCaption}
+)}\label{namespaceVixen_a1436c4df827d9ba7144c01232062a154}
+\hypertarget{namespaceVixen_a085bab7fcc31cfe3a319d50ac77fa3d2}{}\index{Vixen@{Vixen}!os\+\_\+exec\+\_\+dir@{os\+\_\+exec\+\_\+dir}}
+\index{os\+\_\+exec\+\_\+dir@{os\+\_\+exec\+\_\+dir}!Vixen@{Vixen}}
+\subsubsection[{os\+\_\+exec\+\_\+dir}]{\setlength{\rightskip}{0pt plus 5cm}{\bf U\+String} Vixen\+::os\+\_\+exec\+\_\+dir (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{namespaceVixen_a085bab7fcc31cfe3a319d50ac77fa3d2}
+\hypertarget{namespaceVixen_aba11616d2c0a99f62f71b49ac63692bb}{}\index{Vixen@{Vixen}!os\+\_\+isdir@{os\+\_\+isdir}}
+\index{os\+\_\+isdir@{os\+\_\+isdir}!Vixen@{Vixen}}
+\subsubsection[{os\+\_\+isdir}]{\setlength{\rightskip}{0pt plus 5cm}bool Vixen\+::os\+\_\+isdir (
+\begin{DoxyParamCaption}
+\item[{const {\bf U\+String} \&}]{dir}
+\end{DoxyParamCaption}
+)}\label{namespaceVixen_aba11616d2c0a99f62f71b49ac63692bb}
+\hypertarget{namespaceVixen_a4a37f3800c98f3e543a147281c755a3b}{}\index{Vixen@{Vixen}!os\+\_\+mkdir@{os\+\_\+mkdir}}
+\index{os\+\_\+mkdir@{os\+\_\+mkdir}!Vixen@{Vixen}}
+\subsubsection[{os\+\_\+mkdir}]{\setlength{\rightskip}{0pt plus 5cm}void Vixen\+::os\+\_\+mkdir (
+\begin{DoxyParamCaption}
+\item[{const {\bf U\+String} \&}]{dir}
+\end{DoxyParamCaption}
+)}\label{namespaceVixen_a4a37f3800c98f3e543a147281c755a3b}
+\hypertarget{namespaceVixen_a5cea209f095e563191139e04fb84fa5d}{}\index{Vixen@{Vixen}!os\+\_\+path@{os\+\_\+path}}
+\index{os\+\_\+path@{os\+\_\+path}!Vixen@{Vixen}}
+\subsubsection[{os\+\_\+path}]{\setlength{\rightskip}{0pt plus 5cm}{\bf U\+String} Vixen\+::os\+\_\+path (
+\begin{DoxyParamCaption}
+\item[{const {\bf U\+String} \&}]{path}
+\end{DoxyParamCaption}
+)}\label{namespaceVixen_a5cea209f095e563191139e04fb84fa5d}
+\hypertarget{namespaceVixen_a92e7b6218f75ee5ac1ef34896daefea7}{}\index{Vixen@{Vixen}!parse@{parse}}
+\index{parse@{parse}!Vixen@{Vixen}}
+\subsubsection[{parse}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ {\bf V\+I\+X\+\_\+\+A\+P\+I} std\+::vector$<$T$>$ Vixen\+::parse (
+\begin{DoxyParamCaption}
+\item[{const {\bf U\+String}}]{s, }
+\item[{const {\bf U\+Char}}]{delim}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{namespaceVixen_a92e7b6218f75ee5ac1ef34896daefea7}
+\hypertarget{namespaceVixen_a8fab89425ce5e860158a1c8b0f830f12}{}\index{Vixen@{Vixen}!str\+\_\+replace\+All@{str\+\_\+replace\+All}}
+\index{str\+\_\+replace\+All@{str\+\_\+replace\+All}!Vixen@{Vixen}}
+\subsubsection[{str\+\_\+replace\+All}]{\setlength{\rightskip}{0pt plus 5cm}void Vixen\+::str\+\_\+replace\+All (
+\begin{DoxyParamCaption}
+\item[{{\bf U\+String} \&}]{input, }
+\item[{const {\bf U\+String} \&}]{from, }
+\item[{const {\bf U\+String} \&}]{to}
+\end{DoxyParamCaption}
+)}\label{namespaceVixen_a8fab89425ce5e860158a1c8b0f830f12}
+\hypertarget{namespaceVixen_af128e4c5b3178378f4a0147a167633aa}{}\index{Vixen@{Vixen}!U\+String\+From\+Char\+Array@{U\+String\+From\+Char\+Array}}
+\index{U\+String\+From\+Char\+Array@{U\+String\+From\+Char\+Array}!Vixen@{Vixen}}
+\subsubsection[{U\+String\+From\+Char\+Array}]{\setlength{\rightskip}{0pt plus 5cm}{\bf U\+String} Vixen\+::\+U\+String\+From\+Char\+Array (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{str}
+\end{DoxyParamCaption}
+)}\label{namespaceVixen_af128e4c5b3178378f4a0147a167633aa}
+\hypertarget{namespaceVixen_a6088f3b08203805710aa3a4c729473e3}{}\index{Vixen@{Vixen}!U\+String\+To\+Std@{U\+String\+To\+Std}}
+\index{U\+String\+To\+Std@{U\+String\+To\+Std}!Vixen@{Vixen}}
+\subsubsection[{U\+String\+To\+Std}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Vixen\+::\+U\+String\+To\+Std (
+\begin{DoxyParamCaption}
+\item[{const {\bf U\+String} \&}]{str}
+\end{DoxyParamCaption}
+)}\label{namespaceVixen_a6088f3b08203805710aa3a4c729473e3}
+\hypertarget{namespaceVixen_a98ec16e2cd362c7bc44690a5197c6c1e}{}\index{Vixen@{Vixen}!V\+Debug\+Print\+F@{V\+Debug\+Print\+F}}
+\index{V\+Debug\+Print\+F@{V\+Debug\+Print\+F}!Vixen@{Vixen}}
+\subsubsection[{V\+Debug\+Print\+F}]{\setlength{\rightskip}{0pt plus 5cm}int Vixen\+::\+V\+Debug\+Print\+F (
+\begin{DoxyParamCaption}
+\item[{const {\bf U\+Char} $\ast$}]{format, }
+\item[{va\+\_\+list}]{arg\+List}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{namespaceVixen_a98ec16e2cd362c7bc44690a5197c6c1e}

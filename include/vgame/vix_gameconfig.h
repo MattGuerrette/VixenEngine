@@ -36,14 +36,14 @@ namespace Vixen {
 	class VIX_API GameConfig : public INonCopy
 	{
 	public:
-		GameConfig(const UString& path);
+		GameConfig();
 
 		/*Accessors for loaded data*/
 
 		SDL_GW_Params WindowArgs() const;
 
 	private:
-		ErrCode       LoadConfig(const UString& path);
+		ErrCode       LoadConfig();
 		ErrCode       ParseConfig(const XMLDOC& doc);
 		SDL_GW_Params ParseWindow(const XMLDOC& doc);
 
