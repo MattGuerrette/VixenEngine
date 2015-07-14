@@ -80,9 +80,13 @@ namespace Vixen {
 		return false;
 	}
 
-	void File::Read(BYTE* out, size_t len)
+	int File::Read(BYTE* out, size_t len)
 	{
-		fread(out, sizeof(char), len, m_handle);
+		int _len = 0;
+
+		_len = fread(out, sizeof(char), len, m_handle);
+
+		return _len;
 	}
 
 	bool File::Seek(size_t pos, FileSeek mode)

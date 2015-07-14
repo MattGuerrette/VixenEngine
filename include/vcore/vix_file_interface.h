@@ -52,7 +52,7 @@ namespace Vixen {
         virtual bool      Flush() = 0;
         virtual bool      Seek(size_t offset, FileSeek mode) = 0;
         virtual bool      Close() = 0;
-        virtual void      Read(BYTE* out, size_t len) = 0;
+        virtual int       Read(BYTE* out, size_t len) = 0;
         virtual size_t    Tell() = 0;
         virtual size_t    SizeBytes() = 0;
         virtual size_t    SizeKBytes() = 0;

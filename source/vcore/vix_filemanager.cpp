@@ -16,6 +16,19 @@ namespace Vixen {
         manager.m_totalOpenFiles = 0;
     }
 
+    void FileManager::PrintOpen()
+    {
+        FileManager& manager = FileManager::instance();
+
+        int i = 0;
+        for(auto it = manager.m_files.begin(); it != manager.m_files.end(); it++)
+        {
+            File* file = it->second;
+            DebugPrintF(VTEXT("File[%i]: %s"), i, file->FilePath().c_str());
+            i++;
+        }
+    }
+
     void FileManager::OpenFile(UString filePath)
     {
 
@@ -59,6 +72,8 @@ namespace Vixen {
 
             //Remove bytes from counter
             manager.m_totalOpenBytes -= file->SizeBytes();
+
+            STLMAP_DELETE(manager.m_files, filePath);
         }
 
     }

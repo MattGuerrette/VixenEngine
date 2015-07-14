@@ -1,22 +1,215 @@
-==23590== Memcheck, a memory error detector
-==23590== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
-==23590== Using Valgrind-3.10.1 and LibVEX; rerun with -h for copyright info
-==23590== Command: ./../VTest/vtest
-==23590== Parent PID: 23589
-==23590== 
-==23590== 
-==23590== HEAP SUMMARY:
-==23590==     in use at exit: 90 bytes in 3 blocks
-==23590==   total heap usage: 3,009 allocs, 3,006 frees, 562,671,072 bytes allocated
-==23590== 
-==23590== LEAK SUMMARY:
-==23590==    definitely lost: 0 bytes in 0 blocks
-==23590==    indirectly lost: 0 bytes in 0 blocks
-==23590==      possibly lost: 0 bytes in 0 blocks
-==23590==    still reachable: 90 bytes in 3 blocks
-==23590==         suppressed: 0 bytes in 0 blocks
-==23590== Reachable blocks (those to which a pointer was found) are not shown.
-==23590== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==23590== 
-==23590== For counts of detected and suppressed errors, rerun with: -v
-==23590== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==26662== Memcheck, a memory error detector
+==26662== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
+==26662== Using Valgrind-3.10.1 and LibVEX; rerun with -h for copyright info
+==26662== Command: ./../VTest/vtest
+==26662== Parent PID: 26661
+==26662== 
+==26662== Syscall param writev(vector[...]) points to uninitialised byte(s)
+==26662==    at 0x713416D: ??? (syscall-template.S:81)
+==26662==    by 0xCBADDFD: ??? (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==26662==    by 0xCBAE190: ??? (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==26662==    by 0xCBAE210: xcb_writev (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==26662==    by 0x808E11D: _XSend (in /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0)
+==26662==    by 0x808E5FD: _XReply (in /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0)
+==26662==    by 0x8079D9E: XInternAtom (in /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0)
+==26662==    by 0x5661F6A: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==26662==    by 0x5662DB6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==26662==    by 0x565614B: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==26662==    by 0x5655F4F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==26662==    by 0x55C0506: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==26662==  Address 0x148f2673 is 35 bytes inside a block of size 16,384 alloc'd
+==26662==    at 0x4C2DC90: calloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26662==    by 0x807EBF1: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0)
+==26662==    by 0x5660D44: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==26662==    by 0x5655F10: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==26662==    by 0x55C0506: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==26662==    by 0x4E56C7E: Vixen::SDLGameWindow::VInit() (vix_sdlwindow.cpp:89)
+==26662==    by 0x4E56F93: Vixen::SDLGameWindow::VRun() (vix_sdlwindow.cpp:147)
+==26662==    by 0x4E5D2CF: Vixen::IGame::Run() (vix_game.cpp:46)
+==26662==    by 0x401BAD: main (main.cpp:117)
+==26662==  Uninitialised value was created by a stack allocation
+==26662==    at 0x80899A0: XStoreColors (in /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0)
+==26662== 
+==26662== Conditional jump or move depends on uninitialised value(s)
+==26662==    at 0x50E34D0: Vixen::GLShaderProgram::VCreateShadersFromArgs() (vix_glshaderprogram.cpp:77)
+==26662==    by 0x50E3264: Vixen::GLShaderProgram::GLShaderProgram(std::array<Vixen::ShaderInfo, 5ul>) (vix_glshaderprogram.cpp:40)
+==26662==    by 0x50C9CD6: Vixen::GLTextureBatcher::init_shader_program() (vix_gltexturebatcher.cpp:129)
+==26662==    by 0x50C997C: Vixen::GLTextureBatcher::GLTextureBatcher(Vixen::GLCamera2D*) (vix_gltexturebatcher.cpp:55)
+==26662==    by 0x50C1B90: Vixen::GLRenderer::VInit() (vix_glrenderer.cpp:71)
+==26662==    by 0x4E56DEA: Vixen::SDLGameWindow::VInit() (vix_sdlwindow.cpp:124)
+==26662==    by 0x4E56F93: Vixen::SDLGameWindow::VRun() (vix_sdlwindow.cpp:147)
+==26662==    by 0x4E5D2CF: Vixen::IGame::Run() (vix_game.cpp:46)
+==26662==    by 0x401BAD: main (main.cpp:117)
+==26662==  Uninitialised value was created by a stack allocation
+==26662==    at 0x50C9B87: Vixen::GLTextureBatcher::init_shader_program() (vix_gltexturebatcher.cpp:110)
+==26662== 
+==26662== Conditional jump or move depends on uninitialised value(s)
+==26662==    at 0xED28604: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xECC972D: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xECCC15D: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xEE04A4A: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xEE08507: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xED031AE: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xED03511: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xEE05151: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xEE139DD: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xE9FBAC5: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xEE19DFC: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xE967300: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==  Uninitialised value was created by a heap allocation
+==26662==    at 0x4C2BBA0: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26662==    by 0x9EFF3C8: ??? (in /usr/lib/nvidia-346/libGL.so.346.59)
+==26662==    by 0xEDC8A3E: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xED231B1: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xECA4301: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0x9EA8331: ??? (in /usr/lib/nvidia-346/libGL.so.346.59)
+==26662==    by 0x9ED46CA: ??? (in /usr/lib/nvidia-346/libGL.so.346.59)
+==26662==    by 0x9ED7A27: ??? (in /usr/lib/nvidia-346/libGL.so.346.59)
+==26662==    by 0x9ECE750: glXCreateContext (in /usr/lib/nvidia-346/libGL.so.346.59)
+==26662==    by 0x565FDE5: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==26662==    by 0x5654665: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==26662==    by 0x5656273: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==26662== 
+==26662== Conditional jump or move depends on uninitialised value(s)
+==26662==    at 0xED28604: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xECC972D: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xECCBEBF: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xEE272BB: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xEE28AEC: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xED031AE: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xED03511: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xEE27B10: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xEE149F5: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xE9FBBD2: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xEE19DFC: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xE967300: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==  Uninitialised value was created by a heap allocation
+==26662==    at 0x4C2BBA0: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26662==    by 0x9EFF3C8: ??? (in /usr/lib/nvidia-346/libGL.so.346.59)
+==26662==    by 0xEDC8A3E: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xED231B1: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xECA4301: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0x9EA8331: ??? (in /usr/lib/nvidia-346/libGL.so.346.59)
+==26662==    by 0x9ED46CA: ??? (in /usr/lib/nvidia-346/libGL.so.346.59)
+==26662==    by 0x9ED7A27: ??? (in /usr/lib/nvidia-346/libGL.so.346.59)
+==26662==    by 0x9ECE750: glXCreateContext (in /usr/lib/nvidia-346/libGL.so.346.59)
+==26662==    by 0x565FDE5: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==26662==    by 0x5654665: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==26662==    by 0x5656273: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==26662== 
+==26662== Conditional jump or move depends on uninitialised value(s)
+==26662==    at 0xED28604: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xECC972D: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xECCA13C: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xEE518E1: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xEE53113: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xED031AE: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xED03511: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xEE51C35: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xEE19E83: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xE967300: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0x50C1D96: Vixen::GLRenderer::VClearBuffer(Vixen::ClearArgs) (vix_glrenderer.cpp:156)
+==26662==    by 0x4E57155: Vixen::SDLGameWindow::VRun() (vix_sdlwindow.cpp:194)
+==26662==  Uninitialised value was created by a heap allocation
+==26662==    at 0x4C2BBA0: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26662==    by 0x9EFF3C8: ??? (in /usr/lib/nvidia-346/libGL.so.346.59)
+==26662==    by 0xEDC8A3E: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xED231B1: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0xECA4301: ??? (in /usr/lib/nvidia-346/libnvidia-glcore.so.346.59)
+==26662==    by 0x9EA8331: ??? (in /usr/lib/nvidia-346/libGL.so.346.59)
+==26662==    by 0x9ED46CA: ??? (in /usr/lib/nvidia-346/libGL.so.346.59)
+==26662==    by 0x9ED7A27: ??? (in /usr/lib/nvidia-346/libGL.so.346.59)
+==26662==    by 0x9ECE750: glXCreateContext (in /usr/lib/nvidia-346/libGL.so.346.59)
+==26662==    by 0x565FDE5: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==26662==    by 0x5654665: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==26662==    by 0x5656273: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==26662== 
+==26662== 
+==26662== HEAP SUMMARY:
+==26662==     in use at exit: 43,225 bytes in 511 blocks
+==26662==   total heap usage: 16,640 allocs, 16,129 frees, 882,594,186 bytes allocated
+==26662== 
+==26662== 12 bytes in 2 blocks are definitely lost in loss record 6 of 86
+==26662==    at 0x4C2BBA0: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26662==    by 0x70C2429: strdup (strdup.c:42)
+==26662==    by 0x80B87F6: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0)
+==26662==    by 0x80B95D4: _XimSetICValueData (in /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0)
+==26662==    by 0x80B4C75: _XimLocalCreateIC (in /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0)
+==26662==    by 0x809ADF4: XCreateIC (in /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0)
+==26662==    by 0x5662BB0: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==26662==    by 0x5662FC5: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==26662==    by 0x565614B: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==26662==    by 0x5655F4F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==26662==    by 0x55C0506: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==26662==    by 0x4E56C7E: Vixen::SDLGameWindow::VInit() (vix_sdlwindow.cpp:89)
+==26662== 
+==26662== 12 bytes in 2 blocks are definitely lost in loss record 7 of 86
+==26662==    at 0x4C2BBA0: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26662==    by 0x70C2429: strdup (strdup.c:42)
+==26662==    by 0x80B87F6: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0)
+==26662==    by 0x80B95D4: _XimSetICValueData (in /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0)
+==26662==    by 0x80B4C75: _XimLocalCreateIC (in /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0)
+==26662==    by 0x809ADF4: XCreateIC (in /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0)
+==26662==    by 0x5662BB0: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==26662==    by 0x5662FC5: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==26662==    by 0x565614B: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==26662==    by 0x4E56D22: Vixen::SDLGameWindow::VInit() (vix_sdlwindow.cpp:106)
+==26662==    by 0x4E56F93: Vixen::SDLGameWindow::VRun() (vix_sdlwindow.cpp:147)
+==26662==    by 0x4E5D2CF: Vixen::IGame::Run() (vix_game.cpp:46)
+==26662== 
+==26662== 28 bytes in 1 blocks are definitely lost in loss record 16 of 86
+==26662==    at 0x4C2C100: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26662==    by 0x4E5D1A9: Vixen::IGame::IGame() (vix_game.cpp:37)
+==26662==    by 0x4018BF: TestGame::TestGame() (main.cpp:33)
+==26662==    by 0x401BA1: main (main.cpp:115)
+==26662== 
+==26662== 70 (40 direct, 30 indirect) bytes in 1 blocks are definitely lost in loss record 51 of 86
+==26662==    at 0x4C2C100: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26662==    by 0x4E5D10B: Vixen::IGame::IGame() (vix_game.cpp:33)
+==26662==    by 0x4018BF: TestGame::TestGame() (main.cpp:33)
+==26662==    by 0x401BA1: main (main.cpp:115)
+==26662== 
+==26662== 96 bytes in 1 blocks are definitely lost in loss record 54 of 86
+==26662==    at 0x4C2C100: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26662==    by 0x4E5D18C: Vixen::IGame::IGame() (vix_game.cpp:36)
+==26662==    by 0x4018BF: TestGame::TestGame() (main.cpp:33)
+==26662==    by 0x401BA1: main (main.cpp:115)
+==26662== 
+==26662== 160 bytes in 1 blocks are definitely lost in loss record 58 of 86
+==26662==    at 0x4C2BBA0: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26662==    by 0x9ED00AF: glXChooseFBConfig (in /usr/lib/nvidia-346/libGL.so.346.59)
+==26662==    by 0x566067C: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==26662==    by 0x56551DF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==26662==    by 0x4E56D97: Vixen::SDLGameWindow::VInit() (vix_sdlwindow.cpp:117)
+==26662==    by 0x4E56F93: Vixen::SDLGameWindow::VRun() (vix_sdlwindow.cpp:147)
+==26662==    by 0x4E5D2CF: Vixen::IGame::Run() (vix_game.cpp:46)
+==26662==    by 0x401BAD: main (main.cpp:117)
+==26662== 
+==26662== 624 bytes in 1 blocks are definitely lost in loss record 74 of 86
+==26662==    at 0x4C2C100: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26662==    by 0x4E5D143: Vixen::IGame::IGame() (vix_game.cpp:34)
+==26662==    by 0x4018BF: TestGame::TestGame() (main.cpp:33)
+==26662==    by 0x401BA1: main (main.cpp:115)
+==26662== 
+==26662== 2,409 bytes in 73 blocks are definitely lost in loss record 81 of 86
+==26662==    at 0x4C2BBA0: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26662==    by 0x8075620: XGetWindowProperty (in /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0)
+==26662==    by 0x565AE81: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==26662==    by 0x565B64F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==26662==    by 0x55EF4D6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==26662==    by 0x55EF533: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.2.0)
+==26662==    by 0x4E57124: Vixen::SDLGameWindow::VRun() (vix_sdlwindow.cpp:166)
+==26662==    by 0x4E5D2CF: Vixen::IGame::Run() (vix_game.cpp:46)
+==26662==    by 0x401BAD: main (main.cpp:117)
+==26662== 
+==26662== LEAK SUMMARY:
+==26662==    definitely lost: 3,381 bytes in 82 blocks
+==26662==    indirectly lost: 30 bytes in 1 blocks
+==26662==      possibly lost: 0 bytes in 0 blocks
+==26662==    still reachable: 39,814 bytes in 428 blocks
+==26662==         suppressed: 0 bytes in 0 blocks
+==26662== Reachable blocks (those to which a pointer was found) are not shown.
+==26662== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==26662== 
+==26662== For counts of detected and suppressed errors, rerun with: -v
+==26662== ERROR SUMMARY: 17 errors from 13 contexts (suppressed: 0 from 0)

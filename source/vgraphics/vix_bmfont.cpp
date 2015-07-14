@@ -27,6 +27,8 @@
 #include <vix_algorithms.h>
 #include <vix_texture.h>
 #include <vix_gltexture.h>
+#include <vix_pathmanager.h>
+#include <vix_filemanager.h>
 #ifndef VIX_SYS_LINUX
 #include <codecvt>
 #endif
@@ -109,11 +111,12 @@ namespace Vixen {
 		return ss.str();
 	}
 
-	BMFont::BMFont(const UString& filePath)
+	BMFont::BMFont(File* file)
 	{
 		m_initialized = false;
+		m_loaded = false;
 
-		m_fontFile = LoadFile(filePath);
+		m_fontFile = LoadFile(file);
 
 		/*Create character map*/
 		for (BMFontChar& fontChar : m_fontFile.chars)
@@ -121,6 +124,37 @@ namespace Vixen {
 			UChar c = (UChar)fontChar.id;
 			m_charMap[c] = fontChar;
 		}
+	}
+
+	BMFont::~BMFont()
+	{
+		STLVEC_DELETE(m_bitmaps);
+		STLVEC_DELETE(m_textures);
+	}
+
+	void BMFont::Load()
+	{
+		//Start thread and detach to load bitmap images
+		//asynchronously.
+		std::thread t([&](BMFont* font, std::atomic<bool>* finished) {
+
+			/*Need to load all page bitmaps*/
+			UString assetPath = PathManager::instance().AssetPath();
+
+			for (auto& page : font->m_fontFile.pages) {
+				UString texPath = assetPath + VTEXT("Fonts/Textures/") + page.file;
+				FileManager::instance().OpenFile(texPath);
+				File* bitmapFile = FileManager::instance().AccessFile(texPath);
+				if(bitmapFile) {
+					FREEIMAGE_BMP* bmp = FREEIMAGE_LoadImage(bitmapFile);
+					if(bmp)
+						font->m_bitmaps.push_back(bmp);
+				}
+			}
+
+			*finished = true;
+		}, this, &m_loaded);
+		t.detach(); //run the async thread
 	}
 
 	void BMFont::AddPageTexture(Texture* texture)
@@ -159,27 +193,22 @@ namespace Vixen {
 	{
 		if (!m_initialized) {
 			for (auto& bitmap : m_bitmaps) {
-				GLTexture* tex = new GLTexture;
-				tex->InitFromFIBMP(bitmap);
+				GLTexture* tex = new GLTexture(bitmap);
 				m_textures.push_back(tex);
 			}
-			ReleaseBitmaps();
+			STLVEC_DELETE(m_bitmaps);
 			m_initialized = true;
-		}
-	}
-
-	void BMFont::ReleaseBitmaps()
-	{
-		size_t numBitmaps = m_bitmaps.size();
-		for (size_t i = 0; i < numBitmaps; i++)
-		{
-			delete m_bitmaps[i];
 		}
 	}
 
 	bool BMFont::IsInitialized()
 	{
 		return m_initialized;
+	}
+
+	bool BMFont::IsLoaded()
+	{
+		return m_loaded;
 	}
 
 	const BMFontFile BMFont::FontFile() const
@@ -238,39 +267,34 @@ namespace Vixen {
 			return false;
 	}
 
-	BMFontFile BMFont::LoadFile(const UString& filePath)
+	BMFontFile BMFont::LoadFile(File* file)
 	{
 		using namespace tinyxml2;
 
-		BMFontFile file;
-		if (filePath.empty()) {
-			DebugPrintF(VTEXT("Failed to create BMFont: %s\n"),
-				        ErrCodeString(ErrCode::ERR_NULL_PATH).c_str());
-			return file;
-		}
+		BMFontFile fontFile;
 
 		/*set file attribute of font file*/
-		file.file = filePath;
+		fontFile.file = file->FilePath();
 
 		/*Try Parse file*/
 		XMLDOC document;
 		/*TinyXML now supports paths containing UTF-8 encoded characters due to
 		  change I've made in the source. */
-		XMLError err = document.LoadFile(filePath.c_str());
+		XMLError err = document.LoadFile(file->Handle());
 		UString errorString;
 		if (XMLErrCheck(err, errorString)) {
 			DebugPrintF(VTEXT("XMLDocument [%s] Load Failed\n"),
-				        filePath.c_str());
-			return file;
+				        file->FilePath().c_str());
+			return fontFile;
 		}
 
 		/*Read file contents into bmfont file struct*/
-		BMFont::ReadFontInfo(document, file);
-		BMFont::ReadFontCommon(document, file);
-		BMFont::ReadFontPages(document, file);
-		BMFont::ReadFontChars(document, file);
+		BMFont::ReadFontInfo(document, fontFile);
+		BMFont::ReadFontCommon(document, fontFile);
+		BMFont::ReadFontPages(document, fontFile);
+		BMFont::ReadFontChars(document, fontFile);
 
-		return file;
+		return fontFile;
 	}
 
 	void BMFont::ReadFontInfo(XMLDOC& doc, BMFontFile& file)

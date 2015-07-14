@@ -27,6 +27,7 @@
 #include <vix_platform.h>
 #include <archive.h>
 #include <archive_entry.h>
+#include <unistd.h>
 
 #define LARGE_BUFSIZE 300000
 
@@ -34,6 +35,9 @@
 
 VIX_API
 void ARCHIVE_Extract(char* zip, char* file, BYTE* buffer);
+
+VIX_API
+void ARCHIVE_Write(const char* outname, BYTE* data, size_t len);
 
 VIX_API
 void ARCHIVE_Write(const char* outname, const char** paths);

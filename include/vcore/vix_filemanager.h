@@ -20,6 +20,7 @@ namespace Vixen {
         static File*    AccessFile(UString filePath);
         static size_t   TotalFilesOpen();
         static size_t   TotalBytesOpen();
+        static void     PrintOpen();
     private:
         FileList   m_files;
         size_t     m_totalOpenBytes;

@@ -33,6 +33,7 @@ namespace Vixen {
 		m_fShader = NULL;
 		m_tcShader = NULL;
 		m_teShader = NULL;
+		m_gShader = NULL;
 		m_program = glCreateProgram();
 
 		/*load and create shaders from args*/
@@ -48,6 +49,11 @@ namespace Vixen {
 	GLShaderProgram::~GLShaderProgram()
 	{
 		glDeleteProgram(m_program);
+		delete m_vShader;
+		delete m_fShader;
+		delete m_tcShader;
+		delete m_teShader;
+		delete m_gShader;
 	}
 
 	void GLShaderProgram::Bind()

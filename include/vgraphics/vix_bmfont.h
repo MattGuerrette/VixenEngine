@@ -31,8 +31,9 @@
 #include <vix_rectangle.h>
 #include <vix_content.h>
 #include <vix_freeimage.h>
-#include <vector>
-#include <map>
+#include <vix_stlutil.h>
+#include <atomic>
+#include <thread>
 
 
 namespace Vixen {
@@ -144,13 +145,11 @@ namespace Vixen {
 
 	public:
 		/*Constructor for BMFont*/
-		BMFont(const UString& filePath);
+		BMFont(File* file);
 
-		/*Adds a texture to the font page tex collection*/
-		void AddPageTexture(Texture* texture);
+		/*Destructor for BMFont*/
+		~BMFont();
 
-		/*Adds a bitmap to the font page bitmap collection*/
-		void LoadPageBitmap(const UString filePath);
 
 		/*Getter functions*/
 		const BMFontFile FontFile() const;
@@ -160,14 +159,7 @@ namespace Vixen {
 		/*Functions*/
 		Rectangle  Bounds(const UString& text);
 
-		/*Static parse functions for reading the XML Font file*/
-		static void ReadFontInfo(XMLDOC& doc, BMFontFile& file);
-		static void ReadFontCommon(XMLDOC& doc, BMFontFile& file);
-		static void ReadFontPages(XMLDOC& doc, BMFontFile& file);
-		static void ReadFontChars(XMLDOC& doc, BMFontFile& file);
-
-		/*Static load function for loading BMFont file*/
-		static BMFontFile LoadFile(const UString& filePath);
+		void Load();
 
 
 		friend UOStream& operator << (UOStream& o, const BMFont& font);
@@ -178,16 +170,35 @@ namespace Vixen {
 		/*Initialize Textures*/
 		void InitTextures();
 
-		void ReleaseBitmaps();
 
 		bool IsInitialized();
+
+		bool IsLoaded();
+
+	private:
+
+		/*Static load function for loading BMFont file*/
+		BMFontFile LoadFile(File* file);
+
+		/*Adds a bitmap to the font page bitmap collection*/
+		void LoadPageBitmap(const UString filePath);
+
+		/*Adds a texture to the font page tex collection*/
+		void AddPageTexture(Texture* texture);
+
+		/*Static parse functions for reading the XML Font file*/
+		static void ReadFontInfo(XMLDOC& doc, BMFontFile& file);
+		static void ReadFontCommon(XMLDOC& doc, BMFontFile& file);
+		static void ReadFontPages(XMLDOC& doc, BMFontFile& file);
+		static void ReadFontChars(XMLDOC& doc, BMFontFile& file);
 
 	private:
 		std::vector<FREEIMAGE_BMP*> m_bitmaps;
 		std::vector<Texture*>		m_textures;
 		BMCharMap					m_charMap;
 		BMFontFile					m_fontFile;
-		bool                        m_initialized;
+		bool						m_initialized;
+		std::atomic<bool>           m_loaded;
 	};
 
 

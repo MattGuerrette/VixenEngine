@@ -23,6 +23,7 @@
 
 #include <vix_libarchive.h>
 #include <vix_debugutil.h>
+#include <vix_filemanager.h>
 #include <cstring>
 
 void
@@ -60,9 +61,73 @@ ARCHIVE_Extract(char* zip, char* file, BYTE* buffer)
 }
 
 void
+ARCHIVE_Write(const char* outname, BYTE* data, size_t len)
+{
+	struct archive* a;
+	struct archive_entry* entry;
+
+	a = archive_write_new();
+	archive_write_add_filter_gzip(a);
+	archive_write_set_format_pax_restricted(a); // Note 1
+	archive_write_open_filename(a, outname);
+
+	entry = archive_entry_new(); // Note 2
+	archive_entry_set_pathname(entry, "floor.jpg");
+	archive_entry_set_size(entry, len); // Note 3
+	archive_entry_set_filetype(entry, AE_IFREG);
+	archive_entry_set_perm(entry, 0644);
+	archive_write_header(a, entry);
+
+	archive_write_data(a, data, len);
+
+
+
+
+	archive_entry_free(entry);
+
+
+	archive_write_close(a);
+	archive_write_free(a);
+}
+
+void
 ARCHIVE_Write(const char* outname, const char** paths)
 {
+	struct archive* a;
+	struct archive_entry* entry;
+	struct stat st;
 
+	a = archive_write_new();
+	archive_write_add_filter_gzip(a);
+	archive_write_set_format_pax_restricted(a);
+	archive_write_open_filename(a, outname);
+
+	Vixen::File* file = NULL;
+	while(*paths)
+	{
+		Vixen::FileManager::OpenFile(*paths);
+		file = Vixen::FileManager::AccessFile(*paths);
+		entry = archive_entry_new();
+		archive_entry_set_pathname(entry, *paths);
+		archive_entry_set_size(entry, file->SizeBytes());
+		archive_entry_set_filetype(entry, AE_IFREG);
+		archive_entry_set_perm(entry, 0644);
+		archive_write_header(a, entry);
+
+		char* buff = new char[file->SizeBytes()];
+		file->Read((BYTE*)buff, file->SizeBytes());
+		buff[file->SizeBytes()] = NULL;
+		archive_write_data(a, buff, file->SizeBytes());
+		delete[] buff;
+
+		Vixen::FileManager::CloseFile(*paths);
+		archive_entry_free(entry);
+
+		paths++;
+	}
+
+	archive_write_close(a);
+	archive_write_free(a);
 }
 
 BYTE*

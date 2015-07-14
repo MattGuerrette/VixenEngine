@@ -16,6 +16,14 @@ void STLMAP_DELETE(std::map<K, T>& _map)
     _map.clear();
 }
 
+template <typename K, typename T>
+void STLMAP_DELETE(std::map<K, T>& _map, K& key)
+{
+    typename std::map<K, T>::iterator it = _map.find(key);
+    delete it->second;
+    _map.erase(key);
+}
+
 template <typename T>
 void STLVEC_DELETE(std::vector<T>& _vec)
 {

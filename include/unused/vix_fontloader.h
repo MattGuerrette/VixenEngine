@@ -29,7 +29,7 @@ namespace Vixen {
 	private:
 		std::vector<BMFont*>  m_fonts;
 		BMFont*               m_font;
-		std::atomic<bool>     m_finished;
+		atomic_bool     	  m_finished;
 	};
 
 }

@@ -15,7 +15,7 @@ namespace Vixen {
 
     void ResourceManager::OpenResource(UString fileName, ResourceType type)
     {
-        UString assetPath = PathManager::instance().AssetPath();
+        UString assetPath = PathManager::AssetPath();
         switch(type)
         {
             case ResourceType::Texture:
@@ -38,12 +38,12 @@ namespace Vixen {
         assetPath += fileName;
 
         //Load file
-        FileManager::instance().OpenFile(assetPath);
+        FileManager::OpenFile(assetPath);
     }
 
     File* ResourceManager::AccessResource(UString fileName, ResourceType type)
     {
-        UString assetPath = PathManager::instance().AssetPath();
+        UString assetPath = PathManager::AssetPath();
         switch(type)
         {
             case ResourceType::Texture:
@@ -66,7 +66,7 @@ namespace Vixen {
         assetPath += fileName;
 
         //Return file
-        return FileManager::instance().AccessFile(assetPath);
+        return FileManager::AccessFile(assetPath);
     }
 
 }
