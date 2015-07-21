@@ -52,7 +52,12 @@ namespace Vixen {
 		m_fileName = getFileName(m_filePath);
 		m_baseName = getFileName(m_filePath, false);
 
+#ifdef VIX_SYS_WINDOWS
+		_wfopen_s(&m_handle, m_filePath.c_str(), VTEXT("rb"));
+#else
 		m_handle = fopen(m_filePath.c_str(), "rb");
+#endif
+
 		if(!m_handle) {
 			m_error = FileError::Open;
 			PError();
@@ -120,7 +125,13 @@ namespace Vixen {
 
 	bool File::PError(int err /* = 0 */)
 	{
+#ifdef VIX_SYS_WINDOWS
+		UChar s_buffer[VIX_BUFSIZE];
+		_wcserror_s(s_buffer, errno);
+		DebugPrintF(VTEXT("FileError: %s"), s_buffer);
+#else
 		DebugPrintF(VTEXT("FileError: %s"), strerror(errno));
+#endif
 		return (err < 0) ? true : false;
 	}
 
@@ -136,11 +147,24 @@ namespace Vixen {
 
 	size_t File::SizeBytes()
 	{
+
+#ifdef VIX_SYS_LINUX
 		//Need to grab size from stat struct in order to allow for
 		//files > 2GB in size
 		struct stat st;
 		stat(m_filePath.c_str(), &st);
 		m_size = st.st_size;
+#else
+		WIN32_FILE_ATTRIBUTE_DATA fad;
+		if (!GetFileAttributesEx(m_filePath.c_str(), GetFileExInfoStandard, &fad))
+			return -1;
+
+		LARGE_INTEGER size;
+		size.HighPart = fad.nFileSizeHigh;
+		size.LowPart = fad.nFileSizeLow;
+
+		m_size = static_cast<size_t>(size.QuadPart);
+#endif
 
 		return m_size;
 	}

@@ -27,7 +27,10 @@
 #include <vix_platform.h>
 #include <archive.h>
 #include <archive_entry.h>
+
+#ifdef VIX_SYS_LINUX
 #include <unistd.h>
+#endif
 
 #define LARGE_BUFSIZE 300000
 

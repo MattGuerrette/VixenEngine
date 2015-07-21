@@ -354,7 +354,7 @@ namespace Vixen {
 
 		if(diffuse.C_Str()) {
 		  UString texPath = Vixen::UStringFromCharArray(diffuse.data);
-			m_texture = new GLTexture("Textures/floor.jpg");
+			m_texture = new GLTexture(texPath);
 		}
 
 		if(bump.C_Str()) {

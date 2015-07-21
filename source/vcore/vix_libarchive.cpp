@@ -95,7 +95,6 @@ ARCHIVE_Write(const char* outname, const char** paths)
 {
 	struct archive* a;
 	struct archive_entry* entry;
-	struct stat st;
 
 	a = archive_write_new();
 	archive_write_add_filter_gzip(a);
@@ -105,8 +104,9 @@ ARCHIVE_Write(const char* outname, const char** paths)
 	Vixen::File* file = NULL;
 	while(*paths)
 	{
-		Vixen::FileManager::OpenFile(*paths);
-		file = Vixen::FileManager::AccessFile(*paths);
+		UString _path = Vixen::UStringFromCharArray(*paths);
+		Vixen::FileManager::OpenFile(_path);
+		file = Vixen::FileManager::AccessFile(_path);
 		entry = archive_entry_new();
 		archive_entry_set_pathname(entry, *paths);
 		archive_entry_set_size(entry, file->SizeBytes());
@@ -120,7 +120,7 @@ ARCHIVE_Write(const char* outname, const char** paths)
 		archive_write_data(a, buff, file->SizeBytes());
 		delete[] buff;
 
-		Vixen::FileManager::CloseFile(*paths);
+		Vixen::FileManager::CloseFile(_path);
 		archive_entry_free(entry);
 
 		paths++;

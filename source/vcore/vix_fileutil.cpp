@@ -26,7 +26,7 @@ namespace Vixen {
 		if(pos != UString::npos) {
 			path.erase(0, pos + 1);
 		}
-		}
+		
 #elif defined (VIX_SYS_LINUX) || defined (VIX_SYS_MACOS)
 		pos = path.find_last_of(UNIX_PATH_DELIM);
 		if (pos != UString::npos) {
@@ -35,7 +35,7 @@ namespace Vixen {
 #endif
 
 		//now remove extension if desired
-		if(!we) {
+		if (!we) {
 			size_t extPos = path.find_last_of(VTEXT("."));
 			path = path.substr(0, extPos);
 		}

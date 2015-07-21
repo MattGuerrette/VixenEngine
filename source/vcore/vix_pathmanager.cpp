@@ -35,7 +35,7 @@ namespace Vixen
         const XMLElement* envElement = document.FirstChildElement("env");
         const XMLElement* assetPathElement = envElement->FirstChildElement("asset-path");
 
-        _AssetPath = assetPathElement->Attribute("value");
+        _AssetPath = UStringFromCharArray(assetPathElement->Attribute("value"));
     }
 
     UString PathManager::AssetPath()
