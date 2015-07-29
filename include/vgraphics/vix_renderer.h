@@ -25,10 +25,7 @@
 #define VIX_RENDERER_H
 
 #include <vix_platform.h>
-#include <vix_errglobals.h>
-#include <vix_glm.h>
 #include <vix_color.h>
-#include <vix_rectangle.h>
 
 namespace Vixen {
 
@@ -91,13 +88,23 @@ namespace Vixen {
 	class VIX_API IRenderer
 	{
 	public:
+        virtual ~IRenderer() { };
 
-		virtual ErrCode VInit() = 0;
-		virtual void    VShutDown() = 0;
+        //RenderType enum
+        //
+        // Used for type checking renderer
+        enum class RendererType
+        {
+            DIRECTX,
+            OPENGL
+        };
+
+        virtual bool    VInitialize() = 0;
+        virtual void    VDeInitialize() = 0;
+        virtual void    VRender() = 0;
+		/*virtual void    VShutDown() = 0;
 		virtual void    VSetClearColor(const Color& c) = 0;
 		virtual void    VClearBuffer(ClearArgs args) = 0;
-		virtual void    VSetProjection(Mat4 p) = 0;
-		virtual void    VSetClientRect(const Rect& client) = 0;
 		virtual void    VApplyRenderMode() = 0;
 		virtual void	VApplyFaceCulling() = 0;
 		virtual void	VApplyFaceWinding() = 0;
@@ -109,9 +116,11 @@ namespace Vixen {
 		void SetFaceWinding(FaceWinding winding);
 
 	protected:
-		Rect							m_client;
 		RenderOptions					m_renderOptions;
-		bool                            m_renderOptionsState[RenderOptions::COUNT];
+		bool                            m_renderOptionsState[RenderOptions::COUNT];*/
+
+    protected:
+        RendererType    m_type;
 	};
 
 }
