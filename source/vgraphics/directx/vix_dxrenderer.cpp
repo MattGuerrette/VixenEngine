@@ -1,6 +1,8 @@
 #include <vix_dxrenderer.h>
 #include <vix_dxprimitivecube.h>
-
+#include <vix_dxquad.h>
+#include <vix_freeimage.h>
+#include <vix_filemanager.h>
 //--------------------------------------------------------------------------------------
 // Helper for compiling shaders with D3DCompile
 //
@@ -46,6 +48,8 @@ namespace Vixen {
         m_HWND = hwnd;
         m_ConstantBuffer = nullptr;
         m_type = RendererType::DIRECTX;
+        m_cube = nullptr;
+        m_quad = nullptr;
     }
 
     DXRenderer::~DXRenderer()
@@ -68,6 +72,7 @@ namespace Vixen {
         ReleaseCOM(m_Device);
 
         delete m_cube;
+        delete m_quad;
     }
 
     bool DXRenderer::VInitialize()
@@ -207,9 +212,18 @@ namespace Vixen {
         hr = m_Device->CreateTexture2D(&dsd, 0, &depthStencilBuffer);
         if (FAILED(hr))
             return false;
-        hr = m_Device->CreateDepthStencilView(depthStencilBuffer, 0, &m_DepthStencView);
+
+        // Create the depth stencil view
+        D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
+        ZeroMemory(&descDSV, sizeof(descDSV));
+        descDSV.Format = dsd.Format;
+        descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+        descDSV.Texture2D.MipSlice = 0;
+        hr = m_Device->CreateDepthStencilView(depthStencilBuffer, &descDSV, &m_DepthStencView);
         if (FAILED(hr))
             return false;
+
+      
 
         ReleaseCOM(depthStencilBuffer);
 
@@ -231,7 +245,7 @@ namespace Vixen {
 
         // Compile the vertex shader
         ID3DBlob* pVSBlob = nullptr;
-        hr = CompileShaderFromFile(L"test.fx", "VS", "vs_4_0", &pVSBlob);
+        hr = CompileShaderFromFile(L"texture.fx", "VS", "vs_4_0", &pVSBlob);
         if (FAILED(hr))
         {
             MessageBox(nullptr,
@@ -251,7 +265,9 @@ namespace Vixen {
         D3D11_INPUT_ELEMENT_DESC layout[] =
         {
             { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-            { "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
+            //{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
+            { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
+
         };
         UINT numElements = ARRAYSIZE(layout);
 
@@ -267,7 +283,7 @@ namespace Vixen {
 
         // Compile the pixel shader
         ID3DBlob* pPSBlob = nullptr;
-        hr = CompileShaderFromFile(L"test.fx", "PS", "ps_4_0", &pPSBlob);
+        hr = CompileShaderFromFile(L"texture.fx", "PS", "ps_4_0", &pPSBlob);
         if (FAILED(hr))
         {
             MessageBox(nullptr,
@@ -275,11 +291,68 @@ namespace Vixen {
             return hr;
         }
 
+
         // Create the pixel shader
         hr = m_Device->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), nullptr, &m_PShader);
         pPSBlob->Release();
         if (FAILED(hr))
             return hr;
+
+        FileManager::OpenFile(VTEXT("floor.jpg"));
+        File* file = FileManager::AccessFile(VTEXT("floor.jpg"));
+        FREEIMAGE_BMP* bmp = FREEIMAGE_LoadImage(file);
+        if (bmp)
+        {
+
+#pragma region OLD_STUFF
+            ////We are now going to create a DX11 Texture
+            //D3D11_TEXTURE2D_DESC desc;
+            //desc.Width = static_cast<UINT>(bmp->header.width);
+            //desc.Height = static_cast<UINT>(bmp->header.height);
+            //desc.MipLevels = 1; //will autogenerate
+            //desc.ArraySize = 1;
+            //desc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+            //desc.SampleDesc.Count = 1;
+            //desc.SampleDesc.Quality = 0;
+            //desc.Usage = D3D11_USAGE_DEFAULT;
+            //desc.MiscFlags = D3D11_RESOURCE_MISC_GENERATE_MIPS;
+            //desc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
+            //desc.CPUAccessFlags = 0;
+
+            //D3D11_SUBRESOURCE_DATA subTexData;
+            //ZeroMemory(&subTexData, sizeof(D3D11_SUBRESOURCE_DATA));
+            //subTexData.pSysMem = bmp->data;
+            //subTexData.SysMemPitch = FreeImage_GetPitch(bmp->bitmap);
+
+
+            //ID3D11Texture2D* tex;
+            //hr = m_Device->CreateTexture2D(&desc, &subTexData, &tex);
+            //if (FAILED(hr))
+            //{
+            //    DebugPrintF(VTEXT("FAILED TO CREATE FREEIMAGE TEXTURE"));
+            //    return false;
+            //}
+
+            //D3D11_SHADER_RESOURCE_VIEW_DESC svd;
+            //ZeroMemory(&svd, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
+            //svd.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+            //svd.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+            //svd.Texture2D.MipLevels = desc.MipLevels;
+
+            //hr = m_Device->CreateShaderResourceView(tex, &svd, &m_TextureRV);
+            //if (FAILED(hr))
+            //    return false;
+#pragma endregion
+            m_texture = new DXTexture;
+            if (!m_texture->LoadFromBitmap(m_Device, bmp))
+                return false;
+            //m_ImmediateContext->GenerateMips(m_texture->ResourceView());
+        }
+        else
+            return false;
+
+       
+
 
         // Set primitive topology
         m_ImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -298,20 +371,34 @@ namespace Vixen {
         m_World = DirectX::XMMatrixIdentity();
 
         // Initialize the view matrix
-        DirectX::XMVECTOR Eye = DirectX::XMVectorSet(0.0f, 0.0f, -5.0f, 0.0f);
+       /* DirectX::XMVECTOR Eye = DirectX::XMVectorSet(0.0f, 0.0f, -5.0f, 0.0f);
         DirectX::XMVECTOR At = DirectX::XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
         DirectX::XMVECTOR Up = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
-        m_View = DirectX::XMMatrixLookAtLH(Eye, At, Up);
+        m_View = DirectX::XMMatrixLookAtLH(Eye, At, Up);*/
 
         // Initialize the projection matrix
-        m_Projection = DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PIDIV2, width / (FLOAT)height, 0.01f, 100.0f);
+        // m_Projection = DirectX::XMMatrixOrthographicRH(width, height, 0.0f, 100.0f);
+        //m_Projection = DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PIDIV2, width / (FLOAT)height, 0.01f, 100.0f);
+        //m_Projection = DirectX::XMMatrixOrthographicOffCenterLH(0.0f, width, height, 0.0f, 0.0f, 100.0f);
+        //m_Projection = DirectX::XMMatrixOrthographicOffCenterRH(0.0f, width, height, 0.0f, 100.0f);
         
 
-        m_cube = new DXPrimitiveCube;
-        m_cube->Initialize(m_Device);
-        m_cube->SetPixelShader(m_PShader);
-        m_cube->SetVertexShader(m_VShader);
-        m_cube->SetConstantBuffer(m_ConstantBuffer);
+        m_camera = new DXCamera2D;
+        OrthoRect rect;
+        rect.left = 0.0f;
+        rect.right = static_cast<float>(width);
+        rect.bottom = static_cast<float>(height);
+        rect.top = 0.0f;
+        m_camera->SetOrthoLHOffCenter(rect, 0.0f, 100.0f);
+        
+        m_quad = new DXQuad;
+        m_quad->SetTexture(m_texture);
+        m_quad->Initialize(m_Device);
+        m_quad->SetPixelShader(m_PShader);
+        m_quad->SetVertexShader(m_VShader);
+        m_quad->SetConstantBuffer(m_ConstantBuffer);
+        m_quad->SetSampleState(m_texture->SampleState());
+        m_quad->SetShaderResourceView(m_texture->ResourceView());
         
 
         return true;
@@ -321,33 +408,35 @@ namespace Vixen {
     // NOTE:
     //   JUST A TEST FUNCTION FOR RENDERING
     //
-    void DXRenderer::VRender()
+    void DXRenderer::Render(float dt)
     {
         m_ImmediateContext->ClearRenderTargetView(m_RenderTargetView, DirectX::Colors::CornflowerBlue);
-        m_ImmediateContext->ClearDepthStencilView(m_DepthStencView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+        m_ImmediateContext->ClearDepthStencilView(m_DepthStencView, D3D11_CLEAR_DEPTH, 1.0f, 0);
         
         static float rot = 0.0f;
-        rot += 0.0001f;
+        rot += dt;
+       
 
-        m_World = DirectX::XMMatrixRotationY(rot);
+        m_World = DirectX::XMMatrixScaling(m_texture->Width(), m_texture->Height(), 0.0f);
 
         //
         // Update variables
         //
         ConstantBuffer cb;
         cb.mWorld = DirectX::XMMatrixTranspose(m_World);
-        cb.mView = DirectX::XMMatrixTranspose(m_View);
-        cb.mProjection = DirectX::XMMatrixTranspose(m_Projection);
+        //cb.mView = DirectX::XMMatrixTranspose(m_View);
+        cb.mProjection = DirectX::XMMatrixTranspose(m_camera->Projection());
         m_ImmediateContext->UpdateSubresource(m_ConstantBuffer, 0, nullptr, &cb, 0, 0);
 
-        m_cube->Render(m_ImmediateContext);
+        m_quad->Render(m_ImmediateContext);
         
-      /*  m_ImmediateContext->VSSetShader(m_VShader, nullptr, 0);
-        m_ImmediateContext->VSSetConstantBuffers(0, 1, &m_ConstantBuffer);
-        m_ImmediateContext->PSSetShader(m_PShader, nullptr, 0);
-        m_ImmediateContext->Draw(3, 0);*/
         
         m_SwapChain->Present(0, 0);
+    }
+
+    void DXRenderer::VRender()
+    {
+
     }
 
 }

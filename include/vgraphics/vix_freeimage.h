@@ -42,10 +42,11 @@ namespace Vixen {
 	{
 		UString           name;
 		UString           path;
-		FIBITMAP*         bitmap;
+		FIBITMAP*         bitmap;           
 		FREE_IMAGE_FORMAT format;
 		BYTE*			  data;
 		FREEIMAGE_HEADER  header;
+        size_t            bpp;
 
 		~FREEIMAGE_BMP()
 		{

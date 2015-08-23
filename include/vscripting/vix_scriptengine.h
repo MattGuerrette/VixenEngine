@@ -36,8 +36,11 @@ namespace Vixen {
 	public:
 		virtual ~IScriptEngine() { }
 
-		virtual ErrCode VExecuteFile(const UString& path, UString& errMsg) = 0;
-		virtual ErrCode VExecuteExpression(const UString& expression, UString& errMsg) = 0;
+        virtual bool    VInitialize() = 0;
+        virtual bool    VDeInitialize() = 0;
+
+		virtual ErrCode VExecuteFile(const UString& path) = 0;
+		virtual ErrCode VExecuteExpression(const UString& expression) = 0;
 	};
 
 }

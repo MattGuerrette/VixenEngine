@@ -5,6 +5,10 @@
 #include <vix_directx.h>
 #include <vix_renderer.h>
 #include <vix_dxprimitivecube.h>
+#include <vix_dxquad.h>
+#include <vix_dxcamera2d.h>
+#include <vix_dxcamera3d.h>
+#include <vix_dxtexture.h>
 
 namespace Vixen {
 
@@ -22,7 +26,9 @@ namespace Vixen {
 
         void VDeInitialize() override;
 
-        void VRender();
+        void VRender() override;
+
+        void Render(float dt);
 
 
     private:
@@ -44,7 +50,13 @@ namespace Vixen {
         D3D_FEATURE_LEVEL       m_FeatureLevel;
         HWND                    m_HWND;
 
+        ID3D11SamplerState*         m_SamplerState;
+        ID3D11ShaderResourceView*   m_TextureRV;
+
         Vixen::DXPrimitiveCube* m_cube;
+        Vixen::DXQuad* m_quad;
+        Vixen::DXTexture* m_texture;
+        Vixen::DXCamera2D* m_camera;
     };
 
 }

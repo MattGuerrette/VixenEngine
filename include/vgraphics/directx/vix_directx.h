@@ -14,6 +14,12 @@ struct VertexPos
     DirectX::XMFLOAT4 color;
 };
 
+struct VertexTex
+{
+    DirectX::XMFLOAT3 pos;
+    DirectX::XMFLOAT2 uv;
+};
+
 
 struct ConstantBuffer
 {

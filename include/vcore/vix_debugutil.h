@@ -79,7 +79,7 @@ namespace Vixen {
 	inline void ConsoleWriteErr(const UString& text)
 	{
 #if defined(VIX_SYS_WINDOWS) && defined(UNICODE)
-		std::wcerr << text << std::endl;
+		std::wcerr << text;
 #else
 		std::cerr << text << std::endl;
 #endif

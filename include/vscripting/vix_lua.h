@@ -41,8 +41,7 @@ extern "C" {
 
 
 /*include LuaIntf headers*/
-//#include <LuaIntf.h>
-#include <LuaBridge.h>
+#include <LuaIntf/LuaIntf.h>
 
 namespace Vixen {
 

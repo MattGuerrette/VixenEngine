@@ -27,29 +27,32 @@
 #include <vix_platform.h>
 #include <vix_scriptengine.h>
 #include <vix_lua.h>
+#include <vix_singleton.h>
 
 namespace Vixen {
 
-	class VIX_API LuaEngine : public IScriptEngine
+	class VIX_API LuaEngine : public Singleton<LuaEngine>, public IScriptEngine
 	{
 		/*lua state object*/
 		lua_State* m_L;
 	public:
-		LuaEngine();
-
-		~LuaEngine();
-
 		lua_State* L();
 
+        /*Initialize Lua script engine*/
+        bool VInitialize() override;
+
+        /*DeInitialize Lua script engine*/
+        bool VDeInitialize() override;
+
 		/*Execute Lua script file*/
-		ErrCode VExecuteFile(const UString& path, UString& errMsg) override;
+		ErrCode VExecuteFile(const UString& path) override;
 
 		/*Execute Lua expression*/
-		ErrCode VExecuteExpression(const UString& expression, UString& errMsg) override;
+		ErrCode VExecuteExpression(const UString& expression) override;
 
 	private:
 		/*report errors in evaluated lua scripts*/
-		ErrCode ReportScriptErrors(int state, UString& errMsg);
+		ErrCode ReportScriptErrors(int state);
 	};
 
 }

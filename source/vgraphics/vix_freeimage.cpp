@@ -222,6 +222,15 @@ namespace Vixen {
 		//If image failed to load, return NULL
 		if (!vix_bmp->bitmap)
 			return NULL;
+
+
+        //Grab bits per pixel
+        vix_bmp->bpp = FreeImage_GetBPP(vix_bmp->bitmap);
+        if (vix_bmp->bpp == 24) //If 24 bits, convert to 32 for engine use.
+        {
+            vix_bmp->bitmap = FreeImage_ConvertTo32Bits(vix_bmp->bitmap);
+            vix_bmp->bpp = FreeImage_GetBPP(vix_bmp->bitmap);
+        }
 			
 		//Flip image Y
 		FreeImage_FlipVertical(vix_bmp->bitmap);

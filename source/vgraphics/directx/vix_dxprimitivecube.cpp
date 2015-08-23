@@ -4,7 +4,8 @@ namespace Vixen {
 
     DXPrimitiveCube::DXPrimitiveCube()
     {
-
+        m_vertexBuffer = nullptr;
+        m_indexBuffer = nullptr;
     }
 
     DXPrimitiveCube::~DXPrimitiveCube()

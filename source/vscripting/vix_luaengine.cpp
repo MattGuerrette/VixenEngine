@@ -26,33 +26,43 @@
 
 namespace Vixen {
 
-	LuaEngine::LuaEngine()
-	{
-		/*create luastate handle*/
-		m_L = luaL_newstate();
-		/*open standard lua libraries*/
-		luaL_openlibs(m_L);
-	}
+	//LuaEngine::LuaEngine()
+	//{
+	//	/*create luastate handle*/
+	//	m_L = luaL_newstate();
+	//	/*open standard lua libraries*/
+	//	luaL_openlibs(m_L);
+	//}
 
-	LuaEngine::~LuaEngine()
-	{
-		/*close lua state object*/
-		lua_close(m_L);
-	}
+    bool LuaEngine::VInitialize()
+    {
+        m_L = luaL_newstate();
+
+        luaL_openlibs(m_L);
+
+        return true;
+    }
+
+    bool LuaEngine::VDeInitialize()
+    {
+        /*close lua state object*/
+        lua_close(m_L);
+
+        return true;
+    }
 
 	lua_State* LuaEngine::L()
 	{
 		return m_L;
 	}
 
-	ErrCode LuaEngine::ReportScriptErrors(int state, UString& errMsg)
+	ErrCode LuaEngine::ReportScriptErrors(int state)
 	{
 		if (state != 0) {
             const char* err = lua_tostring(m_L, state);
 
-            errMsg = UStringFromCharArray(err);
 			DebugPrintF(VTEXT("Lua Script Error: %s"),
-				errMsg.c_str());
+                UStringFromCharArray(err).c_str());
 			lua_pop(m_L, 1); //remove error
 			return ErrCode::ERR_FAILURE;
 		}
@@ -60,7 +70,7 @@ namespace Vixen {
 		return ErrCode::ERR_SUCCESS;
 	}
 
-	ErrCode LuaEngine::VExecuteFile(const UString& path, UString& errMsg)
+	ErrCode LuaEngine::VExecuteFile(const UString& path)
 	{
 		ErrCode error = ErrCode::ERR_SUCCESS;
 
@@ -72,14 +82,14 @@ namespace Vixen {
 		/*try and execute script file*/
         std::string _path = UStringToStd(path);
 		int state = luaL_dofile(m_L, _path.c_str());
-		error = ReportScriptErrors(state, errMsg);
+		error = ReportScriptErrors(state);
 		if (CheckError(error)) {
                         DebugPrintF(VTEXT("Failed to execute script file"));
 		}
 		return error;
 	}
 
-	ErrCode LuaEngine::VExecuteExpression(const UString& expression, UString& errMsg)
+	ErrCode LuaEngine::VExecuteExpression(const UString& expression)
 	{
 		ErrCode error = ErrCode::ERR_SUCCESS;
 
@@ -90,7 +100,7 @@ namespace Vixen {
 
         std::string _exp = UStringToStd(expression);
 		int state = luaL_dostring(m_L, _exp.c_str());
-		error = ReportScriptErrors(state, errMsg);
+		error = ReportScriptErrors(state);
 		if (CheckError(error)) {
                         DebugPrintF(VTEXT("Failed to execute script expression"));
 		}
