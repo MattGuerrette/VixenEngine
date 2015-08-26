@@ -49,7 +49,7 @@
 	#endif
 
         #ifdef VIX_GLEW
-        #include <gl/glew.h>
+        #include <GL/glew.h>
         #endif
 	#include <gl/gl.h>
 	#include <gl/glu.h>
