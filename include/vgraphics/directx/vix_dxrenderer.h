@@ -12,26 +12,33 @@
 
 namespace Vixen {
 
-
-
-
     class VIX_API DXRenderer : public IRenderer
     {
     public:
-        DXRenderer(HWND hd);
+        DXRenderer();
 
         ~DXRenderer();
 
-        bool VInitialize() override;
+        bool    VInitialize()   override;
 
-        void VDeInitialize() override;
+        void    VDeInitialize() override;
 
-        void VRender() override;
+        void    VSetClearColor(const Color& c) override;
 
-        void Render(float dt);
+        void    VClearBuffer(ClearArgs args) override;
 
+        void    VApplyRenderMode() override;
+
+        void	VApplyFaceCulling() override;
+
+        void	VApplyFaceWinding() override;
+
+        void    VSwapBuffers() override;
+
+        void    VAttachNativeHandle(void* handle) override;
 
     private:
+        DirectX::XMVECTORF32    m_clearColor;
         ID3D11Device*           m_Device;
         ID3D11DeviceContext*    m_ImmediateContext;
         ID3D11RenderTargetView* m_RenderTargetView;

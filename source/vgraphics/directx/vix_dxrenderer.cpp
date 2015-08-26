@@ -3,6 +3,7 @@
 #include <vix_dxquad.h>
 #include <vix_freeimage.h>
 #include <vix_filemanager.h>
+
 //--------------------------------------------------------------------------------------
 // Helper for compiling shaders with D3DCompile
 //
@@ -43,9 +44,9 @@ HRESULT CompileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szS
 
 namespace Vixen {
 
-    DXRenderer::DXRenderer(HWND hwnd)
+    DXRenderer::DXRenderer()
     {
-        m_HWND = hwnd;
+        m_HWND = NULL;
         m_ConstantBuffer = nullptr;
         m_type = RendererType::DIRECTX;
         m_cube = nullptr;
@@ -243,200 +244,203 @@ namespace Vixen {
 
         m_ImmediateContext->RSSetViewports(1, &vp);
 
-        // Compile the vertex shader
-        ID3DBlob* pVSBlob = nullptr;
-        hr = CompileShaderFromFile(L"texture.fx", "VS", "vs_4_0", &pVSBlob);
-        if (FAILED(hr))
-        {
-            MessageBox(nullptr,
-                L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
-            return hr;
-        }
-
-        // Create the vertex shader
-        hr = m_Device->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), nullptr, &m_VShader);
-        if (FAILED(hr))
-        {
-            pVSBlob->Release();
-            return hr;
-        }
-
-        // Define the input layout
-        D3D11_INPUT_ELEMENT_DESC layout[] =
-        {
-            { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-            //{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
-            { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
-
-        };
-        UINT numElements = ARRAYSIZE(layout);
-
-        // Create the input layout
-        hr = m_Device->CreateInputLayout(layout, numElements, pVSBlob->GetBufferPointer(),
-            pVSBlob->GetBufferSize(), &m_InputLayout);
-        pVSBlob->Release();
-        if (FAILED(hr))
-            return hr;
-
-        // Set the input layout
-        m_ImmediateContext->IASetInputLayout(m_InputLayout);
-
-        // Compile the pixel shader
-        ID3DBlob* pPSBlob = nullptr;
-        hr = CompileShaderFromFile(L"texture.fx", "PS", "ps_4_0", &pPSBlob);
-        if (FAILED(hr))
-        {
-            MessageBox(nullptr,
-                L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
-            return hr;
-        }
 
 
-        // Create the pixel shader
-        hr = m_Device->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), nullptr, &m_PShader);
-        pPSBlob->Release();
-        if (FAILED(hr))
-            return hr;
+        //// Compile the vertex shader
+        //ID3DBlob* pVSBlob = nullptr;
+        //hr = CompileShaderFromFile(L"texture.fx", "VS", "vs_4_0", &pVSBlob);
+        //if (FAILED(hr))
+        //{
+        //    MessageBox(nullptr,
+        //        L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
+        //    return hr;
+        //}
 
-        FileManager::OpenFile(VTEXT("floor.jpg"));
-        File* file = FileManager::AccessFile(VTEXT("floor.jpg"));
-        FREEIMAGE_BMP* bmp = FREEIMAGE_LoadImage(file);
-        if (bmp)
-        {
+        //// Create the vertex shader
+        //hr = m_Device->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), nullptr, &m_VShader);
+        //if (FAILED(hr))
+        //{
+        //    pVSBlob->Release();
+        //    return hr;
+        //}
 
-#pragma region OLD_STUFF
-            ////We are now going to create a DX11 Texture
-            //D3D11_TEXTURE2D_DESC desc;
-            //desc.Width = static_cast<UINT>(bmp->header.width);
-            //desc.Height = static_cast<UINT>(bmp->header.height);
-            //desc.MipLevels = 1; //will autogenerate
-            //desc.ArraySize = 1;
-            //desc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-            //desc.SampleDesc.Count = 1;
-            //desc.SampleDesc.Quality = 0;
-            //desc.Usage = D3D11_USAGE_DEFAULT;
-            //desc.MiscFlags = D3D11_RESOURCE_MISC_GENERATE_MIPS;
-            //desc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
-            //desc.CPUAccessFlags = 0;
+        //// Define the input layout
+        //D3D11_INPUT_ELEMENT_DESC layout[] =
+        //{
+        //    { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+        //    //{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
+        //    { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
 
-            //D3D11_SUBRESOURCE_DATA subTexData;
-            //ZeroMemory(&subTexData, sizeof(D3D11_SUBRESOURCE_DATA));
-            //subTexData.pSysMem = bmp->data;
-            //subTexData.SysMemPitch = FreeImage_GetPitch(bmp->bitmap);
+        //};
+        //UINT numElements = ARRAYSIZE(layout);
 
+        //// Create the input layout
+        //hr = m_Device->CreateInputLayout(layout, numElements, pVSBlob->GetBufferPointer(),
+        //    pVSBlob->GetBufferSize(), &m_InputLayout);
+        //pVSBlob->Release();
+        //if (FAILED(hr))
+        //    return hr;
 
-            //ID3D11Texture2D* tex;
-            //hr = m_Device->CreateTexture2D(&desc, &subTexData, &tex);
-            //if (FAILED(hr))
-            //{
-            //    DebugPrintF(VTEXT("FAILED TO CREATE FREEIMAGE TEXTURE"));
-            //    return false;
-            //}
+        //// Set the input layout
+        //m_ImmediateContext->IASetInputLayout(m_InputLayout);
 
-            //D3D11_SHADER_RESOURCE_VIEW_DESC svd;
-            //ZeroMemory(&svd, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
-            //svd.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-            //svd.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-            //svd.Texture2D.MipLevels = desc.MipLevels;
-
-            //hr = m_Device->CreateShaderResourceView(tex, &svd, &m_TextureRV);
-            //if (FAILED(hr))
-            //    return false;
-#pragma endregion
-            m_texture = new DXTexture;
-            if (!m_texture->LoadFromBitmap(m_Device, bmp))
-                return false;
-            //m_ImmediateContext->GenerateMips(m_texture->ResourceView());
-        }
-        else
-            return false;
-
-       
+        //// Compile the pixel shader
+        //ID3DBlob* pPSBlob = nullptr;
+        //hr = CompileShaderFromFile(L"texture.fx", "PS", "ps_4_0", &pPSBlob);
+        //if (FAILED(hr))
+        //{
+        //    MessageBox(nullptr,
+        //        L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
+        //    return hr;
+        //}
 
 
-        // Set primitive topology
-        m_ImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+        //// Create the pixel shader
+        //hr = m_Device->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), nullptr, &m_PShader);
+        //pPSBlob->Release();
+        //if (FAILED(hr))
+        //    return hr;
 
-        D3D11_BUFFER_DESC cbd;
-        ZeroMemory(&cbd, sizeof(cbd));
-        cbd.Usage = D3D11_USAGE_DEFAULT;
-        cbd.ByteWidth = sizeof(ConstantBuffer);
-        cbd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-        cbd.CPUAccessFlags = 0;
-        hr = m_Device->CreateBuffer(&cbd, NULL, &m_ConstantBuffer);
-        if (FAILED(hr))
-            return hr;
+        //FileManager::OpenFile(VTEXT("floor.jpg"));
+        //File* file = FileManager::AccessFile(VTEXT("floor.jpg"));
+        //FREEIMAGE_BMP* bmp = FREEIMAGE_LoadImage(file);
+        //if (bmp)
+        //{
+        //    m_texture = new DXTexture;
+        //    if (!m_texture->LoadFromBitmap(m_Device, bmp))
+        //        return false;
+        //}
+        //else
+        //    return false;
 
-        // Initialize the world matrix
-        m_World = DirectX::XMMatrixIdentity();
+        //// Set primitive topology
+        //m_ImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-        // Initialize the view matrix
-       /* DirectX::XMVECTOR Eye = DirectX::XMVectorSet(0.0f, 0.0f, -5.0f, 0.0f);
-        DirectX::XMVECTOR At = DirectX::XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
-        DirectX::XMVECTOR Up = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
-        m_View = DirectX::XMMatrixLookAtLH(Eye, At, Up);*/
+        //D3D11_BUFFER_DESC cbd;
+        //ZeroMemory(&cbd, sizeof(cbd));
+        //cbd.Usage = D3D11_USAGE_DEFAULT;
+        //cbd.ByteWidth = sizeof(ConstantBuffer);
+        //cbd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+        //cbd.CPUAccessFlags = 0;
+        //hr = m_Device->CreateBuffer(&cbd, NULL, &m_ConstantBuffer);
+        //if (FAILED(hr))
+        //    return hr;
 
-        // Initialize the projection matrix
-        // m_Projection = DirectX::XMMatrixOrthographicRH(width, height, 0.0f, 100.0f);
-        //m_Projection = DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PIDIV2, width / (FLOAT)height, 0.01f, 100.0f);
-        //m_Projection = DirectX::XMMatrixOrthographicOffCenterLH(0.0f, width, height, 0.0f, 0.0f, 100.0f);
-        //m_Projection = DirectX::XMMatrixOrthographicOffCenterRH(0.0f, width, height, 0.0f, 100.0f);
-        
+        //// Initialize the world matrix
+        //m_World = DirectX::XMMatrixIdentity();
 
-        m_camera = new DXCamera2D;
-        OrthoRect rect;
-        rect.left = 0.0f;
-        rect.right = static_cast<float>(width);
-        rect.bottom = static_cast<float>(height);
-        rect.top = 0.0f;
-        m_camera->SetOrthoLHOffCenter(rect, 0.0f, 100.0f);
-        
-        m_quad = new DXQuad;
-        m_quad->SetTexture(m_texture);
-        m_quad->Initialize(m_Device);
-        m_quad->SetPixelShader(m_PShader);
-        m_quad->SetVertexShader(m_VShader);
-        m_quad->SetConstantBuffer(m_ConstantBuffer);
-        m_quad->SetSampleState(m_texture->SampleState());
-        m_quad->SetShaderResourceView(m_texture->ResourceView());
+        //// Initialize the view matrix
+        //DirectX::XMVECTOR Eye = DirectX::XMVectorSet(0.0f, 0.0f, -5.0f, 0.0f);
+        //DirectX::XMVECTOR At = DirectX::XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+        //DirectX::XMVECTOR Up = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+        //m_View = DirectX::XMMatrixLookAtLH(Eye, At, Up);
+
+        //// Initialize the projection matrix
+        //// m_Projection = DirectX::XMMatrixOrthographicRH(width, height, 0.0f, 100.0f);
+        ////m_Projection = DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PIDIV2, width / (FLOAT)height, 0.01f, 100.0f);
+        ////m_Projection = DirectX::XMMatrixOrthographicOffCenterLH(0.0f, width, height, 0.0f, 0.0f, 100.0f);
+        ////m_Projection = DirectX::XMMatrixOrthographicOffCenterRH(0.0f, width, height, 0.0f, 100.0f);
+        //
+
+        //m_camera = new DXCamera2D;
+        //OrthoRect rect;
+        //rect.left = 0.0f;
+        //rect.right = static_cast<float>(width);
+        //rect.bottom = static_cast<float>(height);
+        //rect.top = 0.0f;
+        //m_camera->SetOrthoLHOffCenter(rect, 0.0f, 100.0f);
+        //
+        //m_quad = new DXQuad;
+        //m_quad->SetTexture(m_texture);
+        //m_quad->Initialize(m_Device);
+        //m_quad->SetPixelShader(m_PShader);
+        //m_quad->SetVertexShader(m_VShader);
+        //m_quad->SetConstantBuffer(m_ConstantBuffer);
+        //m_quad->SetSampleState(m_texture->SampleState());
+        //m_quad->SetShaderResourceView(m_texture->ResourceView());
         
 
         return true;
+    }
+
+    void DXRenderer::VSetClearColor(const Color& c)
+    {
+        DirectX::XMVECTORF32 vec = { c.r, c.g, c.b, c.a };
+
+        m_clearColor = vec;
+    }
+
+    void DXRenderer::VClearBuffer(ClearArgs args)
+    {
+        switch (args)
+        {
+        case ClearArgs::COLOR_BUFFER:
+            m_ImmediateContext->ClearRenderTargetView(m_RenderTargetView, m_clearColor);
+            break;
+
+        case ClearArgs::COLOR_DEPTH_STENCIL_BUFFER:
+            m_ImmediateContext->ClearRenderTargetView(m_RenderTargetView, m_clearColor);
+            m_ImmediateContext->ClearDepthStencilView(m_DepthStencView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+            break;
+
+        default:
+            break;
+        }
+    }
+
+    void DXRenderer::VAttachNativeHandle(void* handle)
+    {
+        m_HWND = (HWND)handle;
+    }
+
+    void DXRenderer::VApplyRenderMode()
+    {
+        //NON APPLICABLE ATM
+    }
+
+    void DXRenderer::VApplyFaceCulling()
+    {
+        //NON APPLICABLE ATM
+    }
+
+    void DXRenderer::VApplyFaceWinding()
+    {
+        //NON APPLICABLE ATM
+    }
+
+    void DXRenderer::VSwapBuffers()
+    {
+        m_SwapChain->Present(0, 0);
     }
 
     //
     // NOTE:
     //   JUST A TEST FUNCTION FOR RENDERING
     //
-    void DXRenderer::Render(float dt)
-    {
-        m_ImmediateContext->ClearRenderTargetView(m_RenderTargetView, DirectX::Colors::CornflowerBlue);
-        m_ImmediateContext->ClearDepthStencilView(m_DepthStencView, D3D11_CLEAR_DEPTH, 1.0f, 0);
-        
-        static float rot = 0.0f;
-        rot += dt;
-       
+    //void DXRenderer::Render(float dt)
+    //{
+    //    m_ImmediateContext->ClearRenderTargetView(m_RenderTargetView, DirectX::Colors::CornflowerBlue);
+    //    m_ImmediateContext->ClearDepthStencilView(m_DepthStencView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+    //    
+    //    static float rot = 0.0f;
+    //    rot += dt;
+    //   
 
-        m_World = DirectX::XMMatrixScaling(m_texture->Width(), m_texture->Height(), 0.0f);
+    //    m_World = DirectX::XMMatrixScaling(m_texture->Width(), m_texture->Height(), 0.0f);
 
-        //
-        // Update variables
-        //
-        ConstantBuffer cb;
-        cb.mWorld = DirectX::XMMatrixTranspose(m_World);
-        //cb.mView = DirectX::XMMatrixTranspose(m_View);
-        cb.mProjection = DirectX::XMMatrixTranspose(m_camera->Projection());
-        m_ImmediateContext->UpdateSubresource(m_ConstantBuffer, 0, nullptr, &cb, 0, 0);
+    //    //
+    //    // Update variables
+    //    //
+    //    ConstantBuffer cb;
+    //    cb.mWorld = DirectX::XMMatrixTranspose(m_World);
+    //    //cb.mView = DirectX::XMMatrixTranspose(m_View);
+    //    cb.mProjection = DirectX::XMMatrixTranspose(m_camera->Projection());
+    //    m_ImmediateContext->UpdateSubresource(m_ConstantBuffer, 0, nullptr, &cb, 0, 0);
 
-        m_quad->Render(m_ImmediateContext);
-        
-        
-        m_SwapChain->Present(0, 0);
-    }
-
-    void DXRenderer::VRender()
-    {
-
-    }
+    //    m_quad->Render(m_ImmediateContext);
+    //    
+    //    
+    //    m_SwapChain->Present(0, 0);
+    //}
 
 }

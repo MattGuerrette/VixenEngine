@@ -24,7 +24,14 @@
 #include <vix_game.h>
 #include <vix_sdlwindow.h>
 #include <vix_debugutil.h>
+
+#ifdef VIX_DIRECTX_BUILD
+#include <vix_dxrenderer.h>
+#endif
+
+#ifdef VIX_OPENGL_BUILD
 #include <vix_glrenderer.h>
+#endif
 
 namespace Vixen {
 
@@ -32,7 +39,11 @@ namespace Vixen {
 	{
 	    m_config = new GameConfig;
 		m_window = new SDLGameWindow(m_config->WindowArgs());
-		m_renderer = new GLRenderer;
+#ifdef VIX_DIRECTX_BUILD
+        m_renderer = new DXRenderer;
+#elif defined(VIX_OPENGL_BUILD)
+        m_renderer = new GLRenderer;
+#endif
 		m_keyboard = new SDLKeyboardState;
 		m_mouse = new SDLMouseState;
 		m_window->VSetParent(this);
@@ -43,12 +54,13 @@ namespace Vixen {
 	{
 		/*if application window exists*/
 		if (m_window) {
-			ErrCode error = m_window->VRun();
-			if (CheckError(error)) {
+			if(!m_window->VRun()) {
 			  DebugPrintF(VTEXT("Application loop encountered error"));
 				return -1;
 			}
 		}
+
+        m_renderer->VDeInitialize();
 
 		return 0;
 	}

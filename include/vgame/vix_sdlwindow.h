@@ -28,13 +28,14 @@
 #include <vix_gamewindow.h>
 #include <vix_sdltimer.h>
 #include <vix_sdlinput.h>
-#include <vix_sdlconsole.h>
 #ifdef VIX_SYS_WINDOWS
 #include <SDL.h>
+#undef main
 #elif defined(VIX_SYS_LINUX)
 #include <SDL2/SDL.h>
-#endif#include <SDL.h>
-#undef main
+#endif
+
+#include <SDL_syswm.h>
 
 namespace Vixen {
 
@@ -51,6 +52,12 @@ namespace Vixen {
 		SDL_GW_ALLOW_HIGHDPI
 	};
 
+    enum class SDL_GW_Renderer
+    {
+        DIRECTX,
+        OPENGL
+    };
+
 	struct VIX_API SDL_GW_Params
 	{
 		UString title;
@@ -59,6 +66,7 @@ namespace Vixen {
 		int width;
 		int height;
 		Uint32 flags;
+        SDL_GW_Renderer renderer;
 	};
 
 	class VIX_API SDLGameWindow : public IGameWindow
@@ -70,8 +78,8 @@ namespace Vixen {
 
 		void                VSetParent(IGame* game)                override;
 		void                VSetRenderer(IRenderer* renderer)      override;
-		ErrCode             VInit()                                override;
-		ErrCode             VRun()                                 override;
+		bool                VInit()                                override;
+		bool                VRun()                                 override;
 		void                VSetVisible(bool flag)                 override;
 		void                VSetFullscreen(bool flag)              override;
 		void                VSwapBuffers()                         override;
@@ -83,6 +91,7 @@ namespace Vixen {
 		void                VClose()                               override;
 		void                VToggleCursor()                        override;
 		void				VTrapCursorCenter()                    override;
+        void*               VNativeHandle()                        override;
 
 		void                OutputDisplayModes();
 
@@ -94,7 +103,7 @@ namespace Vixen {
 		SDL_GW_Params		m_params;
 		SDLTimer			m_timer;
 		SDLKeyboardState    m_kbState;
-		SDLConsole          m_console;
+        void*               m_nativeHandle;
 	};
 
 }

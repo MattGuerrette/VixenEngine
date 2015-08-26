@@ -39,7 +39,7 @@ namespace Vixen {
 
 	protected:
 
-		virtual ErrCode VCreateShadersFromArgs() = 0;
+		virtual bool VCreateShadersFromArgs() = 0;
 
 	protected:
 		ShaderArgs m_args;     /*collection of shader info*/

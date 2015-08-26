@@ -29,9 +29,9 @@
 #include <vix_stringutil.h>
 #include <vix_tinyxml.h>
 #include <vix_rectangle.h>
-#include <vix_content.h>
 #include <vix_freeimage.h>
 #include <vix_stlutil.h>
+#include <vix_containers.h>
 #include <atomic>
 #include <thread>
 
@@ -139,7 +139,7 @@ namespace Vixen {
 	* Font class used to descibe fonts created by the BMFont tool
 	* created by AngelCode and avaliable at: http://www.angelcode.com/products/bmfont/
 	*/
-	class VIX_API BMFont : IContent
+	class VIX_API BMFont
 	{
 		typedef std::map<UChar, BMFontChar>    BMCharMap;
 

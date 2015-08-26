@@ -26,9 +26,8 @@
 #define VIX_SHADER_H
 
 #include <vix_platform.h>
-#include <vix_content.h>
 #include <vix_stringutil.h>
-#include <vix_errglobals.h>
+
 
 namespace Vixen {
 
@@ -48,15 +47,15 @@ namespace Vixen {
 		UString    raw;        /*raw contents of shader*/
 	};
 
-	class VIX_API Shader : IContent
+	class VIX_API Shader
 	{
 	public:
 		virtual ~Shader() { };
 
 	protected:
 		/*Virtual functions*/
-		virtual ErrCode VInitFromFile(const UString& path) = 0;
-		virtual ErrCode VInitFromString(const UString& path) = 0;
+		virtual bool VInitFromFile(const UString& path) = 0;
+		virtual bool VInitFromString(const UString& path) = 0;
 	};
 
 }

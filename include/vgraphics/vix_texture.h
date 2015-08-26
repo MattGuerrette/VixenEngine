@@ -25,19 +25,18 @@
 #define VIX_TEXTURE_H
 
 #include <vix_platform.h>
-#include <vix_errglobals.h>
 #include <vix_freeimage.h>
-#include <vix_content.h>
+
 
 namespace Vixen {
 
-	class VIX_API Texture : IContent
+	class VIX_API Texture
 	{
 	public:
 		Texture();
 		virtual ~Texture();
 
-		virtual ErrCode InitFromFile(const UString& filePath) = 0;
+		virtual bool InitFromFile(const UString& filePath) = 0;
 
 		int          uniqueID()  const;
 		UString      name()      const;

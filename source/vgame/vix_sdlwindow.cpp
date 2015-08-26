@@ -24,12 +24,6 @@
 #include <vix_game.h>
 #include <vix_sdlwindow.h>
 #include <vix_debugutil.h>
-#include <vix_glrenderer.h>
-#include <vix_glshaderprogram.h>
-#include <vix_gltexturebatcher.h>
-#include <vix_primitive_triangle.h>
-#include <vix_primitive_cube.h>
-#include <vix_math.h>
 
 namespace Vixen {
 
@@ -56,6 +50,11 @@ namespace Vixen {
 		m_parent = game;
 	}
 
+    void* SDLGameWindow::VNativeHandle()
+    {
+        return m_nativeHandle;
+    }
+
 	SDLTimer* SDLGameWindow::Timer()
 	{
 		return &m_timer;
@@ -80,15 +79,13 @@ namespace Vixen {
 		SDL_WarpMouseInWindow(m_windowHandle, m_clientRect.w/2, m_clientRect.h/2);
 	}
 
-	ErrCode SDLGameWindow::VInit()
+	bool SDLGameWindow::VInit()
 	{
-		ErrCode error = ErrCode::ERR_SUCCESS;
-
 		/* Initialize SDL
 		*/
-		if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
+		if (SDL_Init(SDL_INIT_TIMER) != 0) {
 			DebugPrintF(VTEXT("SDL Failed to Initialize"));
-			return ErrCode::ERR_SDL_INIT_FAIL;
+            return false;
 		}
 
 		/*Create the SDL_Window handle*/
@@ -103,51 +100,48 @@ namespace Vixen {
 											m_params.y <= 0 ? SDL_WINDOWPOS_CENTERED : m_params.y,
 											m_params.width,
 											m_params.height,
-											SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
+											SDL_WINDOW_OPENGL);
 		if (!m_windowHandle) {
 			SDL_Quit();
 			DebugPrintF(VTEXT("Failed to created SDL_Window handle"));
-			return ErrCode::ERR_SDL_CREATE_FAIL;
+            return false;
 		}
 
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+        SDL_SysWMinfo info;
+        SDL_VERSION(&info.version);
+        if (SDL_GetWindowWMInfo(m_windowHandle, &info))
+        {
+            m_nativeHandle = info.info.win.window;
+            if (m_renderer)
+                m_renderer->VAttachNativeHandle(m_nativeHandle);
+        }
+
+       /* SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-		SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);*/
 		/*create OpenGL context*/
-		m_context = SDL_GL_CreateContext(m_windowHandle);
+		/*m_context = SDL_GL_CreateContext(m_windowHandle);
 		if (!m_context) {
 			SDL_Quit();
 			DebugPrintF(VTEXT("Failed to create SDL_GL_Context handle"));
-			return ErrCode::ERR_SDL_CREATE_FAIL;
-		}
+            return false;
+		}*/
 
-		error = m_renderer->VInit();
-		if (CheckError(error)) {
+		if (m_renderer && !m_renderer->VInitialize()) {
 		  DebugPrintF(VTEXT("Renderer failed to initialize"));
-			return error;
+			return false;
 		}
 
-		//SET RENDERER PERSPECTIVE
-		Rect r = VGetClientBounds();
-		glViewport(0, 0, r.w, r.h);
-		m_renderer->VSetClientRect(r);
-		GLCamera3D* camera = ((GLRenderer*)m_renderer)->Camera3D();
-		camera->SetPerspective((float)r.w / (float)r.h, 45.0f, 0.05f, 1000.0f);
-		GLCamera2D* camera2D = ((GLRenderer*)m_renderer)->Camera2D();
-		camera2D->SetBounds(0, (float)r.w, 0, (float)r.h);
-
-		return error;
+		return true;
 	}
 
-	ErrCode SDLGameWindow::VRun()
+	bool SDLGameWindow::VRun()
 	{
-		ErrCode error = ErrCode::ERR_SUCCESS;
-
+		
 		/*try and initialize window*/
-		error = VInit();
-		if (CheckError(error)) {
+		if (!VInit()) {
 		  DebugPrintF(VTEXT("SDLGameWindow failed to initialize"));
-			return error;
+			return false;
 		}
 
 		/*LOAD ONLY NECESSARY CONTENT FOR STARTUP*/
@@ -191,7 +185,8 @@ namespace Vixen {
 			}
 
 			/*CLEAR BUFFERS*/
-			m_renderer->VClearBuffer(ClearArgs::COLOR_DEPTH_BUFFER);
+            if(m_renderer)
+			    m_renderer->VClearBuffer(ClearArgs::COLOR_DEPTH_STENCIL_BUFFER);
 
 			/*update*/
 			m_parent->VOnUpdate(m_timer.DeltaTime());
@@ -212,7 +207,7 @@ namespace Vixen {
 
 		m_parent->VOnShutdown();
 
-		return error;
+		return true;
 	}
 
 	void SDLGameWindow::VSetFullscreen(bool flag)
@@ -224,9 +219,6 @@ namespace Vixen {
 		else {
 			SDL_SetWindowFullscreen(m_windowHandle, 0);
 		}
-
-		Rect r = VGetClientBounds();
-		m_renderer->VSetClientRect(r);
 	}
 
 	void SDLGameWindow::VSetVisible(bool flag)
@@ -237,7 +229,10 @@ namespace Vixen {
 
 	void SDLGameWindow::VSwapBuffers()
 	{
-		SDL_GL_SwapWindow(m_windowHandle);
+        if (m_renderer->Type() == IRenderer::RendererType::DIRECTX)
+            m_renderer->VSwapBuffers();
+        else
+            SDL_GL_SwapWindow(m_windowHandle);
 	}
 
 	const UString& SDLGameWindow::VGetTitle()

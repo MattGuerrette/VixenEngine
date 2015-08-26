@@ -27,7 +27,6 @@
 #include <vix_platform.h>
 #include <vix_noncopy.h>
 #include <vix_stringutil.h>
-#include <vix_errglobals.h>
 #include <vix_tinyxml.h>
 #include <vix_sdlwindow.h>
 
@@ -43,8 +42,8 @@ namespace Vixen {
 		SDL_GW_Params WindowArgs() const;
 
 	private:
-		ErrCode       LoadConfig();
-		ErrCode       ParseConfig(const XMLDOC& doc);
+		bool          LoadConfig();
+		bool          ParseConfig(const XMLDOC& doc);
 		SDL_GW_Params ParseWindow(const XMLDOC& doc);
 
 	private:

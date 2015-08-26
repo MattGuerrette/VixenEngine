@@ -34,7 +34,7 @@ namespace Vixen {
 		LoadConfig();
 	}
 
-	ErrCode GameConfig::LoadConfig()
+	bool GameConfig::LoadConfig()
 	{
 		using namespace tinyxml2;
 
@@ -44,34 +44,30 @@ namespace Vixen {
         //Access file
         FILE* configFile = FileManager::instance().AccessFile(os_exec_dir() + VTEXT("vtest.config"))->Handle();
 
-		ErrCode error = ErrCode::ERR_SUCCESS;
-
 		XMLDOC document;
         XMLError err = document.LoadFile(configFile);
 		UString errMsg;
 		if (XMLErrCheck(err, errMsg)) {
 			DebugPrintF(VTEXT("GameConfig file failed to load: %s\n"),
 				errMsg.c_str());
-			return error;
+			return false;
 		}
 
 		/*Parse config file*/
-		error = ParseConfig(document);
-		if (CheckError(error)) {
+		if (!ParseConfig(document)) {
 			DebugPrintF(VTEXT("GameConfig failed to parse"));
+            return false;
 		}
 
-		return error;
+		return true;
 	}
 
-	ErrCode GameConfig::ParseConfig(const XMLDOC& doc)
+	bool GameConfig::ParseConfig(const XMLDOC& doc)
 	{
-		ErrCode error = ErrCode::ERR_SUCCESS;
-
 		/*Parse Window Attributes*/
 		m_windowArgs = ParseWindow(doc);
 
-		return error;
+		return true;
 	}
 
 	SDL_GW_Params GameConfig::ParseWindow(const XMLDOC& doc)
@@ -91,6 +87,13 @@ namespace Vixen {
 		params.y = windowElement->IntAttribute("y");
 		params.width = windowElement->IntAttribute("width");
 		params.height = windowElement->IntAttribute("height");
+
+       /* const XMLElement* rendererElement = gameElement->FirstChildElement("renderer");
+        const char* renderer = rendererElement->Attribute("type");
+        if (!strcmp(renderer, "DirectX"))
+            params.renderer = SDL_GW_Renderer::OPENGL;
+        else
+            params.renderer = SDL_GW_Renderer::DIRECTX;*/
 
 		return params;
 	}

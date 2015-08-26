@@ -101,13 +101,13 @@ namespace Vixen {
 
         virtual bool    VInitialize() = 0;
         virtual void    VDeInitialize() = 0;
-        virtual void    VRender() = 0;
-		/*virtual void    VShutDown() = 0;
 		virtual void    VSetClearColor(const Color& c) = 0;
 		virtual void    VClearBuffer(ClearArgs args) = 0;
+        virtual void    VSwapBuffers() = 0;
 		virtual void    VApplyRenderMode() = 0;
 		virtual void	VApplyFaceCulling() = 0;
 		virtual void	VApplyFaceWinding() = 0;
+        virtual void    VAttachNativeHandle(void* handle) = 0;
 
 
 		void UpdateRenderOptions();
@@ -115,9 +115,11 @@ namespace Vixen {
 		void SetFaceCulling(FaceCulling culling);
 		void SetFaceWinding(FaceWinding winding);
 
+        RendererType Type();
+
 	protected:
 		RenderOptions					m_renderOptions;
-		bool                            m_renderOptionsState[RenderOptions::COUNT];*/
+		bool                            m_renderOptionsState[RenderOptions::COUNT];
 
     protected:
         RendererType    m_type;

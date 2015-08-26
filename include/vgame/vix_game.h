@@ -27,9 +27,6 @@
 #include <vix_platform.h>
 #include <vix_gamewindow.h>
 #include <vix_gameconfig.h>
-#include <vix_glrenderer.h>
-//#include <vix_audiomanager.h>
-
 
 namespace Vixen {
 

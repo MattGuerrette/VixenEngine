@@ -67,4 +67,9 @@ namespace Vixen {
 		}
 	}
 
+    IRenderer::RendererType IRenderer::Type()
+    {
+        return m_type;
+    }
+
 }

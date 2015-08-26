@@ -23,7 +23,6 @@
 
 #include <vix_bmfont.h>
 #include <vix_debugutil.h>
-#include <vix_errglobals.h>
 #include <vix_algorithms.h>
 #include <vix_texture.h>
 #include <vix_gltexture.h>
