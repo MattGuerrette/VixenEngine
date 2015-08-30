@@ -18,14 +18,14 @@ namespace Vixen {
     {
         VertexPos verts[8] =
         {
-            { DirectX::XMFLOAT3(-1.0f, 1.0f, -1.0f), static_cast<DirectX::XMFLOAT4>(DirectX::Colors::Blue) },
-            { DirectX::XMFLOAT3(1.0f, 1.0f, -1.0f), static_cast<DirectX::XMFLOAT4>(DirectX::Colors::Red) },
-            { DirectX::XMFLOAT3(1.0f, 1.0f, 1.0f), static_cast<DirectX::XMFLOAT4>(DirectX::Colors::Yellow) },
-            { DirectX::XMFLOAT3(-1.0f, 1.0f, 1.0f), static_cast<DirectX::XMFLOAT4>(DirectX::Colors::Green) },
-            { DirectX::XMFLOAT3(-1.0f, -1.0f, -1.0f), static_cast<DirectX::XMFLOAT4>(DirectX::Colors::Pink) },
-            { DirectX::XMFLOAT3(1.0f, -1.0f, -1.0f), static_cast<DirectX::XMFLOAT4>(DirectX::Colors::Purple) },
-            { DirectX::XMFLOAT3(1.0f, -1.0f, 1.0f), static_cast<DirectX::XMFLOAT4>(DirectX::Colors::Orange) },
-            { DirectX::XMFLOAT3(-1.0f, -1.0f, 1.0f), static_cast<DirectX::XMFLOAT4>(DirectX::Colors::Teal) },
+            DirectX::XMFLOAT3(-1.0f, 1.0f, -1.0f),// static_cast<DirectX::XMFLOAT4>(DirectX::Colors::Blue) },
+            DirectX::XMFLOAT3(1.0f, 1.0f, -1.0f), //static_cast<DirectX::XMFLOAT4>(DirectX::Colors::Red) },
+            DirectX::XMFLOAT3(1.0f, 1.0f, 1.0f), //static_cast<DirectX::XMFLOAT4>(DirectX::Colors::Yellow) },
+            DirectX::XMFLOAT3(-1.0f, 1.0f, 1.0f), //static_cast<DirectX::XMFLOAT4>(DirectX::Colors::Green) },
+            DirectX::XMFLOAT3(-1.0f, -1.0f, -1.0f), //static_cast<DirectX::XMFLOAT4>(DirectX::Colors::Pink) },
+            DirectX::XMFLOAT3(1.0f, -1.0f, -1.0f), //static_cast<DirectX::XMFLOAT4>(DirectX::Colors::Purple) },
+            DirectX::XMFLOAT3(1.0f, -1.0f, 1.0f), //static_cast<DirectX::XMFLOAT4>(DirectX::Colors::Orange) },
+            DirectX::XMFLOAT3(-1.0f, -1.0f, 1.0f) //static_cast<DirectX::XMFLOAT4>(DirectX::Colors::Teal) },
         };
 
         USHORT indices[36] =
@@ -88,12 +88,12 @@ namespace Vixen {
 
         // Set primitive topology
         context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-        if(m_vShader)
+        /*if(m_vShader)
             context->VSSetShader(m_vShader, nullptr, 0);
         if(m_constantBuffer)
             context->VSSetConstantBuffers(0, 1, &m_constantBuffer);
         if(m_pShader)
-            context->PSSetShader(m_pShader, nullptr, 0);
+            context->PSSetShader(m_pShader, nullptr, 0);*/
         context->DrawIndexed(36, 0, 0);
         
     }

@@ -27,6 +27,46 @@ namespace Vixen {
         m_texTable.clear();
     }
 
+    ShaderVariable* DXShader::FindVariable(std::string name, int size)
+    {
+        SVTable::iterator it = m_svTable.find(name);
+        if (it == m_svTable.end())
+            return NULL;
+
+        ShaderVariable* var = &it->second;
+        if (var->Size != size)
+            return NULL;
+
+        return var;
+    }
+
+    ConstantBuffer* DXShader::FindBuffer(std::string name)
+    {
+        CBTable::iterator it = m_cbTable.find(name);
+        if (it == m_cbTable.end())
+            return NULL;
+
+        return it->second;
+    }
+
+    size_t DXShader::FindTextureBindIndex(std::string name)
+    {
+        TextureTable::iterator it = m_texTable.find(name);
+        if (it == m_texTable.end())
+            return -1;
+
+        return it->second;
+    }
+
+    size_t DXShader::FindSampleBindIndex(std::string name)
+    {
+        SampleTable::iterator it = m_sampTable.find(name);
+        if (it == m_sampTable.end())
+            return -1;
+        
+        return it->second;
+    }
+
     bool DXShader::VInitFromFile(File* file)
     {
         
@@ -128,13 +168,109 @@ namespace Vixen {
             }
         }
 
-        ReleaseCOM(m_shaderReflection);
-        ReleaseCOM(m_shaderBlob);
+//ReleaseCOM(m_shaderReflection);
+        //ReleaseCOM(m_shaderBlob);
 
         return true;
     }
 
+    void DXShader::Activate(bool update /*= true*/)
+    {
+        if (update)
+            UpdateAllBuffers();
 
+        VBind();
+    }
+
+    void DXShader::Deactivate()
+    {
+        VUnbind();
+    }
+
+    void DXShader::UpdateAllBuffers()
+    {
+        //iterate over all buffers and update all data
+        for (size_t i = 0; i < m_cbCount; i++)
+        {
+            //copy local data
+            m_context->UpdateSubresource(m_cbArray[i].Buffer, NULL, NULL,
+                                         m_cbArray[i].LocalDataBuffer, NULL, NULL);
+        }
+    }
+
+    void DXShader::UpdateBuffer(std::string name)
+    {
+        //Grab buffer object
+        ConstantBuffer* cb = FindBuffer(name);
+        if (!cb)
+            return;
+
+        //copy data into subresource
+        m_context->UpdateSubresource(cb->Buffer, NULL, NULL,
+                                     cb->LocalDataBuffer, NULL, NULL);
+    }
+
+    bool DXShader::SetData(std::string name, const void* data, size_t size)
+    {
+        //Grab variable by name
+        ShaderVariable* var = FindVariable(name, size);
+        if (var == NULL)
+            return false;
+
+        //copy data into the local buffer
+        memcpy(m_cbArray[var->ConstantBufferIndex].LocalDataBuffer,
+               data, size);
+
+        return true;
+    }
+
+    bool DXShader::SetInt(std::string name, int data)
+    {
+        return SetData(name, static_cast<void*>(&data), sizeof(int));
+    }
+
+    bool DXShader::SetFloat(std::string name, float data)
+    {
+        return SetData(name, static_cast<void*>(&data), sizeof(float));
+    }
+
+    bool DXShader::SetFloat2(std::string name, const float data[2])
+    {
+        return SetData(name, static_cast<void*>(&data), sizeof(float) * 2);
+    }
+    
+    bool DXShader::SetFloat2(std::string name, const DirectX::XMFLOAT2 data)
+    {
+        return SetData(name, &data, sizeof(float) * 2);
+    }
   
+    bool DXShader::SetFloat3(std::string name, const float data[3])
+    {
+        return SetData(name, static_cast<void*>(&data), sizeof(float) * 3);
+    }
 
+    bool DXShader::SetFloat3(std::string name, const DirectX::XMFLOAT3 data)
+    {
+        return SetData(name, &data, sizeof(float) * 3);
+    }
+
+    bool DXShader::SetFloat4(std::string name, const float data[4])
+    {
+        return SetData(name, static_cast<void*>(&data), sizeof(float) * 4);
+    }
+
+    bool DXShader::SetFloat4(std::string name, const DirectX::XMFLOAT4 data)
+    {
+        return SetData(name, &data, sizeof(float) * 4);
+    }
+
+    bool DXShader::SetMatrix4x4(std::string name, const float data[16])
+    {
+        return SetData(name, static_cast<void*>(&data), sizeof(float) * 16);
+    }
+
+    bool DXShader::SetMatrix4x4(std::string name, const DirectX::XMFLOAT4X4 data)
+    {
+        return SetData(name, &data, sizeof(float) * 16);
+    }
 }

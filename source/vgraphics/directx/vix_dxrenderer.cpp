@@ -240,7 +240,7 @@ namespace Vixen {
 
         m_ImmediateContext->RSSetViewports(1, &vp);
 
-
+#pragma region Old Stuff
 
         //// Compile the vertex shader
         //ID3DBlob* pVSBlob = nullptr;
@@ -355,6 +355,7 @@ namespace Vixen {
         //m_quad->SetSampleState(m_texture->SampleState());
         //m_quad->SetShaderResourceView(m_texture->ResourceView());
         
+#pragma endregion
 
         return true;
     }
@@ -368,7 +369,9 @@ namespace Vixen {
 
     void DXRenderer::VClearBuffer(ClearArgs args)
     {
-        switch (args)
+        m_ImmediateContext->ClearRenderTargetView(m_RenderTargetView, DirectX::Colors::CornflowerBlue);
+        m_ImmediateContext->ClearDepthStencilView(m_DepthStencView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+        /*switch (args)
         {
         case ClearArgs::COLOR_BUFFER:
             m_ImmediateContext->ClearRenderTargetView(m_RenderTargetView, m_clearColor);
@@ -381,7 +384,7 @@ namespace Vixen {
 
         default:
             break;
-        }
+        }*/
     }
 
     void DXRenderer::VAttachNativeHandle(void* handle)

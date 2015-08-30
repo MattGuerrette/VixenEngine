@@ -53,9 +53,12 @@ namespace Vixen {
 	public:
 		virtual ~IShader() { };
 
+        
+        virtual bool VInitFromFile(File* file) = 0;
+
+    protected:
         virtual void VBind() = 0;
         virtual void VUnbind() = 0;
-        virtual bool VInitFromFile(File* file) = 0;
 	};
 
 }

@@ -11,7 +11,7 @@
 struct VertexPos
 {
     DirectX::XMFLOAT3 pos;
-    DirectX::XMFLOAT4 color;
+    //DirectX::XMFLOAT4 color;
 };
 
 struct VertexTex

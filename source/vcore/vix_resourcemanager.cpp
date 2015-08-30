@@ -50,7 +50,12 @@ namespace Vixen {
             ResourceManager& _RM = ResourceManager::instance();
 
             if (_RM.m_resourceLoader)
-                return _RM.m_resourceLoader->LoadShader(file, type);
+            {
+               IShader* _shader = _RM.m_resourceLoader->LoadShader(file, type);
+               FileManager::CloseFile(assetPath);
+               return _shader;
+            }
+               
 
         }
 

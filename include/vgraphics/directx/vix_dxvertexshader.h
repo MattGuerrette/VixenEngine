@@ -14,11 +14,15 @@ namespace Vixen {
 
         ~DXVertexShader();
 
-        void VBind() override;
-        void VUnbind() override;
+
+        ID3D11VertexShader* GetShader();
+        ID3D11InputLayout*  GetLayout();
+       
 
     protected:
         bool VInitShader(File* file) override;
+        void VBind() override;
+        void VUnbind() override;
 
     private:
         ID3D11VertexShader*     m_shader;

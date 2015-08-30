@@ -14,10 +14,13 @@ namespace Vixen {
 
         ~DXPixelShader();
 
+        ID3D11PixelShader* GetShader();
 
-        bool      VInitShader(File* file) override;
-        void      VBind() override;
-        void      VUnbind() override;
+
+    protected:
+        bool VInitShader(File* file) override;
+        void VBind() override;
+        void VUnbind() override;
 
     private:
         ID3D11PixelShader* m_shader;

@@ -37,8 +37,9 @@ namespace Vixen {
        
         ID3DBlob* errorBlob = nullptr;
         hr = D3DCompile2(data, _size, nullptr, nullptr,
-            nullptr, "main", "ps_5_0", dwShaderFlags, NULL, NULL, NULL, NULL,
+            nullptr, "main", "ps_4_0", NULL, NULL, NULL, NULL, NULL,
             &m_shaderBlob, &errorBlob);
+        //hr = D3DReadFileToBlob(file->FilePath().c_str(), &m_shaderBlob);
         if (FAILED(hr))
         {
             if (errorBlob)
@@ -64,11 +65,25 @@ namespace Vixen {
     void DXPixelShader::VBind()
     {
         m_context->PSSetShader(m_shader, nullptr, 0);
+
+        // Set the constant buffers
+        for (size_t i = 0; i < m_cbCount; i++)
+        {
+            m_context->PSSetConstantBuffers(
+                m_cbArray[i].BindIndex,
+                1,
+                &m_cbArray[i].Buffer);
+        }
     }
 
     void DXPixelShader::VUnbind()
     {
         m_context->PSSetShader(nullptr, nullptr, 0);
+    }
+
+    ID3D11PixelShader* DXPixelShader::GetShader()
+    {
+        return m_shader;
     }
 
 }

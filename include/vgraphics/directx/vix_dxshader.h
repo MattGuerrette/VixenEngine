@@ -37,8 +37,34 @@ namespace Vixen {
 
         bool VInitFromFile(File* file) override;
 
+
+        //Update Buffer Data
+        void Activate(bool update = true);
+        void Deactivate();
+        void UpdateAllBuffers();
+        void UpdateBuffer(std::string name);
+
+        //Set Shader Data
+        bool SetData(std::string name, const void* data, size_t size);
+        bool SetInt(std::string name, int data);
+        bool SetFloat(std::string name, float data);
+        bool SetFloat2(std::string name, const float data[2]);
+        bool SetFloat2(std::string name, const DirectX::XMFLOAT2 data);
+        bool SetFloat3(std::string name, const float data[3]);
+        bool SetFloat3(std::string name, const DirectX::XMFLOAT3 data);
+        bool SetFloat4(std::string name, const float data[4]);
+        bool SetFloat4(std::string name, const DirectX::XMFLOAT4 data);
+        bool SetMatrix4x4(std::string name, const float data[16]);
+        bool SetMatrix4x4(std::string name, const DirectX::XMFLOAT4X4 data);
+
     protected:
         virtual bool VInitShader(File* file) = 0;
+
+        ShaderVariable* FindVariable(std::string name, int size);
+        ConstantBuffer* FindBuffer(std::string name);
+        size_t          FindTextureBindIndex(std::string name);
+        size_t          FindSampleBindIndex(std::string name);
+
 
     protected:
         ShaderType              m_type;
