@@ -8,13 +8,13 @@
 #include <DirectXColors.h>
 #include <vix_debugutil.h>
 
-struct VertexPos
+struct DXVertexPosColor
 {
     DirectX::XMFLOAT3 pos;
-    //DirectX::XMFLOAT4 color;
+    DirectX::XMFLOAT4 color;
 };
 
-struct VertexTex
+struct DXVertexPosTex
 {
     DirectX::XMFLOAT3 pos;
     DirectX::XMFLOAT2 uv;

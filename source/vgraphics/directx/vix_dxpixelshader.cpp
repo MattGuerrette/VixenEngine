@@ -37,7 +37,7 @@ namespace Vixen {
        
         ID3DBlob* errorBlob = nullptr;
         hr = D3DCompile2(data, _size, nullptr, nullptr,
-            nullptr, "main", "ps_4_0", NULL, NULL, NULL, NULL, NULL,
+            nullptr, "main", "ps_5_0", NULL, NULL, NULL, NULL, NULL,
             &m_shaderBlob, &errorBlob);
         //hr = D3DReadFileToBlob(file->FilePath().c_str(), &m_shaderBlob);
         if (FAILED(hr))

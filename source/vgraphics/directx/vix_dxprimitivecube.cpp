@@ -16,16 +16,16 @@ namespace Vixen {
 
     void DXPrimitiveCube::Initialize(ID3D11Device* device)
     {
-        VertexPos verts[8] =
+        DXVertexPosColor verts[8] =
         {
-            DirectX::XMFLOAT3(-1.0f, 1.0f, -1.0f),// static_cast<DirectX::XMFLOAT4>(DirectX::Colors::Blue) },
-            DirectX::XMFLOAT3(1.0f, 1.0f, -1.0f), //static_cast<DirectX::XMFLOAT4>(DirectX::Colors::Red) },
-            DirectX::XMFLOAT3(1.0f, 1.0f, 1.0f), //static_cast<DirectX::XMFLOAT4>(DirectX::Colors::Yellow) },
-            DirectX::XMFLOAT3(-1.0f, 1.0f, 1.0f), //static_cast<DirectX::XMFLOAT4>(DirectX::Colors::Green) },
-            DirectX::XMFLOAT3(-1.0f, -1.0f, -1.0f), //static_cast<DirectX::XMFLOAT4>(DirectX::Colors::Pink) },
-            DirectX::XMFLOAT3(1.0f, -1.0f, -1.0f), //static_cast<DirectX::XMFLOAT4>(DirectX::Colors::Purple) },
-            DirectX::XMFLOAT3(1.0f, -1.0f, 1.0f), //static_cast<DirectX::XMFLOAT4>(DirectX::Colors::Orange) },
-            DirectX::XMFLOAT3(-1.0f, -1.0f, 1.0f) //static_cast<DirectX::XMFLOAT4>(DirectX::Colors::Teal) },
+            {DirectX::XMFLOAT3(-1.0f, 1.0f, -1.0f), static_cast<DirectX::XMFLOAT4>(DirectX::Colors::Blue) },
+            {DirectX::XMFLOAT3(1.0f, 1.0f, -1.0f), static_cast<DirectX::XMFLOAT4>(DirectX::Colors::Red) },
+            {DirectX::XMFLOAT3(1.0f, 1.0f, 1.0f), static_cast<DirectX::XMFLOAT4>(DirectX::Colors::Yellow) },
+            {DirectX::XMFLOAT3(-1.0f, 1.0f, 1.0f), static_cast<DirectX::XMFLOAT4>(DirectX::Colors::Green) },
+            {DirectX::XMFLOAT3(-1.0f, -1.0f, -1.0f), static_cast<DirectX::XMFLOAT4>(DirectX::Colors::Pink) },
+            {DirectX::XMFLOAT3(1.0f, -1.0f, -1.0f), static_cast<DirectX::XMFLOAT4>(DirectX::Colors::Purple) },
+            {DirectX::XMFLOAT3(1.0f, -1.0f, 1.0f), static_cast<DirectX::XMFLOAT4>(DirectX::Colors::Orange) },
+            {DirectX::XMFLOAT3(-1.0f, -1.0f, 1.0f), static_cast<DirectX::XMFLOAT4>(DirectX::Colors::Teal) }
         };
 
         USHORT indices[36] =
@@ -52,7 +52,7 @@ namespace Vixen {
         D3D11_BUFFER_DESC bd;
         ZeroMemory(&bd, sizeof(bd));
         bd.Usage = D3D11_USAGE_DEFAULT;
-        bd.ByteWidth = sizeof(VertexPos) * 8;
+        bd.ByteWidth = sizeof(DXVertexPosColor) * 8;
         bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
         bd.CPUAccessFlags = 0;
         D3D11_SUBRESOURCE_DATA InitData;
@@ -79,7 +79,7 @@ namespace Vixen {
 
     void DXPrimitiveCube::Render(ID3D11DeviceContext* context)
     {
-        UINT stride = sizeof(VertexPos);
+        UINT stride = sizeof(DXVertexPosColor);
         UINT offset = 0;
         if(m_vertexBuffer)
             context->IASetVertexBuffers(0, 1, &m_vertexBuffer, &stride, &offset);

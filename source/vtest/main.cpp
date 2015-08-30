@@ -8,6 +8,8 @@
 #include <vix_dxshader.h>
 #include <vix_dxvertexshader.h>
 #include <vix_dxpixelshader.h>
+#include <vix_dxvertexbuffer.h>
+#include <vix_dxindexbuffer.h>
 
 using namespace Vixen;
 using namespace DirectX;
@@ -67,8 +69,6 @@ private:
     ITexture* tex;
     DXShader*  vShader;
     DXShader*  pShader;
-    ID3D11Device* _device;
-    ID3D11DeviceContext* _context;
     ID3D11Buffer* vertexBuffer;
     ID3D11Buffer* indexBuffer;
     ID3D11InputLayout* g_pVertexLayout;
@@ -77,6 +77,9 @@ private:
     DirectX::XMFLOAT4X4 worldMatrix;
     DirectX::XMFLOAT4X4 viewMatrix;
     DirectX::XMFLOAT4X4 projectionMatrix;
+    IVertexBuffer* vBuffer;
+    IIndexBuffer*  iBuffer;
+    float rot;
 };
 
 TestGame::TestGame()
@@ -92,40 +95,78 @@ void TestGame::VOnStartup()
 
     m_renderer->VSetClearColor(Vixen::Colors::CornflowerBlue);
 
-    
     vShader = (DXShader*)ResourceManager::OpenShader(VTEXT("VertexShader.hlsl"), ShaderType::VERTEX_SHADER);
     pShader = (DXShader*)ResourceManager::OpenShader(VTEXT("PixelShader.hlsl"), ShaderType::PIXEL_SHADER);
-
-    FileManager::PrintOpen();
 
     XMFLOAT4 red = XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
     XMFLOAT4 green = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
     XMFLOAT4 blue = XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f);
+    XMFLOAT4 yellow = XMFLOAT4(1.0f, 1.0f, 0.0f, 1.0f);
+    XMFLOAT4 purple = XMFLOAT4(1.0f, 0.0f, 1.0f, 1.0f);
     // Create vertex buffer
     SimpleVert vertices[] =
     {
-        { XMFLOAT3(0.0f, 0.5f, 0.5f), red },
-        { XMFLOAT3(0.5f, -0.5f, 0.5f), green },
-        { XMFLOAT3(-0.5f, -0.5f, 0.5f), blue }
+        {DirectX::XMFLOAT3(-1.0f, 1.0f, -1.0f), red},
+        {DirectX::XMFLOAT3(1.0f, 1.0f, -1.0f), green}, 
+        {DirectX::XMFLOAT3(1.0f, 1.0f, 1.0f), purple},
+        {DirectX::XMFLOAT3(-1.0f, 1.0f, 1.0f), blue },
+        {DirectX::XMFLOAT3(-1.0f, -1.0f, -1.0f), yellow},
+        {DirectX::XMFLOAT3(1.0f, -1.0f, -1.0f), green },
+        {DirectX::XMFLOAT3(1.0f, -1.0f, 1.0f), blue },
+        {DirectX::XMFLOAT3(-1.0f, -1.0f, 1.0f), red}
     };
-    D3D11_BUFFER_DESC bd;
-    ZeroMemory(&bd, sizeof(bd));
-    bd.Usage = D3D11_USAGE_DEFAULT;
-    bd.ByteWidth = sizeof(SimpleVert) * 3;
-    bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-    bd.CPUAccessFlags = 0;
-    D3D11_SUBRESOURCE_DATA InitData;
-    ZeroMemory(&InitData, sizeof(InitData));
-    InitData.pSysMem = vertices;
-    DXRENDERER->Device()->CreateBuffer(&bd, &InitData, &vertexBuffer);
+    vBuffer = new DXVPCBuffer(8, DXRENDERER->Device(), DXRENDERER->DeviceContext());
+  
 
-    // Set vertex buffer
-    UINT stride = sizeof(SimpleVert);
-    UINT offset = 0;
-    DXRENDERER->DeviceContext()->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
+    USHORT indices[36] =
+    {
+        3,1,0,
+        2,1,3,
+
+        0,5,4,
+        1,5,0,
+
+        3,4,7,
+        0,4,3,
+
+        1,6,5,
+        2,6,1,
+
+        2,7,6,
+        3,7,2,
+
+        6,4,5,
+        7,4,6,
+    };
+    iBuffer = new DXIndexBuffer(36, DXRENDERER->Device(), DXRENDERER->DeviceContext());
+
+    //Set Buffer data
+    vBuffer->VSetData(vertices);
+    vBuffer->VBind();
+    iBuffer->VSetData(indices);
+    iBuffer->VBind();
 
     // Set primitive topology
     DXRENDERER->DeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+
+    // Initialize the world matrix
+    XMMATRIX W = DirectX::XMMatrixIdentity();
+    XMStoreFloat4x4(&worldMatrix, XMMatrixTranspose(W));
+
+    // Initialize the view matrix
+    DirectX::XMVECTOR Eye = DirectX::XMVectorSet(0.0f, 0.0f, -5.0f, 0.0f);
+    DirectX::XMVECTOR At = DirectX::XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+    DirectX::XMVECTOR Up = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+    XMMATRIX V = DirectX::XMMatrixLookAtLH(Eye, At, Up);
+    XMStoreFloat4x4(&viewMatrix, XMMatrixTranspose(V));
+
+    // Initialize the projection matrix
+    XMMATRIX P = DirectX::XMMatrixPerspectiveFovLH(DirectX::XMConvertToRadians(75.0f), 800 / (FLOAT)600, 0.01f, 100.0f);
+    XMStoreFloat4x4(&projectionMatrix, XMMatrixTranspose(P));
+
+    rot = 0.0f;
+
 }
 
 void TestGame::VOnUpdate(float dt)
@@ -135,10 +176,21 @@ void TestGame::VOnUpdate(float dt)
 
 void TestGame::VOnRender(float dt)
 {
+    rot += dt;
+
+    XMMATRIX rotM = XMMatrixRotationRollPitchYaw(0.0f, rot, 0.0f);
+    XMStoreFloat4x4(&worldMatrix, XMMatrixTranspose(rotM));
+
+    vShader->SetMatrix4x4("world", worldMatrix);
+    vShader->SetMatrix4x4("view", viewMatrix);
+    vShader->SetMatrix4x4("projection", projectionMatrix);
+
+    
+
     vShader->Activate();
     pShader->Activate();
 
-    DXRENDERER->DeviceContext()->Draw(3, 0);
+    DXRENDERER->DeviceContext()->DrawIndexed(36, 0, 0);
 
 }
 

@@ -218,7 +218,7 @@ namespace Vixen {
             return false;
 
         //copy data into the local buffer
-        memcpy(m_cbArray[var->ConstantBufferIndex].LocalDataBuffer,
+        memcpy(m_cbArray[var->ConstantBufferIndex].LocalDataBuffer + var->ByteOffset,
                data, size);
 
         return true;

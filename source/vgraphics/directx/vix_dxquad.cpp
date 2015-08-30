@@ -28,7 +28,7 @@ namespace Vixen {
         if (!m_texture)
             return;
 
-        VertexTex _verts[4] =
+        DXVertexPosTex _verts[4] =
         {
             { DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f), DirectX::XMFLOAT2(0.0f, 0.0f) },
             { DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f), DirectX::XMFLOAT2(1.0f, 0.0f) },
@@ -39,7 +39,7 @@ namespace Vixen {
         D3D11_BUFFER_DESC vbd;
         ZeroMemory(&vbd, sizeof(D3D11_BUFFER_DESC));
         vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-        vbd.ByteWidth = sizeof(VertexTex) * 4;
+        vbd.ByteWidth = sizeof(DXVertexPosTex) * 4;
         vbd.CPUAccessFlags = 0;
         vbd.Usage = D3D11_USAGE_DEFAULT;
         D3D11_SUBRESOURCE_DATA initVBD;
@@ -69,7 +69,7 @@ namespace Vixen {
 
     void DXQuad::Render(ID3D11DeviceContext* context)
     {
-        UINT stride = sizeof(VertexTex);
+        UINT stride = sizeof(DXVertexPosTex);
         UINT offset = 0;
         if (m_vertexBuffer)
             context->IASetVertexBuffers(0, 1, &m_vertexBuffer, &stride, &offset);
