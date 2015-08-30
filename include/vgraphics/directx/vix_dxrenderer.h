@@ -9,6 +9,7 @@
 #include <vix_dxcamera2d.h>
 #include <vix_dxcamera3d.h>
 #include <vix_dxtexture.h>
+#include <vix_dxspritebatcher.h>
 
 namespace Vixen {
 
@@ -37,6 +38,12 @@ namespace Vixen {
 
         void    VAttachNativeHandle(void* handle) override;
 
+        void    VRenderTexture2D(ITexture* texture, const Transform& transform) override;
+
+        ID3D11Device* Device();
+
+        ID3D11DeviceContext* DeviceContext();
+
     private:
         DirectX::XMVECTORF32    m_clearColor;
         ID3D11Device*           m_Device;
@@ -64,6 +71,7 @@ namespace Vixen {
         Vixen::DXQuad* m_quad;
         Vixen::DXTexture* m_texture;
         Vixen::DXCamera2D* m_camera;
+        Vixen::DXSpriteBatcher* m_spriteBatch;
     };
 
 }

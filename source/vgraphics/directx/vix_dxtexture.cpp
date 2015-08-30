@@ -1,9 +1,11 @@
 #include <vix_dxtexture.h>
+#include <vix_resourcemanager.h>
 
 namespace Vixen {
 
-    DXTexture::DXTexture()
+    DXTexture::DXTexture(ID3D11Device* device)
     {
+        m_device = device;
         m_resourceView = nullptr;
         m_sampleState = nullptr;
         m_width = 0.0f;
@@ -16,20 +18,34 @@ namespace Vixen {
         ReleaseCOM(m_sampleState);
     }
 
-    bool DXTexture::LoadFromBitmap(ID3D11Device* device, FREEIMAGE_BMP* bitmap)
+    bool DXTexture::InitFromFile(File* file)
+    {
+        if (!file)
+            return false;
+
+        FREEIMAGE_BMP* bitmap = FREEIMAGE_LoadImage(file);
+        if (bitmap)
+        {
+            return InitFromBMP(bitmap);
+        }
+
+        return false;
+    }
+
+    bool DXTexture::InitFromBMP(FREEIMAGE_BMP* bmp)
     {
         HRESULT hr;
 
-        m_width = bitmap->header.width;
-        m_height = bitmap->header.height;
+        m_width = bmp->header.width;
+        m_height = bmp->header.height;
 
         //We are now going to create a DX11 Texture
         D3D11_TEXTURE2D_DESC desc;
-        desc.Width = static_cast<UINT>(bitmap->header.width);
-        desc.Height = static_cast<UINT>(bitmap->header.height);
+        desc.Width = static_cast<UINT>(bmp->header.width);
+        desc.Height = static_cast<UINT>(bmp->header.height);
         desc.MipLevels = 1; //will autogenerate
         desc.ArraySize = 1;
-        desc.Format = FromBPP(bitmap->bpp);
+        desc.Format = FromBPP(bmp->bpp);
         desc.SampleDesc.Count = 1;
         desc.SampleDesc.Quality = 0;
         desc.Usage = D3D11_USAGE_DEFAULT;
@@ -39,12 +55,12 @@ namespace Vixen {
 
         D3D11_SUBRESOURCE_DATA subTexData;
         ZeroMemory(&subTexData, sizeof(D3D11_SUBRESOURCE_DATA));
-        subTexData.pSysMem = bitmap->data;
-        subTexData.SysMemPitch = FreeImage_GetPitch(bitmap->bitmap);
+        subTexData.pSysMem = bmp->data;
+        subTexData.SysMemPitch = FreeImage_GetPitch(bmp->bitmap);
 
 
         ID3D11Texture2D* tex;
-        hr = device->CreateTexture2D(&desc, &subTexData, &tex);
+        hr = m_device->CreateTexture2D(&desc, &subTexData, &tex);
         if (FAILED(hr))
         {
             DebugPrintF(VTEXT("FAILED TO CREATE TEXTURE"));
@@ -53,11 +69,11 @@ namespace Vixen {
         
         D3D11_SHADER_RESOURCE_VIEW_DESC svd;
         ZeroMemory(&svd, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
-        svd.Format = FromBPP(bitmap->bpp);
+        svd.Format = FromBPP(bmp->bpp);
         svd.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
         svd.Texture2D.MipLevels = desc.MipLevels;
 
-        hr = device->CreateShaderResourceView(tex, &svd, &m_resourceView);
+        hr = m_device->CreateShaderResourceView(tex, &svd, &m_resourceView);
         if (FAILED(hr))
             return false;
 
@@ -74,7 +90,7 @@ namespace Vixen {
         sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
         sampDesc.MinLOD = 0;
         sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
-        hr = device->CreateSamplerState(&sampDesc, &m_sampleState);
+        hr = m_device->CreateSamplerState(&sampDesc, &m_sampleState);
         if (FAILED(hr))
             return false;
 

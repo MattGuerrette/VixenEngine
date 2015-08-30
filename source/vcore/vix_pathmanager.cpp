@@ -18,10 +18,7 @@ namespace Vixen
         using namespace tinyxml2;
 
         //Open Environment Config File
-        FileManager::OpenFile(os_exec_dir() + VTEXT("vixen.env"));
-
-        //Access file
-        FILE* envFile = FileManager::AccessFile(os_exec_dir() + VTEXT("vixen.env"))->Handle();
+        FILE* envFile = FileManager::OpenFile(os_exec_dir() + VTEXT("vixen.env"))->Handle();
 
         XMLDOC document;
         XMLError err = document.LoadFile(envFile);
@@ -36,6 +33,9 @@ namespace Vixen
         const XMLElement* assetPathElement = envElement->FirstChildElement("asset-path");
 
         _AssetPath = UStringFromCharArray(assetPathElement->Attribute("value"));
+        _AssetPath = os_path(_AssetPath);
+
+        FileManager::CloseFile(os_exec_dir() + VTEXT("vixen.env"));
     }
 
     UString PathManager::AssetPath()

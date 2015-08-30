@@ -51,6 +51,7 @@ namespace Vixen {
         m_type = RendererType::DIRECTX;
         m_cube = nullptr;
         m_quad = nullptr;
+        m_spriteBatch = new DXSpriteBatcher;
     }
 
     DXRenderer::~DXRenderer()
@@ -224,16 +225,11 @@ namespace Vixen {
         if (FAILED(hr))
             return false;
 
-      
-
         ReleaseCOM(depthStencilBuffer);
 
         m_ImmediateContext->OMSetRenderTargets(1, &m_RenderTargetView, m_DepthStencView);
 
-        //Create the VIEWPORT structure
-        //
-        // For now I will just grab the entire size of the window
-
+       
         D3D11_VIEWPORT vp;
         vp.TopLeftX = 0.0f;
         vp.TopLeftY = 0.0f;
@@ -411,6 +407,42 @@ namespace Vixen {
     void DXRenderer::VSwapBuffers()
     {
         m_SwapChain->Present(0, 0);
+    }
+
+    ID3D11Device* DXRenderer::Device()
+    {
+        return m_Device;
+    }
+
+    ID3D11DeviceContext* DXRenderer::DeviceContext()
+    {
+        return m_ImmediateContext;
+    }
+
+    void DXRenderer::VRenderTexture2D(ITexture* texture, const Transform& transform)
+    {
+        BatchInfo info;
+        info.x = transform.X();
+        info.y = transform.Y();
+        info.sX = static_cast<float>(0);
+        info.sY = static_cast<float>(0);
+        info.sW = static_cast<float>(0);
+        info.sH = static_cast<float>(0);
+        info.originX = 0.0f;
+        info.originY = 0.0f;
+        info.scaleX = transform.ScaleX();
+        info.scaleY = transform.ScaleY();
+        info.rotation = Math::ToRadians(transform.RotZ());
+        info.r = 0.0f;
+        info.g = 0.0f;
+        info.b = 0.0f;
+        info.a = 0.0f;
+        info.alpha = 1.0f;
+        info.depth = 0.0f;
+
+        m_spriteBatch->Begin(BatchSortMode::IMMEDITATE);
+        m_spriteBatch->Render(texture, info);
+        m_spriteBatch->End();
     }
 
     //

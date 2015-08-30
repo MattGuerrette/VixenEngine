@@ -27,6 +27,7 @@
 #include <vix_platform.h>
 #include <vix_gamewindow.h>
 #include <vix_gameconfig.h>
+#include <vix_resourceloader.h>
 
 namespace Vixen {
 
@@ -51,6 +52,7 @@ namespace Vixen {
 		GameConfig*			m_config;
 		IGameWindow*		m_window;
 		IRenderer*			m_renderer;
+        IResourceLoader*    m_resourceLoader;
 		SDLKeyboardState*	m_keyboard;
 		SDLMouseState*      m_mouse;
 	};

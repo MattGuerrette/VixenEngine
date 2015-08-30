@@ -108,4 +108,12 @@
 typedef unsigned char BYTE;
 #endif
 
+#ifndef VIX_BUFSIZE
+#define VIX_BUFSIZE 1024
+#endif
+
+#ifndef VIX_LARGE_BUFSIZE
+#define VIX_LARGE_BUFSIZE 10240
+#endif
+
 #endif

@@ -26,30 +26,24 @@
 
 #include <vix_platform.h>
 #include <vix_freeimage.h>
+#include <vix_file.h>
 
 
 namespace Vixen {
 
-	class VIX_API Texture
+	class VIX_API ITexture
 	{
 	public:
-		Texture();
-		virtual ~Texture();
+        virtual ~ITexture() { }
 
-		virtual bool InitFromFile(const UString& filePath) = 0;
+        virtual bool InitFromBMP(FREEIMAGE_BMP* bmp) = 0;
+        virtual bool InitFromFile(File* file) = 0;
+        
+        size_t GetWidth() const { return m_width; }
 
-		int          uniqueID()  const;
-		UString      name()      const;
-		size_t       getWidth()  const;
-		size_t       getHeight() const;
+        size_t GetHeight() const { return m_height; }
 
-		bool operator== (const Texture& other)
-		{
-			return this->uniqueID() == other.uniqueID();
-		}
 	protected:
-		int         m_uniqueID;
-		UString     m_name;
 		size_t      m_width;
 		size_t      m_height;
 	};

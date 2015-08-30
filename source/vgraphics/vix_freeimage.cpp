@@ -211,13 +211,8 @@ namespace Vixen {
 		io.tell_proc = reinterpret_cast<FI_TellProc>(&TellFile);
 
 		vix_bmp->bitmap = FreeImage_LoadFromHandle(vix_bmp->format, &io, (fi_handle)file->Handle(), NULL);
-		if(vix_bmp->bitmap)
-		{
-			//Successful load
-			DebugPrintF(VTEXT("Successfully loaded bitmap"));
-		}
-		else
-			DebugPrintF(VTEXT("Load bitmap failed"));
+		if(!vix_bmp->bitmap)
+			DebugPrintF(VTEXT("Load bitmap failed\n"));
 
 		//If image failed to load, return NULL
 		if (!vix_bmp->bitmap)

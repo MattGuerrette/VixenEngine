@@ -25,22 +25,10 @@
 
 namespace Vixen {
 
-	Texture::Texture()
-	{
+	int ITexture::uniqueID() const { return m_uniqueID;  }
 
-	}
+	UString ITexture::name() const { return m_name;  }
 
-	Texture::~Texture()
-	{
-
-	}
-
-	int Texture::uniqueID() const { return m_uniqueID;  }
-
-	UString Texture::name() const { return m_name;  }
-
-	size_t Texture::getWidth() const { return m_width;  }
-
-	size_t Texture::getHeight() const { return m_height; }
+	
 
 }

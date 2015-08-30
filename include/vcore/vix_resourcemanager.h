@@ -26,8 +26,13 @@
 
 #include <vix_platform.h>
 #include <vix_filemanager.h>
+#include <vix_resourceloader.h>
+#include <vix_texture.h>
+#include <vix_shader.h>
 
 namespace Vixen {
+
+    
 
     /**
     *   ResourceType enum class
@@ -39,7 +44,8 @@ namespace Vixen {
     {
         Texture,
         Model,
-        Font
+        Font,
+        Shader
     };
 
     /**
@@ -53,13 +59,18 @@ namespace Vixen {
     public:
         ~ResourceManager();
 
-
-        static void     OpenResource(UString filePath);
-        static void     OpenResource(UString fileName, ResourceType type);
-        static File*    AccessResource(UString fileName, ResourceType type);
+        static void     AttachResourceLoader(IResourceLoader* loader);
+        static ITexture* OpenTexture(UString filePath);
+        static IShader*  OpenShader(UString filePath, ShaderType type);
+       
+        //static void     OpenResource(UString fileName, ResourceType type);
+        //static File*    AccessResource(UString fileName, ResourceType type);
 
     private:
+        IResourceLoader* m_resourceLoader;
     };
+
+
 
 
 }

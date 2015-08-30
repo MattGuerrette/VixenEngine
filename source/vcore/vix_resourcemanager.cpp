@@ -8,65 +8,116 @@ namespace Vixen {
 
     }
 
-    void ResourceManager::OpenResource(UString filePath)
+    void ResourceManager::AttachResourceLoader(IResourceLoader* loader)
     {
+        ResourceManager& _RM = ResourceManager::instance();
 
+        _RM.m_resourceLoader = loader;
     }
 
-    void ResourceManager::OpenResource(UString fileName, ResourceType type)
+    ITexture* ResourceManager::OpenTexture(UString filePath)
     {
-        UString assetPath = PathManager::AssetPath();
-        switch(type)
+        UString assetPath = PathManager::AssetPath() + VTEXT("Textures/");
+
+        assetPath += filePath;
+        assetPath = os_path(assetPath);
+
+        File* file = FileManager::OpenFile(assetPath);
+        if (file)
         {
-            case ResourceType::Texture:
-            {
-                //Append Texutes to asset path
-                assetPath += VTEXT("Textures/");
-            } break;
+            //Create Renderer Specific texture type
+            ResourceManager& _RM = ResourceManager::instance();
 
-            case ResourceType::Model:
-            {
-                assetPath += VTEXT("Models/");
-            } break;
-
-            case ResourceType::Font:
-            {
-                assetPath += VTEXT("Fonts/");
-            } break;
+            if(_RM.m_resourceLoader)
+                return _RM.m_resourceLoader->LoadTexture(file);
+            
         }
 
-        assetPath += fileName;
-
-        //Load file
-        FileManager::OpenFile(assetPath);
+        return NULL;
     }
 
-    File* ResourceManager::AccessResource(UString fileName, ResourceType type)
+    IShader* ResourceManager::OpenShader(UString filePath, ShaderType type)
     {
-        UString assetPath = PathManager::AssetPath();
-        switch(type)
+        UString assetPath = PathManager::AssetPath() + VTEXT("Shaders/");
+
+        assetPath += filePath;
+        assetPath = os_path(assetPath);
+
+        File* file = FileManager::OpenFile(assetPath);
+        if (file)
         {
-            case ResourceType::Texture:
-            {
-                //Append Texutes to asset path
-                assetPath += VTEXT("Textures/");
-            } break;
+            //Create Renderer Specific texture type
+            ResourceManager& _RM = ResourceManager::instance();
 
-            case ResourceType::Model:
-            {
-                assetPath += VTEXT("Models/");
-            } break;
+            if (_RM.m_resourceLoader)
+                return _RM.m_resourceLoader->LoadShader(file, type);
 
-            case ResourceType::Font:
-            {
-                assetPath += VTEXT("Fonts/");
-            } break;
         }
 
-        assetPath += fileName;
-
-        //Return file
-        return FileManager::AccessFile(assetPath);
+        return NULL;
     }
+
+    //Shader* ResourceManager::Open
+
+    //void ResourceManager::OpenResource(UString fileName, ResourceType type)
+    //{
+    //    UString assetPath = PathManager::AssetPath();
+    //    switch(type)
+    //    {
+    //        case ResourceType::Texture:
+    //        {
+    //            //Append Texutes to asset path
+    //            assetPath += VTEXT("Textures/");
+    //        } break;
+
+    //        case ResourceType::Model:
+    //        {
+    //            assetPath += VTEXT("Models/");
+    //        } break;
+
+    //        case ResourceType::Font:
+    //        {
+    //            assetPath += VTEXT("Fonts/");
+    //        } break;
+
+    //        case ResourceType::Shader:
+    //        {
+    //            assetPath += VTEXT("Shaders/");
+    //        } break;
+    //    }
+
+    //    assetPath += fileName;
+
+    //    //Load file
+    //    FileManager::OpenFile(assetPath);
+    //}
+
+    //File* ResourceManager::AccessResource(UString fileName, ResourceType type)
+    //{
+    //    UString assetPath = PathManager::AssetPath();
+    //    switch(type)
+    //    {
+    //        case ResourceType::Texture:
+    //        {
+    //            //Append Texutes to asset path
+    //            assetPath += VTEXT("Textures/");
+    //        } break;
+
+    //        case ResourceType::Model:
+    //        {
+    //            assetPath += VTEXT("Models/");
+    //        } break;
+
+    //        case ResourceType::Font:
+    //        {
+    //            assetPath += VTEXT("Fonts/");
+    //        } break;
+    //    }
+
+    //    assetPath += fileName;
+
+    //    //Return file
+    //    return FileManager::AccessFile(assetPath);
+    //}
 
 }

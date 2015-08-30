@@ -21,13 +21,32 @@
 	SOFTWARE.
 */
 
-#ifndef VIX_CONTAINERS_H
-#define VIX_CONTAINERS_H
+#include <vix_math.h>
 
-#include <vix_platform.h>
-#include <list>
-#include <vector>
-#include <map>
-#include <unordered_map>
+namespace Vixen {
 
-#endif
+	bool Math::IsNaN(float n)
+	{
+		return n != n;
+	}
+
+	bool Math::IsFinite(float n)
+	{
+		return false;
+	}
+
+	float Math::ToRadians(float angle)
+	{
+		const float rad_conv = PI / 180.0f;
+
+		return rad_conv * angle;
+	}
+
+	float Math::ToDegrees(float angle)
+	{
+		const float deg_conv = 180.0f / PI;
+
+		return deg_conv * angle;
+	}
+
+}

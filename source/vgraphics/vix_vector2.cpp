@@ -21,13 +21,12 @@
 	SOFTWARE.
 */
 
-#ifndef VIX_CONTAINERS_H
-#define VIX_CONTAINERS_H
+#include <vix_vector2.h>
 
-#include <vix_platform.h>
-#include <list>
-#include <vector>
-#include <map>
-#include <unordered_map>
+namespace Vixen {
 
-#endif
+	const Vector2 Vector2::Zero = Vector2(0, 0);
+	const Vector2 Vector2::Unit	= Vector2(1, 1);
+	const Vector2 Vector2::UnitX = Vector2(1, 0);
+	const Vector2 Vector2::UnitY = Vector2(0, 1);
+}

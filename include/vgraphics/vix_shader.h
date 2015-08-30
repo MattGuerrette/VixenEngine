@@ -27,17 +27,18 @@
 
 #include <vix_platform.h>
 #include <vix_stringutil.h>
-
+#include <vix_file.h>
 
 namespace Vixen {
 
 	enum class ShaderType
 	{
-		VERTEX_SHADER,
-		GEOMETRY_SHADER,
-		TESSELATION_CONTROL_SHADER,
-		TESSELATION_EVAL_SHADER,
-		FRAGMENT_SHADER /*DX: PIXEL_SHADER */
+		VERTEX_SHADER, /*DIRECTX & OPENGL*/
+		GEOMETRY_SHADER, /*DIRECTX & OPENGL */
+		TESSELATION_CONTROL_SHADER, /*OPENGL*/
+		TESSELATION_EVAL_SHADER, /*OPENGL*/
+		FRAGMENT_SHADER, /*OPENGL*/
+        PIXEL_SHADER /*DIRECTX*/
 	};
 
 	struct ShaderInfo
@@ -47,15 +48,14 @@ namespace Vixen {
 		UString    raw;        /*raw contents of shader*/
 	};
 
-	class VIX_API Shader
+	class VIX_API IShader
 	{
 	public:
-		virtual ~Shader() { };
+		virtual ~IShader() { };
 
-	protected:
-		/*Virtual functions*/
-		virtual bool VInitFromFile(const UString& path) = 0;
-		virtual bool VInitFromString(const UString& path) = 0;
+        virtual void VBind() = 0;
+        virtual void VUnbind() = 0;
+        virtual bool VInitFromFile(File* file) = 0;
 	};
 
 }

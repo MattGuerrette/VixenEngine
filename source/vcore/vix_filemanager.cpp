@@ -21,15 +21,16 @@ namespace Vixen {
         FileManager& manager = FileManager::instance();
 
         int i = 0;
+        DebugPrintF(VTEXT("Open File List:\n"));
         for(auto it = manager.m_files.begin(); it != manager.m_files.end(); it++)
         {
             File* file = it->second;
-            DebugPrintF(VTEXT("File[%i]: %s"), i, file->FilePath().c_str());
+            DebugPrintF(VTEXT("\tFile[%i]: %s\n"), i, file->FilePath().c_str());
             i++;
         }
     }
 
-    void FileManager::OpenFile(UString filePath)
+    File* FileManager::OpenFile(UString filePath)
     {
 
         FileManager& manager = FileManager::instance();
@@ -45,9 +46,13 @@ namespace Vixen {
 
             //Add to toal open files
             manager.m_totalOpenFiles++;
+
+            return file;
         }
         else
             delete file;
+
+        return NULL;
     }
 
     void FileManager::CloseFile(UString filePath)
@@ -63,7 +68,7 @@ namespace Vixen {
         }
         else {
             //File not found
-            DebugPrintF(VTEXT("File: %s\nNot Found."), filePath.c_str());
+            DebugPrintF(VTEXT("File: %s\nNot Found.\n"), filePath.c_str());
         }
 
         if(file) {

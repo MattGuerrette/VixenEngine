@@ -33,9 +33,7 @@
 #endif
 #include <iostream>
 
-#ifndef VIX_BUFSIZE
-#define VIX_BUFSIZE 1024
-#endif
+
 
 /*Unicode system type defines*/
 #if defined(VIX_SYS_WINDOWS) && defined(UNICODE)

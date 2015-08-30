@@ -24,9 +24,11 @@
 #include <vix_game.h>
 #include <vix_sdlwindow.h>
 #include <vix_debugutil.h>
+#include <vix_resourcemanager.h>
 
 #ifdef VIX_DIRECTX_BUILD
 #include <vix_dxrenderer.h>
+#include <vix_dxresourceloader.h>
 #endif
 
 #ifdef VIX_OPENGL_BUILD
@@ -41,6 +43,7 @@ namespace Vixen {
 		m_window = new SDLGameWindow(m_config->WindowArgs());
 #ifdef VIX_DIRECTX_BUILD
         m_renderer = new DXRenderer;
+        m_resourceLoader = new DXResourceLoader((DXRenderer*)m_renderer);
 #elif defined(VIX_OPENGL_BUILD)
         m_renderer = new GLRenderer;
 #endif
@@ -48,6 +51,8 @@ namespace Vixen {
 		m_mouse = new SDLMouseState;
 		m_window->VSetParent(this);
 		m_window->VSetRenderer(m_renderer);
+
+        ResourceManager::AttachResourceLoader(m_resourceLoader);
 	}
 
 	int IGame::Run()
