@@ -89,7 +89,7 @@ namespace Vixen {
 	{
 		int _len = 0;
 
-		_len = fread(out, sizeof(char), len, m_handle);
+		_len = fread(out, sizeof(BYTE), len, m_handle);
 
 		return _len;
 	}

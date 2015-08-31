@@ -29,6 +29,7 @@
 #include <vix_resourceloader.h>
 #include <vix_texture.h>
 #include <vix_shader.h>
+#include <vix_model.h>
 
 namespace Vixen {
 
@@ -62,9 +63,7 @@ namespace Vixen {
         static void     AttachResourceLoader(IResourceLoader* loader);
         static ITexture* OpenTexture(UString filePath);
         static IShader*  OpenShader(UString filePath, ShaderType type);
-       
-        //static void     OpenResource(UString fileName, ResourceType type);
-        //static File*    AccessResource(UString fileName, ResourceType type);
+        static IModel*   OpenModel(UString filePath);
 
     private:
         IResourceLoader* m_resourceLoader;

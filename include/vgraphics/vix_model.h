@@ -21,25 +21,23 @@
     SOFTWARE.
 */
 
-#ifndef VIX_INDEXBUFFER_H
-#define VIX_INDEXBUFFER_H
+#ifndef VIX_MODEL_H
+#define VIX_MODEL_H
 
 #include <vix_platform.h>
+#include <vix_file.h>
 
 namespace Vixen {
 
-    class VIX_API IIndexBuffer
+    class VIX_API IModel
     {
     public:
-        virtual ~IIndexBuffer() { }
+        virtual ~IModel() { }
 
-        virtual void VSetData(const unsigned short* data) = 0;
-        virtual void VBind() = 0;
-        virtual void VUnbind() = 0;
+        virtual bool VInitFromFile(File* file) = 0;
+        virtual void VRender() = 0;
 
     protected:
-        size_t m_size;
-        size_t m_count;
     };
 
 }

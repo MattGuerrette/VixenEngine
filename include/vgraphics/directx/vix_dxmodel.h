@@ -21,27 +21,35 @@
     SOFTWARE.
 */
 
-#ifndef VIX_INDEXBUFFER_H
-#define VIX_INDEXBUFFER_H
+#ifndef VIX_DXMODEL_H
+#define VIX_DXMODEL_H
 
 #include <vix_platform.h>
+#include <vix_directx.h>
+#include <vix_model.h>
+#include <vix_dxvertexbuffer.h>
+#include <vix_dxindexbuffer.h>
 
 namespace Vixen {
 
-    class VIX_API IIndexBuffer
+    class VIX_API DXModel : public IModel
     {
     public:
-        virtual ~IIndexBuffer() { }
+        DXModel(ID3D11Device* device, ID3D11DeviceContext* context);
 
-        virtual void VSetData(const unsigned short* data) = 0;
-        virtual void VBind() = 0;
-        virtual void VUnbind() = 0;
+        ~DXModel();
 
-    protected:
-        size_t m_size;
-        size_t m_count;
+        bool VInitFromFile(File* file) override;
+        void VRender() override;
+
+    private:
+        ID3D11Device*                 m_device;
+        ID3D11DeviceContext*          m_context;
+        IVertexBuffer*                m_vBuffer;
+        IIndexBuffer*                 m_iBuffer;
+        std::vector<DXVertexPosColor> m_vertices;
+        std::vector<unsigned short>   m_indices;
     };
-
 }
 
 #endif

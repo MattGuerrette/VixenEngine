@@ -1,46 +1,31 @@
+/*
+    The MIT License(MIT)
+
+    Copyright(c) 2015 Matt Guerrette
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files(the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions :
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
+*/
+
 #include <vix_dxrenderer.h>
 #include <vix_dxprimitivecube.h>
 #include <vix_dxquad.h>
 #include <vix_freeimage.h>
 #include <vix_filemanager.h>
-
-//--------------------------------------------------------------------------------------
-// Helper for compiling shaders with D3DCompile
-//
-// With VS 11, we could load up prebuilt .cso files instead...
-//--------------------------------------------------------------------------------------
-HRESULT CompileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut)
-{
-    HRESULT hr = S_OK;
-
-    DWORD dwShaderFlags = D3DCOMPILE_ENABLE_STRICTNESS;
-#ifdef _DEBUG
-    // Set the D3DCOMPILE_DEBUG flag to embed debug information in the shaders.
-    // Setting this flag improves the shader debugging experience, but still allows 
-    // the shaders to be optimized and to run exactly the way they will run in 
-    // the release configuration of this program.
-    dwShaderFlags |= D3DCOMPILE_DEBUG;
-
-    // Disable optimizations to further improve shader debugging
-    dwShaderFlags |= D3DCOMPILE_SKIP_OPTIMIZATION;
-#endif
-
-    ID3DBlob* pErrorBlob = nullptr;
-    hr = D3DCompileFromFile(szFileName, nullptr, nullptr, szEntryPoint, szShaderModel,
-        dwShaderFlags, 0, ppBlobOut, &pErrorBlob);
-    if (FAILED(hr))
-    {
-        if (pErrorBlob)
-        {
-            OutputDebugStringA(reinterpret_cast<const char*>(pErrorBlob->GetBufferPointer()));
-            pErrorBlob->Release();
-        }
-        return hr;
-    }
-    if (pErrorBlob) pErrorBlob->Release();
-
-    return S_OK;
-}
 
 namespace Vixen {
 
@@ -240,123 +225,6 @@ namespace Vixen {
 
         m_ImmediateContext->RSSetViewports(1, &vp);
 
-#pragma region Old Stuff
-
-        //// Compile the vertex shader
-        //ID3DBlob* pVSBlob = nullptr;
-        //hr = CompileShaderFromFile(L"texture.fx", "VS", "vs_4_0", &pVSBlob);
-        //if (FAILED(hr))
-        //{
-        //    MessageBox(nullptr,
-        //        L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
-        //    return hr;
-        //}
-
-        //// Create the vertex shader
-        //hr = m_Device->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), nullptr, &m_VShader);
-        //if (FAILED(hr))
-        //{
-        //    pVSBlob->Release();
-        //    return hr;
-        //}
-
-        //// Define the input layout
-        //D3D11_INPUT_ELEMENT_DESC layout[] =
-        //{
-        //    { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-        //    //{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
-        //    { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
-
-        //};
-        //UINT numElements = ARRAYSIZE(layout);
-
-        //// Create the input layout
-        //hr = m_Device->CreateInputLayout(layout, numElements, pVSBlob->GetBufferPointer(),
-        //    pVSBlob->GetBufferSize(), &m_InputLayout);
-        //pVSBlob->Release();
-        //if (FAILED(hr))
-        //    return hr;
-
-        //// Set the input layout
-        //m_ImmediateContext->IASetInputLayout(m_InputLayout);
-
-        //// Compile the pixel shader
-        //ID3DBlob* pPSBlob = nullptr;
-        //hr = CompileShaderFromFile(L"texture.fx", "PS", "ps_4_0", &pPSBlob);
-        //if (FAILED(hr))
-        //{
-        //    MessageBox(nullptr,
-        //        L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
-        //    return hr;
-        //}
-
-
-        //// Create the pixel shader
-        //hr = m_Device->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), nullptr, &m_PShader);
-        //pPSBlob->Release();
-        //if (FAILED(hr))
-        //    return hr;
-
-        //FileManager::OpenFile(VTEXT("floor.jpg"));
-        //File* file = FileManager::AccessFile(VTEXT("floor.jpg"));
-        //FREEIMAGE_BMP* bmp = FREEIMAGE_LoadImage(file);
-        //if (bmp)
-        //{
-        //    m_texture = new DXTexture;
-        //    if (!m_texture->LoadFromBitmap(m_Device, bmp))
-        //        return false;
-        //}
-        //else
-        //    return false;
-
-        //// Set primitive topology
-        //m_ImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-        //D3D11_BUFFER_DESC cbd;
-        //ZeroMemory(&cbd, sizeof(cbd));
-        //cbd.Usage = D3D11_USAGE_DEFAULT;
-        //cbd.ByteWidth = sizeof(ConstantBuffer);
-        //cbd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-        //cbd.CPUAccessFlags = 0;
-        //hr = m_Device->CreateBuffer(&cbd, NULL, &m_ConstantBuffer);
-        //if (FAILED(hr))
-        //    return hr;
-
-        //// Initialize the world matrix
-        //m_World = DirectX::XMMatrixIdentity();
-
-        //// Initialize the view matrix
-        //DirectX::XMVECTOR Eye = DirectX::XMVectorSet(0.0f, 0.0f, -5.0f, 0.0f);
-        //DirectX::XMVECTOR At = DirectX::XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
-        //DirectX::XMVECTOR Up = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
-        //m_View = DirectX::XMMatrixLookAtLH(Eye, At, Up);
-
-        //// Initialize the projection matrix
-        //// m_Projection = DirectX::XMMatrixOrthographicRH(width, height, 0.0f, 100.0f);
-        ////m_Projection = DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PIDIV2, width / (FLOAT)height, 0.01f, 100.0f);
-        ////m_Projection = DirectX::XMMatrixOrthographicOffCenterLH(0.0f, width, height, 0.0f, 0.0f, 100.0f);
-        ////m_Projection = DirectX::XMMatrixOrthographicOffCenterRH(0.0f, width, height, 0.0f, 100.0f);
-        //
-
-        //m_camera = new DXCamera2D;
-        //OrthoRect rect;
-        //rect.left = 0.0f;
-        //rect.right = static_cast<float>(width);
-        //rect.bottom = static_cast<float>(height);
-        //rect.top = 0.0f;
-        //m_camera->SetOrthoLHOffCenter(rect, 0.0f, 100.0f);
-        //
-        //m_quad = new DXQuad;
-        //m_quad->SetTexture(m_texture);
-        //m_quad->Initialize(m_Device);
-        //m_quad->SetPixelShader(m_PShader);
-        //m_quad->SetVertexShader(m_VShader);
-        //m_quad->SetConstantBuffer(m_ConstantBuffer);
-        //m_quad->SetSampleState(m_texture->SampleState());
-        //m_quad->SetShaderResourceView(m_texture->ResourceView());
-        
-#pragma endregion
-
         return true;
     }
 
@@ -369,22 +237,8 @@ namespace Vixen {
 
     void DXRenderer::VClearBuffer(ClearArgs args)
     {
-        m_ImmediateContext->ClearRenderTargetView(m_RenderTargetView, DirectX::Colors::CornflowerBlue);
-        m_ImmediateContext->ClearDepthStencilView(m_DepthStencView, D3D11_CLEAR_DEPTH, 1.0f, 0);
-        /*switch (args)
-        {
-        case ClearArgs::COLOR_BUFFER:
-            m_ImmediateContext->ClearRenderTargetView(m_RenderTargetView, m_clearColor);
-            break;
-
-        case ClearArgs::COLOR_DEPTH_STENCIL_BUFFER:
-            m_ImmediateContext->ClearRenderTargetView(m_RenderTargetView, m_clearColor);
-            m_ImmediateContext->ClearDepthStencilView(m_DepthStencView, D3D11_CLEAR_DEPTH, 1.0f, 0);
-            break;
-
-        default:
-            break;
-        }*/
+        m_ImmediateContext->ClearRenderTargetView(m_RenderTargetView, m_clearColor);
+        m_ImmediateContext->ClearDepthStencilView(m_DepthStencView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
     }
 
     void DXRenderer::VAttachNativeHandle(void* handle)

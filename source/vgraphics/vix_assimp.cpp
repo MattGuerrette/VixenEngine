@@ -21,27 +21,11 @@
     SOFTWARE.
 */
 
-#ifndef VIX_INDEXBUFFER_H
-#define VIX_INDEXBUFFER_H
+#include <vix_assimp.h>
 
-#include <vix_platform.h>
-
-namespace Vixen {
-
-    class VIX_API IIndexBuffer
-    {
-    public:
-        virtual ~IIndexBuffer() { }
-
-        virtual void VSetData(const unsigned short* data) = 0;
-        virtual void VBind() = 0;
-        virtual void VUnbind() = 0;
-
-    protected:
-        size_t m_size;
-        size_t m_count;
-    };
-
+void
+FindMeshCenter(aiMesh* mesh, aiVector3D& out, aiVector3D& min, aiVector3D& max)
+{
+	MeshBounds(mesh->mVertices, mesh->mNumVertices, min, max);
+	out = (min + max) * 0.5f;
 }
-
-#endif
