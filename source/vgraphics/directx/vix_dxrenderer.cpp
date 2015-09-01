@@ -302,34 +302,4 @@ namespace Vixen {
         m_spriteBatch->End();
     }
 
-    //
-    // NOTE:
-    //   JUST A TEST FUNCTION FOR RENDERING
-    //
-    //void DXRenderer::Render(float dt)
-    //{
-    //    m_ImmediateContext->ClearRenderTargetView(m_RenderTargetView, DirectX::Colors::CornflowerBlue);
-    //    m_ImmediateContext->ClearDepthStencilView(m_DepthStencView, D3D11_CLEAR_DEPTH, 1.0f, 0);
-    //    
-    //    static float rot = 0.0f;
-    //    rot += dt;
-    //   
-
-    //    m_World = DirectX::XMMatrixScaling(m_texture->Width(), m_texture->Height(), 0.0f);
-
-    //    //
-    //    // Update variables
-    //    //
-    //    ConstantBuffer cb;
-    //    cb.mWorld = DirectX::XMMatrixTranspose(m_World);
-    //    //cb.mView = DirectX::XMMatrixTranspose(m_View);
-    //    cb.mProjection = DirectX::XMMatrixTranspose(m_camera->Projection());
-    //    m_ImmediateContext->UpdateSubresource(m_ConstantBuffer, 0, nullptr, &cb, 0, 0);
-
-    //    m_quad->Render(m_ImmediateContext);
-    //    
-    //    
-    //    m_SwapChain->Present(0, 0);
-    //}
-
 }
