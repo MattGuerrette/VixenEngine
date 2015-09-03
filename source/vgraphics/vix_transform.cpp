@@ -48,6 +48,36 @@ namespace Vixen {
         m_scale = scale;
     }
 
+    void Transform::TranslateX(float val)
+    {
+        m_position.x += val;
+    }
+
+    void Transform::TranslateY(float val)
+    {
+        m_position.y += val;
+    }
+
+    void Transform::TranslateZ(float val)
+    {
+        m_position.z += val;
+    }
+
+    void Transform::RotateX(float val)
+    {
+        m_rotation.x += val;
+    }
+
+    void Transform::RotateY(float val)
+    {
+        m_rotation.y += val;
+    }
+
+    void Transform::RotateZ(float val)
+    {
+        m_rotation.z += val;
+    }
+
     float Transform::X() const
     {
         return m_position.x;

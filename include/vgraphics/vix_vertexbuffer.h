@@ -34,6 +34,7 @@ namespace Vixen {
         virtual ~IVertexBuffer() { }
 
         virtual void VSetData(const void* data) = 0;
+        virtual void VUpdateSubData(size_t offset, size_t stride, size_t count, const void* data) = 0;
         virtual void VBind() = 0;
         virtual void VUnbind() = 0;
 

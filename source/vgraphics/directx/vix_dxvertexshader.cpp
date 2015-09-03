@@ -171,7 +171,33 @@ namespace Vixen {
 
     void DXVertexShader::VUnbind()
     {
-        m_context->VSSetShader(nullptr, nullptr, 0);
+        m_context->VSSetShader(0, 0, 0);
+    }
+
+    bool DXVertexShader::VSetShaderResourceView(std::string name, ID3D11ShaderResourceView* rv)
+    {
+        //find variable
+        size_t index = FindTextureBindIndex(name);
+        if (index == -1)
+            return false;
+
+        //set resource view
+        m_context->VSSetShaderResources(index, 1, &rv);
+
+        return true;
+    }
+
+    bool DXVertexShader::VSetSamplerState(std::string name, ID3D11SamplerState* ss)
+    {
+        //find variable
+        size_t index = FindSampleBindIndex(name);
+        if (index == -1)
+            return false;
+
+        //set sampler
+        m_context->VSSetSamplers(index, 1, &ss);
+        
+        return true;
     }
 
     ID3D11VertexShader* DXVertexShader::GetShader()

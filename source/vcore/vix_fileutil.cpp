@@ -28,7 +28,7 @@ namespace Vixen {
     UString getFileExtension(const UString& filePath, bool wd /* = true */)
 	{
 		UString ext = VTEXT("");
-		size_t pos = filePath.find_first_of(VTEXT("."));
+		size_t pos = filePath.rfind(VTEXT("."));
 		if (pos != UString::npos) {
 			if (wd)
 				ext = filePath.substr(pos);

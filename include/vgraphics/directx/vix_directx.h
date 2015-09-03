@@ -35,12 +35,36 @@ struct DXVertexPosColor
 {
     DirectX::XMFLOAT3 pos;
     DirectX::XMFLOAT4 color;
+
+    DXVertexPosColor() {
+        pos.x = 0.0f; pos.y = 0.0f; pos.z = 0.0f;
+        color.x = 0.0f; color.y = 0.0f; color.z = 0.0f; color.w = 1.0f;
+    }
+
+    DXVertexPosColor(float _x, float _y, float _z,
+                     float _r, float _g, float _b, float _a)
+    {
+        pos.x = _x; pos.y = _y; pos.z = _z;
+        color.x = _r; color.y = _g; color.z = _b; color.w = _a;
+    }
 };
 
 struct DXVertexPosTex
 {
     DirectX::XMFLOAT3 pos;
     DirectX::XMFLOAT2 uv;
+
+    DXVertexPosTex() {
+        pos.x = 0.0f; pos.y = 0.0f; pos.z = 0.0f;
+        uv.x = 0.0f; uv.y = 0.0f;
+    }
+
+    DXVertexPosTex(float _x, float _y, float _z,
+                   float _u, float _v)
+    {
+        pos.x = _x; pos.y = _y; pos.z = _z;
+        uv.x = _u; uv.y = _v;
+    }
 };
 
 

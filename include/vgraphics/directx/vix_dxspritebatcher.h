@@ -25,9 +25,15 @@
 #define VIX_DXSPRITEBATCHER_H
 
 #include <vix_platform.h>
+#include <vix_directx.h>
 #include <vix_spritebatcher.h>
 #include <vix_containers.h>
 #include <vix_texture.h>
+#include <vix_dxvertexbuffer.h>
+#include <vix_dxindexbuffer.h>
+#include <vix_dxvertexshader.h>
+#include <vix_dxpixelshader.h>
+#include <vix_dxcamera2d.h>
 
 namespace Vixen {
 
@@ -43,14 +49,33 @@ namespace Vixen {
         /*batch info collection*/
         std::vector<BatchInfo> m_textures;
 
+        /*vertex list*/
+        std::vector<DXVertexPosTex> m_vertices;
+
         /*current texture*/
-        ITexture*               m_texture;
+        ITexture*              m_texture;
 
         /*begin end flag*/
         bool                   m_beFlag;
 
+        /*vertex buffer*/
+        DXVPTBuffer*           m_vBuffer;
+
+        /*index buffer*/
+        DXIndexBuffer*         m_iBuffer;
+
+        DXVertexShader*        m_vShader;
+
+        DXPixelShader*         m_pShader;
+
+        DXCamera2D*            m_camera2D;
+
+        ID3D11Device*          m_device;
+
+        ID3D11DeviceContext*   m_context;
+
     public:
-        DXSpriteBatcher();
+        DXSpriteBatcher(ID3D11Device* device, ID3D11DeviceContext* context);
 
         ~DXSpriteBatcher();
 
@@ -59,6 +84,12 @@ namespace Vixen {
 
         /*render texure*/
         void Render(ITexture* texture, BatchInfo info);
+
+        void SetVertexShader(DXVertexShader* vShader);
+
+        void SetPixelShader(DXPixelShader* pShader);
+        
+        void SetCamera(DXCamera2D* camera);
 
         /*flush batched textures*/
         void End();

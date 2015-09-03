@@ -29,6 +29,8 @@
 #include <vix_model.h>
 #include <vix_dxvertexbuffer.h>
 #include <vix_dxindexbuffer.h>
+#include <vix_dxshader.h>
+#include <vix_dxtexture.h>
 
 namespace Vixen {
 
@@ -41,14 +43,24 @@ namespace Vixen {
 
         bool VInitFromFile(File* file) override;
         void VRender() override;
+        void VSetTransform(const Transform* transform) override;
+        void VSetVertexShader(IShader* shader) override;
+        void VSetPixelShader(IShader* shader) override;
 
     private:
+        DirectX::XMFLOAT4X4           m_world;
+        DirectX::XMFLOAT3             m_position;
+        DirectX::XMFLOAT3             m_rotation;
+        DirectX::XMFLOAT3             m_scale;
         ID3D11Device*                 m_device;
         ID3D11DeviceContext*          m_context;
         IVertexBuffer*                m_vBuffer;
         IIndexBuffer*                 m_iBuffer;
         std::vector<DXVertexPosColor> m_vertices;
         std::vector<unsigned short>   m_indices;
+        DXShader*                     m_vShader;
+        DXShader*                     m_pShader;
+        const Transform*              m_transform;
     };
 }
 

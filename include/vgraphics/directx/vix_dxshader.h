@@ -21,6 +21,13 @@
     SOFTWARE.
 */
 
+
+/*
+*   CREDIT:
+*   Adapted from SimpleShader class written by Chris Cascioli
+*
+*/
+
 #ifndef VIX_DXSHADER_H
 #define VIX_DXSHADER_H
 
@@ -79,6 +86,9 @@ namespace Vixen {
         bool SetFloat4(std::string name, const DirectX::XMFLOAT4 data);
         bool SetMatrix4x4(std::string name, const float data[16]);
         bool SetMatrix4x4(std::string name, const DirectX::XMFLOAT4X4 data);
+
+        virtual bool VSetShaderResourceView(std::string name, ID3D11ShaderResourceView* rv) = 0;
+        virtual bool VSetSamplerState(std::string name, ID3D11SamplerState* ss) = 0;
 
     protected:
         virtual bool VInitShader(File* file) = 0;

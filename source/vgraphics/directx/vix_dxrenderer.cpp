@@ -32,11 +32,8 @@ namespace Vixen {
     DXRenderer::DXRenderer()
     {
         m_HWND = NULL;
-        m_ConstantBuffer = nullptr;
         m_type = RendererType::DIRECTX;
-        m_cube = nullptr;
-        m_quad = nullptr;
-        m_spriteBatch = new DXSpriteBatcher;
+        m_camera2D = new DXCamera2D;
     }
 
     DXRenderer::~DXRenderer()
@@ -48,18 +45,14 @@ namespace Vixen {
     {
         if(m_ImmediateContext)
             m_ImmediateContext->ClearState();
-        ReleaseCOM(m_ConstantBuffer);
-        ReleaseCOM(m_InputLayout);
-        ReleaseCOM(m_VShader);
-        ReleaseCOM(m_PShader);
+    
         ReleaseCOM(m_RenderTargetView);
         ReleaseCOM(m_DepthStencView);
         ReleaseCOM(m_SwapChain);
         ReleaseCOM(m_ImmediateContext);
         ReleaseCOM(m_Device);
 
-        delete m_cube;
-        delete m_quad;
+        delete m_spriteBatch;
     }
 
     bool DXRenderer::VInitialize()
@@ -225,6 +218,17 @@ namespace Vixen {
 
         m_ImmediateContext->RSSetViewports(1, &vp);
 
+        m_spriteBatch = new DXSpriteBatcher(m_Device, m_ImmediateContext);
+
+        OrthoRect _ortho;
+        _ortho.left = 0.0f;
+        _ortho.right = static_cast<float>(width);
+        _ortho.top = 0.0f;
+        _ortho.bottom = static_cast<float>(height);
+        m_camera2D->VSetOrthoRHOffCenter(_ortho, 0.0f, 1.0f);
+
+        m_spriteBatch->SetCamera(m_camera2D);
+
         return true;
     }
 
@@ -276,17 +280,17 @@ namespace Vixen {
         return m_ImmediateContext;
     }
 
-    void DXRenderer::VRenderTexture2D(ITexture* texture, const Transform& transform)
+    void DXRenderer::VRenderTexture2D(ITexture* texture, const Transform& transform, const Rect& source)
     {
         BatchInfo info;
         info.x = transform.X();
         info.y = transform.Y();
-        info.sX = static_cast<float>(0);
-        info.sY = static_cast<float>(0);
-        info.sW = static_cast<float>(0);
-        info.sH = static_cast<float>(0);
-        info.originX = 0.0f;
-        info.originY = 0.0f;
+        info.sX = static_cast<float>(source.x);
+        info.sY = static_cast<float>(source.y);
+        info.sW = static_cast<float>(source.w);
+        info.sH = static_cast<float>(source.h);
+        info.originX = 16.f;
+        info.originY = 16.f;
         info.scaleX = transform.ScaleX();
         info.scaleY = transform.ScaleY();
         info.rotation = Math::ToRadians(transform.RotZ());
@@ -302,34 +306,8 @@ namespace Vixen {
         m_spriteBatch->End();
     }
 
-    //
-    // NOTE:
-    //   JUST A TEST FUNCTION FOR RENDERING
-    //
-    //void DXRenderer::Render(float dt)
-    //{
-    //    m_ImmediateContext->ClearRenderTargetView(m_RenderTargetView, DirectX::Colors::CornflowerBlue);
-    //    m_ImmediateContext->ClearDepthStencilView(m_DepthStencView, D3D11_CLEAR_DEPTH, 1.0f, 0);
-    //    
-    //    static float rot = 0.0f;
-    //    rot += dt;
-    //   
-
-    //    m_World = DirectX::XMMatrixScaling(m_texture->Width(), m_texture->Height(), 0.0f);
-
-    //    //
-    //    // Update variables
-    //    //
-    //    ConstantBuffer cb;
-    //    cb.mWorld = DirectX::XMMatrixTranspose(m_World);
-    //    //cb.mView = DirectX::XMMatrixTranspose(m_View);
-    //    cb.mProjection = DirectX::XMMatrixTranspose(m_camera->Projection());
-    //    m_ImmediateContext->UpdateSubresource(m_ConstantBuffer, 0, nullptr, &cb, 0, 0);
-
-    //    m_quad->Render(m_ImmediateContext);
-    //    
-    //    
-    //    m_SwapChain->Present(0, 0);
-    //}
-
+    DXSpriteBatcher* DXRenderer::SpriteBatch()
+    {
+        return m_spriteBatch;
+    }
 }

@@ -23,29 +23,34 @@
 
 #include <vix_dxcamera2d.h>
 
+using namespace DirectX;
+
 namespace Vixen {
 
     DXCamera2D::DXCamera2D()
     {
-        m_projection = DirectX::XMMatrixIdentity();
+        XMStoreFloat4x4(&m_projection, XMMatrixTranspose(XMMatrixIdentity()));
     }
 
   
-    void DXCamera2D::SetOrthoLHOffCenter(OrthoRect rect, float zNear, float zFar)
+    void DXCamera2D::VSetOrthoLHOffCenter(OrthoRect rect, float zNear, float zFar)
     {
         m_rect = rect;
-        m_projection = DirectX::XMMatrixOrthographicOffCenterLH(rect.left, rect.right, rect.bottom, rect.top, zNear, zFar);
+        XMMATRIX P = XMMatrixOrthographicOffCenterLH(rect.left, rect.right, rect.bottom, rect.top, zNear, zFar);
+        XMStoreFloat4x4(&m_projection, XMMatrixTranspose(P));
     }
 
   
 
-    void DXCamera2D::SetOrthoRHOffCenter(OrthoRect rect, float zNear, float zFar)
+    void DXCamera2D::VSetOrthoRHOffCenter(OrthoRect rect, float zNear, float zFar)
     {
         m_rect = rect;
-        m_projection = DirectX::XMMatrixOrthographicOffCenterRH(rect.left, rect.right, rect.bottom, rect.top, zNear, zFar);
+
+        XMMATRIX P = XMMatrixOrthographicOffCenterRH(rect.left, rect.right, rect.bottom, rect.top, zNear, zFar);
+        XMStoreFloat4x4(&m_projection, XMMatrixTranspose(P));
     }
 
-    const DirectX::XMMATRIX& DXCamera2D::Projection()
+    const XMFLOAT4X4& DXCamera2D::Projection()
     {
         return m_projection;
     }

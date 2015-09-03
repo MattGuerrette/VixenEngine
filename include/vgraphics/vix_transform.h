@@ -37,6 +37,15 @@ namespace Vixen {
                   float rotX, float rotY, float rotZ,
                   float scaleX, float scaleY, float scaleZ);
         Transform(Vector3 position, Vector3 rotation, Vector3 scale);
+
+        
+        void RotateX(float val);
+        void RotateY(float val);
+        void RotateZ(float val);
+        void TranslateX(float val);
+        void TranslateY(float val);
+        void TranslateZ(float val);
+
     
         float X() const;
         float Y() const;

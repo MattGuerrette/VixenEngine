@@ -55,7 +55,8 @@ namespace Vixen
         const XMLElement* envElement = document.FirstChildElement("env");
         const XMLElement* assetPathElement = envElement->FirstChildElement("asset-path");
 
-        _AssetPath = UStringFromCharArray(assetPathElement->Attribute("value"));
+        _AssetPath = os_exec_dir();
+        _AssetPath += UStringFromCharArray(assetPathElement->Attribute("value"));
         _AssetPath = os_path(_AssetPath);
 
         FileManager::CloseFile(os_exec_dir() + VTEXT("vixen.env"));

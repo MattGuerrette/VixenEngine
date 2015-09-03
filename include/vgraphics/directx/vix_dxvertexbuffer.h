@@ -38,6 +38,7 @@ namespace Vixen {
         ~DXVPCBuffer();
 
         void VSetData(const void* data);
+        void VUpdateSubData(size_t offset, size_t stride, size_t count, const void* data);
         void VBind();
         void VUnbind();
 
@@ -56,6 +57,7 @@ namespace Vixen {
         ~DXVPTBuffer();
 
         void VSetData(const void* data);
+        void VUpdateSubData(size_t offset, size_t stride, size_t count, const void* data);
         void VBind();
         void VUnbind();
 

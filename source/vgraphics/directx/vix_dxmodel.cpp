@@ -23,6 +23,10 @@
 
 #include <vix_dxmodel.h>
 #include <vix_assimp.h>
+#include <vix_dxvertexshader.h>
+#include <vix_dxpixelshader.h>
+
+using namespace DirectX;
 
 namespace Vixen {
 
@@ -32,6 +36,8 @@ namespace Vixen {
         m_context = context;
         m_vBuffer = nullptr;
         m_iBuffer = nullptr;
+
+        XMStoreFloat4x4(&m_world, XMMatrixTranspose(XMMatrixIdentity()));
     }
 
     DXModel::~DXModel()
@@ -77,7 +83,7 @@ namespace Vixen {
                 if (i % 2 == 0)
                     _vert.color = DirectX::XMFLOAT4(1.0f, 1.0f, 0.0f, 1.0f);
                 else
-                    _vert.color = DirectX::XMFLOAT4(0.0f, 1.0f, 1.0f, 1.0f);
+                    _vert.color = DirectX::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
 
                 m_vertices.push_back(_vert);
             }
@@ -102,15 +108,54 @@ namespace Vixen {
         return true;
     }
 
+    void DXModel::VSetPixelShader(IShader* shader)
+    {
+        m_pShader = (DXPixelShader*)shader;
+    }
+
+    void DXModel::VSetVertexShader(IShader* shader)
+    {
+        m_vShader = (DXVertexShader*)shader;
+    }
+
     void DXModel::VRender()
     {
+        
+        m_position.x = m_transform->X();
+        m_position.y = m_transform->Y();
+        m_position.z = m_transform->Z();
+
+        m_rotation.x = m_transform->RotX();
+        m_rotation.y = m_transform->RotY();
+        m_rotation.z = m_transform->RotZ();
+
+        m_scale.x = m_transform->ScaleX();
+        m_scale.y = m_transform->ScaleY();
+        m_scale.z = m_transform->ScaleZ();
+
+        XMMATRIX W = XMMatrixRotationX(m_rotation.x) *
+                     XMMatrixRotationY(m_rotation.y) *
+                     XMMatrixRotationZ(m_rotation.z) *
+                     XMMatrixTranslation(m_position.x, m_position.y, m_position.z);
+            
+        XMStoreFloat4x4(&m_world, XMMatrixTranspose(W));
+
+        m_vShader->SetMatrix4x4("world", m_world);
+
+        m_vShader->Activate();
+        m_pShader->Activate();
         m_vBuffer->VBind();
         m_iBuffer->VBind();
+        
 
         m_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
         m_context->DrawIndexed(m_indices.size(), 0, 0);
-
        
+    }
+
+    void DXModel::VSetTransform(const Transform* transform)
+    {
+        m_transform = transform;
     }
 
 }

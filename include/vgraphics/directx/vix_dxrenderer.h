@@ -61,11 +61,13 @@ namespace Vixen {
 
         void    VAttachNativeHandle(void* handle) override;
 
-        void    VRenderTexture2D(ITexture* texture, const Transform& transform) override;
+        void    VRenderTexture2D(ITexture* texture, const Transform& transform, const Rect& source) override;
 
         ID3D11Device* Device();
 
         ID3D11DeviceContext* DeviceContext();
+
+        DXSpriteBatcher* SpriteBatch();
 
     private:
         DirectX::XMVECTORF32    m_clearColor;
@@ -73,28 +75,12 @@ namespace Vixen {
         ID3D11DeviceContext*    m_ImmediateContext;
         ID3D11RenderTargetView* m_RenderTargetView;
         ID3D11DepthStencilView* m_DepthStencView;
-        ID3D11VertexShader*     m_VShader;
-        ID3D11PixelShader*      m_PShader;
-        ID3D11InputLayout*      m_InputLayout;
-        ID3D11Buffer*           m_VBuffer;
-        ID3DBlob*               m_VSBlob;
-        ID3DBlob*               m_PSBlob;
         IDXGISwapChain*         m_SwapChain;
-        ID3D11Buffer*           m_ConstantBuffer;
-        DirectX::XMMATRIX       m_World;
-        DirectX::XMMATRIX       m_View;
-        DirectX::XMMATRIX       m_Projection;
         D3D_FEATURE_LEVEL       m_FeatureLevel;
         HWND                    m_HWND;
 
-        ID3D11SamplerState*         m_SamplerState;
-        ID3D11ShaderResourceView*   m_TextureRV;
-
-        Vixen::DXPrimitiveCube* m_cube;
-        Vixen::DXQuad* m_quad;
-        Vixen::DXTexture* m_texture;
-        Vixen::DXCamera2D* m_camera;
-        Vixen::DXSpriteBatcher* m_spriteBatch;
+        DXCamera2D*             m_camera2D;
+        DXSpriteBatcher*        m_spriteBatch;
     };
 
 }

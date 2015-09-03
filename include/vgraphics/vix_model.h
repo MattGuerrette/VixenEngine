@@ -26,6 +26,9 @@
 
 #include <vix_platform.h>
 #include <vix_file.h>
+#include <vix_transform.h>
+#include <vix_shader.h>
+#include <vix_texture.h>
 
 namespace Vixen {
 
@@ -36,6 +39,10 @@ namespace Vixen {
 
         virtual bool VInitFromFile(File* file) = 0;
         virtual void VRender() = 0;
+        virtual void VSetTransform(const Transform* transform) = 0;
+        virtual void VSetVertexShader(IShader* shader) = 0;
+        virtual void VSetPixelShader(IShader* shader) = 0;
+
 
     protected:
     };

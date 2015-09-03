@@ -14,46 +14,7 @@
 using namespace Vixen;
 using namespace DirectX;
 
-struct SimpleVert
-{
-    XMFLOAT3 pos;
-    XMFLOAT4 color;
-};
-
 #define DXRENDERER ((DXRenderer*)m_renderer)
-
-HRESULT CompileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut)
-{
-    HRESULT hr = S_OK;
-
-    DWORD dwShaderFlags = D3DCOMPILE_ENABLE_STRICTNESS;
-#ifdef _DEBUG
-    // Set the D3DCOMPILE_DEBUG flag to embed debug information in the shaders.
-    // Setting this flag improves the shader debugging experience, but still allows 
-    // the shaders to be optimized and to run exactly the way they will run in 
-    // the release configuration of this program.
-    dwShaderFlags |= D3DCOMPILE_DEBUG;
-
-    // Disable optimizations to further improve shader debugging
-    dwShaderFlags |= D3DCOMPILE_SKIP_OPTIMIZATION;
-#endif
-
-    ID3DBlob* pErrorBlob = nullptr;
-    hr = D3DCompileFromFile(szFileName, nullptr, nullptr, szEntryPoint, szShaderModel,
-        dwShaderFlags, 0, ppBlobOut, &pErrorBlob);
-    if (FAILED(hr))
-    {
-        if (pErrorBlob)
-        {
-            OutputDebugStringA(reinterpret_cast<const char*>(pErrorBlob->GetBufferPointer()));
-            pErrorBlob->Release();
-        }
-        return hr;
-    }
-    if (pErrorBlob) pErrorBlob->Release();
-
-    return S_OK;
-}
 
 class TestGame : public IGame
 {
@@ -68,14 +29,18 @@ public:
 private:
     DXShader*  vShader;
     DXShader*  pShader;
-    DirectX::XMFLOAT4X4 worldMatrix;
+    DXShader*  sbVShader;
+    DXShader*  sbPShader;
     DirectX::XMFLOAT4X4 viewMatrix;
     DirectX::XMFLOAT4X4 projectionMatrix;
-    IVertexBuffer* vBuffer;
-    IIndexBuffer*  iBuffer;
     IModel*        model;
-
-    float rot;
+    IModel*        model2;
+    IModel*        model3;
+    Transform      modelTransform;
+    Transform      modelTransform2;
+    Transform      modelTransform3;
+    Transform      texTransform;
+    ITexture*  tex;
 };
 
 TestGame::TestGame()
@@ -93,15 +58,12 @@ void TestGame::VOnStartup()
 
     vShader = (DXShader*)ResourceManager::OpenShader(VTEXT("VertexShader.hlsl"), ShaderType::VERTEX_SHADER);
     pShader = (DXShader*)ResourceManager::OpenShader(VTEXT("PixelShader.hlsl"), ShaderType::PIXEL_SHADER);
+    sbVShader = (DXShader*)ResourceManager::OpenShader(VTEXT("SpriteBatch_VS.hlsl"), ShaderType::VERTEX_SHADER);
+    sbPShader = (DXShader*)ResourceManager::OpenShader(VTEXT("SpriteBatch_PS.hlsl"), ShaderType::PIXEL_SHADER);
     model = ResourceManager::OpenModel(VTEXT("monkey.obj"));
-
-  
-    // Set primitive topology
-    DXRENDERER->DeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-    // Initialize the world matrix
-    XMMATRIX W = DirectX::XMMatrixIdentity();
-    XMStoreFloat4x4(&worldMatrix, XMMatrixTranspose(W));
+    model2 = ResourceManager::OpenModel(VTEXT("ZombiDog.obj"));
+    model3 = ResourceManager::OpenModel(VTEXT("thing.obj"));
+    tex = ResourceManager::OpenTexture(VTEXT("stackedTileSheet.png"));
 
     // Initialize the view matrix
     DirectX::XMVECTOR Eye = DirectX::XMVectorSet(0.0f, 0.0f, -3.0f, 0.0f);
@@ -112,45 +74,71 @@ void TestGame::VOnStartup()
 
     // Initialize the projection matrix
     XMMATRIX P = DirectX::XMMatrixPerspectiveFovLH(DirectX::XMConvertToRadians(75.0f), 
-        m_window->VGetClientBounds().w / (FLOAT)m_window->VGetClientBounds().h, 0.01f, 100.0f);
+        m_window->VGetClientBounds().w / (FLOAT)m_window->VGetClientBounds().h, 0.01f, 1000.0f);
     XMStoreFloat4x4(&projectionMatrix, XMMatrixTranspose(P));
 
-    rot = 0.0f;
 
+    model->VSetVertexShader(vShader);
+    model->VSetPixelShader(pShader);
+    model2->VSetVertexShader(vShader);
+    model2->VSetPixelShader(pShader);
+    model3->VSetVertexShader(vShader);
+    model3->VSetPixelShader(pShader);
+
+
+    modelTransform = Transform( 0.0f, 0.0f, 10.0f,
+                                0.0f, 0.0f, 0.0f,
+                                1.0f, 1.0f, 1.0f);
+    modelTransform2 = Transform(10.0f, 0.0f, 10.0f,
+        0.0f, 0.0f, 0.0f,
+        1.0f, 1.0f, 1.0f);
+    modelTransform3 = Transform(-10.0f, 0.0f, 10.0f,
+        0.0f, 0.0f, 0.0f,
+        1.0f, 1.0f, 1.0f);
+    model->VSetTransform(&modelTransform);
+    model2->VSetTransform(&modelTransform2);
+    model3->VSetTransform(&modelTransform3);
+
+    texTransform = Transform(20.0f, 20.0f, 0.0f,
+                             0.0f, 0.0f, 0.0f,
+                             1.0f, 1.0f, 0.0f);
+
+    DXRENDERER->SpriteBatch()->SetVertexShader((DXVertexShader*)sbVShader);
+    DXRENDERER->SpriteBatch()->SetPixelShader((DXPixelShader*)sbPShader);
 }
 
 void TestGame::VOnUpdate(float dt)
 {
+    modelTransform.RotateY(dt);
+    modelTransform2.RotateY(dt);
+    modelTransform3.RotateY(dt);
 
+    //texTransform.TranslateX(50.0f * dt);
+    texTransform.RotateZ(50 * dt);
 }
 
 void TestGame::VOnRender(float dt)
 {
-    rot += dt;
-
-    XMMATRIX rotM = XMMatrixRotationRollPitchYaw(0.0f, rot, 0.0f);
-    XMStoreFloat4x4(&worldMatrix, XMMatrixTranspose(rotM));
-
-    vShader->SetMatrix4x4("world", worldMatrix);
     vShader->SetMatrix4x4("view", viewMatrix);
     vShader->SetMatrix4x4("projection", projectionMatrix);
 
-    
-
-    vShader->Activate();
-    pShader->Activate();
     model->VRender();
-  
+    model2->VRender();
+    model3->VRender();
 
+    m_renderer->VRenderTexture2D(tex, texTransform, Rect(0, 0, 32, 32));
 }
 
 void TestGame::VOnShutdown()
 {
+    delete tex;
     delete model;
-    delete vBuffer;
-    delete iBuffer;
+    delete model2;
+    delete model3;
     delete vShader;
     delete pShader;
+    delete sbVShader;
+    delete sbPShader;
 }
 
 int main(int argc, char* argv[])

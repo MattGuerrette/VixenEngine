@@ -26,41 +26,26 @@
 
 #include <vix_platform.h>
 #include <vix_directx.h>
+#include <vix_camera2d.h>
 
 namespace Vixen {
 
-    enum class OrthoType
-    {
-        ORTHO_LH,
-        ORTHO_LH_OFFCENTER,
-        ORTHO_RH,
-        ORTHO_RH_OFFCENTER
-    };
-
-    struct OrthoRect
-    {
-        float left;
-        float right;
-        float top;
-        float bottom;
-    };
-
-    class VIX_API DXCamera2D
+    class VIX_API DXCamera2D : public ICamera2D
     {
     public:
         DXCamera2D();
         
-        void SetOrthoLHOffCenter(OrthoRect rect, float zNear, float zFar);
-        void SetOrthoRHOffCenter(OrthoRect rect, float zNear, float zFar);
+        void VSetOrthoLHOffCenter(OrthoRect rect, float zNear, float zFar);
+        void VSetOrthoRHOffCenter(OrthoRect rect, float zNear, float zFar);
 
-        const DirectX::XMMATRIX& Projection();
+        const DirectX::XMFLOAT4X4& Projection();
 
     private:
-        OrthoType          m_type;
-        DirectX::XMMATRIX  m_projection;
-        OrthoRect          m_rect;
-        float              m_zNear;
-        float              m_zFar;
+        OrthoType            m_type;
+        DirectX::XMFLOAT4X4  m_projection;
+        OrthoRect            m_rect;
+        float                m_zNear;
+        float                m_zFar;
     };
 
 }

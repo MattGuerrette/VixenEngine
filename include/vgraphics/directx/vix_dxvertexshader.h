@@ -41,6 +41,8 @@ namespace Vixen {
         ID3D11VertexShader* GetShader();
         ID3D11InputLayout*  GetLayout();
        
+        bool VSetShaderResourceView(std::string name, ID3D11ShaderResourceView* rv);
+        bool VSetSamplerState(std::string name, ID3D11SamplerState* ss);
 
     protected:
         bool VInitShader(File* file) override;

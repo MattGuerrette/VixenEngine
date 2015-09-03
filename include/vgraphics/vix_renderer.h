@@ -27,6 +27,7 @@
 #include <vix_platform.h>
 #include <vix_color.h>
 #include <vix_transform.h>
+#include <vix_rectangle.h>
 #include <vix_texture.h>
 
 namespace Vixen {
@@ -110,7 +111,7 @@ namespace Vixen {
 		virtual void	VApplyFaceCulling() = 0;
 		virtual void	VApplyFaceWinding() = 0;
         virtual void    VAttachNativeHandle(void* handle) = 0;
-        virtual void    VRenderTexture2D(ITexture* texture, const Transform& trans) = 0;
+        virtual void    VRenderTexture2D(ITexture* texture, const Transform& trans, const Rect& source) = 0;
 
 		void UpdateRenderOptions();
 		void SetRenderMode(RenderMode mode);

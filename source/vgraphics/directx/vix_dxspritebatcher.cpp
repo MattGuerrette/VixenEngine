@@ -29,28 +29,36 @@
 
 namespace Vixen {
 
-    DXSpriteBatcher::DXSpriteBatcher()
+    DXSpriteBatcher::DXSpriteBatcher(ID3D11Device* device, ID3D11DeviceContext* context)
     {
         m_texture = NULL;
         m_textureCount = 0;
+        m_device = device;
+        m_context = context;
 
+        m_vBuffer = new DXVPTBuffer(MAX_VERT_COUNT, m_device, m_context);
 
         //populate index buffer
+        std::vector<USHORT> indices;
         for (unsigned short i = 0, j = 0; i < MAX_BATCH_SIZE; i++, j += VERTS_PER_TEX)
         {
             //each sprite is made up of 6 indices, 3 per triangle, 2 tri's per sprite
-            const std::array<unsigned short, INDICES_PER_TEX> temp =
-            {
-                0 + j, 1 + j, 2 + j,
-                2 + j, 1 + j, 3 + j
-            };
-            
+            indices.push_back(0 + j);
+            indices.push_back(1 + j);
+            indices.push_back(2 + j);
+            indices.push_back(2 + j);
+            indices.push_back(1 + j);
+            indices.push_back(3 + j);
         }
+        m_iBuffer = new DXIndexBuffer(INDICES_PER_TEX* MAX_BATCH_SIZE, m_device, m_context);
+        m_iBuffer->VSetData(indices.data());
+
     }
 
     DXSpriteBatcher::~DXSpriteBatcher()
     {
-
+        delete m_vBuffer;
+        delete m_iBuffer;
     }
 
     void DXSpriteBatcher::Begin(BatchSortMode mode)
@@ -148,6 +156,7 @@ namespace Vixen {
         // |                      |
         //(x1,y2)-----------(x2,y2)
 
+
         /*store origin offset based on position*/
         const float worldOriginX = info.x + info.originX;
         const float worldOriginY = info.y + info.originY;
@@ -172,7 +181,7 @@ namespace Vixen {
         fx2 *= info.scaleX;
         fy2 *= info.scaleY;
 
-        /*constructor corners*/
+        /*construct corners*/
         const float c1x = fx;
         const float c1y = fy;
         const float c2x = fx2;
@@ -181,6 +190,7 @@ namespace Vixen {
         const float c3y = fy2;
         const float c4x = fx2;
         const float c4y = fy2;
+
 
         /*create temp vars for corner points to have rotation applied*/
         float x1;
@@ -194,6 +204,7 @@ namespace Vixen {
 
         /*apply rotation*/
         if (info.rotation) {
+
             const float cos = DirectX::XMScalarCos(info.rotation);
             const float sin = DirectX::XMScalarSin(info.rotation);
 
@@ -259,18 +270,36 @@ namespace Vixen {
         }
 
         /*build vertices*/
-       
-        //TO BE IMPLEMENTED AFTER DX BUFFER CLASSES
+        m_vertices.push_back(DXVertexPosTex(x1, y1, 0.0f, u, v));
+        m_vertices.push_back(DXVertexPosTex(x2, y2, 0.0f, u2, v));
+        m_vertices.push_back(DXVertexPosTex(x3, y3, 0.0f, u, v2));
+        m_vertices.push_back(DXVertexPosTex(x4, y4, 0.0f, u2, v2));
+
+        size_t offset = sizeof(DXVertexPosTex) * index * VERTS_PER_TEX;
+        m_vBuffer->VUpdateSubData(offset, sizeof(DXVertexPosTex), m_vertices.size(), m_vertices.data());
     }
 
 
     void DXSpriteBatcher::render_textures()
     {
+       
 
+        m_vShader->SetMatrix4x4("projection", m_camera2D->Projection());
+        m_pShader->VSetSamplerState("samLinear",  ((DXTexture*)m_texture)->SampleState());
+        m_pShader->VSetShaderResourceView("txDiffuse", ((DXTexture*)m_texture)->ResourceView());
+
+        m_vShader->Activate();
+        m_pShader->Activate();
+        m_vBuffer->VBind();
+        m_iBuffer->VBind();
+
+        m_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+        m_context->DrawIndexed(INDICES_PER_TEX* MAX_BATCH_SIZE, 0, 0);
 
         /*reset for next draw call*/
         m_textureCount = 0;
         m_textures.clear();
+        m_vertices.clear();
         m_texture = NULL;
     }
 
@@ -292,5 +321,18 @@ namespace Vixen {
         render_textures();
     }
 
+    void DXSpriteBatcher::SetVertexShader(DXVertexShader* vShader)
+    {
+        m_vShader = vShader;
+    }
 
+    void DXSpriteBatcher::SetPixelShader(DXPixelShader* pShader)
+    {
+        m_pShader = pShader;
+    }
+
+    void DXSpriteBatcher::SetCamera(DXCamera2D* camera)
+    {
+        m_camera2D = camera;
+    }
 }
