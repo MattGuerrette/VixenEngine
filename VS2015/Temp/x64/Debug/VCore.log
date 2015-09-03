@@ -1,0 +1,36 @@
+﻿Build started 9/2/2015 5:55:17 PM.
+     1>Project "E:\VS2015\RIT\VixenEngine\VS2015\VCore\VCore.vcxproj" on node 2 (Build target(s)).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (E:\VS2015\RIT\VixenEngine\VS2015\Temp\x64\Debug\) contains files shared from another project (VGraphics.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /D _DEBUG /D _WINDOWS /D _USRDLL /D VIX_NONCLIENT_BUILD /D _WINDLL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"E:\VS2015\RIT\VixenEngine\VS2015\Temp\x64\Debug\\" /Fd"E:\VS2015\RIT\VixenEngine\VS2015\Temp\x64\Debug\vc140.pdb" /Gd /TP /errorReport:prompt ..\..\source\vcore\vix_debugutil.cpp ..\..\source\vcore\vix_file.cpp ..\..\source\vcore\vix_filemanager.cpp ..\..\source\vcore\vix_fileutil.cpp ..\..\source\vcore\vix_osutil.cpp ..\..\source\vcore\vix_pathmanager.cpp ..\..\source\vcore\vix_stringutil.cpp
+         vix_stringutil.cpp
+         vix_pathmanager.cpp
+         vix_osutil.cpp
+         vix_fileutil.cpp
+         vix_filemanager.cpp
+         vix_file.cpp
+     1>e:\vs2015\rit\vixenengine\source\vcore\vix_file.cpp(92): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+     1>e:\vs2015\rit\vixenengine\source\vcore\vix_file.cpp(107): warning C4267: 'argument': conversion from 'size_t' to 'long', possible loss of data
+     1>e:\vs2015\rit\vixenengine\source\vcore\vix_file.cpp(112): warning C4267: 'argument': conversion from 'size_t' to 'long', possible loss of data
+     1>e:\vs2015\rit\vixenengine\source\vcore\vix_file.cpp(117): warning C4267: 'argument': conversion from 'size_t' to 'long', possible loss of data
+         vix_debugutil.cpp
+         Generating Code...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"E:\VS2015\RIT\VixenEngine\VS2015\..\dependencies\x64\Vixen\VCore\VCored.dll" /INCREMENTAL /NOLOGO tinyxml2.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"E:\VS2015\RIT\VixenEngine\VS2015\..\dependencies\x64\Vixen\VCore\VCored.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\VS2015\RIT\VixenEngine\VS2015\..\dependencies\x64\Vixen\VCore\VCored.lib" /MACHINE:X64 /DLL E:\VS2015\RIT\VixenEngine\VS2015\Temp\x64\Debug\vix_debugutil.obj
+         E:\VS2015\RIT\VixenEngine\VS2015\Temp\x64\Debug\vix_file.obj
+         E:\VS2015\RIT\VixenEngine\VS2015\Temp\x64\Debug\vix_filemanager.obj
+         E:\VS2015\RIT\VixenEngine\VS2015\Temp\x64\Debug\vix_fileutil.obj
+         E:\VS2015\RIT\VixenEngine\VS2015\Temp\x64\Debug\vix_osutil.obj
+         E:\VS2015\RIT\VixenEngine\VS2015\Temp\x64\Debug\vix_pathmanager.obj
+         E:\VS2015\RIT\VixenEngine\VS2015\Temp\x64\Debug\vix_stringutil.obj
+         VCore.vcxproj -> E:\VS2015\RIT\VixenEngine\VS2015\..\dependencies\x64\Vixen\VCore\VCored.dll
+       PostBuildEvent:
+         xcopy /y "E:\VS2015\RIT\VixenEngine\VS2015\..\dependencies\x64\Vixen\VCore\VCored.dll" "E:\VS2015\RIT\VixenEngine\VS2015\x64\Debug"
+         :VCEnd
+         E:\VS2015\RIT\VixenEngine\VS2015\..\dependencies\x64\Vixen\VCore\VCored.dll
+         1 File(s) copied
+     1>Done Building Project "E:\VS2015\RIT\VixenEngine\VS2015\VCore\VCore.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:04.44

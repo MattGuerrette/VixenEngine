@@ -1,0 +1,23 @@
+﻿Build started 9/2/2015 9:13:46 PM.
+     1>Project "E:\VS2015\RIT\VixenEngine\VS2015\VTest\VTest.vcxproj" on node 2 (Build target(s)).
+     1>PreBuildEvent:
+         xcopy /y "E:\VS2015\RIT\VixenEngine\VS2015\..\dependencies\x64\tinyxml2\tinyxml2.dll" "E:\VS2015\RIT\VixenEngine\VS2015\x64\Debug"
+         xcopy /y "E:\VS2015\RIT\VixenEngine\VS2015\..\dependencies\x64\FreeImage\FreeImage.dll" "E:\VS2015\RIT\VixenEngine\VS2015\x64\Debug"
+         xcopy /y "E:\VS2015\RIT\VixenEngine\VS2015\..\dependencies\x64\SDL2\SDL2.dll" "E:\VS2015\RIT\VixenEngine\VS2015\x64\Debug"
+         xcopy /y "E:\VS2015\RIT\VixenEngine\VS2015\..\dependencies\x64\Assimp\assimp.dll" "E:\VS2015\RIT\VixenEngine\VS2015\x64\Debug"
+         :VCEnd
+         E:\VS2015\RIT\VixenEngine\VS2015\..\dependencies\x64\tinyxml2\tinyxml2.dll
+         1 File(s) copied
+         E:\VS2015\RIT\VixenEngine\VS2015\..\dependencies\x64\FreeImage\FreeImage.dll
+         1 File(s) copied
+         E:\VS2015\RIT\VixenEngine\VS2015\..\dependencies\x64\SDL2\SDL2.dll
+         1 File(s) copied
+         E:\VS2015\RIT\VixenEngine\VS2015\..\dependencies\x64\Assimp\assimp.dll
+         1 File(s) copied
+       Link:
+         VTest.vcxproj -> E:\VS2015\RIT\VixenEngine\VS2015\x64\Debug\VTestd.exe
+     1>Done Building Project "E:\VS2015\RIT\VixenEngine\VS2015\VTest\VTest.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.08
