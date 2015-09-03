@@ -79,6 +79,7 @@
     <IncludePath>$(SolutionDir)..\include;$(SolutionDir)..\include\vcore;$(SolutionDir)..\include\vgraphics;$(SolutionDir)..\include\vgraphics\directx;$(SolutionDir)..\include\vgame;$(SolutionDir)..\dependencies\$(Platform)\tinyxml2;$(SolutionDir)..\dependencies\$(Platform)\FreeImage;$(SolutionDir)..\dependencies\$(Platform)\SDL2\include;$(SolutionDir)..\dependencies\$(Platform)\Assimp\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)..\dependencies\$(Platform)\Vixen\VCore;$(SolutionDir)..\dependencies\$(Platform)\Vixen\VGraphics;$(SolutionDir)..\dependencies\$(Platform)\Vixen\VAudio;$(SolutionDir)..\dependencies\$(Platform)\Vixen\VGame;$(SolutionDir)..\dependencies\$(Platform)\tinyxml2;$(SolutionDir)..\dependencies\$(Platform)\FreeImage;$(SolutionDir)..\dependencies\$(Platform)\SDL2;$(SolutionDir)..\dependencies\$(Platform)\Assimp;$(LibraryPath)</LibraryPath>
     <TargetName>$(ProjectName)d</TargetName>
+    <IntDir>$(SolutionDir)Temp\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
