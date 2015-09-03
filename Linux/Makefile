@@ -1,26 +1,27 @@
 CC=g++
-LIB_FLAGS= -std=c++11 -Wall -w -g -shared -fPIC
-EXE_FLAGS= -std=c++11 -Wall -w -g
+COMPILER_DEFINES= -DVIX_OPENGL_BUILD
+LIB_FLAGS= -std=c++11 -Wall -w -g -shared -fPIC $(COMPILER_DEFINES)
+EXE_FLAGS= -std=c++11 -Wall -w -g $(COMPILER_DEFINES)
 USR_INC:= -I/usr/include/ -I/usr/local/include/
 VCORE_INC:= -I../include/ -I../include/vcore/ -I../dependencies/jsoncpp/ $(USR_INC)
 VCORE_SRC:= $(wildcard ../source/vcore/*.cpp ../dependencies/jsoncpp/*.cpp)
 VCORE_LIB:= -L/usr/lib64/
-VGRAPHICS_INC:= -I../include/ -I../include/vcore/ -I../include/vgraphics $(USR_INC)
-VGRAPHICS_SRC:= $(wildcard ../source/vgraphics/*.cpp)
+VGRAPHICS_INC:= -I../include/ -I../include/vcore/ -I../include/vgraphics -I../include/vgraphics/opengl $(USR_INC)
+VGRAPHICS_SRC:= $(wildcard ../source/vgraphics/*.cpp ../source/vgraphics/opengl/*.cpp)
 VGRAPHICS_LIB:= -L/usr/lib64/
-VGAME_INC:= -I../include/ -I../include/vcore/ -I../include/vgraphics/ -I../include/vgame/ $(USR_INC)
+VGAME_INC:= -I../include/ -I../include/vcore/ -I../include/vgraphics/ -I../include/vgraphics/opengl -I../include/vgame/ $(USR_INC)
 VGAME_SRC:= $(wildcard ../source/vgame/*.cpp)
 VGAME_LIB:= -L/usr/lib64/
-EXE_INC:= -I../include/ -I../include/vcore/ -I../include/vgraphics/ -I../include/vgame/ $(USR_INC) -Iinclude/
+EXE_INC:= -I../include/ -I../include/vcore/ -I../include/vgraphics/ -I../include/vgraphics/opengl -I../include/vgame/ $(USR_INC) -Iinclude/
 EXE_SRC:= $(wildcard src/*.cpp)
-EXE_LIB:= -L/usr/lib64/nvidia-bumblebee/tls -L/usr/lib64/nvidia-bumblebee  -L/usr/lib64  -L/usr/local/lib -lvgame -lvgraphics -lvcore -lSDL2 -lGLEW -lGL -lGLU -lfreeimage -larchive -ltinyxml2 -lassimp
+EXE_LIB:= -L/usr/lib/x86_64-linux-gnu -L/usr/local/lib -lvgame -lvgraphics -lvcore -lSDL2 -lGLEW -lGL -lGLU -lfreeimage -larchive -ltinyxml2 -lassimp
 LIB_OUTDIR:= /usr/local/lib/
 
 VCORE_TARGET:= libvcore.so
 VGRAPHICS_TARGET:= libvgraphics.so
 VGAME_TARGET:= libvgame.so
 
-OUT_DIR:= ../VTest/
+OUT_DIR:=
 EXE:= vtest
 
 all: vcore vgraphics vgame $(EXE)
