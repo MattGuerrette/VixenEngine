@@ -1,1 +1,4 @@
 *.sdf
+*.opensdf
+x64/
+Temp/

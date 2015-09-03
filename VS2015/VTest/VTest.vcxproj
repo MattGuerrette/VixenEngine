@@ -119,7 +119,9 @@
       <Command>xcopy /y "$(SolutionDir)..\dependencies\$(Platform)\tinyxml2\tinyxml2.dll" "$(SolutionDir)$(Platform)\$(Configuration)"
 xcopy /y "$(SolutionDir)..\dependencies\$(Platform)\FreeImage\FreeImage.dll" "$(SolutionDir)$(Platform)\$(Configuration)"
 xcopy /y "$(SolutionDir)..\dependencies\$(Platform)\SDL2\SDL2.dll" "$(SolutionDir)$(Platform)\$(Configuration)"
-xcopy /y "$(SolutionDir)..\dependencies\$(Platform)\Assimp\assimp.dll" "$(SolutionDir)$(Platform)\$(Configuration)"</Command>
+xcopy /y "$(SolutionDir)..\dependencies\$(Platform)\Assimp\assimp.dll" "$(SolutionDir)$(Platform)\$(Configuration)"
+xcopy /y "$(ProjectDir)vixen.env" "$(SolutionDir)$(Platform)\$(Configuration)"
+xcopy /y "$(ProjectDir)vtest.config" "$(SolutionDir)$(Platform)\$(Configuration)"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
