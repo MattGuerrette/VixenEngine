@@ -21,6 +21,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="vixen.env" />
-    <None Include="..\x64\Debug\vtest.config" />
+    <None Include="vtest.config" />
   </ItemGroup>
 </Project>

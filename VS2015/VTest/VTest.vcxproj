@@ -165,10 +165,10 @@ xcopy /y "$(ProjectDir)vtest.config" "$(SolutionDir)$(Platform)\$(Configuration)
     <ClCompile Include="..\..\source\vtest\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\x64\Debug\vtest.config" />
     <None Include="vixen.env">
       <SubType>Designer</SubType>
     </None>
+    <None Include="vtest.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
