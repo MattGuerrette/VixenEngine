@@ -77,7 +77,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)..\dependencies\$(Platform)\Vixen\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Temp\$(Platform)\$(Configuration)\</IntDir>
+    <IntDir>$(SolutionDir)Temp\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)d</TargetName>
     <IncludePath>$(SolutionDir)..\include;$(SolutionDir)..\include\vcore;$(SolutionDir)..\include\vgraphics;$(SolutionDir)..\include\vgraphics\directx;$(SolutionDir)..\include\vgame;$(SolutionDir)..\dependencies\$(Platform)\tinyxml2;$(SolutionDir)..\dependencies\$(Platform)\FreeImage;$(SolutionDir)..\dependencies\$(Platform)\SDL2\include;$(SolutionDir)..\dependencies\$(Platform)\Assimp\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)..\dependencies\$(Platform)\Vixen\VCore;$(SolutionDir)..\dependencies\$(Platform)\Vixen\VGraphics;$(SolutionDir)..\dependencies\$(Platform)\tinyxml2;$(SolutionDir)..\dependencies\$(Platform)\FreeImage;$(SolutionDir)..\dependencies\$(Platform)\SDL2;$(SolutionDir)..\dependencies\$(Platform)\Assimp;$(LibraryPath)</LibraryPath>
@@ -120,6 +120,10 @@
     <PostBuildEvent>
       <Command>xcopy /y "$(OutDir)$(ProjectName)d.dll" "$(SolutionDir)$(Platform)\$(Configuration)"</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

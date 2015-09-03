@@ -79,7 +79,7 @@
     <IncludePath>$(SolutionDir)..\include;$(SolutionDir)..\include\vcore;$(SolutionDir)..\include\vgraphics;$(SolutionDir)..\include\vgraphics\directx;$(SolutionDir)..\dependencies\$(Platform)\tinyxml2;$(SolutionDir)..\dependencies\$(Platform)\FreeImage;$(SolutionDir)..\dependencies\$(Platform)\Assimp\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)..\dependencies\$(Platform)\Vixen\VCore;$(SolutionDir)..\dependencies\$(Platform)\tinyxml2;$(SolutionDir)..\dependencies\$(Platform)\FreeImage\;$(SolutionDir)..\dependencies\$(Platform)\Assimp;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)..\dependencies\$(Platform)\Vixen\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Temp\$(Platform)\$(Configuration)\</IntDir>
+    <IntDir>$(SolutionDir)Temp\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -120,6 +120,10 @@
     <PostBuildEvent>
       <Command>xcopy /y "$(OutDir)$(ProjectName)d.dll" "$(SolutionDir)$(Platform)\$(Configuration)"</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
