@@ -107,7 +107,6 @@ namespace Vixen {
             return false;
 		}
 
-#ifdef VIX_SYS_WINDOWS
         SDL_SysWMinfo info;
         SDL_VERSION(&info.version);
         if (SDL_GetWindowWMInfo(m_windowHandle, &info))
@@ -116,21 +115,17 @@ namespace Vixen {
             if (m_renderer)
                 m_renderer->VAttachNativeHandle(m_nativeHandle);
         }
-#endif
-	if(m_renderer->Type() == IRenderer::RendererType::OPENGL)
-	{
-		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+
+       /* SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-		SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);*/
 		/*create OpenGL context*/
-		m_context = SDL_GL_CreateContext(m_windowHandle);
+		/*m_context = SDL_GL_CreateContext(m_windowHandle);
 		if (!m_context) {
 			SDL_Quit();
 			DebugPrintF(VTEXT("Failed to create SDL_GL_Context handle"));
-            		return false;
-		}
-	}
-      
+            return false;
+		}*/
 
 		if (m_renderer && !m_renderer->VInitialize()) {
 		  DebugPrintF(VTEXT("Renderer failed to initialize"));
@@ -142,7 +137,7 @@ namespace Vixen {
 
 	bool SDLGameWindow::VRun()
 	{
-
+		
 		/*try and initialize window*/
 		if (!VInit()) {
 		  DebugPrintF(VTEXT("SDLGameWindow failed to initialize"));

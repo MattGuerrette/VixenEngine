@@ -306,11 +306,8 @@ namespace Vixen {
         m_spriteBatch->End();
     }
 
-<<<<<<< HEAD
     DXSpriteBatcher* DXRenderer::SpriteBatch()
     {
         return m_spriteBatch;
     }
-=======
 }
->>>>>>> f0c8f5d1451f965d8d26ccc542d7e328fcce722a
