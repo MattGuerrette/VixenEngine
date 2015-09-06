@@ -37,12 +37,9 @@ namespace Vixen {
 		m_program = glCreateProgram();
 
 		/*load and create shaders from args*/
-		ErrCode error = VCreateShadersFromArgs();
-		if (CheckError(error)) {
+
+		if (VCreateShadersFromArgs()) {
 		  DebugPrintF(VTEXT("Failed to create shader program"));
-		}
-		else {
-			//DebugPrintF(VTEXT("Created shader program"));
 		}
 	}
 
@@ -66,11 +63,8 @@ namespace Vixen {
 		glUseProgram(NULL);
 	}
 
-	ErrCode GLShaderProgram::VCreateShadersFromArgs()
+	bool GLShaderProgram::VCreateShadersFromArgs()
 	{
-		ErrCode error = ErrCode::ERR_SUCCESS;
-
-
 		/*iterate over shader info objects*/
 
 		for (auto& info : m_args) {
@@ -120,7 +114,7 @@ namespace Vixen {
 			}
 		}
 
-		return error;
+		return true;
 	}
 
 	void GLShaderProgram::AttachShader(Shader* shader)
@@ -130,40 +124,33 @@ namespace Vixen {
 		}
 	}
 
-	ErrCode GLShaderProgram::GetUniformLoc(const GLchar* name, GLuint& location)
+	bool GLShaderProgram::GetUniformLoc(const GLchar* name, GLuint& location)
 	{
 		location = glGetUniformLocation(m_program, name);
 		if (location < 0) {
-			return ErrCode::ERR_FAILURE;
+			return false;
 		}
 
-		return ErrCode::ERR_SUCCESS;
+		return true;
 	}
 
-	ErrCode GLShaderProgram::LinkShader(Shader* shader)
+	bool GLShaderProgram::LinkShader(Shader* shader)
 	{
-		ErrCode error = ErrCode::ERR_SUCCESS;
-
 		/*link program to shader*/
 		glLinkProgram(m_program);
-		//error = ValidateCompile(m_program);
-		if (CheckError(error)) {
+		if (ValidateCompile(m_program)) {
 			DebugPrintF(VTEXT("Failed to link shader to program"));
 			delete shader;
 		}
 
-		return error;
+		return false;
 	}
 
-	ErrCode GLShaderProgram::ValidateCompile(GLuint program)
+	bool GLShaderProgram::ValidateCompile(GLuint program)
 	{
-		ErrCode error = ErrCode::ERR_SUCCESS;
-
 		GLint linked;
 		glGetProgramiv(program, GL_LINK_STATUS, &linked);
 		if (!linked) {
-			error = ErrCode::ERR_FAILURE;
-
 			GLsizei length;
 			glGetProgramiv(program, GL_INFO_LOG_LENGTH, &length);
 			GLchar* log = new GLchar[length + 1];
@@ -171,8 +158,10 @@ namespace Vixen {
 			DebugPrintF(VTEXT("Program Log: %s\n"),
 				log);
 			delete[] log;
+
+			return false;
 		}
 
-		return error;
+		return true;
 	}
 }

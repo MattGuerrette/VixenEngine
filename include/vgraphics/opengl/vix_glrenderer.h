@@ -27,12 +27,6 @@
 #include <vix_platform.h>
 #include <vix_renderer.h>
 #include <vix_color.h>
-#include <vix_gltexturebatcher.h>
-#include <vix_vector2.h>
-#include <vix_rectangle.h>
-#include <vix_glcamera2d.h>
-#include <vix_glcamera3d.h>
-#include <vix_bmfont.h>
 
 namespace Vixen {
 
@@ -40,40 +34,18 @@ namespace Vixen {
 	{
 	public:
 
-		ErrCode VInit()                            override;
-		void    VShutDown()                        override;
-		void    VSetClearColor(const Color& c)     override;
-		void    VClearBuffer(ClearArgs args)       override;
-		void    VSetProjection(Mat4 projection)    override;
-		void    VSetClientRect(const Rect& client) override;
-		void    VApplyFaceCulling()                override;
-		void    VApplyFaceWinding()                override;
-		void    VApplyRenderMode()                 override;
-
-		void    Render2DTexture(GLTexture* texture,
-								const Vector2&  position,
-								const Rect&     source,
-								const Vector2&  origin,
-								const Vector2&  scale,
-								float           rotation,
-								float           alpha,
-								const Color&    color,
-								float           depth);
-
-		void   Render2DText(BMFont* font,
-			                UString text,
-							const Vector2& position,
-							float alpha,
-							const Color&   color);
-
-		GLCamera2D* Camera2D() const;
-		GLCamera3D* Camera3D() const;
+		bool    VInitialize()                      												override;
+		void    VDeInitialize()					   												override;
+		void    VSetClearColor(const Color& c)     												override;
+		void    VClearBuffer(ClearArgs args)       												override;
+		void    VApplyFaceCulling()                												override;
+		void    VApplyFaceWinding()                												override;
+		void    VApplyRenderMode()                 												override;
+		void    VSwapBuffers()					   												override;
+		void    VAttachNativeHandle(void* handle)											    override;
+		void    VRenderTexture2D(ITexture* texture, const Transform& trans, const Rect& source) override;
 
 	private:
-		Rect               m_clientInfo;
-		GLCamera2D*        m_camera2D;
-		GLCamera3D*        m_camera3D;
-		GLTextureBatcher*  m_Render2DBatcher;
 	};
 
 }

@@ -31,25 +31,23 @@ namespace Vixen {
 	{
 		m_info = info;
 
-		ErrCode error = ErrCode::ERR_SUCCESS;
 		if (m_info.filePath.empty() && m_info.raw.empty()) {
 			/*no file or raw contents avaliable for loading*/
-			DebugPrintF(VTEXT("Shader creation failed: %s\n%s\n"),
-				        VTEXT("No shader path or raw contents avaliable"),
-				    ErrCodeString(ErrCode::ERR_NULL_PATH).c_str());
+			DebugPrintF(VTEXT("Shader creation failed: %s\n"),
+				        VTEXT("No shader path or raw contents avaliable"));
 		}
 
 		/*determine if shader should load from file or raw contents*/
+		bool success;
 		if (!m_info.filePath.empty()) {
-			error = VInitFromFile(m_info.filePath);
+			success = VInitFromFile(m_info.filePath);
 		}
 		else {
-			error = VInitFromString(m_info.raw);
+			success = VInitFromString(m_info.raw);
 		}
 
-		if (CheckError(error)) {
-			DebugPrintF(VTEXT("Shader creation failed: %s\n"),
-				    ErrCodeString(error).c_str());
+		if (!success) {
+			DebugPrintF(VTEXT("Shader creation failed\n"));
 		}
 	}
 
@@ -58,32 +56,25 @@ namespace Vixen {
 		glDeleteShader(m_shader);
 	}
 
-	ErrCode GLShader::VInitFromFile(const UString& path)
+	bool GLShader::VInitFromFile(const UString& path)
 	{
-		ErrCode error = ErrCode::ERR_SUCCESS;
-
 		/*grab source from file*/
 		const GLchar* source = ReadShader(path);
 		if (!source) {
-			error = ErrCode::ERR_FAILURE;
-			DebugPrintF(VTEXT("Failed to parse shader source: %s\n"),
-				    ErrCodeString(error).c_str());
-			return error;
+			DebugPrintF(VTEXT("Failed to parse shader source\n"));
+			return false;
 		}
 
-		error = LoadShader(source);
-		if (CheckError(error)) {
-			DebugPrintF(VTEXT("Failed to init shader from file: %s\n"),
-				    ErrCodeString(error).c_str());
-			return error;
+		if (!LoadShader(source)) {
+			DebugPrintF(VTEXT("Failed to init shader from file\n"));
+			return false;
 		}
 
-		return error;
+		return true;
 	}
 
-	ErrCode GLShader::VInitFromString(const UString& path)
+	bool GLShader::VInitFromString(const UString& path)
 	{
-		ErrCode error = ErrCode::ERR_SUCCESS;
 
 #if defined UNICODE && defined VIX_SYS_WINDOWS
 		UConverter cv;
@@ -92,28 +83,22 @@ namespace Vixen {
 #else
 		const GLchar* source = (const GLchar*)m_info.raw.c_str();
 #endif
-		error = LoadShader(source);
-		if (CheckError(error)) {
+		if (!LoadShader(source)) {
 			if (CheckError(error)) {
-				DebugPrintF(VTEXT("Failed to init shader from source: %s\n"),
-					    ErrCodeString(error).c_str());
-				return error;
+				DebugPrintF(VTEXT("Failed to init shader from source\n"));
+				return true;
 			}
 		}
 
-		return error;
+		return false;
 	}
 
-	ErrCode GLShader::LoadShader(const GLchar* source)
+	bool GLShader::LoadShader(const GLchar* source)
 	{
-		ErrCode error = ErrCode::ERR_SUCCESS;
-
 		GLenum type = GLShaderType(m_info.type);
 		if (type == GL_NONE) {
-			error = ErrCode::ERR_FAILURE;
-			DebugPrintF(VTEXT("Failed to Load Shader due to invalid type: %s\n"),
-				    ErrCodeString(error).c_str());
-			return error;
+			DebugPrintF(VTEXT("Failed to Load Shader due to invalid type\n"));
+			return false;
 		}
 
 		/*create shader object*/
@@ -125,19 +110,15 @@ namespace Vixen {
 
 		/*compile shader*/
 		glCompileShader(m_shader);
-		error = ValidateCompile(m_shader);
 
-		return error;
+		return ValidateCompile(m_shader);
 	}
 
-	ErrCode GLShader::ValidateCompile(GLuint shader)
+	bool GLShader::ValidateCompile(GLuint shader)
 	{
-		ErrCode error = ErrCode::ERR_SUCCESS;
-
 		GLint compiled;
 		glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
 		if (!compiled) {
-			error = ErrCode::ERR_FAILURE;
 			GLsizei length;
 			glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &length);
 
@@ -151,16 +132,16 @@ namespace Vixen {
 			DebugPrintF(log_string.c_str());
 			std::cout << log << std::endl;
 #else
-			DebugPrintF(VTEXT("Shader Log: %s\n%s\n"),
-				    log, ErrCodeString(error).c_str());
+			DebugPrintF(VTEXT("Shader Log: %s\n"),
+				    log);
 #endif
 			delete[] log;
 
-			return error;
+			return false;
 		}
 
 
-		return error;
+		return true;
 	}
 
 	const GLchar* GLShader::ReadShader(const UString& path)

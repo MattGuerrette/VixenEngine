@@ -38,19 +38,19 @@ namespace Vixen {
 
 		~GLShader();
 
-		ErrCode VInitFromFile(const UString& path)  override;
-		ErrCode VInitFromString(const UString& str) override;
+		bool VInitFromFile(const UString& path)  override;
+		bool VInitFromString(const UString& str) override;
 
 
 		GLuint ShaderHandle() const;
 
 	private:
 
-		ErrCode  LoadShader(const GLchar* source);
+		bool  LoadShader(const GLchar* source);
 
 		static const GLchar* ReadShader(const UString& path);
 		static GLenum        GLShaderType(ShaderType type);
-		static ErrCode       ValidateCompile(GLuint shader);
+		static bool       ValidateCompile(GLuint shader);
 	private:
 		GLuint     m_shader;
 		ShaderInfo m_info;

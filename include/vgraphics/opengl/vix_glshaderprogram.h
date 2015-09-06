@@ -48,23 +48,23 @@ namespace Vixen {
 		void Unbind();
 
 		/*retrive uniform location*/
-		ErrCode GetUniformLoc(const GLchar* name, GLuint& location);
+		bool GetUniformLoc(const GLchar* name, GLuint& location);
 
 	protected:
-		ErrCode VCreateShadersFromArgs() override;
+		bool VCreateShadersFromArgs() override;
 
 		/*attach OpenGL shader to program*/
 		void    AttachShader(Shader* shader);
 
 
 		/*try and OpenGL link shader to program*/
-		ErrCode LinkShader(Shader* shader);
+		bool LinkShader(Shader* shader);
 
 	private:
 		GLuint m_program;
 
 
-		static ErrCode  ValidateCompile(GLuint program);
+		static bool  ValidateCompile(GLuint program);
 	};
 }
 

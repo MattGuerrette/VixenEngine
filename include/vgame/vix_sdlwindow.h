@@ -30,12 +30,13 @@
 #include <vix_sdlinput.h>
 #ifdef VIX_SYS_WINDOWS
 #include <SDL.h>
+#include <SDL_syswm.h>
 #undef main
 #elif defined(VIX_SYS_LINUX)
 #include <SDL2/SDL.h>
 #endif
 
-#include <SDL_syswm.h>
+
 
 namespace Vixen {
 
