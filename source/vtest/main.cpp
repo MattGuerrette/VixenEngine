@@ -63,7 +63,7 @@ void TestGame::VOnStartup()
     model = ResourceManager::OpenModel(VTEXT("monkey.obj"));
     model2 = ResourceManager::OpenModel(VTEXT("ZombiDog.obj"));
     model3 = ResourceManager::OpenModel(VTEXT("thing.obj"));
-    tex = ResourceManager::OpenTexture(VTEXT("stackedTileSheet.png"));
+    tex = ResourceManager::OpenTexture(VTEXT("vixen_icon.png"));
 
     // Initialize the view matrix
     DirectX::XMVECTOR Eye = DirectX::XMVectorSet(0.0f, 0.0f, -3.0f, 0.0f);
@@ -114,7 +114,7 @@ void TestGame::VOnUpdate(float dt)
     modelTransform3.RotateY(dt);
 
     //texTransform.TranslateX(50.0f * dt);
-    texTransform.RotateZ(50 * dt);
+    //texTransform.RotateZ(50 * dt);
 }
 
 void TestGame::VOnRender(float dt)
@@ -126,7 +126,7 @@ void TestGame::VOnRender(float dt)
     model2->VRender();
     model3->VRender();
 
-    m_renderer->VRenderTexture2D(tex, texTransform, Rect(0, 0, 32, 32));
+    m_renderer->VRenderTexture2D(tex, texTransform, Rect(0, 0, 0, 0));
 }
 
 void TestGame::VOnShutdown()
