@@ -1,7 +1,7 @@
 /*
 	The MIT License(MIT)
 
-	Copyright(c) 2015 Matt Guerrette
+	Copyright(c) 2015 Vixen Team, Matt Guerrette
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files(the "Software"), to deal
@@ -67,6 +67,11 @@ namespace Vixen {
 			return !(*this == rhs);
 		}
 
+        inline Vector3 add(const Vector3& rhs) const
+        {
+            return *this + rhs;
+        }
+
 		inline Vector3 operator + (const Vector3& rhs) const
 		{
 			return Vector3(x + rhs.x, y + rhs.y, z + rhs.z);
@@ -91,6 +96,11 @@ namespace Vixen {
 		{
 			return Vector3(x * rhs.x, y * rhs.y, z * rhs.z);
 		}
+
+        inline Vector3 mul(const float scalar) const
+        {
+            return *this * scalar;
+        }
 
 		inline Vector3 operator * (const float scalar) const
 		{
@@ -247,6 +257,21 @@ namespace Vixen {
 			return Vector3(newX, newY, newZ);
 		}
 
+		inline float X()
+		{
+			return x;
+		}
+
+		inline float Y()
+		{
+			return y;
+		}
+
+		inline float Z()
+		{
+			return z;
+		}
+
 		//constants
 		static const Vector3 Zero;
 		static const Vector3 One;
@@ -261,7 +286,8 @@ namespace Vixen {
 		static const Vector3 Backward;
 
 
-		UString ToString() const;
+		UString         ToString() const;
+        std::string     ToStdString() const;
 
 		inline VIX_API friend UOStream& operator <<
 			(UOStream& o, const Vector3& v)
@@ -286,6 +312,18 @@ namespace Vixen {
 
 		return ss.str();
 	}
+
+    inline std::string Vector3::ToStdString() const
+    {
+        std::stringstream ss;
+        ss << std::fixed
+            << std::setprecision(3)
+            << "X=" << x << " "
+            << "Y=" << y << " "
+            << "Z=" << z;
+
+        return ss.str();
+    }
 }
 
 #endif

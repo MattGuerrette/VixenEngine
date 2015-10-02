@@ -1,7 +1,7 @@
 /*
 	The MIT License(MIT)
 
-	Copyright(c) 2015 Matt Guerrette
+	Copyright(c) 2015 Vixen Team, Matt Guerrette
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files(the "Software"), to deal
@@ -23,6 +23,10 @@
 
 #include <vix_sdlinput.h>
 
+#define MOUSECS_LEFT	0
+#define MOUSECS_MIDDLE  1
+#define MOUSECS_RIGHT	2
+
 namespace Vixen {
 
 	/*************************MOUSE**************************/
@@ -31,6 +35,10 @@ namespace Vixen {
 	{
 		m_x = 0;
 		m_y = 0;
+		m_wx = 0;
+		m_wy = 0;
+		m_prevWX = 0;
+		m_prevWY = 0;
 		m_prevX = 0;
 		m_prevY = 0;
 		m_current[MOUSECS_LEFT].state = SDL_RELEASED;
@@ -42,17 +50,34 @@ namespace Vixen {
 
 	}
 
-	int SDLMouseState::X()
+	int SDLMouseState::VMouseX()
 	{
 		return m_x;
 	}
 
-	int SDLMouseState::Y()
+	int SDLMouseState::VMouseY()
 	{
 		return m_y;
 	}
 
-	int SDLMouseState::DeltaX(int val)
+	int SDLMouseState::VMouseWheelX()
+	{
+		if (m_wx != m_prevWX) {
+			return m_wx - 50;
+		}
+		else {
+			return 0;
+		}
+	}
+
+	int SDLMouseState::VMouseWheelY()
+	{
+		
+		return m_wy;
+		
+	}
+
+	int SDLMouseState::VDeltaX(int val)
 	{
 		if(m_x != m_prevX) {
 			return m_x - val;
@@ -61,7 +86,7 @@ namespace Vixen {
 		}
 	}
 
-	int SDLMouseState::DeltaY(int val)
+	int SDLMouseState::VDeltaY(int val)
 	{
 		if(m_y != m_prevY) {
 			return m_y - val;
@@ -70,32 +95,34 @@ namespace Vixen {
 		}
 	}
 
-	bool SDLMouseState::ButtonPress(int button)
+	bool SDLMouseState::VButtonPress(IMBUTTON button)
 	{
-		if(button >= 3) {
-			return false;
-		}
-
-		return m_current[button].state == SDL_PRESSED;
+		if(button == IMBUTTON::LEFT)
+            return m_current[MOUSECS_LEFT].state == SDL_PRESSED;
+        else if(button == IMBUTTON::RIGHT)
+            return m_current[MOUSECS_RIGHT].state == SDL_PRESSED;
+        else
+            return m_current[MOUSECS_MIDDLE].state == SDL_PRESSED;
 	}
 
-	bool SDLMouseState::ButtonRelease(int button)
+	bool SDLMouseState::VButtonRelease(IMBUTTON button)
 	{
-		if(button >= 3) {
-			return false;
-		}
-
-		return m_current[button].state == SDL_RELEASED && m_prev[button].state == SDL_PRESSED;
+        if (button == IMBUTTON::LEFT)
+            return m_current[MOUSECS_LEFT].state == SDL_RELEASED && m_prev[MOUSECS_LEFT].state == SDL_PRESSED;
+        else if(button == IMBUTTON::RIGHT)
+            return m_current[MOUSECS_RIGHT].state == SDL_RELEASED && m_prev[MOUSECS_RIGHT].state == SDL_PRESSED;
+        else
+            return m_current[MOUSECS_MIDDLE].state == SDL_RELEASED && m_prev[MOUSECS_MIDDLE].state == SDL_PRESSED;
 	}
 
-	bool SDLMouseState::SingleButtonPress(int button)
+	bool SDLMouseState::VSingleButtonPress(IMBUTTON button)
 	{
-		if(button >= 3) {
-			return false;
-		}
-
-		return m_current[button].state == SDL_PRESSED &&
-			m_prev[button].state == SDL_RELEASED;
+        if(button == IMBUTTON::LEFT)
+            return m_current[MOUSECS_LEFT].state == SDL_PRESSED && m_prev[MOUSECS_LEFT].state == SDL_RELEASED;
+        else if(button == IMBUTTON::RIGHT)
+            return m_current[MOUSECS_RIGHT].state == SDL_PRESSED && m_prev[MOUSECS_RIGHT].state == SDL_RELEASED;
+        else
+            return m_current[MOUSECS_MIDDLE].state == SDL_PRESSED && m_prev[MOUSECS_MIDDLE].state == SDL_RELEASED;
 	}
 
 	void SDLMouseState::MouseMove(int x, int y)
@@ -125,10 +152,19 @@ namespace Vixen {
 		}
 	}
 
+	void SDLMouseState::MouseWheelEvent(SDL_MouseWheelEvent mwEvent)
+	{
+		m_wx = mwEvent.x;
+		m_wy = mwEvent.y;
+	}
+
 	void SDLMouseState::UpdatePrev()
 	{
+		m_prevWX = m_wx;
+		m_prevWY = m_wy;
 		m_prevX = m_x;
 		m_prevY = m_y;
+		m_wy = 0;
 		memcpy(m_prev, m_current, sizeof(m_current));
 	}
 
@@ -154,16 +190,22 @@ namespace Vixen {
 		m_previous = m_current;
 	}
 
-	bool SDLKeyboardState::KeyPress(IKEY key)
+	bool SDLKeyboardState::VKeyPress(IKEY key)
 	{
 		SDL_Scancode code = convertFromIKEY(key);
 		return m_current[code];
 	}
 
-	bool SDLKeyboardState::SingleKeyPress(IKEY key)
+	bool SDLKeyboardState::VSingleKeyPress(IKEY key)
 	{
 		SDL_Scancode code = convertFromIKEY(key);
 		return m_current[code] && !m_previous[code];
+	}
+
+	bool SDLKeyboardState::VKeyRelease(IKEY key)
+	{
+		SDL_Scancode code = convertFromIKEY(key);
+		return !m_current[code] && m_previous[code];
 	}
 
 	SDL_Scancode SDLKeyboardState::convertFromIKEY(IKEY key)
@@ -230,6 +272,8 @@ namespace Vixen {
 			return SDL_SCANCODE_LEFT;
 		case Vixen::IKEY::RIGHT:
 			return SDL_SCANCODE_RIGHT;
+		case Vixen::IKEY::SPACE:
+			return SDL_SCANCODE_SPACE;
 		case Vixen::IKEY::F1:
 			return SDL_SCANCODE_F1;
 		case Vixen::IKEY::F2:

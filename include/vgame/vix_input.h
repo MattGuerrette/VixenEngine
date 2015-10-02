@@ -1,7 +1,7 @@
 /*
 	The MIT License(MIT)
 
-	Copyright(c) 2015 Matt Guerrette
+	Copyright(c) 2015 Vixen Team, Matt Guerrette
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files(the "Software"), to deal
@@ -24,9 +24,19 @@
 #ifndef VIX_INPUT_H
 #define VIX_INPUT_H
 
+#include <vix_platform.h>
+
+
 namespace Vixen {
 
-	enum class IKEY
+    enum class IMBUTTON
+    {
+        LEFT,
+        RIGHT,
+        MIDDLE
+    };
+
+	enum IKEY
 	{
 		A,
 		B,
@@ -58,6 +68,7 @@ namespace Vixen {
 		DOWN,
 		LEFT,
 		RIGHT,
+		SPACE,
 		F1,
 		F2,
 		F3,
@@ -80,6 +91,34 @@ namespace Vixen {
 		NUM8,
 		NUM9,
 		NUM0,
+	};
+
+	class IKeyboardState;
+    class IMouseState;
+
+	class VIX_API Input
+	{
+	public:
+		static bool KeyPress(IKEY key);
+		static bool SingleKeyPress(IKEY key);
+		static bool KeyRelease(IKEY key);
+		static void SetKeyboardState(IKeyboardState* keyState);
+        static void SetMouseState(IMouseState* mouseState);
+
+        static int  MouseX();
+        static int  MouseY();
+		static int  MouseWheelX();
+		static int  MouseWheelY();
+        static int  DeltaX(int val);
+        static int  DeltaY(int val);
+
+        static bool ButtonRelease(IMBUTTON button);
+        static bool ButtonPress(IMBUTTON button);
+        static bool SingleButtonPress(IMBUTTON button);
+
+	private:
+		static IKeyboardState* s_keyState;
+        static IMouseState*    s_mouseState;
 	};
 
 }

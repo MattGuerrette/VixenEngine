@@ -1,24 +1,24 @@
 /*
-    The MIT License(MIT)
+	The MIT License(MIT)
 
-    Copyright(c) 2015 Matt Guerrette
+	Copyright(c) 2015 Vixen Team, Matt Guerrette
 
-    Permission is hereby granted, free of charge, to any person obtaining a copy
-    of this software and associated documentation files(the "Software"), to deal
-    in the Software without restriction, including without limitation the rights
-    to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
-    copies of the Software, and to permit persons to whom the Software is
-    furnished to do so, subject to the following conditions :
-    The above copyright notice and this permission notice shall be included in all
-    copies or substantial portions of the Software.
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files(the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions :
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
 
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
-    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    SOFTWARE.
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
 */
 
 #ifndef VIX_DXRENDERER_H
@@ -36,7 +36,7 @@
 
 namespace Vixen {
 
-    class VIX_API DXRenderer : public IRenderer
+    class VIX_API DXRenderer : public Renderer
     {
     public:
         DXRenderer();
@@ -61,13 +61,21 @@ namespace Vixen {
 
         void    VAttachNativeHandle(void* handle) override;
 
-        void    VRenderTexture2D(ITexture* texture, const Transform& transform, const Rect& source) override;
+        void    VRenderTexture2D(ITexture* texture, const Vector2& position, const Rect& source) override;
+
+        void    VRenderText2D(IFont* font, UString text, const Vector2& position) override;
+
+        void    VRenderModel(IModel* model);
+
+        ICamera3D* VCamera3D();
 
         ID3D11Device* Device();
 
         ID3D11DeviceContext* DeviceContext();
 
         DXSpriteBatcher* SpriteBatch();
+
+       
 
     private:
         DirectX::XMVECTORF32    m_clearColor;

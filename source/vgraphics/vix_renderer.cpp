@@ -1,7 +1,7 @@
 /*
 	The MIT License(MIT)
 
-	Copyright(c) 2015 Matt Guerrette
+	Copyright(c) 2015 Vixen Team, Matt Guerrette
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files(the "Software"), to deal
@@ -25,7 +25,7 @@
 
 namespace Vixen {
 
-	void IRenderer::SetFaceCulling(FaceCulling culling)
+	void Renderer::SetFaceCulling(FaceCulling culling)
 	{
 		if(m_renderOptions.mFaceCulling != culling) {
 			m_renderOptions.mFaceCulling = culling;
@@ -33,7 +33,7 @@ namespace Vixen {
 		}
 	}
 
-	void IRenderer::SetFaceWinding(FaceWinding winding)
+	void Renderer::SetFaceWinding(FaceWinding winding)
 	{
 		if(m_renderOptions.mFaceWinding != winding) {
 			m_renderOptions.mFaceWinding = winding;
@@ -41,7 +41,7 @@ namespace Vixen {
 		}
 	}
 
-	void IRenderer::SetRenderMode(RenderMode mode)
+	void Renderer::SetRenderMode(RenderMode mode)
 	{
 		if(m_renderOptions.mRenderMode != mode) {
 			m_renderOptions.mRenderMode = mode;
@@ -49,7 +49,7 @@ namespace Vixen {
 		}
 	}
 
-	void IRenderer::UpdateRenderOptions()
+	void Renderer::UpdateRenderOptions()
 	{
 		if(m_renderOptionsState[RenderOptions::FW_STATE]) {
 			VApplyFaceWinding(); //apply new FW state
@@ -67,9 +67,14 @@ namespace Vixen {
 		}
 	}
 
-    IRenderer::RendererType IRenderer::Type()
+    Renderer::RendererType Renderer::Type()
     {
         return m_type;
+    }
+
+    ICamera3D* Renderer::Camera3D()
+    {
+        return m_camera3D;
     }
 
 }

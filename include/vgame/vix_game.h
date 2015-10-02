@@ -1,7 +1,7 @@
 /*
 	The MIT License(MIT)
 
-	Copyright(c) 2015 Matt Guerrette
+	Copyright(c) 2015 Vixen Team, Matt Guerrette
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files(the "Software"), to deal
@@ -28,13 +28,15 @@
 #include <vix_gamewindow.h>
 #include <vix_gameconfig.h>
 #include <vix_resourceloader.h>
+#include <vix_input.h>
 
 namespace Vixen {
 
-	class VIX_API IGame
+
+	class VIX_API Game
 	{
 	public:
-		IGame();
+		Game();
 
 		int Run();
 		virtual void VOnStartup(void) = 0;
@@ -42,19 +44,22 @@ namespace Vixen {
 		virtual void VOnRender(float dt) = 0;
 		virtual void VOnShutdown(void) = 0;
 
-		IRenderer*			const GetRenderer() const;
-		IGameWindow*		const GetWindow()   const;
-		GameConfig*         const GetConfig()   const;
-		SDLKeyboardState*	const GetKeyboard() const;
-		SDLMouseState*		const GetMouse()	const;
+		Renderer*				const GetRenderer() const;
+		GameWindow*			    const GetWindow()   const;
+		GameConfig*				const GetConfig()   const;
+
+		static IKeyboardState*	const GetKeyboard();
+		static IMouseState*		const GetMouse();
 
 	protected:
-		GameConfig*			m_config;
-		IGameWindow*		m_window;
-		IRenderer*			m_renderer;
-        IResourceLoader*    m_resourceLoader;
-		SDLKeyboardState*	m_keyboard;
-		SDLMouseState*      m_mouse;
+		GameConfig*				m_config;
+		GameWindow*			    m_window;
+		Renderer*				m_renderer;
+        IResourceLoader*		m_resourceLoader;
+
+    private:
+		static IKeyboardState*	s_keyboard;
+		static IMouseState*	    s_mouse;
 	};
 
 }

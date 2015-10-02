@@ -1,24 +1,24 @@
 /*
-    The MIT License(MIT)
+	The MIT License(MIT)
 
-    Copyright(c) 2015 Matt Guerrette
+	Copyright(c) 2015 Vixen Team, Matt Guerrette
 
-    Permission is hereby granted, free of charge, to any person obtaining a copy
-    of this software and associated documentation files(the "Software"), to deal
-    in the Software without restriction, including without limitation the rights
-    to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
-    copies of the Software, and to permit persons to whom the Software is
-    furnished to do so, subject to the following conditions :
-    The above copyright notice and this permission notice shall be included in all
-    copies or substantial portions of the Software.
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files(the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions :
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
 
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
-    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    SOFTWARE.
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
 */
 
 #include <vix_dxspritebatcher.h>
@@ -57,6 +57,8 @@ namespace Vixen {
 
     DXSpriteBatcher::~DXSpriteBatcher()
     {
+        delete m_vShader;
+        delete m_pShader;
         delete m_vBuffer;
         delete m_iBuffer;
     }
@@ -282,7 +284,25 @@ namespace Vixen {
 
     void DXSpriteBatcher::render_textures()
     {
-       
+        D3D11_DEPTH_STENCIL_DESC dsDesc;
+
+        dsDesc.DepthEnable = FALSE;
+        dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+        dsDesc.DepthFunc = D3D11_COMPARISON_LESS;
+        dsDesc.StencilEnable = false;
+        dsDesc.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
+        dsDesc.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
+        dsDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+        dsDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+        dsDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_REPLACE;
+        dsDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+        dsDesc.BackFace = dsDesc.FrontFace;
+        ID3D11DepthStencilState* dsState;
+        m_device->CreateDepthStencilState(&dsDesc, &dsState);
+
+        m_context->OMSetDepthStencilState(dsState, 0);
+
+        ReleaseCOM(dsState);
 
         m_vShader->SetMatrix4x4("projection", m_camera2D->Projection());
         m_pShader->VSetSamplerState("samLinear",  ((DXTexture*)m_texture)->SampleState());
@@ -301,6 +321,8 @@ namespace Vixen {
         m_textures.clear();
         m_vertices.clear();
         m_texture = NULL;
+
+        m_context->OMSetDepthStencilState(NULL, 0);
     }
 
     void DXSpriteBatcher::flush()

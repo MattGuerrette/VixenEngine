@@ -1,7 +1,7 @@
 /*
 	The MIT License(MIT)
 
-	Copyright(c) 2015 Matt Guerrette
+	Copyright(c) 2015 Vixen Team, Matt Guerrette
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files(the "Software"), to deal
@@ -70,15 +70,15 @@ namespace Vixen {
         SDL_GW_Renderer renderer;
 	};
 
-	class VIX_API SDLGameWindow : public IGameWindow
+	class VIX_API SDLGameWindow : public GameWindow
 	{
 	public:
 		SDLGameWindow(const SDL_GW_Params& params);
 
 		~SDLGameWindow();
 
-		void                VSetParent(IGame* game)                override;
-		void                VSetRenderer(IRenderer* renderer)      override;
+		void                VSetParent(Game* game)                override;
+		void                VSetRenderer(Renderer* renderer)      override;
 		bool                VInit()                                override;
 		bool                VRun()                                 override;
 		void                VSetVisible(bool flag)                 override;
@@ -91,8 +91,11 @@ namespace Vixen {
 		bool                VIsPaused()                            override;
 		void                VClose()                               override;
 		void                VToggleCursor()                        override;
+		void                VTogglePaused()                        override;
 		void				VTrapCursorCenter()                    override;
         void*               VNativeHandle()                        override;
+
+        float               VFPS()                                 override;
 
 		void                OutputDisplayModes();
 

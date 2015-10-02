@@ -1,7 +1,7 @@
 /*
 	The MIT License(MIT)
 
-	Copyright(c) 2015 Matt Guerrette
+	Copyright(c) 2015 Vixen Team, Matt Guerrette
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files(the "Software"), to deal
@@ -32,20 +32,21 @@
 
 namespace Vixen {
 
-	class IGame;
+	class Game;
 
-	class VIX_API IGameWindow : INonCopy
+	class VIX_API GameWindow : INonCopy
 	{
 
 	public:
-		virtual ~IGameWindow() { }
+		virtual ~GameWindow() { }
 
-		virtual void               VSetParent(IGame* game) = 0;
-		virtual void               VSetRenderer(IRenderer* renderer) = 0;
+		virtual void               VSetParent(Game* game) = 0;
+		virtual void               VSetRenderer(Renderer* renderer) = 0;
 		virtual bool               VInit() = 0;
 		virtual bool               VRun() = 0;
 		virtual void               VSetFullscreen(bool flag) = 0;
 		virtual void               VSetVisible(bool flag) = 0;
+		virtual void               VTogglePaused() = 0;
 		virtual void               VSwapBuffers() = 0;
 		virtual const UString&     VGetTitle() = 0;
 		virtual const Rect         VGetClientBounds() = 0;
@@ -57,12 +58,14 @@ namespace Vixen {
 		virtual void               VTrapCursorCenter() = 0;
         virtual void*              VNativeHandle() = 0;
 
+        virtual float              VFPS() = 0;
+
 		static const size_t DEF_WINDOW_WIDTH = 800;
 		static const size_t DEF_WINDOW_HEIGHT = 600;
 
 	protected:
-		IGame*      m_parent;       //For now...
-		IRenderer*  m_renderer;     //For now...
+		Game*               m_parent;       
+		Renderer*           m_renderer;     
 		UString				m_title;
 		Rect                m_clientRect;
 		bool				m_hidden;
@@ -70,6 +73,7 @@ namespace Vixen {
 		bool				m_paused;
 		bool                m_fullscreen;
 		bool                m_cursorHidden;
+		
 	};
 
 }

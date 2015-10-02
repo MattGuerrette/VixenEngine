@@ -1,7 +1,7 @@
 /*
 	The MIT License(MIT)
 
-	Copyright(c) 2015 Matt Guerrette
+	Copyright(c) 2015 Vixen Team, Matt Guerrette
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files(the "Software"), to deal
@@ -26,9 +26,12 @@
 
 #include <vix_platform.h>
 #include <vix_color.h>
-#include <vix_transform.h>
 #include <vix_rectangle.h>
 #include <vix_texture.h>
+#include <vix_model.h>
+#include <vix_camera3d.h>
+#include <vix_vector2.h>
+#include <vix_font.h>
 
 namespace Vixen {
 
@@ -88,10 +91,10 @@ namespace Vixen {
 		static const size_t COUNT = 3;
 	};
 
-	class VIX_API IRenderer
+	class VIX_API Renderer
 	{
 	public:
-        virtual ~IRenderer() { };
+        virtual ~Renderer() { };
 
         //RenderType enum
         //
@@ -111,7 +114,11 @@ namespace Vixen {
 		virtual void	VApplyFaceCulling() = 0;
 		virtual void	VApplyFaceWinding() = 0;
         virtual void    VAttachNativeHandle(void* handle) = 0;
-        virtual void    VRenderTexture2D(ITexture* texture, const Transform& trans, const Rect& source) = 0;
+        virtual void    VRenderTexture2D(ITexture* texture, const Vector2& pos, const Rect& source) = 0;
+        virtual void    VRenderText2D(IFont* font, UString text, const Vector2& pos) = 0;
+        virtual void    VRenderModel(IModel* model) = 0;
+
+        
 
 		void UpdateRenderOptions();
 		void SetRenderMode(RenderMode mode);
@@ -119,6 +126,8 @@ namespace Vixen {
 		void SetFaceWinding(FaceWinding winding);
 
         RendererType Type();
+        ICamera3D*   Camera3D();
+       
 
 	protected:
 		RenderOptions					m_renderOptions;
@@ -126,6 +135,7 @@ namespace Vixen {
 
     protected:
         RendererType    m_type;
+        ICamera3D*      m_camera3D;
 	};
 
 }

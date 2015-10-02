@@ -1,7 +1,7 @@
 /*
 	The MIT License(MIT)
 
-	Copyright(c) 2015 Matt Guerrette
+	Copyright(c) 2015 Vixen Team, Matt Guerrette
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files(the "Software"), to deal
@@ -25,6 +25,7 @@
 #include <vix_sdlwindow.h>
 #include <vix_debugutil.h>
 #include <vix_resourcemanager.h>
+#include <vix_pathmanager.h>
 
 #ifdef VIX_DIRECTX_BUILD
 #include <vix_dxrenderer.h>
@@ -37,8 +38,14 @@
 
 namespace Vixen {
 
-	IGame::IGame()
+	IKeyboardState* Game::s_keyboard = NULL;
+    IMouseState*    Game::s_mouse = NULL;
+
+	Game::Game()
 	{
+        FileManager::Initialize();
+        PathManager::Initialize();
+
 	    m_config = new GameConfig;
 		m_window = new SDLGameWindow(m_config->WindowArgs());
 #ifdef VIX_DIRECTX_BUILD
@@ -47,15 +54,18 @@ namespace Vixen {
 #elif defined(VIX_OPENGL_BUILD)
         m_renderer = new GLRenderer;
 #endif
-		m_keyboard = new SDLKeyboardState;
-		m_mouse = new SDLMouseState;
+		s_keyboard = new SDLKeyboardState;
+		Input::SetKeyboardState(s_keyboard);
+		s_mouse = new SDLMouseState;
+        Input::SetMouseState(s_mouse);
+
 		m_window->VSetParent(this);
 		m_window->VSetRenderer(m_renderer);
 
         ResourceManager::AttachResourceLoader(m_resourceLoader);
 	}
 
-	int IGame::Run()
+	int Game::Run()
 	{
 		/*if application window exists*/
 		if (m_window) {
@@ -70,28 +80,31 @@ namespace Vixen {
 		return 0;
 	}
 
-	IGameWindow* const IGame::GetWindow() const
+	GameWindow* const Game::GetWindow() const
 	{
 		return m_window;
 	}
 
-	IRenderer* const IGame::GetRenderer() const
+	Renderer* const Game::GetRenderer() const
 	{
 		return m_renderer;
 	}
 
-	GameConfig* const IGame::GetConfig() const
+	GameConfig* const Game::GetConfig() const
 	{
 	    return m_config;
 	}
 
-	SDLKeyboardState* const IGame::GetKeyboard() const
+	IKeyboardState* const Game::GetKeyboard()
 	{
-		return m_keyboard;
+		return s_keyboard;
 	}
 
-	SDLMouseState* const IGame::GetMouse() const
+	IMouseState* const Game::GetMouse()
 	{
-		return m_mouse;
+		return s_mouse;
 	}
+
+
+	
 }

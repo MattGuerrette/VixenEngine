@@ -1,7 +1,7 @@
 /*
 	The MIT License(MIT)
 
-	Copyright(c) 2015 Matt Guerrette
+	Copyright(c) 2015 Vixen Team, Matt Guerrette
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files(the "Software"), to deal
@@ -29,6 +29,10 @@
 
 #include <cmath>
 
+#ifdef VIX_SYS_WINDOWS
+#include <DirectXMath.h>
+#endif
+
 namespace Vixen {
 
 	const float PI = 3.141593f;
@@ -44,6 +48,11 @@ namespace Vixen {
 		static float ToRadians(float angle);
 		static float ToDegrees(float angle);
 	};
+
+
+#ifdef VIX_SYS_WINDOWS
+	typedef DirectX::XMMATRIX MATRIX;
+#endif
 }
 
 

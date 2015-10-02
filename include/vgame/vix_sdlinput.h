@@ -1,7 +1,7 @@
 /*
 	The MIT License(MIT)
 
-	Copyright(c) 2015 Matt Guerrette
+	Copyright(c) 2015 Vixen Team, Matt Guerrette
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files(the "Software"), to deal
@@ -26,17 +26,15 @@
 
 #include <vix_platform.h>
 #include <vix_input.h>
+#include <vix_keyboardstate.h>
+#include <vix_mousestate.h>
+
 #ifdef VIX_SYS_WINDOWS
 #include <SDL.h>
 #elif defined(VIX_SYS_LINUX)
 #include <SDL2/SDL.h>
 #endif#include <SDL.h>
 #include <map>
-
-#define MOUSECS_BUTTONS 3
-#define MOUSECS_LEFT	0
-#define MOUSECS_MIDDLE  1
-#define MOUSECS_RIGHT	2
 
 namespace Vixen {
 
@@ -46,35 +44,43 @@ namespace Vixen {
 		Uint8 state;
 	};
 
-	class VIX_API SDLMouseState
+	class VIX_API SDLMouseState : public IMouseState
 	{
+        static const int MOUSECS_BUTTONS = 3;
 	public:
 		SDLMouseState();
 
 		/*GETTERS*/
-		int  X();
-		int  Y();
-		int  DeltaX(int val);
-		int  DeltaY(int val);
+		int  VMouseX();
+		int  VMouseY();
+		int  VMouseWheelX();
+		int  VMouseWheelY();
+		int  VDeltaX(int val);
+		int  VDeltaY(int val);
 
-		bool ButtonRelease(int button);
-		bool ButtonPress(int button);
-		bool SingleButtonPress(int button);
+		bool VButtonRelease(IMBUTTON button);
+		bool VButtonPress(IMBUTTON button);
+		bool VSingleButtonPress(IMBUTTON button);
 
 		/*State Methods*/
 		void MouseMove(int x, int y);
 		void MouseEvent(SDL_MouseButtonEvent mbEvent);
+		void MouseWheelEvent(SDL_MouseWheelEvent mwEvent);
 		void UpdatePrev();
 	private:
 		int					m_x;
 		int					m_y;
 		int                 m_prevX;
 		int                 m_prevY;
+		int                 m_wx;
+		int                 m_wy;
+		int					m_prevWX;
+		int					m_prevWY;
 		MouseClickState		m_current[MOUSECS_BUTTONS];
 		MouseClickState		m_prev[MOUSECS_BUTTONS];
 	};
 
-	class VIX_API SDLKeyboardState
+	class VIX_API SDLKeyboardState : public IKeyboardState
 	{
 		typedef std::map<SDL_Scancode, bool> KeyState;
 
@@ -84,8 +90,10 @@ namespace Vixen {
 		void KeyDown(SDL_Scancode code);
 		void KeyUp(SDL_Scancode code);
 		void UpdatePrev();
-		bool KeyPress(IKEY key);
-		bool SingleKeyPress(IKEY key);
+
+		bool VKeyPress(IKEY key);
+		bool VSingleKeyPress(IKEY key);
+		bool VKeyRelease(IKEY key);
 	private:
 		KeyState  m_current;
 		KeyState  m_previous;

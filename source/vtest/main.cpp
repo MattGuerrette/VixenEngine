@@ -1,20 +1,11 @@
 
 #include <vix_game.h>
 #include <vix_filemanager.h>
-#include <vix_dxtexture.h>
-#include <vix_dxrenderer.h>
 #include <vix_pathmanager.h>
 #include <vix_resourcemanager.h>
-#include <vix_dxshader.h>
-#include <vix_dxvertexshader.h>
-#include <vix_dxpixelshader.h>
-#include <vix_dxvertexbuffer.h>
-#include <vix_dxindexbuffer.h>
+#include <vix_font.h>
 
 using namespace Vixen;
-using namespace DirectX;
-
-#define DXRENDERER ((DXRenderer*)m_renderer)
 
 class TestGame : public IGame
 {
@@ -27,20 +18,14 @@ public:
     void VOnRender(float dt);
 
 private:
-    DXShader*  vShader;
-    DXShader*  pShader;
-    DXShader*  sbVShader;
-    DXShader*  sbPShader;
-    DirectX::XMFLOAT4X4 viewMatrix;
-    DirectX::XMFLOAT4X4 projectionMatrix;
-    IModel*        model;
-    IModel*        model2;
-    IModel*        model3;
-    Transform      modelTransform;
-    Transform      modelTransform2;
-    Transform      modelTransform3;
-    Transform      texTransform;
-    ITexture*  tex;
+    ICamera3D*  camera3D;
+    IModel*     model;
+    IModel*     floor;
+    IFont*      font;
+    ITexture*   croissant;
+    Transform   modelTransform;
+    Transform   floorTransform;
+    Transform   croissantTransform;
 };
 
 TestGame::TestGame()
@@ -51,94 +36,80 @@ TestGame::TestGame()
 
 void TestGame::VOnStartup()
 {
-    FileManager::Initialize();
-    PathManager::Initialize();
+    
 
-    m_renderer->VSetClearColor(Vixen::Colors::Black);
+    m_renderer->VSetClearColor(Vixen::Colors::CornflowerBlue);
 
-    vShader = (DXShader*)ResourceManager::OpenShader(VTEXT("VertexShader.hlsl"), ShaderType::VERTEX_SHADER);
-    pShader = (DXShader*)ResourceManager::OpenShader(VTEXT("PixelShader.hlsl"), ShaderType::PIXEL_SHADER);
-    sbVShader = (DXShader*)ResourceManager::OpenShader(VTEXT("SpriteBatch_VS.hlsl"), ShaderType::VERTEX_SHADER);
-    sbPShader = (DXShader*)ResourceManager::OpenShader(VTEXT("SpriteBatch_PS.hlsl"), ShaderType::PIXEL_SHADER);
-    model = ResourceManager::OpenModel(VTEXT("monkey.obj"));
-    model2 = ResourceManager::OpenModel(VTEXT("ZombiDog.obj"));
-    model3 = ResourceManager::OpenModel(VTEXT("thing.obj"));
-    tex = ResourceManager::OpenTexture(VTEXT("vixen_icon.png"));
+    camera3D = m_renderer->Camera3D();
+    camera3D->VSetSpeed(500.0f);
 
-    // Initialize the view matrix
-    DirectX::XMVECTOR Eye = DirectX::XMVectorSet(0.0f, 0.0f, -3.0f, 0.0f);
-    DirectX::XMVECTOR At = DirectX::XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
-    DirectX::XMVECTOR Up = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
-    XMMATRIX V = DirectX::XMMatrixLookAtLH(Eye, At, Up);
-    XMStoreFloat4x4(&viewMatrix, XMMatrixTranspose(V));
+    croissant = ResourceManager::OpenTexture(VTEXT("transparent.png"));
 
-    // Initialize the projection matrix
-    XMMATRIX P = DirectX::XMMatrixPerspectiveFovLH(DirectX::XMConvertToRadians(75.0f), 
-        m_window->VGetClientBounds().w / (FLOAT)m_window->VGetClientBounds().h, 0.01f, 1000.0f);
-    XMStoreFloat4x4(&projectionMatrix, XMMatrixTranspose(P));
-
-
-    model->VSetVertexShader(vShader);
-    model->VSetPixelShader(pShader);
-    model2->VSetVertexShader(vShader);
-    model2->VSetPixelShader(pShader);
-    model3->VSetVertexShader(vShader);
-    model3->VSetPixelShader(pShader);
-
-
-    modelTransform = Transform( 0.0f, 0.0f, 10.0f,
+    model = ResourceManager::OpenModel(VTEXT("raptor.mdl"));
+    floor = ResourceManager::OpenModel(VTEXT("floor.mdl"));
+    font = ResourceManager::OpenFont(VTEXT("Consolas_24.fnt"));
+    modelTransform = Transform( 0.0f, 0.0f, 5.0f,
                                 0.0f, 0.0f, 0.0f,
-                                1.0f, 1.0f, 1.0f);
-    modelTransform2 = Transform(10.0f, 0.0f, 10.0f,
+									1.f, 1.f, 1.f);
+    floorTransform = Transform(0.0f, -5.0f, 5.0f,
         0.0f, 0.0f, 0.0f,
-        1.0f, 1.0f, 1.0f);
-    modelTransform3 = Transform(-10.0f, 0.0f, 10.0f,
-        0.0f, 0.0f, 0.0f,
-        1.0f, 1.0f, 1.0f);
+        10.0f, 10.0f, 10.0f);
+    croissantTransform = Transform(20.0f, 20.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f);
     model->VSetTransform(&modelTransform);
-    model2->VSetTransform(&modelTransform2);
-    model3->VSetTransform(&modelTransform3);
+    floor->VSetTransform(&floorTransform);
 
-    texTransform = Transform(20.0f, 20.0f, 0.0f,
-                             0.0f, 0.0f, 0.0f,
-                             1.0f, 1.0f, 0.0f);
-
-    DXRENDERER->SpriteBatch()->SetVertexShader((DXVertexShader*)sbVShader);
-    DXRENDERER->SpriteBatch()->SetPixelShader((DXPixelShader*)sbPShader);
+    m_window->VToggleCursor();
 }
 
 void TestGame::VOnUpdate(float dt)
 {
-    modelTransform.RotateY(dt);
-    modelTransform2.RotateY(dt);
-    modelTransform3.RotateY(dt);
+    //modelTransform.RotateY(dt);
 
-    //texTransform.TranslateX(50.0f * dt);
-    //texTransform.RotateZ(50 * dt);
+    if (m_keyboard->SingleKeyPress(IKEY::F2))
+        m_window->VClose();
+
+    if (m_keyboard->KeyPress(IKEY::S))
+        camera3D->VWalk(-dt);
+
+    if (m_keyboard->KeyPress(IKEY::W))
+        camera3D->VWalk(dt);
+
+    if (m_keyboard->KeyPress(IKEY::A))
+        camera3D->VStrafe(-dt);
+
+    if (m_keyboard->KeyPress(IKEY::D))
+        camera3D->VStrafe(dt);
+       
+
+    int deltaX = m_mouse->DeltaX(m_window->VGetClientBounds().w / 2);
+    int deltaY = m_mouse->DeltaY(m_window->VGetClientBounds().h / 2);
+    camera3D->VRotateX(deltaY * 0.25f);
+    camera3D->VRotateY(deltaX * 0.25f);
+
+    camera3D->VUpdate(dt);
+
+    m_window->VTrapCursorCenter();
 }
 
 void TestGame::VOnRender(float dt)
 {
-    vShader->SetMatrix4x4("view", viewMatrix);
-    vShader->SetMatrix4x4("projection", projectionMatrix);
+    
+    m_renderer->VRenderModel(model);
+    m_renderer->VRenderModel(floor);
 
-    model->VRender();
-    model2->VRender();
-    model3->VRender();
 
-    m_renderer->VRenderTexture2D(tex, texTransform, Rect(0, 0, 0, 0));
+    //ALL 2D UI IS DRAW AFTER SCENE IS DRAWN
+    USStream ss;
+    ss << "FPS: " << m_window->VFPS();
+    m_renderer->VRenderText2D(font, ss.str(), croissantTransform);
 }
 
 void TestGame::VOnShutdown()
 {
-    delete tex;
+    delete font;
+    delete croissant;
     delete model;
-    delete model2;
-    delete model3;
-    delete vShader;
-    delete pShader;
-    delete sbVShader;
-    delete sbPShader;
+    delete floor;
 }
 
 int main(int argc, char* argv[])

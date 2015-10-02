@@ -1,24 +1,24 @@
 /*
-    The MIT License(MIT)
+	The MIT License(MIT)
 
-    Copyright(c) 2015 Matt Guerrette
+	Copyright(c) 2015 Vixen Team, Matt Guerrette
 
-    Permission is hereby granted, free of charge, to any person obtaining a copy
-    of this software and associated documentation files(the "Software"), to deal
-    in the Software without restriction, including without limitation the rights
-    to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
-    copies of the Software, and to permit persons to whom the Software is
-    furnished to do so, subject to the following conditions :
-    The above copyright notice and this permission notice shall be included in all
-    copies or substantial portions of the Software.
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files(the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions :
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
 
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
-    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    SOFTWARE.
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
 */
 
 #include <vix_dxrenderer.h>
@@ -26,6 +26,7 @@
 #include <vix_dxquad.h>
 #include <vix_freeimage.h>
 #include <vix_filemanager.h>
+#include <vix_resourcemanager.h>
 
 namespace Vixen {
 
@@ -34,6 +35,7 @@ namespace Vixen {
         m_HWND = NULL;
         m_type = RendererType::DIRECTX;
         m_camera2D = new DXCamera2D;
+        m_camera3D = new DXCamera3D;
     }
 
     DXRenderer::~DXRenderer()
@@ -214,11 +216,13 @@ namespace Vixen {
         vp.Width = static_cast<float>(width);
         vp.Height = static_cast<float>(height);
         vp.MinDepth = 0;
-        vp.MaxDepth = 0;
+        vp.MaxDepth = 1;
 
         m_ImmediateContext->RSSetViewports(1, &vp);
 
         m_spriteBatch = new DXSpriteBatcher(m_Device, m_ImmediateContext);
+        m_spriteBatch->SetVertexShader((DXVertexShader*)ResourceManager::OpenShader(VTEXT("SpriteBatch_VS.hlsl"), ShaderType::VERTEX_SHADER));
+        m_spriteBatch->SetPixelShader((DXPixelShader*)ResourceManager::OpenShader(VTEXT("SpriteBatch_PS.hlsl"), ShaderType::PIXEL_SHADER));
 
         OrthoRect _ortho;
         _ortho.left = 0.0f;
@@ -227,7 +231,35 @@ namespace Vixen {
         _ortho.bottom = static_cast<float>(height);
         m_camera2D->VSetOrthoRHOffCenter(_ortho, 0.0f, 1.0f);
 
+        //m_camera3D->VSetPerspective(static_cast<float>(width) / static_cast<float>(height),
+           // DirectX::XMConvertToRadians(45.0f), 0.01f, 1000.0f);
+        //m_camera3D->VSetView(Vector3(0.0f, 10.0f, 0.0f), Vector3(0.0f, 0.0f, 1.0f), Vector3(0.0f, 1.0f, 0.0f));
+
         m_spriteBatch->SetCamera(m_camera2D);
+
+
+        D3D11_BLEND_DESC blendDesc;
+        ZeroMemory(&blendDesc, sizeof(D3D11_BLEND_DESC));
+        blendDesc.AlphaToCoverageEnable = false;
+        blendDesc.IndependentBlendEnable = false;
+        blendDesc.RenderTarget[0].BlendEnable = true;
+        blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+        blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+        blendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+
+        blendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_SRC_ALPHA;        
+        blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_DEST_ALPHA; 
+        blendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+        blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+        ID3D11BlendState* state;
+        m_Device->CreateBlendState(&blendDesc, &state);
+        m_ImmediateContext->OMSetBlendState(state, NULL, 0xfffffffff);
+
+        ReleaseCOM(state);
+
+        
+        
 
         return true;
     }
@@ -280,20 +312,20 @@ namespace Vixen {
         return m_ImmediateContext;
     }
 
-    void DXRenderer::VRenderTexture2D(ITexture* texture, const Transform& transform, const Rect& source)
+    void DXRenderer::VRenderTexture2D(ITexture* texture, const Vector2& position, const Rect& source)
     {
         BatchInfo info;
-        info.x = transform.X();
-        info.y = transform.Y();
+        info.x = position.x;
+        info.y = position.y;
         info.sX = static_cast<float>(source.x);
         info.sY = static_cast<float>(source.y);
         info.sW = static_cast<float>(source.w);
         info.sH = static_cast<float>(source.h);
         info.originX = 16.f;
         info.originY = 16.f;
-        info.scaleX = transform.ScaleX();
-        info.scaleY = transform.ScaleY();
-        info.rotation = Math::ToRadians(transform.RotZ());
+        info.scaleX = 1.0f;
+        info.scaleY = 1.0f;
+		info.rotation = 0.0f;
         info.r = 0.0f;
         info.g = 0.0f;
         info.b = 0.0f;
@@ -306,8 +338,60 @@ namespace Vixen {
         m_spriteBatch->End();
     }
 
+    void DXRenderer::VRenderText2D(IFont* font, UString text, const Vector2& position)
+    {
+        m_spriteBatch->Begin(BatchSortMode::IMMEDITATE);
+
+        float dx = position.x;
+        float dy = position.y;
+        for (UChar &c : text)
+        {
+            if (c == '\n')
+            {
+                dx = position.x;
+                dy += font->VLineHeight();
+                continue;
+            }
+
+            FontChar fc;
+            if (font->VFindChar(c, fc))
+            {
+                BatchInfo info;
+                info.x = dx + fc.xOffset;
+                info.y = dy + fc.yOffset;
+                info.sX = (float)fc.x;
+                info.sY = (float)fc.y;
+                info.sW = (float)fc.width;
+                info.sH = (float)fc.height;
+                info.originX = 0;
+                info.originY = 0;
+                info.scaleX = 1;
+                info.scaleY = 1;
+                info.rotation = 0.0f;
+                info.depth = 1;
+
+
+                m_spriteBatch->Render(font->VPageTexture(fc.page), info);
+
+                dx += fc.xAdvance;
+            }
+        }
+
+        m_spriteBatch->End();
+    }
+
+    void DXRenderer::VRenderModel(IModel* model)
+    {
+        model->VRender(m_camera3D);
+    }
+
     DXSpriteBatcher* DXRenderer::SpriteBatch()
     {
         return m_spriteBatch;
+    }
+
+    ICamera3D* DXRenderer::VCamera3D()
+    {
+        return m_camera3D;
     }
 }

@@ -29,6 +29,8 @@
 #include <vix_texture.h>
 #include <vix_shader.h>
 #include <vix_model.h>
+#include <vix_material.h>
+#include <vix_font.h>
 
 namespace Vixen {
 
@@ -37,9 +39,11 @@ namespace Vixen {
     public:
         virtual ~IResourceLoader() { }
 
-        virtual ITexture* LoadTexture(File* file) = 0;
-        virtual IShader*  LoadShader(File* file, ShaderType type) = 0;
-        virtual IModel*   LoadModel(File* file) = 0;
+        virtual ITexture*   LoadTexture(File* file) = 0;
+        virtual IShader*    LoadShader(File* file, ShaderType type) = 0;
+        virtual IModel*     LoadModel(File* file) = 0;
+        virtual IFont*      LoadFont(File* file) = 0;
+        
     };
 
 }

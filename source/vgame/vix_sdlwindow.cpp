@@ -1,7 +1,7 @@
 ﻿/*
 	The MIT License(MIT)
 
-	Copyright(c) 2015 Matt Guerrette
+	Copyright(c) 2015 Vixen Team, Matt Guerrette
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files(the "Software"), to deal
@@ -45,7 +45,7 @@ namespace Vixen {
 
 	}
 
-	void SDLGameWindow::VSetParent(IGame* game)
+	void SDLGameWindow::VSetParent(Game* game)
 	{
 		m_parent = game;
 	}
@@ -60,7 +60,7 @@ namespace Vixen {
 		return &m_timer;
 	}
 
-	void SDLGameWindow::VSetRenderer(IRenderer* renderer)
+	void SDLGameWindow::VSetRenderer(Renderer* renderer)
 	{
 		m_renderer = renderer;
 	}
@@ -74,9 +74,14 @@ namespace Vixen {
 			SDL_ShowCursor(1);
 	}
 
+	void SDLGameWindow::VTogglePaused()
+	{
+		m_paused = !m_paused;
+	}
+
 	void SDLGameWindow::VTrapCursorCenter()
 	{
-		SDL_WarpMouseInWindow(m_windowHandle, m_clientRect.w/2, m_clientRect.h/2);
+		SDL_WarpMouseInWindow(m_windowHandle, VGetClientBounds().w/2, VGetClientBounds().h/2);
 	}
 
 	bool SDLGameWindow::VInit()
@@ -170,20 +175,24 @@ namespace Vixen {
 					break;
 
 				case SDL_KEYDOWN:
-					m_parent->GetKeyboard()->KeyDown(event.key.keysym.scancode);
+					((SDLKeyboardState*)Game::GetKeyboard())->KeyDown(event.key.keysym.scancode);
 					break;
 
 				case SDL_KEYUP:
-					m_parent->GetKeyboard()->KeyUp(event.key.keysym.scancode);
+					((SDLKeyboardState*)Game::GetKeyboard())->KeyUp(event.key.keysym.scancode);
 					break;
 
 				case SDL_MOUSEBUTTONDOWN:
 				case SDL_MOUSEBUTTONUP:
-					m_parent->GetMouse()->MouseEvent(event.button);
+					((SDLMouseState*)Game::GetMouse())->MouseEvent(event.button);
+					break;
+
+				case SDL_MOUSEWHEEL:
+					((SDLMouseState*)Game::GetMouse())->MouseWheelEvent(event.wheel);
 					break;
 
 				case SDL_MOUSEMOTION:
-					m_parent->GetMouse()->MouseMove(event.motion.x, event.motion.y);
+                    ((SDLMouseState*)Game::GetMouse())->MouseMove(event.motion.x, event.motion.y);
 					break;
 				}
 			}
@@ -192,16 +201,18 @@ namespace Vixen {
             if(m_renderer)
 			    m_renderer->VClearBuffer(ClearArgs::COLOR_DEPTH_STENCIL_BUFFER);
 
+			
 			/*update*/
 			m_parent->VOnUpdate(m_timer.DeltaTime());
 
 			/*render*/
 			m_parent->VOnRender(m_timer.DeltaTime());
+			
 
 			/*update keyboard state for next frame*/
-			m_parent->GetKeyboard()->UpdatePrev();
+			((SDLKeyboardState*)Game::GetKeyboard())->UpdatePrev();
 			/*update mouse state for next frame*/
-			m_parent->GetMouse()->UpdatePrev();
+            ((SDLMouseState*)Game::GetMouse())->UpdatePrev();
 
 			/*swap buffers*/
 			VSwapBuffers();
@@ -233,7 +244,7 @@ namespace Vixen {
 
 	void SDLGameWindow::VSwapBuffers()
 	{
-        if (m_renderer->Type() == IRenderer::RendererType::DIRECTX)
+        if (m_renderer->Type() == Renderer::RendererType::DIRECTX)
             m_renderer->VSwapBuffers();
         else
             SDL_GL_SwapWindow(m_windowHandle);
@@ -280,6 +291,11 @@ namespace Vixen {
 		SDL_GL_DeleteContext(m_context);
 		SDL_Quit();
 	}
+
+    float SDLGameWindow::VFPS()
+    {
+        return m_timer.FPS();
+    }
 
 	void SDLGameWindow::OutputDisplayModes()
 	{
