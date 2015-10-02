@@ -1,24 +1,24 @@
 /*
-	The MIT License(MIT)
+    The MIT License(MIT)
 
-	Copyright(c) 2015 Vixen Team, Matt Guerrette
+    Copyright(c) 2015 Matt Guerrette
 
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files(the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions :
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files(the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions :
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
 
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
 */
 
 #include <vix_resourcemanager.h>
@@ -45,33 +45,26 @@ namespace Vixen {
         assetPath += filePath;
         assetPath = os_path(assetPath);
 
-        ITexture* _texture = NULL;
-
         File* file = FileManager::OpenFile(assetPath);
         if (file)
         {
             //Create Renderer Specific texture type
             ResourceManager& _RM = ResourceManager::instance();
 
-            if (_RM.m_resourceLoader)
-            {
-                _texture =_RM.m_resourceLoader->LoadTexture(file);
-
-                FileManager::CloseFile(file);
-            }
+            if(_RM.m_resourceLoader)
+                return _RM.m_resourceLoader->LoadTexture(file);
+            
         }
 
-        return _texture;
+        return NULL;
     }
 
     IShader* ResourceManager::OpenShader(UString filePath, ShaderType type)
     {
-        UString assetPath = PathManager::ShaderPath();
+        UString assetPath = PathManager::AssetPath() + VTEXT("Shaders/");
 
         assetPath += filePath;
         assetPath = os_path(assetPath);
-
-        IShader* _shader = NULL;
 
         File* file = FileManager::OpenFile(assetPath);
         if (file)
@@ -81,23 +74,23 @@ namespace Vixen {
 
             if (_RM.m_resourceLoader)
             {
-               _shader = _RM.m_resourceLoader->LoadShader(file, type);
-
+               IShader* _shader = _RM.m_resourceLoader->LoadShader(file, type);
                FileManager::CloseFile(assetPath);
+               return _shader;
             }
+               
+
         }
 
-        return _shader;
+        return NULL;
     }
 
     IModel* ResourceManager::OpenModel(UString filePath)
     {
-        UString assetPath = PathManager::ModelPath();
+        UString assetPath = PathManager::AssetPath() + VTEXT("Models/");
 
         assetPath += filePath;
         assetPath = os_path(assetPath);
-
-        IModel* _model = NULL;
 
         File* file = FileManager::OpenFile(assetPath);
         if (file)
@@ -108,23 +101,21 @@ namespace Vixen {
             if (_RM.m_resourceLoader)
             {
                 //Need to load a model object into memory
-                _model = _RM.m_resourceLoader->LoadModel(file);
-
+                IModel* _model = _RM.m_resourceLoader->LoadModel(file);
                 FileManager::CloseFile(assetPath);
+                return _model;
             }
         }
 
-        return _model;
+        return NULL;
     }
 
-    IFont* ResourceManager::OpenFont(UString filePath)
+    IMaterial* ResourceManager::OpenMaterial(UString filePath)
     {
-        UString assetPath = PathManager::AssetPath() + VTEXT("Fonts/");
+        UString assetPath = PathManager::AssetPath() + VTEXT("Models/");
 
         assetPath += filePath;
         assetPath = os_path(assetPath);
-
-        IFont* _font = NULL;
 
         File* file = FileManager::OpenFile(assetPath);
         if (file)
@@ -134,13 +125,14 @@ namespace Vixen {
 
             if (_RM.m_resourceLoader)
             {
-                //Need to load a font object into memory
-                _font = _RM.m_resourceLoader->LoadFont(file);
-
+                //Need to load a model object into memory
+                IMaterial* _material = _RM.m_resourceLoader->LoadMaterial(file);
                 FileManager::CloseFile(assetPath);
+                return _material;
             }
         }
 
-        return _font;
+        return NULL;
     }
+
 }
