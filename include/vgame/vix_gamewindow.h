@@ -41,7 +41,7 @@ namespace Vixen {
 		virtual ~GameWindow() { }
 
 		virtual void               VSetParent(Game* game) = 0;
-		virtual void               VSetRenderer(Renderer* renderer) = 0;
+		virtual void               VSetRenderer(IRenderer* renderer) = 0;
 		virtual bool               VInit() = 0;
 		virtual bool               VRun() = 0;
 		virtual void               VSetFullscreen(bool flag) = 0;
@@ -64,8 +64,8 @@ namespace Vixen {
 		static const size_t DEF_WINDOW_HEIGHT = 600;
 
 	protected:
-		Game*               m_parent;       
-		Renderer*           m_renderer;     
+		Game*               m_parent;
+		IRenderer*          m_renderer;     
 		UString				m_title;
 		Rect                m_clientRect;
 		bool				m_hidden;
@@ -73,7 +73,7 @@ namespace Vixen {
 		bool				m_paused;
 		bool                m_fullscreen;
 		bool                m_cursorHidden;
-		
+
 	};
 
 }

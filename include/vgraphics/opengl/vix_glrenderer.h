@@ -34,18 +34,16 @@ namespace Vixen {
 	{
 	public:
 
-		bool    VInitialize()                      												override;
-		void    VDeInitialize()					   												override;
-		void    VSetClearColor(const Color& c)     												override;
-		void    VClearBuffer(ClearArgs args)       												override;
-		void    VApplyFaceCulling()                												override;
-		void    VApplyFaceWinding()                												override;
-		void    VApplyRenderMode()                 												override;
-		void    VSwapBuffers()					   												override;
-		void    VAttachNativeHandle(void* handle)											    override;
-		void    VRenderTexture2D(ITexture* texture, const Transform& trans, const Rect& source) override;
+		bool    VInitialize();
+        void    VDeInitialize();
+		void    VSetClearColor(const Color& c);
+		void    VClearBuffer(ClearArgs args);
+        void    VSwapBuffers();
+        void    VAttachNativeHandle(void* handle);
+        void    VRenderTexture2D(ITexture* texture, const Vector2& pos, const Rect& source);
+    	void    VRenderText2D(IFont* font, UString text, const Vector2& pos);
+        void    VRenderModel(IModel* model);
 
-	private:
 	};
 
 }

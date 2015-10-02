@@ -43,7 +43,8 @@ namespace Vixen {
         virtual IShader*    LoadShader(File* file, ShaderType type) = 0;
         virtual IModel*     LoadModel(File* file) = 0;
         virtual IFont*      LoadFont(File* file) = 0;
-        
+        virtual IMaterial*  LoadMaterial(File* file) = 0;
+
     };
 
 }

@@ -44,7 +44,7 @@ namespace Vixen {
 		virtual void VOnRender(float dt) = 0;
 		virtual void VOnShutdown(void) = 0;
 
-		Renderer*				const GetRenderer() const;
+		IRenderer*				const GetRenderer() const;
 		GameWindow*			    const GetWindow()   const;
 		GameConfig*				const GetConfig()   const;
 
@@ -54,7 +54,7 @@ namespace Vixen {
 	protected:
 		GameConfig*				m_config;
 		GameWindow*			    m_window;
-		Renderer*				m_renderer;
+		IRenderer*				m_renderer;
         IResourceLoader*		m_resourceLoader;
 
     private:

@@ -28,7 +28,6 @@
 #include <vix_freeimage.h>
 #include <vix_file.h>
 
-
 namespace Vixen {
 
 	class VIX_API ITexture
@@ -36,16 +35,11 @@ namespace Vixen {
 	public:
         virtual ~ITexture() { }
 
-        virtual bool InitFromBMP(FREEIMAGE_BMP* bmp) = 0;
-        virtual bool InitFromFile(File* file) = 0;
-        
-        size_t GetWidth() const { return m_width; }
+        virtual bool VInitFromBMP(FREEIMAGE_BMP* bmp) = 0;
+        virtual bool VInitFromFile(File* file) = 0;
 
-        size_t GetHeight() const { return m_height; }
-
-	protected:
-		size_t      m_width;
-		size_t      m_height;
+        virtual size_t VGetWidth() const = 0;
+        virtual size_t VGetHeight() const = 0;
 	};
 }
 

@@ -92,8 +92,13 @@ namespace Vixen {
 			//need to allocate more space and copy
 			uint32_t newMax = m_size * 2;
 			GameObject** temp = new GameObject*[newMax] {0};
-			memcpy_s(temp, newMax * sizeof(GameObject*), m_data, m_size * sizeof(GameObject*));
 
+			#ifdef VIX_SYS_WINDOWS
+				memcpy_s(temp, newMax * sizeof(GameObject*), m_data, m_size * sizeof(GameObject*));
+			#else
+				memcpy(temp, m_data, m_size * sizeof(GameObject*));
+			#endif
+			
 			delete[] m_data;
 
 			m_data = temp;

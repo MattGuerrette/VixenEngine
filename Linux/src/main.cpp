@@ -3,7 +3,7 @@
 
 using namespace Vixen;
 
-class TestGame : public IGame
+class TestGame : public Game
 {
 public:
     TestGame();
@@ -14,11 +14,11 @@ public:
     void VOnRender(float dt);
 
 private:
-    
+
 };
 
 TestGame::TestGame()
-    : IGame()
+    : Game()
 {
 
 }

@@ -31,26 +31,28 @@
 
 namespace Vixen {
 
-	class VIX_API GLShader : public Shader
+	class VIX_API GLShader : public IShader
 	{
 	public:
 		GLShader(const ShaderInfo& info);
 
 		~GLShader();
 
-		bool VInitFromFile(const UString& path)  override;
-		bool VInitFromString(const UString& str) override;
-
+		bool VInitFromFile(File* file);
 
 		GLuint ShaderHandle() const;
 
+	protected:
+		void VBind() = 0;
+        void VUnbind() = 0;
+
 	private:
 
-		bool  LoadShader(const GLchar* source);
+		bool  					LoadShader(const GLchar* source);
+		static const GLchar* 	ReadShader(const UString& path);
+		static GLenum        	GLShaderType(ShaderType type);
+		static bool       		ValidateCompile(GLuint shader);
 
-		static const GLchar* ReadShader(const UString& path);
-		static GLenum        GLShaderType(ShaderType type);
-		static bool       ValidateCompile(GLuint shader);
 	private:
 		GLuint     m_shader;
 		ShaderInfo m_info;

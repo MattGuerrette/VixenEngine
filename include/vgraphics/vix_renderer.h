@@ -46,55 +46,11 @@ namespace Vixen {
 		COLOR_DEPTH_STENCIL_BUFFER,
 	};
 
-	enum class FaceWinding
-	{
-		CW,
-		CCW
-	};
 
-	enum class FaceCulling
-	{
-		FRONT,
-		BACK,
-		BOTH,
-		NONE
-	};
-
-	enum class RenderMode
-	{
-		WIREFRAME,
-		FILL
-	};
-
-	struct RenderOptions
-	{
-		enum RenderOptionStates
-		{
-			FW_STATE,
-			FC_STATE,
-			RM_STATE
-		};
-
-		FaceWinding mFaceWinding;
-		FaceCulling mFaceCulling;
-		RenderMode  mRenderMode;
-
-		bool operator== (const RenderOptions& other) {
-			return (mFaceWinding == other.mFaceWinding) &&
-				   (mRenderMode == other.mRenderMode);
-		}
-
-		bool operator!= (const RenderOptions& other) {
-			return !(*this == other);
-		}
-
-		static const size_t COUNT = 3;
-	};
-
-	class VIX_API Renderer
+	class VIX_API IRenderer
 	{
 	public:
-        virtual ~Renderer() { };
+        virtual ~IRenderer() { };
 
         //RenderType enum
         //
@@ -110,32 +66,11 @@ namespace Vixen {
 		virtual void    VSetClearColor(const Color& c) = 0;
 		virtual void    VClearBuffer(ClearArgs args) = 0;
         virtual void    VSwapBuffers() = 0;
-		virtual void    VApplyRenderMode() = 0;
-		virtual void	VApplyFaceCulling() = 0;
-		virtual void	VApplyFaceWinding() = 0;
         virtual void    VAttachNativeHandle(void* handle) = 0;
         virtual void    VRenderTexture2D(ITexture* texture, const Vector2& pos, const Rect& source) = 0;
         virtual void    VRenderText2D(IFont* font, UString text, const Vector2& pos) = 0;
         virtual void    VRenderModel(IModel* model) = 0;
 
-        
-
-		void UpdateRenderOptions();
-		void SetRenderMode(RenderMode mode);
-		void SetFaceCulling(FaceCulling culling);
-		void SetFaceWinding(FaceWinding winding);
-
-        RendererType Type();
-        ICamera3D*   Camera3D();
-       
-
-	protected:
-		RenderOptions					m_renderOptions;
-		bool                            m_renderOptionsState[RenderOptions::COUNT];
-
-    protected:
-        RendererType    m_type;
-        ICamera3D*      m_camera3D;
 	};
 
 }

@@ -49,72 +49,6 @@ namespace Vixen {
 		return true;
 	}
 
-	void GLRenderer::VApplyFaceCulling()
-	{
-		switch(m_renderOptions.mFaceCulling)
-		{
-		case FaceCulling::BACK:
-			glEnable(GL_CULL_FACE);
-			glCullFace(GL_BACK);
-			break;
-
-		case FaceCulling::FRONT:
-			glEnable(GL_CULL_FACE);
-			glCullFace(GL_FRONT);
-			break;
-
-		case FaceCulling::BOTH:
-			glEnable(GL_CULL_FACE);
-			glCullFace(GL_FRONT_AND_BACK);
-			break;
-
-		case FaceCulling::NONE:
-			glDisable(GL_CULL_FACE);
-			break;
-		}
-	}
-
-	void GLRenderer::VApplyFaceWinding()
-	{
-		switch(m_renderOptions.mFaceWinding)
-		{
-		case FaceWinding::CW:
-			glFrontFace(GL_CW);
-			break;
-
-		case FaceWinding::CCW:
-			glFrontFace(GL_CCW);
-			break;
-		}
-	}
-
-	void GLRenderer::VApplyRenderMode()
-	{
-		switch(m_renderOptions.mRenderMode)
-		{
-		case RenderMode::FILL:
-			switch(m_renderOptions.mFaceCulling)
-			{
-			case FaceCulling::FRONT:
-				glPolygonMode(GL_BACK, GL_FILL);
-				break;
-
-			case FaceCulling::BACK:
-				glPolygonMode(GL_FRONT, GL_FILL);
-				break;
-
-			case FaceCulling::NONE:
-				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-				break;
-			}
-			break;
-
-		case RenderMode::WIREFRAME:
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-			break;
-		}
-	}
-
 	void GLRenderer::VClearBuffer(ClearArgs args)
 	{
 		switch (args)
@@ -157,13 +91,23 @@ namespace Vixen {
 
 	}
 
-	void GLRenderer::VRenderTexture2D(ITexture* texture, const Transform& trans, const Rect& source)
+	void    VRenderTexture2D(ITexture* texture, const Vector2& pos, const Rect& source)
+	{
+
+	}
+	
+	void    VRenderText2D(IFont* font, UString text, const Vector2& pos)
+	{
+
+	}
+
+	void    VRenderModel(IModel* model)
 	{
 
 	}
 
 	void GLRenderer::VAttachNativeHandle(void* handle)
 	{
-		
+
 	}
 }

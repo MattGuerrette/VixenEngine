@@ -83,30 +83,6 @@ namespace Vixen {
 		m_target = target;
 	}
 
-	GLTexture::GLTexture(const UString& filePath, GLenum target /* = GL_TEXTURE_2D */)
-	{
-		m_width = 0;
-		m_height = 0;
-		m_target = target;
-
-		ErrCode error = InitFromFile(filePath);
-		if (CheckError(error)) {
-			DebugPrintF(VTEXT("Texture failed to initialize"));
-		}
-	}
-
-	GLTexture::GLTexture(FREEIMAGE_BMP* bmp, GLenum target /* = GL_TEXTURE_2D */)
-	{
-		m_width = 0;
-		m_height = 0;
-		m_target = target;
-
-		ErrCode error = InitFromFIBMP(bmp);
-		if (CheckError(error)) {
-			DebugPrintF(VTEXT("Texture failed to initialize"));
-		}
-	}
-
 	GLTexture::~GLTexture()
 	{
 		//unload opengl generated texture
@@ -129,54 +105,12 @@ namespace Vixen {
 	}
 
 
-	ErrCode GLTexture::InitFromFile(const UString& filePath)
+	bool GLTexture::VInitFromFile(File* file)
 	{
-		//pointer to image data
-		FREEIMAGE_BMP* image = NULL;
-
-		/*set texture name*/
-		m_name = getFileName(filePath);
-
-		//try and load the buffer with data
-		image = FREEIMAGE_LoadImage(filePath);
-		if (!image)
-			return ErrCode::ERR_IMAGE_LOAD_FAIL;
-
-		//store width and height
-		m_width = image->header.width;
-		m_height = image->header.height;
-
-		//now that we have our image data, create opengl texture handle
-		glGenTextures(1, &m_id);
-		m_uniqueID = m_id; //store gl texture id as unique id
-
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		//bind opengl texture handle
-		glBindTexture(m_target, m_id);
-
-
-
-		//retrieve internal format
-		GLenum internalFormat = vixFIBmpToInternalFormat(image->bitmap);
-		//retrieve format
-		GLenum format = vixFIBmpToFormat(image->bitmap);
-		glTexImage2D(m_target, 0, internalFormat, image->header.width, image->header.height, 0, format, GL_UNSIGNED_BYTE, image->data);
-		glGenerateMipmap(m_target);
-		glTexParameterf(m_target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameterf(m_target, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-
-
-
-
-		//cleanup image allocation
-		if (image)
-			delete image;
-
-		return ErrCode::ERR_SUCCESS;
+		return true;
 	}
 
-	ErrCode GLTexture::InitFromFIBMP(FREEIMAGE_BMP* bitmap)
+	bool GLTexture::VInitFromBMP(FREEIMAGE_BMP* bitmap)
 	{
 
 		//store width and height
@@ -204,7 +138,7 @@ namespace Vixen {
 		glTexParameterf(m_target, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 
 
-		return ErrCode::ERR_SUCCESS;
+		return true;
 	}
 
 }

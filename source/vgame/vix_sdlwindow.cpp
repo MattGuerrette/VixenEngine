@@ -60,7 +60,7 @@ namespace Vixen {
 		return &m_timer;
 	}
 
-	void SDLGameWindow::VSetRenderer(Renderer* renderer)
+	void SDLGameWindow::VSetRenderer(IRenderer* renderer)
 	{
 		m_renderer = renderer;
 	}
@@ -201,13 +201,13 @@ namespace Vixen {
             if(m_renderer)
 			    m_renderer->VClearBuffer(ClearArgs::COLOR_DEPTH_STENCIL_BUFFER);
 
-			
+
 			/*update*/
 			m_parent->VOnUpdate(m_timer.DeltaTime());
 
 			/*render*/
 			m_parent->VOnRender(m_timer.DeltaTime());
-			
+
 
 			/*update keyboard state for next frame*/
 			((SDLKeyboardState*)Game::GetKeyboard())->UpdatePrev();
@@ -244,10 +244,11 @@ namespace Vixen {
 
 	void SDLGameWindow::VSwapBuffers()
 	{
-        if (m_renderer->Type() == Renderer::RendererType::DIRECTX)
+		#ifdef VIX_SYS_WINDOWS
             m_renderer->VSwapBuffers();
-        else
-            SDL_GL_SwapWindow(m_windowHandle);
+        #endif
+
+		SDL_GL_SwapWindow(m_windowHandle);
 	}
 
 	const UString& SDLGameWindow::VGetTitle()

@@ -26,10 +26,14 @@
 //NOTE:
 //
 //  Needs to eventually include, either OpenGL or DirectX
-//  camera class, and switch based on renderer. 
-//  OpenGL impl. uses GLM 
+//  camera class, and switch based on renderer.
+//  OpenGL impl. uses GLM
 //  DirectX impl. uses DirectXMath
+#ifdef VIX_SYS_WINDOWS
 #include <vix_dxcamera3d.h>
+#else
+#include <vix_glcamera3d.h>
+#endif
 
 #include <vix_gameobject.h>
 #include <vix_input.h>
@@ -40,16 +44,20 @@ namespace Vixen {
 
     CameraComponent::CameraComponent()
     {
-        m_camera = new DXCamera3D;
-        m_camera->VSetPerspective(1280.0f / 720.0f, DirectX::XMConvertToRadians(45.0f), 0.01f, 100.0f);
-        if (!s_MainCameraExists)
-        {
-            s_MainCameraExists = true;
-            m_isMainCamera = true;
-        }
-        else {
-            m_isMainCamera = false;
-        }
+        #ifdef VIX_SYS_WINDOWS
+            m_camera = new DXCamera3D;
+            m_camera->VSetPerspective(1280.0f / 720.0f, DirectX::XMConvertToRadians(45.0f), 0.01f, 100.0f);
+            if (!s_MainCameraExists)
+            {
+                s_MainCameraExists = true;
+                m_isMainCamera = true;
+            }
+            else {
+                m_isMainCamera = false;
+            }
+        #else
+            m_camera = NULL;
+        #endif
     }
 
     CameraComponent::~CameraComponent()
@@ -69,43 +77,49 @@ namespace Vixen {
 
     void CameraComponent::SetPerspective(float aspect, float fov, float znear, float zfar)
     {
-        m_camera->VSetPerspective(aspect, fov, znear, zfar);
+        if(m_camera)
+            m_camera->VSetPerspective(aspect, fov, znear, zfar);
     }
 
     void CameraComponent::SetView(const Vector3& eye, const Vector3& target, const Vector3& up)
     {
-        m_camera->VSetView(eye, target, up);
+        if(m_camera)
+            m_camera->VSetView(eye, target, up);
     }
 
     void CameraComponent::VOnInit()
     {
-        
+
     }
 
     void CameraComponent::VOnEnable()
     {
-        
+
     }
 
     void CameraComponent::VUpdate(float dt)
     {
-		
-		m_camera->VSetView(	m_parentTransform->GetWorldPosition(),
-							m_parentTransform->GetWorldPosition() + m_parentTransform->GetForward(),
-							m_parentTransform->GetUp());
 
-        //update camera
-        m_camera->VUpdate(dt);
+        if(m_camera)
+        {
+            m_camera->VSetView(	m_parentTransform->GetWorldPosition(),
+                                  m_parentTransform->GetWorldPosition() + m_parentTransform->GetForward(),
+                                  m_parentTransform->GetUp());
+
+            //update camera
+            m_camera->VUpdate(dt);
+        }
+
     }
 
     void CameraComponent::VOnDisable()
     {
-        
+
     }
 
     void CameraComponent::VOnDestroy()
     {
-       
+
     }
 
     void CameraComponent::VBindParent(GameObject* parent)

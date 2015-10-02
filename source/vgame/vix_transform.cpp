@@ -23,9 +23,7 @@
 
 #include <vix_transform.h>
 #include <vix_mathfunctions.h>
-#include <vix_directx.h>
 
-using namespace DirectX;
 
 namespace Vixen {
 
@@ -77,7 +75,7 @@ namespace Vixen {
 	{
 		if (!m_worldDirty) {
 			m_worldDirty = true;
-			
+
 			for (int i = 0; i < m_childTransforms.size(); i++)
 			{
 				Transform* _transform = m_childTransforms[i];
@@ -247,7 +245,7 @@ namespace Vixen {
     {
         return m_scale.x;
     }
-    
+
     float Transform::ScaleY() const
     {
         return m_scale.y;
@@ -297,7 +295,7 @@ namespace Vixen {
 				MathFunctions::MatrixTranslation(m_position);
 			m_localDirty = false;
 		}
-		
+
 		return &m_local;
 	}
 

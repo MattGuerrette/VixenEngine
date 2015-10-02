@@ -26,7 +26,6 @@
 
 /*include Lua headers*/
 
-#define VIX_NOEXTERN_LUA 1
 #ifdef VIX_NOEXTERN_LUA
 #include <lua.h>
 #include <lualib.h>

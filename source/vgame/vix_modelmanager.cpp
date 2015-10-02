@@ -62,14 +62,14 @@ namespace Vixen {
                 if (model)
                     _manager.m_models[id] = model;
                 else
-                    DebugPrintF(VTEXT("ModelManager: %s failed to load"), id);
+                    DebugPrintF(VTEXT("ModelManager: %s failed to load"), id.c_str());
 
                 modelElement = modelElement->NextSiblingElement("model");
             }
             FileManager::CloseFile(file);
             return true;
         }
-        
+
         FileManager::CloseFile(file);
         return false;
     }

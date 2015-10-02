@@ -31,10 +31,11 @@
 #include <vix_shader.h>
 #include <vix_model.h>
 #include <vix_font.h>
+#include <vix_material.h>
 
 namespace Vixen {
 
-    
+
 
     /**
     *   ResourceType enum class
@@ -66,6 +67,7 @@ namespace Vixen {
         static IShader*     OpenShader(UString filePath, ShaderType type);
         static IModel*      OpenModel(UString filePath);
         static IFont*       OpenFont(UString filePath);
+        static IMaterial*   OpenMaterial(UString filePath);
 
     private:
         IResourceLoader* m_resourceLoader;

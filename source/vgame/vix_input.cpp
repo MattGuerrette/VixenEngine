@@ -25,6 +25,10 @@
 #include <vix_keyboardstate.h>
 #include <vix_mousestate.h>
 
+#ifdef VIX_SYS_LINUX
+#include <cstddef>
+#endif
+
 namespace Vixen {
 
 
@@ -55,7 +59,7 @@ namespace Vixen {
 	{
 		s_keyState = keyState;
 	}
-    
+
     void Input::SetMouseState(IMouseState* mouseState)
     {
         s_mouseState = mouseState;

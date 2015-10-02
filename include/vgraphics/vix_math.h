@@ -33,6 +33,10 @@
 #include <DirectXMath.h>
 #endif
 
+#ifndef VIX_SYS_WINDOWS
+#include <vix_glm.h>
+#endif
+
 namespace Vixen {
 
 	const float PI = 3.141593f;
@@ -52,6 +56,8 @@ namespace Vixen {
 
 #ifdef VIX_SYS_WINDOWS
 	typedef DirectX::XMMATRIX MATRIX;
+#else
+	typedef glm::mat4x4 MATRIX;
 #endif
 }
 

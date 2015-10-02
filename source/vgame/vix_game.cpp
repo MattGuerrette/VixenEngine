@@ -85,7 +85,7 @@ namespace Vixen {
 		return m_window;
 	}
 
-	Renderer* const Game::GetRenderer() const
+	IRenderer* const Game::GetRenderer() const
 	{
 		return m_renderer;
 	}
@@ -106,5 +106,5 @@ namespace Vixen {
 	}
 
 
-	
+
 }

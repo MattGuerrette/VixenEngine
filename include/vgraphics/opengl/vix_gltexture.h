@@ -33,7 +33,7 @@ namespace Vixen {
 	VIX_API GLenum vixFIBmpToInternalFormat(FIBITMAP* bmp);
 	VIX_API GLenum vixFIBmpToFormat(FIBITMAP* bmp);
 
-	class VIX_API GLTexture : public Texture
+	class VIX_API GLTexture : public ITexture
 	{
 		GLuint m_id;
 		GLenum m_target;
@@ -42,18 +42,22 @@ namespace Vixen {
 	public:
 		GLTexture(GLenum target = GL_TEXTURE_2D);
 
-		GLTexture(const UString& filePath, GLenum target = GL_TEXTURE_2D);
-
-		GLTexture(FREEIMAGE_BMP* bmp, GLenum target = GL_TEXTURE_2D);
-
 		~GLTexture();
 
 		void Bind(GLenum unit);
 
 		void Unbind();
 
-		ErrCode InitFromFile(const UString& filePath);
-		ErrCode InitFromFIBMP(FREEIMAGE_BMP* bitmap);
+		bool VInitFromBMP(FREEIMAGE_BMP* bmp);
+        bool VInitFromFile(File* file);
+
+		size_t VGetWidth();
+		size_t VGetHeight();
+
+	private:
+		size_t  m_width;
+		size_t  m_height;
+		int     m_uniqueID;
 	};
 }
 
