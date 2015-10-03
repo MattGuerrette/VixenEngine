@@ -16,7 +16,7 @@ function camera.Update(dt)
 
 	-- Handle Keyboard Controls
 
-	--[[if Input.KeyPress(IKEY.W) then
+	if Input.KeyPress(IKEY.W) then
 		local v = transform:Forward();
 
 		transform:Translate(v * dt * this.speed);
@@ -45,7 +45,7 @@ function camera.Update(dt)
 	deltaX = Input.MouseDeltaX(1280/2);
 	deltaY = Input.MouseDeltaY(720/2);
 	transform:RotateX(deltaY * this.mouseLook);
-	transform:RotateY(deltaX * this.mouseLook);]]--
+	transform:RotateY(deltaX * this.mouseLook);
 
 end
 

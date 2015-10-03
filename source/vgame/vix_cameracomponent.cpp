@@ -46,7 +46,7 @@ namespace Vixen {
     {
         #ifdef VIX_SYS_WINDOWS
             m_camera = new DXCamera3D;
-            m_camera->VSetPerspective(1280.0f / 720.0f, DirectX::XMConvertToRadians(45.0f), 0.01f, 100.0f);
+            m_camera->VSetPerspective(1280.0f / 720.0f, DirectX::XMConvertToRadians(45.0f), 0.01f, 10000.0f);
             if (!s_MainCameraExists)
             {
                 s_MainCameraExists = true;

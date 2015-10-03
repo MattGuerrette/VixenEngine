@@ -67,6 +67,7 @@ namespace Vixen {
 
         std::vector<DirectX::XMFLOAT4X4>             m_instanceData;
         size_t                                       m_numInstances;
+        size_t                                       m_numRenderCalls;
     };
 }
 
