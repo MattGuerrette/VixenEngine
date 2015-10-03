@@ -166,6 +166,14 @@ xcopy /y "$(ProjectDir)vtest.config" "$(SolutionDir)$(Platform)\$(Configuration)
     <ClCompile Include="..\..\source\vtest\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\assets\Models\brace.mdl" />
+    <None Include="..\..\assets\Models\cube.mdl" />
+    <None Include="..\..\assets\Models\floor.mdl" />
+    <None Include="..\..\assets\Models\minecart.mdl" />
+    <None Include="..\..\assets\Models\models.config" />
+    <None Include="..\..\assets\Models\rail.mdl" />
+    <None Include="..\..\assets\Models\raptor.mdl" />
+    <None Include="..\..\assets\Models\wall.mdl" />
     <None Include="..\..\assets\Prefabs\cube.pfb" />
     <None Include="..\..\assets\Prefabs\floor.pfb" />
     <None Include="..\..\assets\Prefabs\rail.pfb" />

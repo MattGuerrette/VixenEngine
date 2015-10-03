@@ -61,6 +61,30 @@
     <None Include="..\..\assets\Prefabs\wall.pfb">
       <Filter>Assets\Prefabs</Filter>
     </None>
+    <None Include="..\..\assets\Models\raptor.mdl">
+      <Filter>Assets\Models</Filter>
+    </None>
+    <None Include="..\..\assets\Models\models.config">
+      <Filter>Assets\Models</Filter>
+    </None>
+    <None Include="..\..\assets\Models\brace.mdl">
+      <Filter>Assets\Models</Filter>
+    </None>
+    <None Include="..\..\assets\Models\cube.mdl">
+      <Filter>Assets\Models</Filter>
+    </None>
+    <None Include="..\..\assets\Models\floor.mdl">
+      <Filter>Assets\Models</Filter>
+    </None>
+    <None Include="..\..\assets\Models\minecart.mdl">
+      <Filter>Assets\Models</Filter>
+    </None>
+    <None Include="..\..\assets\Models\rail.mdl">
+      <Filter>Assets\Models</Filter>
+    </None>
+    <None Include="..\..\assets\Models\wall.mdl">
+      <Filter>Assets\Models</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\assets\Shaders\DirectX\Model_Textured_PS.hlsl">
