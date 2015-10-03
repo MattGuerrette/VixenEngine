@@ -74,10 +74,10 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)..\include;$(SolutionDir)..\include\vcore;$(SolutionDir)..\dependencies\x64\tinyxml2;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)..\dependencies\x64\tinyxml2\;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)..\dependencies\$(Platform)\Vixen\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Temp\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IncludePath>$(ProjectDir)..\..\include;$(ProjectDir)..\..\include\vcore;$(ProjectDir)..\..\dependencies\x64\tinyxml2;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)..\..\dependencies\x64\tinyxml2\;$(LibraryPath)</LibraryPath>
+    <OutDir>$(ProjectDir)..\..\dependencies\$(Platform)\Vixen\$(ProjectName)\</OutDir>
+    <IntDir>$(ProjectDir)..\Temp\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

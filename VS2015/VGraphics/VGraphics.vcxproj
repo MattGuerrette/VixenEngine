@@ -76,10 +76,10 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)..\include;$(SolutionDir)..\include\vcore;$(SolutionDir)..\include\vgraphics;$(SolutionDir)..\include\vgraphics\directx;$(SolutionDir)..\dependencies\$(Platform)\tinyxml2;$(SolutionDir)..\dependencies\$(Platform)\FreeImage;$(SolutionDir)..\dependencies\$(Platform)\Assimp\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)..\dependencies\$(Platform)\Vixen\VCore;$(SolutionDir)..\dependencies\$(Platform)\tinyxml2;$(SolutionDir)..\dependencies\$(Platform)\FreeImage\;$(SolutionDir)..\dependencies\$(Platform)\Assimp;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)..\dependencies\$(Platform)\Vixen\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Temp\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IncludePath>$(ProjectDir)..\..\include;$(ProjectDir)..\..\include\vcore;$(ProjectDir)..\..\include\vgraphics;$(ProjectDir)..\..\include\vgraphics\directx;$(ProjectDir)..\..\dependencies\$(Platform)\tinyxml2;$(ProjectDir)..\..\dependencies\$(Platform)\FreeImage;$(ProjectDir)..\..\dependencies\$(Platform)\Assimp\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)..\..\dependencies\$(Platform)\Vixen\VCore;$(ProjectDir)..\..\dependencies\$(Platform)\tinyxml2;$(ProjectDir)..\..\dependencies\$(Platform)\FreeImage\;$(ProjectDir)..\..\dependencies\$(Platform)\Assimp;$(LibraryPath)</LibraryPath>
+    <OutDir>$(ProjectDir)..\..\dependencies\$(Platform)\Vixen\$(ProjectName)\</OutDir>
+    <IntDir>$(ProjectDir)..\Temp\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
