@@ -40,7 +40,7 @@ Included in the repository is a Visual Studio 2015 solution file. It is already 
 If you have any issues getting the VS2015 solution file to open and VCore, VGraphics, VGame, or VTest project files
 to build, please file an issue.
 
-NOTE: All dependencies have been included prebuilt targeting x64 with VC++14 compiler in the repository for building on Windows.
+**NOTE:** All dependencies have been included prebuilt targeting x64 with VC++14 compiler in the repository for building on Windows.
 
 ## Linux
 
@@ -54,4 +54,4 @@ If you wish to develop Vixen for Linux you may need to make slight modifications
   * vgame     (libvgame)
   * vtest     (vtest application)
 
-NOTE: All Vixen libraries will output to /usr/local/lib as specified in Makefile.
+**NOTE:** All Vixen libraries will output to **/usr/local/lib** as specified in Makefile.
