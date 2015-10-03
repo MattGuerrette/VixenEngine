@@ -69,7 +69,6 @@ namespace Vixen {
         virtual void    VAttachNativeHandle(void* handle) = 0;
         virtual void    VRenderTexture2D(ITexture* texture, const Vector2& pos, const Rect& source) = 0;
         virtual void    VRenderText2D(IFont* font, UString text, const Vector2& pos) = 0;
-        virtual void    VRenderModel(IModel* model) = 0;
 
 	};
 

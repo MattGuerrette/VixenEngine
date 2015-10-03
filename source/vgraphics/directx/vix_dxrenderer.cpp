@@ -33,9 +33,7 @@ namespace Vixen {
     DXRenderer::DXRenderer()
     {
         m_HWND = NULL;
-        m_type = RendererType::DIRECTX;
         m_camera2D = new DXCamera2D;
-        m_camera3D = new DXCamera3D;
     }
 
     DXRenderer::~DXRenderer()
@@ -282,21 +280,6 @@ namespace Vixen {
         m_HWND = (HWND)handle;
     }
 
-    void DXRenderer::VApplyRenderMode()
-    {
-        //NON APPLICABLE ATM
-    }
-
-    void DXRenderer::VApplyFaceCulling()
-    {
-        //NON APPLICABLE ATM
-    }
-
-    void DXRenderer::VApplyFaceWinding()
-    {
-        //NON APPLICABLE ATM
-    }
-
     void DXRenderer::VSwapBuffers()
     {
         m_SwapChain->Present(0, 0);
@@ -380,18 +363,8 @@ namespace Vixen {
         m_spriteBatch->End();
     }
 
-    void DXRenderer::VRenderModel(IModel* model)
-    {
-        model->VRender(m_camera3D);
-    }
-
     DXSpriteBatcher* DXRenderer::SpriteBatch()
     {
         return m_spriteBatch;
-    }
-
-    ICamera3D* DXRenderer::VCamera3D()
-    {
-        return m_camera3D;
     }
 }

@@ -13,6 +13,27 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Assets">
+      <UniqueIdentifier>{7ca8d65c-34f6-4ebf-88c5-dc6ced17875e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Shaders">
+      <UniqueIdentifier>{88411733-a52e-4501-ad2a-884c12b0e308}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Shaders\HLSL">
+      <UniqueIdentifier>{a600a694-5c44-4aa6-9d27-9f1ef8a773f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Shaders\GLSL">
+      <UniqueIdentifier>{be389d0b-6c84-49cf-9c53-dfc70ac50734}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Scenes">
+      <UniqueIdentifier>{cff558d1-d8c9-4d3f-a6be-20de3ccc5015}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Models">
+      <UniqueIdentifier>{1e7cf213-8b10-478c-a570-0e8dcc99a2c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Prefabs">
+      <UniqueIdentifier>{b77d0341-fb16-4e05-b352-83a0599cbe17}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\vtest\main.cpp">
@@ -20,7 +41,39 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="vixen.env" />
-    <None Include="vtest.config" />
+    <None Include="..\x64\Debug\vixen.env" />
+    <None Include="..\x64\Debug\vtest.config" />
+    <None Include="..\..\assets\Scenes\scene1.scene">
+      <Filter>Assets\Scenes</Filter>
+    </None>
+    <None Include="..\..\assets\Scenes\scenes.config">
+      <Filter>Assets\Scenes</Filter>
+    </None>
+    <None Include="..\..\assets\Prefabs\cube.pfb">
+      <Filter>Assets\Prefabs</Filter>
+    </None>
+    <None Include="..\..\assets\Prefabs\floor.pfb">
+      <Filter>Assets\Prefabs</Filter>
+    </None>
+    <None Include="..\..\assets\Prefabs\rail.pfb">
+      <Filter>Assets\Prefabs</Filter>
+    </None>
+    <None Include="..\..\assets\Prefabs\wall.pfb">
+      <Filter>Assets\Prefabs</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\..\assets\Shaders\DirectX\Model_Textured_PS.hlsl">
+      <Filter>Assets\Shaders\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\assets\Shaders\DirectX\Model_Untextured_PS.hlsl">
+      <Filter>Assets\Shaders\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\assets\Shaders\DirectX\Model_Untextured_VS.hlsl">
+      <Filter>Assets\Shaders\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\assets\Shaders\DirectX\Model_VS.hlsl">
+      <Filter>Assets\Shaders\HLSL</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

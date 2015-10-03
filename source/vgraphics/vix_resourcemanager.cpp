@@ -61,7 +61,7 @@ namespace Vixen {
 
     IShader* ResourceManager::OpenShader(UString filePath, ShaderType type)
     {
-        UString assetPath = PathManager::AssetPath() + VTEXT("Shaders/");
+        UString assetPath = PathManager::ShaderPath();
 
         assetPath += filePath;
         assetPath = os_path(assetPath);
@@ -87,7 +87,7 @@ namespace Vixen {
 
     IModel* ResourceManager::OpenModel(UString filePath)
     {
-        UString assetPath = PathManager::AssetPath() + VTEXT("Models/");
+        UString assetPath = PathManager::ModelPath();
 
         assetPath += filePath;
         assetPath = os_path(assetPath);
@@ -110,9 +110,9 @@ namespace Vixen {
         return NULL;
     }
 
-    IMaterial* ResourceManager::OpenMaterial(UString filePath)
+    IFont* ResourceManager::OpenFont(UString filePath)
     {
-        UString assetPath = PathManager::AssetPath() + VTEXT("Models/");
+        UString assetPath = PathManager::AssetPath() + VTEXT("Fonts/");
 
         assetPath += filePath;
         assetPath = os_path(assetPath);
@@ -126,9 +126,9 @@ namespace Vixen {
             if (_RM.m_resourceLoader)
             {
                 //Need to load a model object into memory
-                IMaterial* _material = _RM.m_resourceLoader->LoadMaterial(file);
-                FileManager::CloseFile(assetPath);
-                return _material;
+                IFont* _font = _RM.m_resourceLoader->LoadFont(file);
+                FileManager::CloseFile(file);
+                return _font;
             }
         }
 

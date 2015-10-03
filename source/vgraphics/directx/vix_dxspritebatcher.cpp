@@ -138,8 +138,8 @@ namespace Vixen {
     void DXSpriteBatcher::build_texture(BatchInfo info, size_t index)
     {
         /*cache texture width and height*/
-        const float tex_width = (float)m_texture->GetWidth();
-        const float tex_height = (float)m_texture->GetHeight();
+        const float tex_width = (float)m_texture->VGetWidth();
+        const float tex_height = (float)m_texture->VGetHeight();
         const float inv_tex_width = 1.0f / tex_width;
         const float inv_tex_height = 1.0f / tex_height;
 

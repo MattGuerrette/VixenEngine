@@ -46,10 +46,10 @@ namespace Vixen
         using namespace tinyxml2;
 
         //Open Environment Config File
-        FILE* envFile = FileManager::OpenFile(os_exec_dir() + VTEXT("vixen.env"))->Handle();
+        File* envFile = FileManager::OpenFile(os_exec_dir() + VTEXT("vixen.env"));
 
         XMLDOC document;
-        XMLError err = document.LoadFile(envFile);
+        XMLError err = document.LoadFile(envFile->Handle());
 		UString errMsg;
 		if (XMLErrCheck(err, errMsg)) {
 			DebugPrintF(VTEXT("Env file failed to load: %s\n"),
@@ -81,7 +81,7 @@ namespace Vixen
 		_PrefabPath = _AssetPath + VTEXT("Prefabs/");
 		_PrefabPath = os_path(_PrefabPath);
 
-        FileManager::CloseFile(os_exec_dir() + VTEXT("vixen.env"));
+        FileManager::CloseFile(envFile);
     }
 
     UString PathManager::AssetPath()

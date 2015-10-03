@@ -33,8 +33,8 @@ namespace Vixen {
         
         m_resourceView = nullptr;
         m_sampleState = nullptr;
-        m_width = 0.0f;
-        m_height = 0.0f;
+        m_width = 0;
+        m_height = 0;
     }
 
     DXTexture::~DXTexture()
@@ -43,7 +43,7 @@ namespace Vixen {
         ReleaseCOM(m_sampleState);
     }
 
-    bool DXTexture::InitFromFile(File* file)
+    bool DXTexture::VInitFromFile(File* file)
     {
         if (!file)
             return false;
@@ -51,13 +51,13 @@ namespace Vixen {
         FREEIMAGE_BMP* bitmap = FREEIMAGE_LoadImage(file);
         if (bitmap)
         {
-            return InitFromBMP(bitmap);
+            return VInitFromBMP(bitmap);
         }
 
         return false;
     }
 
-    bool DXTexture::InitFromBMP(FREEIMAGE_BMP* bmp)
+    bool DXTexture::VInitFromBMP(FREEIMAGE_BMP* bmp)
     {
         HRESULT hr;
 
@@ -135,12 +135,12 @@ namespace Vixen {
         return m_sampleState;
     }
 
-    float DXTexture::Width()
+    size_t DXTexture::VGetWidth() const
     {
         return m_width;
     }
 
-    float DXTexture::Height()
+    size_t DXTexture::VGetHeight() const
     {
         return m_height;
     }

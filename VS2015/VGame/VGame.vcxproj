@@ -79,8 +79,8 @@
     <OutDir>$(SolutionDir)..\dependencies\$(Platform)\Vixen\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)Temp\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)d</TargetName>
-    <IncludePath>$(SolutionDir)..\include;$(SolutionDir)..\include\vcore;$(SolutionDir)..\include\vgraphics;$(SolutionDir)..\include\vgraphics\directx;$(SolutionDir)..\include\vgame;$(SolutionDir)..\dependencies\$(Platform)\tinyxml2;$(SolutionDir)..\dependencies\$(Platform)\FreeImage;$(SolutionDir)..\dependencies\$(Platform)\SDL2\include;$(SolutionDir)..\dependencies\$(Platform)\Assimp\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)..\dependencies\$(Platform)\Vixen\VCore;$(SolutionDir)..\dependencies\$(Platform)\Vixen\VGraphics;$(SolutionDir)..\dependencies\$(Platform)\tinyxml2;$(SolutionDir)..\dependencies\$(Platform)\FreeImage;$(SolutionDir)..\dependencies\$(Platform)\SDL2;$(SolutionDir)..\dependencies\$(Platform)\Assimp;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)..\include;$(SolutionDir)..\include\vcore;$(SolutionDir)..\include\vgraphics;$(SolutionDir)..\include\vgraphics\directx;$(SolutionDir)..\include\vgame;$(SolutionDir)..\dependencies\$(Platform)\tinyxml2;$(SolutionDir)..\dependencies\$(Platform)\FreeImage;$(SolutionDir)..\dependencies\$(Platform)\SDL2\include;$(SolutionDir)..\dependencies\$(Platform)\Assimp\include;$(SolutionDir)..\dependencies\$(Platform)\lua\include;$(SolutionDir)..\dependencies\$(Platform)\luaintf;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\dependencies\$(Platform)\Vixen\VCore;$(SolutionDir)..\dependencies\$(Platform)\Vixen\VGraphics;$(SolutionDir)..\dependencies\$(Platform)\tinyxml2;$(SolutionDir)..\dependencies\$(Platform)\FreeImage;$(SolutionDir)..\dependencies\$(Platform)\SDL2;$(SolutionDir)..\dependencies\$(Platform)\Assimp;$(SolutionDir)..\dependencies\$(Platform)\lua\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -109,13 +109,13 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;VGAME_EXPORTS;%(PreprocessorDefinitions);VIX_NONCLIENT_BUILD;VIX_DIRECTX_BUILD</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;VGAME_EXPORTS;%(PreprocessorDefinitions);VIX_NONCLIENT_BUILD;VIX_DIRECTX_BUILD;VIX_NOEXTERN_LUA;LUAINTF_HEADERS_ONLY</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>VCored.lib;VGraphicsd.lib;tinyxml2.lib;FreeImage.lib;SDL2.lib;d3d11.lib;d3dcompiler.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>VCored.lib;VGraphicsd.lib;tinyxml2.lib;FreeImage.lib;SDL2.lib;d3d11.lib;d3dcompiler.lib;assimp.lib;lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y "$(OutDir)$(ProjectName)d.dll" "$(SolutionDir)$(Platform)\$(Configuration)"</Command>
@@ -163,21 +163,50 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\vcore\vix_resourcemanager.h" />
+    <ClInclude Include="..\..\include\vgame\vix_cameracomponent.h" />
+    <ClInclude Include="..\..\include\vgame\vix_component.h" />
     <ClInclude Include="..\..\include\vgame\vix_game.h" />
     <ClInclude Include="..\..\include\vgame\vix_gameconfig.h" />
+    <ClInclude Include="..\..\include\vgame\vix_gameobject.h" />
     <ClInclude Include="..\..\include\vgame\vix_gamewindow.h" />
     <ClInclude Include="..\..\include\vgame\vix_input.h" />
+    <ClInclude Include="..\..\include\vgame\vix_keyboardstate.h" />
+    <ClInclude Include="..\..\include\vgame\vix_lua.h" />
+    <ClInclude Include="..\..\include\vgame\vix_luaengine.h" />
+    <ClInclude Include="..\..\include\vgame\vix_luascript.h" />
+    <ClInclude Include="..\..\include\vgame\vix_luascriptmanager.h" />
+    <ClInclude Include="..\..\include\vgame\vix_modelmanager.h" />
+    <ClInclude Include="..\..\include\vgame\vix_mousestate.h" />
+    <ClInclude Include="..\..\include\vgame\vix_objectmanager.h" />
+    <ClInclude Include="..\..\include\vgame\vix_prefab.h" />
+    <ClInclude Include="..\..\include\vgame\vix_prefabmanager.h" />
+    <ClInclude Include="..\..\include\vgame\vix_rendercomponent.h" />
+    <ClInclude Include="..\..\include\vgame\vix_scene.h" />
+    <ClInclude Include="..\..\include\vgame\vix_scenemanager.h" />
     <ClInclude Include="..\..\include\vgame\vix_sdlinput.h" />
     <ClInclude Include="..\..\include\vgame\vix_sdltimer.h" />
     <ClInclude Include="..\..\include\vgame\vix_sdlwindow.h" />
+    <ClInclude Include="..\..\include\vgame\vix_transform.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\source\vcore\vix_resourcemanager.cpp" />
+    <ClCompile Include="..\..\source\vgame\vix_cameracomponent.cpp" />
     <ClCompile Include="..\..\source\vgame\vix_game.cpp" />
     <ClCompile Include="..\..\source\vgame\vix_gameconfig.cpp" />
+    <ClCompile Include="..\..\source\vgame\vix_gameobject.cpp" />
+    <ClCompile Include="..\..\source\vgame\vix_input.cpp" />
+    <ClCompile Include="..\..\source\vgame\vix_luaengine.cpp" />
+    <ClCompile Include="..\..\source\vgame\vix_luascript.cpp" />
+    <ClCompile Include="..\..\source\vgame\vix_luascriptmanager.cpp" />
+    <ClCompile Include="..\..\source\vgame\vix_modelmanager.cpp" />
+    <ClCompile Include="..\..\source\vgame\vix_objectmanager.cpp" />
+    <ClCompile Include="..\..\source\vgame\vix_prefab.cpp" />
+    <ClCompile Include="..\..\source\vgame\vix_prefabmanager.cpp" />
+    <ClCompile Include="..\..\source\vgame\vix_scene.cpp" />
+    <ClCompile Include="..\..\source\vgame\vix_scenemanager.cpp" />
     <ClCompile Include="..\..\source\vgame\vix_sdlinput.cpp" />
     <ClCompile Include="..\..\source\vgame\vix_sdltimer.cpp" />
     <ClCompile Include="..\..\source\vgame\vix_sdlwindow.cpp" />
+    <ClCompile Include="..\..\source\vgame\vix_transform.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

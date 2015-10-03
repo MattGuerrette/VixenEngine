@@ -39,9 +39,6 @@
     <ClInclude Include="..\..\include\vgraphics\directx\vix_dxprimitivecube.h">
       <Filter>Header Files\directx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\vgraphics\directx\vix_dxquad.h">
-      <Filter>Header Files\directx</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\vgraphics\directx\vix_dxrenderer.h">
       <Filter>Header Files\directx</Filter>
     </ClInclude>
@@ -138,6 +135,36 @@
     <ClInclude Include="..\..\include\vgraphics\vix_camera2d.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\vgraphics\directx\vix_dxmaterial.h">
+      <Filter>Header Files\directx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\vgraphics\directx\vix_dxmathfunctions.h">
+      <Filter>Header Files\directx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\vgraphics\vix_bmfont.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\vgraphics\vix_camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\vgraphics\vix_camera3d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\vgraphics\vix_font.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\vgraphics\vix_material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\vgraphics\vix_mathfunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\vgraphics\vix_pointlight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\vgraphics\vix_resourcemanager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\vgraphics\directx\vix_dxcamera2d.cpp">
@@ -161,9 +188,6 @@
     <ClCompile Include="..\..\source\vgraphics\vix_freeimage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\vgraphics\vix_renderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\vgraphics\vix_rectangle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -174,9 +198,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\vgraphics\vix_math.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\vgraphics\vix_transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\vgraphics\directx\vix_dxspritebatcher.cpp">
@@ -219,6 +240,21 @@
       <Filter>Source Files\directx</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\vgraphics\vix_assimp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\vgraphics\directx\vix_dxmaterial.cpp">
+      <Filter>Source Files\directx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\vgraphics\directx\vix_dxmathfunctions.cpp">
+      <Filter>Source Files\directx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\vgraphics\vix_bmfont.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\vgraphics\vix_mathfunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\vgraphics\vix_resourcemanager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

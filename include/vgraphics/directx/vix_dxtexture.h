@@ -38,19 +38,21 @@ namespace Vixen {
 
         ~DXTexture();
 
-        bool InitFromFile(File* file);
-        bool InitFromBMP(FREEIMAGE_BMP* bmp);
+        bool VInitFromFile(File* file);
+        bool VInitFromBMP(FREEIMAGE_BMP* bmp);
 
         ID3D11ShaderResourceView*  ResourceView();
         ID3D11SamplerState*        SampleState();
-        float                      Width();
-        float                      Height();
+        size_t                     VGetWidth() const;
+        size_t                     VGetHeight() const;
 
     private:
         ID3D11Device*              m_device;
         ID3D11DeviceContext*       m_context;
         ID3D11ShaderResourceView*  m_resourceView;
         ID3D11SamplerState*        m_sampleState;
+        float                      m_width;
+        float                      m_height;
 
     private:
         static DXGI_FORMAT FromBPP(size_t bpp);

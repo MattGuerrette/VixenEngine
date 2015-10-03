@@ -4,10 +4,16 @@
 #include <vix_pathmanager.h>
 #include <vix_resourcemanager.h>
 #include <vix_font.h>
+#include <vix_gameobject.h>
+#include <vix_scenemanager.h>
+#include <vix_modelmanager.h>
+#include <vix_luaengine.h>
+#include <vix_luascriptmanager.h>
+#include <vix_objectmanager.h>
 
 using namespace Vixen;
 
-class TestGame : public IGame
+class TestGame : public Game
 {
 public:
     TestGame();
@@ -18,103 +24,68 @@ public:
     void VOnRender(float dt);
 
 private:
-    ICamera3D*  camera3D;
-    IModel*     model;
-    IModel*     floor;
-    IFont*      font;
-    ITexture*   croissant;
-    Transform   modelTransform;
-    Transform   floorTransform;
-    Transform   croissantTransform;
+    IFont*      m_font;
+    Transform   fontTransform;
+    bool paused;
 };
 
 TestGame::TestGame()
-    : IGame()
+    : Game()
 {
 
 }
 
 void TestGame::VOnStartup()
 {
-    
+    ObjectManager::Initialize();
+    LuaEngine::Initialize();
+    LuaScriptManager::Initialize();
+    ModelManager::Initialize();
+    SceneManager::Initialize();
+    SceneManager::OpenScene(VTEXT("scene1"));
 
-    m_renderer->VSetClearColor(Vixen::Colors::CornflowerBlue);
+    paused = false;
 
-    camera3D = m_renderer->Camera3D();
-    camera3D->VSetSpeed(500.0f);
+    m_renderer->VSetClearColor(Vixen::Colors::Black);
 
-    croissant = ResourceManager::OpenTexture(VTEXT("transparent.png"));
+    m_font = ResourceManager::OpenFont(VTEXT("Consolas_24.fnt"));
 
-    model = ResourceManager::OpenModel(VTEXT("raptor.mdl"));
-    floor = ResourceManager::OpenModel(VTEXT("floor.mdl"));
-    font = ResourceManager::OpenFont(VTEXT("Consolas_24.fnt"));
-    modelTransform = Transform( 0.0f, 0.0f, 5.0f,
-                                0.0f, 0.0f, 0.0f,
-									1.f, 1.f, 1.f);
-    floorTransform = Transform(0.0f, -5.0f, 5.0f,
-        0.0f, 0.0f, 0.0f,
-        10.0f, 10.0f, 10.0f);
-    croissantTransform = Transform(20.0f, 20.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f);
-    model->VSetTransform(&modelTransform);
-    floor->VSetTransform(&floorTransform);
+    fontTransform = Transform(20.0f, 20.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f);
+
 
     m_window->VToggleCursor();
 }
 
 void TestGame::VOnUpdate(float dt)
 {
-    //modelTransform.RotateY(dt);
-
-    if (m_keyboard->SingleKeyPress(IKEY::F2))
-        m_window->VClose();
-
-    if (m_keyboard->KeyPress(IKEY::S))
-        camera3D->VWalk(-dt);
-
-    if (m_keyboard->KeyPress(IKEY::W))
-        camera3D->VWalk(dt);
-
-    if (m_keyboard->KeyPress(IKEY::A))
-        camera3D->VStrafe(-dt);
-
-    if (m_keyboard->KeyPress(IKEY::D))
-        camera3D->VStrafe(dt);
-       
-
-    int deltaX = m_mouse->DeltaX(m_window->VGetClientBounds().w / 2);
-    int deltaY = m_mouse->DeltaY(m_window->VGetClientBounds().h / 2);
-    camera3D->VRotateX(deltaY * 0.25f);
-    camera3D->VRotateY(deltaX * 0.25f);
-
-    camera3D->VUpdate(dt);
-
-    m_window->VTrapCursorCenter();
+    SceneManager::UpdateScene(dt);
 }
 
 void TestGame::VOnRender(float dt)
 {
-    
-    m_renderer->VRenderModel(model);
-    m_renderer->VRenderModel(floor);
+    SceneManager::RenderScene();
 
 
     //ALL 2D UI IS DRAW AFTER SCENE IS DRAWN
     USStream ss;
     ss << "FPS: " << m_window->VFPS();
-    m_renderer->VRenderText2D(font, ss.str(), croissantTransform);
+    m_renderer->VRenderText2D(m_font, ss.str(), Vector2(20, 20));
 }
 
 void TestGame::VOnShutdown()
 {
-    delete font;
-    delete croissant;
-    delete model;
-    delete floor;
+    ModelManager::DeInitialize();
+    ObjectManager::DeInitialize();
+    SceneManager::DeInitialize();
+    LuaEngine::DeInitialize();
+    delete m_font;
 }
+
+
 
 int main(int argc, char* argv[])
 {
-    TestGame game;
+    TestGame _game;
 
-    return game.Run();
+    return _game.Run();
 }

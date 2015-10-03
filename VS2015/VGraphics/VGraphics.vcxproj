@@ -166,10 +166,11 @@
     <ClInclude Include="..\..\include\vgraphics\directx\vix_dxcamera2d.h" />
     <ClInclude Include="..\..\include\vgraphics\directx\vix_dxcamera3d.h" />
     <ClInclude Include="..\..\include\vgraphics\directx\vix_dxindexbuffer.h" />
+    <ClInclude Include="..\..\include\vgraphics\directx\vix_dxmaterial.h" />
+    <ClInclude Include="..\..\include\vgraphics\directx\vix_dxmathfunctions.h" />
     <ClInclude Include="..\..\include\vgraphics\directx\vix_dxmodel.h" />
     <ClInclude Include="..\..\include\vgraphics\directx\vix_dxpixelshader.h" />
     <ClInclude Include="..\..\include\vgraphics\directx\vix_dxprimitivecube.h" />
-    <ClInclude Include="..\..\include\vgraphics\directx\vix_dxquad.h" />
     <ClInclude Include="..\..\include\vgraphics\directx\vix_dxrenderer.h" />
     <ClInclude Include="..\..\include\vgraphics\directx\vix_dxresourceloader.h" />
     <ClInclude Include="..\..\include\vgraphics\directx\vix_dxshader.h" />
@@ -182,15 +183,23 @@
     <ClInclude Include="..\..\include\vgraphics\unused\vix_mesh.h" />
     <ClInclude Include="..\..\include\vgraphics\unused\vix_model.h" />
     <ClInclude Include="..\..\include\vgraphics\vix_assimp.h" />
+    <ClInclude Include="..\..\include\vgraphics\vix_bmfont.h" />
+    <ClInclude Include="..\..\include\vgraphics\vix_camera.h" />
     <ClInclude Include="..\..\include\vgraphics\vix_camera2d.h" />
+    <ClInclude Include="..\..\include\vgraphics\vix_camera3d.h" />
     <ClInclude Include="..\..\include\vgraphics\vix_color.h" />
+    <ClInclude Include="..\..\include\vgraphics\vix_font.h" />
     <ClInclude Include="..\..\include\vgraphics\vix_freeimage.h" />
     <ClInclude Include="..\..\include\vgraphics\vix_indexbuffer.h" />
+    <ClInclude Include="..\..\include\vgraphics\vix_material.h" />
     <ClInclude Include="..\..\include\vgraphics\vix_math.h" />
+    <ClInclude Include="..\..\include\vgraphics\vix_mathfunctions.h" />
     <ClInclude Include="..\..\include\vgraphics\vix_model.h" />
+    <ClInclude Include="..\..\include\vgraphics\vix_pointlight.h" />
     <ClInclude Include="..\..\include\vgraphics\vix_rectangle.h" />
     <ClInclude Include="..\..\include\vgraphics\vix_renderer.h" />
     <ClInclude Include="..\..\include\vgraphics\vix_resourceloader.h" />
+    <ClInclude Include="..\..\include\vgraphics\vix_resourcemanager.h" />
     <ClInclude Include="..\..\include\vgraphics\vix_shader.h" />
     <ClInclude Include="..\..\include\vgraphics\vix_shaderprogram.h" />
     <ClInclude Include="..\..\include\vgraphics\vix_spritebatcher.h" />
@@ -204,6 +213,8 @@
     <ClCompile Include="..\..\source\vgraphics\directx\vix_dxcamera2d.cpp" />
     <ClCompile Include="..\..\source\vgraphics\directx\vix_dxcamera3d.cpp" />
     <ClCompile Include="..\..\source\vgraphics\directx\vix_dxindexbuffer.cpp" />
+    <ClCompile Include="..\..\source\vgraphics\directx\vix_dxmaterial.cpp" />
+    <ClCompile Include="..\..\source\vgraphics\directx\vix_dxmathfunctions.cpp" />
     <ClCompile Include="..\..\source\vgraphics\directx\vix_dxmodel.cpp" />
     <ClCompile Include="..\..\source\vgraphics\directx\vix_dxpixelshader.cpp" />
     <ClCompile Include="..\..\source\vgraphics\directx\vix_dxprimitivecube.cpp">
@@ -240,11 +251,12 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\source\vgraphics\vix_assimp.cpp" />
+    <ClCompile Include="..\..\source\vgraphics\vix_bmfont.cpp" />
     <ClCompile Include="..\..\source\vgraphics\vix_freeimage.cpp" />
     <ClCompile Include="..\..\source\vgraphics\vix_math.cpp" />
+    <ClCompile Include="..\..\source\vgraphics\vix_mathfunctions.cpp" />
     <ClCompile Include="..\..\source\vgraphics\vix_rectangle.cpp" />
-    <ClCompile Include="..\..\source\vgraphics\vix_renderer.cpp" />
-    <ClCompile Include="..\..\source\vgraphics\vix_transform.cpp" />
+    <ClCompile Include="..\..\source\vgraphics\vix_resourcemanager.cpp" />
     <ClCompile Include="..\..\source\vgraphics\vix_vector2.cpp" />
     <ClCompile Include="..\..\source\vgraphics\vix_vector3.cpp" />
   </ItemGroup>

@@ -36,7 +36,7 @@
 
 namespace Vixen {
 
-    class VIX_API DXRenderer : public Renderer
+    class VIX_API DXRenderer : public IRenderer
     {
     public:
         DXRenderer();
@@ -51,12 +51,6 @@ namespace Vixen {
 
         void    VClearBuffer(ClearArgs args) override;
 
-        void    VApplyRenderMode() override;
-
-        void	VApplyFaceCulling() override;
-
-        void	VApplyFaceWinding() override;
-
         void    VSwapBuffers() override;
 
         void    VAttachNativeHandle(void* handle) override;
@@ -64,10 +58,6 @@ namespace Vixen {
         void    VRenderTexture2D(ITexture* texture, const Vector2& position, const Rect& source) override;
 
         void    VRenderText2D(IFont* font, UString text, const Vector2& position) override;
-
-        void    VRenderModel(IModel* model);
-
-        ICamera3D* VCamera3D();
 
         ID3D11Device* Device();
 

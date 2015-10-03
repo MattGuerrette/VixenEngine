@@ -43,8 +43,8 @@ namespace Vixen {
 
     ITexture* DXResourceLoader::LoadTexture(File* file)
     {
-        DXTexture* _texture = new DXTexture(m_renderer->Device(), m_renderer->DeviceContext());
-        if (_texture->InitFromFile(file))
+        ITexture* _texture = new DXTexture(m_renderer->Device(), m_renderer->DeviceContext());
+        if (_texture->VInitFromFile(file))
             return _texture;
 
         return NULL;
@@ -84,5 +84,4 @@ namespace Vixen {
 
         return NULL;
     }
-
 }
