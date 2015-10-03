@@ -83,13 +83,13 @@ void TestGame::VOnUpdate(float dt)
 
 void TestGame::VOnRender(float dt)
 {
-    SceneManager::RenderScene();
+    SceneManager::RenderScene(dt);
 
 
     //ALL 2D UI IS DRAW AFTER SCENE IS DRAWN
-    USStream ss;
+   /* USStream ss;
     ss << "FPS: " << m_window->VFPS();
-    m_renderer->VRenderText2D(m_font, ss.str(), Vector2(20, 20));
+    m_renderer->VRenderText2D(m_font, ss.str(), Vector2(20, 20));*/
 }
 
 void TestGame::VOnShutdown()

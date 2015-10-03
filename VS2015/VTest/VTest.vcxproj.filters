@@ -115,6 +115,18 @@
     <None Include="..\..\assets\Scripts\test.lua">
       <Filter>Assets\Scripts</Filter>
     </None>
+    <None Include="..\..\assets\Scripts\wallspawn.lua">
+      <Filter>Assets\Scripts</Filter>
+    </None>
+    <None Include="..\..\assets\Prefabs\wallLeft.pfb">
+      <Filter>Assets\Prefabs</Filter>
+    </None>
+    <None Include="..\..\assets\Prefabs\wallRight.pfb">
+      <Filter>Assets\Prefabs</Filter>
+    </None>
+    <None Include="..\..\assets\Scripts\floorspawn.lua">
+      <Filter>Assets\Scripts</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\assets\Shaders\DirectX\Model_Textured_PS.hlsl">

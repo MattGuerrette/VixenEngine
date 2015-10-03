@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <prefab id="floor">
   <gameobject defaultName="floor" enabled="true">
-    <transform x="-5.0" y="0.0" z="5.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
-    <model file="raptor.mdl"/>
+    <transform x="0.0" y="0.0" z="0.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
+    <model file="floor.mdl"/>
     <scripts>
-      <script file="rotate.lua"/>
+      <script file="floor.lua"/>
     </scripts>
     <children>
       <!-- children go here -->

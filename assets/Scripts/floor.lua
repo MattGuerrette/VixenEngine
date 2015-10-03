@@ -1,16 +1,30 @@
+function floor.OnInit()
+	
+end
 
-_G.this = _G.floor.hash.floor1;
-
-function floor.Start()
-	print('Start called');
+function floor.OnEnable()
+	this.moveSpeed = 15.0;
 end
 
 function floor.Update(dt)
-	go = this.GameObject;
-	transform = go:GetTransform();
+
+	
+	local go = this.GameObject;
+	
+	local transform = go:GetTransform();
+
+	transform:TranslateZ(-dt * this.moveSpeed);
+
+	if transform.Position:Z() < -35.0 then
+		transform.Position = transform.Position + Vector3(0.0, 0.0, 250.0);
+	end
+
 end
 
+function floor.OnDisable()
+	
+end
 
-function floor.Stop()
-	print('Stop called');
+function floor.OnDestroy()
+	
 end

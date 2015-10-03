@@ -46,7 +46,7 @@ namespace Vixen {
         ~DXModel();
 
         bool VInitFromFile(File* file)                  override;
-        void VRender(ICamera3D* camera)                 override;
+        void VRender(float dt, ICamera3D* camera)                 override;
         void VSetWorld(MATRIX* matrix)					override;
         void VSetMaterial(IMaterial* material)          override;
         void VBatchRender(MATRIX* world)                             override;
@@ -65,7 +65,8 @@ namespace Vixen {
         DXShader*                           m_vShader;
         DXShader*                           m_pShader;
 
-        std::vector<DirectX::XMFLOAT4X4>             m_instanceData;
+        //std::vector<DirectX::XMFLOAT4X4>             m_instanceData;
+        DirectX::XMFLOAT4X4                          m_instanceData[MAX_INSTANCE_PER_DRAW];
         size_t                                       m_numInstances;
         size_t                                       m_numRenderCalls;
     };

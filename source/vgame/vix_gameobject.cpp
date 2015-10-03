@@ -108,7 +108,7 @@ namespace Vixen {
 		}
 	}
 
-	void GameObject::Render(ICamera3D * camera)
+	void GameObject::Render(float dt, ICamera3D * camera)
 	{
 		if (m_model) {
 			m_model->VBatchRender(m_transform->GetWorldMatrix());
@@ -119,7 +119,7 @@ namespace Vixen {
 			GameObject* _child = m_children[i];
 
 			if (_child->GetEnabled())
-				_child->Render(camera);
+				_child->Render(dt, camera);
 		}
 	}
 

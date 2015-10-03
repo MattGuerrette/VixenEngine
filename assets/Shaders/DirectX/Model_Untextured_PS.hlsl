@@ -1,4 +1,10 @@
 
+cbuffer externalData : register(b0)
+{
+    float time;
+};
+
+
 struct VertexToPixel
 {
 	float4 position		: SV_POSITION;

@@ -120,11 +120,11 @@ namespace Vixen {
 		PrefabManager::Cleanup();
     }
 
-    void SceneManager::RenderScene()
+    void SceneManager::RenderScene(float dt)
     {
         SceneManager& _manager = SceneManager::instance();
 
-        _manager.m_current->Render();
+        _manager.m_current->Render(dt);
     }
 
 	void SceneManager::PauseScene(UString id)

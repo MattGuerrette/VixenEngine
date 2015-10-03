@@ -44,7 +44,7 @@ namespace Vixen {
 		void Update(float dt);
 
         /*Render Scene*/
-        void Render();
+        void Render(float dt);
 
 		/*Adds Object with ID to Scene*/
 		void AddSceneObject(GameObject* object);
