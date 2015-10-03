@@ -17,4 +17,14 @@ Vixen Engine currently targets the following platforms:
 * Windows ( Windows 10, Windows 7 )
 * Linux   ( Ubuntu )
 
+# Dependencies
 
+* SDL2
+* GLEW
+* DirectX (DirectX 11)
+* OpenGL  (OpenGL 3.3+)
+* Assimp
+* FreeImage
+* tinyxml2
+* Lua
+* lua-intf
