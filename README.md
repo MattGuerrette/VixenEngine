@@ -16,5 +16,5 @@ Vixen Engine currently targets the following platforms:
 
 * Windows ( Windows 10, Windows 7 )
 * Linux   ( Ubuntu )
-* Mac OSX (Planned. Not currently in development)
+
 
