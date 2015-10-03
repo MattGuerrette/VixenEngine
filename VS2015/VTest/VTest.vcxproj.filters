@@ -41,8 +41,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\x64\Debug\vixen.env" />
-    <None Include="..\x64\Debug\vtest.config" />
     <None Include="..\..\assets\Scenes\scene1.scene">
       <Filter>Assets\Scenes</Filter>
     </None>
@@ -85,6 +83,8 @@
     <None Include="..\..\assets\Models\wall.mdl">
       <Filter>Assets\Models</Filter>
     </None>
+    <None Include="vixen.env" />
+    <None Include="vtest.config" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\assets\Shaders\DirectX\Model_Textured_PS.hlsl">

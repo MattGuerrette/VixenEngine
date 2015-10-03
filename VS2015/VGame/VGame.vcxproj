@@ -118,7 +118,8 @@
       <AdditionalDependencies>VCored.lib;VGraphicsd.lib;tinyxml2.lib;FreeImage.lib;SDL2.lib;d3d11.lib;d3dcompiler.lib;assimp.lib;lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y "$(OutDir)$(ProjectName)d.dll" "$(SolutionDir)$(Platform)\$(Configuration)"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>

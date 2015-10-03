@@ -117,7 +117,10 @@
       <AdditionalDependencies>VCored.lib;VGraphicsd.lib;VGamed.lib;tinyxml2.lib;FreeImage.lib;SDL2.lib;d3d11.lib;d3dcompiler.lib;assimp.lib;lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>xcopy /y "$(SolutionDir)..\dependencies\$(Platform)\tinyxml2\tinyxml2.dll" "$(SolutionDir)$(Platform)\$(Configuration)"
+      <Command>xcopy /y "$(SolutionDir)..\dependencies\$(Platform)\Vixen\VCore\VCored.dll" "$(SolutionDir)$(Platform)\$(Configuration)"
+xcopy /y "$(SolutionDir)..\dependencies\$(Platform)\Vixen\VGraphics\VGraphicsd.dll" "$(SolutionDir)$(Platform)\$(Configuration)"
+xcopy /y "$(SolutionDir)..\dependencies\$(Platform)\Vixen\VGame\VGamed.dll" "$(SolutionDir)$(Platform)\$(Configuration)"
+xcopy /y "$(SolutionDir)..\dependencies\$(Platform)\tinyxml2\tinyxml2.dll" "$(SolutionDir)$(Platform)\$(Configuration)"
 xcopy /y "$(SolutionDir)..\dependencies\$(Platform)\FreeImage\FreeImage.dll" "$(SolutionDir)$(Platform)\$(Configuration)"
 xcopy /y "$(SolutionDir)..\dependencies\$(Platform)\SDL2\SDL2.dll" "$(SolutionDir)$(Platform)\$(Configuration)"
 xcopy /y "$(SolutionDir)..\dependencies\$(Platform)\Assimp\assimp.dll" "$(SolutionDir)$(Platform)\$(Configuration)"
@@ -180,8 +183,8 @@ xcopy /y "$(ProjectDir)vtest.config" "$(SolutionDir)$(Platform)\$(Configuration)
     <None Include="..\..\assets\Prefabs\wall.pfb" />
     <None Include="..\..\assets\Scenes\scene1.scene" />
     <None Include="..\..\assets\Scenes\scenes.config" />
-    <None Include="..\x64\Debug\vixen.env" />
-    <None Include="..\x64\Debug\vtest.config" />
+    <None Include="vixen.env" />
+    <None Include="vtest.config" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\assets\Shaders\DirectX\Model_Textured_PS.hlsl">
