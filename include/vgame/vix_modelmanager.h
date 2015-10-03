@@ -40,6 +40,7 @@ namespace Vixen {
         static bool    Initialize();
         static void    DeInitialize();
         static IModel* AccessModel(UString id);
+        static std::vector<IModel*> ActiveModels();
 
     private:
         ModelMap m_models;

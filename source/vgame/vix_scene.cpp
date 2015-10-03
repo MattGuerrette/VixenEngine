@@ -91,6 +91,9 @@ namespace Vixen {
         for (auto& object : m_topLevelObjects)
 			if (object->GetEnabled())
 				object->Render(m_mainCamera);
+
+        for (auto& model : ModelManager::ActiveModels())
+            model->VRender(m_mainCamera);
     }
 
 

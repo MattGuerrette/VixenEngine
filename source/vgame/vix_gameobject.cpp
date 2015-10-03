@@ -111,8 +111,7 @@ namespace Vixen {
 	void GameObject::Render(ICamera3D * camera)
 	{
 		if (m_model) {
-			m_model->VSetWorld(m_transform->GetWorldMatrix());
-			m_model->VRender(camera);
+			m_model->VBatchRender(m_transform->GetWorldMatrix());
 		}
 		
 		for (int i = 0; i < m_children.size(); i++)

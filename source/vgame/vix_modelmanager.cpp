@@ -89,4 +89,16 @@ namespace Vixen {
         else
             return NULL;
     }
+    std::vector<IModel*> ModelManager::ActiveModels()
+    {
+        ModelManager& _manager = ModelManager::instance();
+
+        std::vector<IModel*> models;
+
+        ModelMap::iterator it = _manager.m_models.begin();
+        for (it; it != _manager.m_models.end(); it++)
+            models.push_back(it->second);
+
+        return models;
+    }
 }

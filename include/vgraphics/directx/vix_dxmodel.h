@@ -39,6 +39,7 @@ namespace Vixen {
 
     class VIX_API DXModel : public IModel
     {
+        static const int MAX_INSTANCE_PER_DRAW = 1000;
     public:
         DXModel(ID3D11Device* device, ID3D11DeviceContext* context);
 
@@ -48,6 +49,7 @@ namespace Vixen {
         void VRender(ICamera3D* camera)                 override;
         void VSetWorld(MATRIX* matrix)					override;
         void VSetMaterial(IMaterial* material)          override;
+        void VBatchRender(MATRIX* world)                             override;
 
     private:
         DirectX::XMFLOAT4X4*                         m_world;
@@ -62,6 +64,9 @@ namespace Vixen {
         DXMaterial*                         m_material;
         DXShader*                           m_vShader;
         DXShader*                           m_pShader;
+
+        std::vector<DirectX::XMFLOAT4X4>             m_instanceData;
+        size_t                                       m_numInstances;
     };
 }
 

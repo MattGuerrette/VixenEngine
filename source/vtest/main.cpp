@@ -58,7 +58,27 @@ void TestGame::VOnStartup()
 
 void TestGame::VOnUpdate(float dt)
 {
-    SceneManager::UpdateScene(dt);
+    if (Input::SingleKeyPress(IKEY::F2))
+        m_window->VClose();
+
+    if (Input::SingleKeyPress(IKEY::P))
+    {
+        m_window->VToggleCursor();
+        paused = !paused;
+        if (paused)
+            SceneManager::PauseScene(VTEXT("scene1"));
+        else
+            SceneManager::UnpauseScene(VTEXT("scene1"));
+
+    }
+
+    if (!paused)
+    {
+        SceneManager::UpdateScene(dt);
+
+
+        m_window->VTrapCursorCenter();
+    }
 }
 
 void TestGame::VOnRender(float dt)

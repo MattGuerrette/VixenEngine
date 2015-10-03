@@ -43,6 +43,8 @@ namespace Vixen {
         m_iBuffer = nullptr;
 
 		m_world = new XMFLOAT4X4;
+
+        m_numInstances = 0;
     }
 
     DXModel::~DXModel()
@@ -207,9 +209,12 @@ namespace Vixen {
 
     void DXModel::VRender(ICamera3D* camera)
     {
+        if (!m_vShader || !m_pShader || m_numInstances <= 0)
+            return;
+
         m_vShader->SetMatrix4x4("projection", ((DXCamera3D*)camera)->Projection());
         m_vShader->SetMatrix4x4("view", ((DXCamera3D*)camera)->View());
-        m_vShader->SetMatrix4x4("world", *m_world);
+        m_vShader->SetData("transforms", &m_instanceData[0], (sizeof(float) * 16) * MAX_INSTANCE_PER_DRAW);
 
 		if (m_material->GetTexture(IMaterial::TextureRole::Diffuse)) {
 			m_pShader->VSetSamplerState("samLinear", m_material->GetTexture(IMaterial::TextureRole::Diffuse)->SampleState());
@@ -228,16 +233,27 @@ namespace Vixen {
 
 
         m_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-        m_context->DrawIndexed(m_indices.size(), 0, 0);
+        m_context->DrawIndexedInstanced(m_indices.size(), m_numInstances, 0, 0, 0);
 
-		m_vShader->Deactivate();
-		m_pShader->Deactivate();
 
+        m_instanceData.clear();
+        m_numInstances = 0;
     }
 
     void DXModel::VSetWorld(MATRIX* world)
     {
 		XMStoreFloat4x4(m_world, XMMatrixTranspose(*world));
+        m_instanceData.push_back(*m_world);
+    }
+
+    void DXModel::VBatchRender(MATRIX* world)
+    {
+        XMFLOAT4X4 _transform;
+
+        XMStoreFloat4x4(&_transform, XMMatrixTranspose(*world));
+        m_instanceData.push_back(_transform);
+
+        m_numInstances++;
     }
 
 }

@@ -183,6 +183,15 @@ xcopy /y "$(ProjectDir)vtest.config" "$(SolutionDir)$(Platform)\$(Configuration)
     <None Include="..\..\assets\Prefabs\wall.pfb" />
     <None Include="..\..\assets\Scenes\scene1.scene" />
     <None Include="..\..\assets\Scenes\scenes.config" />
+    <None Include="..\..\assets\Scripts\camera.lua" />
+    <None Include="..\..\assets\Scripts\floor.lua" />
+    <None Include="..\..\assets\Scripts\move.lua" />
+    <None Include="..\..\assets\Scripts\player.lua" />
+    <None Include="..\..\assets\Scripts\railspawn.lua" />
+    <None Include="..\..\assets\Scripts\raptor.lua" />
+    <None Include="..\..\assets\Scripts\rotate.lua" />
+    <None Include="..\..\assets\Scripts\setup.lua" />
+    <None Include="..\..\assets\Scripts\test.lua" />
     <None Include="vixen.env" />
     <None Include="vtest.config" />
   </ItemGroup>

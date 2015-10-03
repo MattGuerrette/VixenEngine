@@ -34,6 +34,9 @@
     <Filter Include="Assets\Prefabs">
       <UniqueIdentifier>{b77d0341-fb16-4e05-b352-83a0599cbe17}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Scripts">
+      <UniqueIdentifier>{a5c520c0-ae8c-4069-bfaa-df24fba5ed17}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\vtest\main.cpp">
@@ -85,6 +88,33 @@
     </None>
     <None Include="vixen.env" />
     <None Include="vtest.config" />
+    <None Include="..\..\assets\Scripts\camera.lua">
+      <Filter>Assets\Scripts</Filter>
+    </None>
+    <None Include="..\..\assets\Scripts\floor.lua">
+      <Filter>Assets\Scripts</Filter>
+    </None>
+    <None Include="..\..\assets\Scripts\move.lua">
+      <Filter>Assets\Scripts</Filter>
+    </None>
+    <None Include="..\..\assets\Scripts\player.lua">
+      <Filter>Assets\Scripts</Filter>
+    </None>
+    <None Include="..\..\assets\Scripts\railspawn.lua">
+      <Filter>Assets\Scripts</Filter>
+    </None>
+    <None Include="..\..\assets\Scripts\raptor.lua">
+      <Filter>Assets\Scripts</Filter>
+    </None>
+    <None Include="..\..\assets\Scripts\rotate.lua">
+      <Filter>Assets\Scripts</Filter>
+    </None>
+    <None Include="..\..\assets\Scripts\setup.lua">
+      <Filter>Assets\Scripts</Filter>
+    </None>
+    <None Include="..\..\assets\Scripts\test.lua">
+      <Filter>Assets\Scripts</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\assets\Shaders\DirectX\Model_Textured_PS.hlsl">

@@ -40,7 +40,7 @@ namespace Vixen {
         virtual void VRender(ICamera3D* camera) = 0;
         virtual void VSetWorld(MATRIX* world) = 0;
         virtual void VSetMaterial(IMaterial* material) = 0;
-
+        virtual void VBatchRender(MATRIX* world) = 0;
     };
 
 }

@@ -2,10 +2,9 @@
 
 cbuffer externalData : register(b0)
 {
-    matrix world;
-    matrix view;
-    matrix projection;
-    float  time;
+    matrix   view;
+    matrix   projection;
+    float4x4 transforms[1000];
 };
 
 struct VertexShaderInput
@@ -26,18 +25,18 @@ struct VertexToPixel
 };
 
 
-VertexToPixel main(VertexShaderInput input)
+VertexToPixel main(VertexShaderInput input, uint instanceID : SV_InstanceID)
 {
     VertexToPixel output;
 
+    matrix world = transforms[instanceID];
     matrix worldViewProj = mul(mul(world, view), projection);
-
     matrix viewProj = mul(view, projection);
-    float4 depthPos = mul(float4(input.position, 1.0f), viewProj);
+
     output.position = mul(float4(input.position, 1.0f), worldViewProj);
     output.normal = mul(input.normal, (float3x3)world);
     output.uv = input.uv;
-	output.depth = depthPos.z / depthPos.w;
+	
     
     return output;
 }
