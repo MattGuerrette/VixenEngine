@@ -96,6 +96,17 @@ namespace Vixen {
             model->VRender(dt, m_mainCamera);
     }
 
+    GameObject* Scene::QueryObject(std::string name)
+    {
+        for (int i = 0; i < m_topLevelObjects.size(); i++)
+        {
+            GameObject* _object = m_topLevelObjects[i];
+            if (_object->GetName() == name)
+                return _object;
+        }
+
+        return NULL;
+    }
 
 	/*SETTER FUNCTIONS*/
 

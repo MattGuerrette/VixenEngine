@@ -172,13 +172,16 @@ xcopy /y "$(ProjectDir)vtest.config" "$(SolutionDir)$(Platform)\$(Configuration)
     <None Include="..\..\assets\Models\brace.mdl" />
     <None Include="..\..\assets\Models\cube.mdl" />
     <None Include="..\..\assets\Models\floor.mdl" />
+    <None Include="..\..\assets\Models\gem_red.mdl" />
     <None Include="..\..\assets\Models\minecart.mdl" />
     <None Include="..\..\assets\Models\models.config" />
     <None Include="..\..\assets\Models\rail.mdl" />
     <None Include="..\..\assets\Models\raptor.mdl" />
     <None Include="..\..\assets\Models\wall.mdl" />
+    <None Include="..\..\assets\Prefabs\ceiling.pfb" />
     <None Include="..\..\assets\Prefabs\cube.pfb" />
     <None Include="..\..\assets\Prefabs\floor.pfb" />
+    <None Include="..\..\assets\Prefabs\gem_red.pfb" />
     <None Include="..\..\assets\Prefabs\rail.pfb" />
     <None Include="..\..\assets\Prefabs\wall.pfb" />
     <None Include="..\..\assets\Prefabs\wallLeft.pfb" />
@@ -188,6 +191,8 @@ xcopy /y "$(ProjectDir)vtest.config" "$(SolutionDir)$(Platform)\$(Configuration)
     <None Include="..\..\assets\Scripts\camera.lua" />
     <None Include="..\..\assets\Scripts\floor.lua" />
     <None Include="..\..\assets\Scripts\floorspawn.lua" />
+    <None Include="..\..\assets\Scripts\gem.lua" />
+    <None Include="..\..\assets\Scripts\gemspawner.lua" />
     <None Include="..\..\assets\Scripts\move.lua" />
     <None Include="..\..\assets\Scripts\player.lua" />
     <None Include="..\..\assets\Scripts\railspawn.lua" />
@@ -195,6 +200,7 @@ xcopy /y "$(ProjectDir)vtest.config" "$(SolutionDir)$(Platform)\$(Configuration)
     <None Include="..\..\assets\Scripts\rotate.lua" />
     <None Include="..\..\assets\Scripts\setup.lua" />
     <None Include="..\..\assets\Scripts\test.lua" />
+    <None Include="..\..\assets\Scripts\wall.lua" />
     <None Include="..\..\assets\Scripts\wallspawn.lua" />
     <None Include="vixen.env" />
     <None Include="vtest.config" />

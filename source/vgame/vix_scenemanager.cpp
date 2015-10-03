@@ -153,6 +153,15 @@ namespace Vixen {
 		}
 	}
 
+    GameObject* SceneManager::AccessTopLevelObject(std::string id)
+    {
+        Scene* activeScene = SceneManager::ActiveScene();
+        if (activeScene)
+        {
+            return activeScene->QueryObject(id);
+        }
+    }
+
 	Scene* SceneManager::ActiveScene()
 	{
 		SceneManager& _manager = SceneManager::instance();

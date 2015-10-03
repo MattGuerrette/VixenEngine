@@ -127,6 +127,24 @@
     <None Include="..\..\assets\Scripts\floorspawn.lua">
       <Filter>Assets\Scripts</Filter>
     </None>
+    <None Include="..\..\assets\Prefabs\ceiling.pfb">
+      <Filter>Assets\Prefabs</Filter>
+    </None>
+    <None Include="..\..\assets\Scripts\wall.lua">
+      <Filter>Assets\Scripts</Filter>
+    </None>
+    <None Include="..\..\assets\Models\gem_red.mdl">
+      <Filter>Assets\Models</Filter>
+    </None>
+    <None Include="..\..\assets\Prefabs\gem_red.pfb">
+      <Filter>Assets\Prefabs</Filter>
+    </None>
+    <None Include="..\..\assets\Scripts\gemspawner.lua">
+      <Filter>Assets\Scripts</Filter>
+    </None>
+    <None Include="..\..\assets\Scripts\gem.lua">
+      <Filter>Assets\Scripts</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\assets\Shaders\DirectX\Model_Textured_PS.hlsl">

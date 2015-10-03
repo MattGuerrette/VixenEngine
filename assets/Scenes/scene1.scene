@@ -2,15 +2,6 @@
 <scene id="scene1">
 	<object-list>
 		
-    <gameobject name="ceiling" enabled = "true">
-      <transform x="0.0" y="10.0" z="0.0" rotX="0.0" rotY="0.0" rotZ="180.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
-      <model file="floor.mdl"/>
-      <children>
-
-      </children>
-    </gameobject>
-
-   
     <gameobject name="camera" enabled="true">
       <transform x="0.0" y="7.0" z="-13.0" rotX="15.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
       <camera mainCamera="true"/>
@@ -31,6 +22,18 @@
        
       </children>
     </gameobject>
+
+
+    <gameobject name="gemspawner" enabled="true">
+      <transform x="0.0" y="0.0" z="-1.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
+      <scripts>
+        <script file="gemspawner.lua"/>
+      </scripts>
+      <children>
+
+      </children>
+    </gameobject>
+    
 
     <gameobject name="floorspawner" enabled="true">
       <transform x="0.0" y="0.0" z="-1.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>

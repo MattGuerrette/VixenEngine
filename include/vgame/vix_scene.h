@@ -53,6 +53,8 @@ namespace Vixen {
 
 		void QueObjectDestroy(GameObject* object);
 
+        GameObject* QueryObject(std::string name);
+
 		/*Removes Object with ID from Scene*/
 		void DestroyObjects();
 

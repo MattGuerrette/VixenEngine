@@ -150,6 +150,7 @@ namespace Vixen {
 			.addFunction("Y", &Vector3::Y)
 			.addFunction("Z", &Vector3::Z)
             .addFunction("__add", &Vector3::add)
+            .addFunction("__sub", &Vector3::sub)
             .addFunction("__mul", &Vector3::mul)
             .addFunction("ToString", &Vector3::ToStdString)
 			.endClass();
@@ -295,9 +296,13 @@ namespace Vixen {
 			.addConstant("SPACE", IKEY::SPACE)
 			.endModule();
 
-		LuaBinding(LuaEngine::L())
-			.beginModule("Prefab")
-			.addFunction("Load", &PrefabManager::Load, LUA_ARGS(_opt<std::string>));
+        LuaBinding(LuaEngine::L())
+            .beginModule("Scene")
+            .addFunction("FindObjectWithName", &SceneManager::AccessTopLevelObject, LUA_ARGS(std::string));
 
+        LuaBinding(LuaEngine::L())
+            .beginModule("Prefab")
+            .addFunction("Load", &PrefabManager::Load, LUA_ARGS(_opt<std::string>));
+            
 	}
 }

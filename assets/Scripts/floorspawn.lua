@@ -12,7 +12,7 @@ function floorspawn.OnEnable()
 
 
 	local floorPrefab = Prefab.Load("floor.pfb");
-
+    local ceilPrefab = Prefab.Load("ceiling.pfb");
 
 	for i=0, numfloors, 1
 	do
@@ -21,6 +21,12 @@ function floorspawn.OnEnable()
 		floor:GetTransform().Position = transform.Position + Vector3(0.0, 0.0, 0.0 + (50 * i));
 	end
 
+    for i=0, numfloors, 1
+	do
+		local ceiling = ceilPrefab:CreateObject();
+
+		ceiling:GetTransform().Position = transform.Position + Vector3(0.0, 10.0, 0.0 + (50 * i));
+	end
 	
 end
 
