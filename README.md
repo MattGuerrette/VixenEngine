@@ -1,13 +1,14 @@
-
-<img src="https://raw.githubusercontent.com/MattGuerrette/VixenEngine/master/assets/Others/vixen.png?token=AGF82f6bQ31yR9rHAllCYsrR50J2y6ebks5WGJ5twA%3D%3D">
-
+<p align="center">
+<img src="https://raw.githubusercontent.com/MattGuerrette/VixenEngine/master/assets/Others/vixen.png?token=AGF82f6bQ31yR9rHAllCYsrR50J2y6ebks5WGJ5twA%3D%3D" height="200">
+</p>
 # Vixen Engine
 C++ Open Source Game Engine
 
 # About
 
-Vixen Engine, is an attempt to develop a completely free and open game engine for use in commerical, academic, and personal
-projects. It was initially developed at Rochester Institue of Technology for class projects in the Game Design and Development curriculum.
+Vixen Engine, is an attempt to develop a completely free and open game engine for use in commerical, academic, and personal projects. 
+
+Development started on Vixen Engine in 2014 at Rochester Institue of Technology.
 
 # Platforms
 
