@@ -1,0 +1,25 @@
+var class_vixen_1_1_s_d_l_game_window =
+[
+    [ "SDLGameWindow", "class_vixen_1_1_s_d_l_game_window.html#ad7486d1b2cbeb651f5d40557ff50a91f", null ],
+    [ "~SDLGameWindow", "class_vixen_1_1_s_d_l_game_window.html#adf0eb8409fbb8c16c8a5054bb39f103f", null ],
+    [ "OutputDisplayModes", "class_vixen_1_1_s_d_l_game_window.html#ada62a0bc2aa763494598a7a922a58abf", null ],
+    [ "Timer", "class_vixen_1_1_s_d_l_game_window.html#af57196ddafcc3f67a85383bfe6330924", null ],
+    [ "VClose", "class_vixen_1_1_s_d_l_game_window.html#af7d3464a0996da2f494f231799b2efcd", null ],
+    [ "VFPS", "class_vixen_1_1_s_d_l_game_window.html#ad5589cabdb1f9283efb584aae30bc270", null ],
+    [ "VGetClientBounds", "class_vixen_1_1_s_d_l_game_window.html#a9ba93d1142e17e65a8ecb408d7108a45", null ],
+    [ "VGetTitle", "class_vixen_1_1_s_d_l_game_window.html#a82f6faefb820f3a9e393a62b2572d006", null ],
+    [ "VInit", "class_vixen_1_1_s_d_l_game_window.html#aff4c569f31064e4e1cb0f0634681dd1a", null ],
+    [ "VIsHidden", "class_vixen_1_1_s_d_l_game_window.html#a5e6f0bb95b3bbbc50a6a0ac4afbc8fe7", null ],
+    [ "VIsPaused", "class_vixen_1_1_s_d_l_game_window.html#a839785ff3abcfcc7a641bb2937cd512d", null ],
+    [ "VIsRunning", "class_vixen_1_1_s_d_l_game_window.html#ad2d0e03147b7665d1dcc11cc44830595", null ],
+    [ "VNativeHandle", "class_vixen_1_1_s_d_l_game_window.html#a41d5b7d0ff1f9995056258f19cd71838", null ],
+    [ "VRun", "class_vixen_1_1_s_d_l_game_window.html#a0adc8266360f013f5f58ae6c192c03f9", null ],
+    [ "VSetFullscreen", "class_vixen_1_1_s_d_l_game_window.html#a40c3c941c17fbb95ca0c283106db8361", null ],
+    [ "VSetParent", "class_vixen_1_1_s_d_l_game_window.html#a0a56bba95b496c6246f2e2950695df8d", null ],
+    [ "VSetRenderer", "class_vixen_1_1_s_d_l_game_window.html#aa1a47ffc9ab85dce9f567f734dde10a0", null ],
+    [ "VSetVisible", "class_vixen_1_1_s_d_l_game_window.html#a3932e200ac8323584ada2a247cb64717", null ],
+    [ "VSwapBuffers", "class_vixen_1_1_s_d_l_game_window.html#a072b05ffd09bc119dfe42521d6599180", null ],
+    [ "VToggleCursor", "class_vixen_1_1_s_d_l_game_window.html#afc42ed91f4c1aa1632c2edb4b546909e", null ],
+    [ "VTogglePaused", "class_vixen_1_1_s_d_l_game_window.html#a538449a6565e739d0d20d90bd6f0330e", null ],
+    [ "VTrapCursorCenter", "class_vixen_1_1_s_d_l_game_window.html#a54feef46838dcbcab1f3ca44d01cf54f", null ]
+];

@@ -37,7 +37,6 @@
 #endif
 
 namespace Vixen {
-
 	IKeyboardState* Game::s_keyboard = NULL;
     IMouseState*    Game::s_mouse = NULL;
 

@@ -1,0 +1,27 @@
+var class_vixen_1_1_file =
+[
+    [ "File", "class_vixen_1_1_file.html#a11603af08d0e41ff25a47d5634d19a41", null ],
+    [ "~File", "class_vixen_1_1_file.html#a1079eded77d83b42fcad7db4f3ad98d8", null ],
+    [ "BaseName", "class_vixen_1_1_file.html#a55e0c906130d29cf5583503016342ddd", null ],
+    [ "Close", "class_vixen_1_1_file.html#a3f1848aba4558bd98714c528c3fe0b73", null ],
+    [ "Error", "class_vixen_1_1_file.html#a14ec6c12a37a1f60617bbf9313b24d8f", null ],
+    [ "FileName", "class_vixen_1_1_file.html#a10b0b7cf7ead8a8936aa22cc1f6b9318", null ],
+    [ "FilePath", "class_vixen_1_1_file.html#a2985c6a6cb9a53f6eef0e125e6885051", null ],
+    [ "Flush", "class_vixen_1_1_file.html#ac3869f8194a442f31d86122dfa8a3837", null ],
+    [ "Handle", "class_vixen_1_1_file.html#a03d0e61e3fe875360cce0bdd639b2893", null ],
+    [ "Open", "class_vixen_1_1_file.html#a24d43934cc6c607ebba11596c7429595", null ],
+    [ "PError", "class_vixen_1_1_file.html#a3d03ec3abc2fe10164dead567725fa1f", null ],
+    [ "Position", "class_vixen_1_1_file.html#acdc342b07d6d1f7b11d5b0edcb573ddc", null ],
+    [ "Read", "class_vixen_1_1_file.html#ad90fede619bb354587493474f45a7bf5", null ],
+    [ "Seek", "class_vixen_1_1_file.html#a4def6de72e2f89dc08c1cd1f0c051bad", null ],
+    [ "SizeBytes", "class_vixen_1_1_file.html#a039eb93e24d180e4dd9779c9667242f0", null ],
+    [ "SizeKBytes", "class_vixen_1_1_file.html#a5d5bbcc901aacfaeba1c034eedb791df", null ],
+    [ "Tell", "class_vixen_1_1_file.html#a3071f337ce92a2a8bcb1470cabc1ca87", null ],
+    [ "m_baseName", "class_vixen_1_1_file.html#abb5e1d86973c517ceada94bd71a54366", null ],
+    [ "m_error", "class_vixen_1_1_file.html#ab696ed339a9c3f80190ab98602bbd86d", null ],
+    [ "m_fileName", "class_vixen_1_1_file.html#afeaa0bacfeb45b5dd635c23ed27552d9", null ],
+    [ "m_filePath", "class_vixen_1_1_file.html#a11693f442d424e458a44b3d5d125f214", null ],
+    [ "m_handle", "class_vixen_1_1_file.html#afe1a750718bfda28c1f65508cb59b187", null ],
+    [ "m_position", "class_vixen_1_1_file.html#a5fe4fdd2471edc9ea7d1d0de2ad75d05", null ],
+    [ "m_size", "class_vixen_1_1_file.html#a709d76aebf0a4a81b8fb2940a52780cd", null ]
+];
