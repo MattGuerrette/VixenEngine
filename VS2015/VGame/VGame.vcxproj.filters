@@ -90,6 +90,9 @@
     <ClInclude Include="..\..\include\vgame\vix_transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\vgame\vix_aabb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\vgame\vix_game.cpp">
@@ -144,6 +147,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\vgame\vix_transform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\vgame\vix_aabb.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -159,5 +159,11 @@
     <FxCompile Include="..\..\assets\Shaders\DirectX\Model_VS.hlsl">
       <Filter>Assets\Shaders\HLSL</Filter>
     </FxCompile>
+    <FxCompile Include="..\..\assets\Shaders\DirectX\SpriteBatch_PS.hlsl">
+      <Filter>Assets\Shaders\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\assets\Shaders\DirectX\SpriteBatch_VS.hlsl">
+      <Filter>Assets\Shaders\HLSL</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

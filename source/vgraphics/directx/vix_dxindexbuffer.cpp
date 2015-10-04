@@ -30,6 +30,14 @@ namespace Vixen {
         m_device = device;
         m_context = context;
         m_count = count;
+
+        D3D11_BUFFER_DESC bd;
+        ZeroMemory(&bd, sizeof(bd));
+        bd.Usage = D3D11_USAGE_DYNAMIC;
+        bd.ByteWidth = sizeof(unsigned short) * m_count;
+        bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+        bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+        m_device->CreateBuffer(&bd, nullptr, &m_buffer);
     }
     
     DXIndexBuffer::~DXIndexBuffer()
@@ -49,6 +57,21 @@ namespace Vixen {
         ZeroMemory(&IndexInitData, sizeof(IndexInitData));
         IndexInitData.pSysMem = data;
         m_device->CreateBuffer(&ibd, &IndexInitData, &m_buffer);
+    }
+
+    void DXIndexBuffer::VUpdateSubData(size_t offset, size_t stride, size_t count, const void* data)
+    {
+        HRESULT hr = S_OK;
+
+        D3D11_MAP type = D3D11_MAP_WRITE_NO_OVERWRITE;
+        D3D11_MAPPED_SUBRESOURCE map;
+        hr = m_context->Map(m_buffer, 0, type, 0, &map);
+        if (SUCCEEDED(hr))
+        {
+            unsigned short* _dest = ((unsigned short*)map.pData) + offset;
+            memcpy((void*)_dest, data, stride * count);
+        }
+        m_context->Unmap(m_buffer, 0);
     }
 
     void DXIndexBuffer::VBind()

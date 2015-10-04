@@ -41,6 +41,11 @@ namespace Vixen {
         virtual void VSetWorld(MATRIX* world) = 0;
         virtual void VSetMaterial(IMaterial* material) = 0;
         virtual void VBatchRender(MATRIX* world) = 0;
+
+        virtual Vector3 VMin() = 0;
+        virtual Vector3 VMax() = 0;
+        virtual Vector3 VCenter() = 0;
+        virtual Vector3 VSize() = 0;
     };
 
 }

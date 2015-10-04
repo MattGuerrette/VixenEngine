@@ -111,6 +111,14 @@ namespace Vixen {
         //a DXMesh object
 
         aiMesh* mesh = scene->mMeshes[0];
+      
+        aiVector3D min, max, center;
+        FindMeshCenter(mesh, center, min, max);
+        m_min = Vector3(min.x, min.y, min.z);
+        m_max = Vector3(max.x, max.y, max.z);
+        aiVector3D size = max - min;
+        m_size = Vector3(size.x, size.y, size.z);
+        m_center = Vector3(center.x, center.y, center.z);
 
         size_t numVertices = mesh->mNumVertices;
 
@@ -270,4 +278,24 @@ namespace Vixen {
             m_numRenderCalls++;
     }
 
+
+    Vector3 DXModel::VMin()
+    {
+        return m_min;
+    }
+    
+    Vector3 DXModel::VMax()
+    {
+        return m_max;
+    }
+
+    Vector3 DXModel::VCenter()
+    {
+        return m_center;
+    }
+
+    Vector3 DXModel::VSize()
+    {
+        return m_size;
+    }
 }

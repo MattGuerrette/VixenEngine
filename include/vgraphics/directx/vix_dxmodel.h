@@ -51,6 +51,11 @@ namespace Vixen {
         void VSetMaterial(IMaterial* material)          override;
         void VBatchRender(MATRIX* world)                             override;
 
+        Vector3 VMin()      override;
+        Vector3 VMax()      override;
+        Vector3 VCenter()   override;
+        Vector3 VSize()     override;
+
     private:
         DirectX::XMFLOAT4X4*                         m_world;
  
@@ -64,6 +69,11 @@ namespace Vixen {
         DXMaterial*                         m_material;
         DXShader*                           m_vShader;
         DXShader*                           m_pShader;
+
+        Vector3                             m_min;
+        Vector3                             m_max;
+        Vector3                             m_center;
+        Vector3                             m_size;
 
         //std::vector<DirectX::XMFLOAT4X4>             m_instanceData;
         DirectX::XMFLOAT4X4                          m_instanceData[MAX_INSTANCE_PER_DRAW];

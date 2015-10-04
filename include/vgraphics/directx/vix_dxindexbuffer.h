@@ -38,6 +38,7 @@ namespace Vixen {
         ~DXIndexBuffer();
 
         void VSetData(const unsigned short* data);
+        void VUpdateSubData(size_t offset, size_t stride, size_t count, const void* data);
         void VBind();
         void VUnbind();
 

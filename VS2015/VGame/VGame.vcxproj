@@ -164,6 +164,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\vcore\vix_resourcemanager.h" />
+    <ClInclude Include="..\..\include\vgame\vix_aabb.h" />
     <ClInclude Include="..\..\include\vgame\vix_cameracomponent.h" />
     <ClInclude Include="..\..\include\vgame\vix_component.h" />
     <ClInclude Include="..\..\include\vgame\vix_game.h" />
@@ -190,6 +191,7 @@
     <ClInclude Include="..\..\include\vgame\vix_transform.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\source\vgame\vix_aabb.cpp" />
     <ClCompile Include="..\..\source\vgame\vix_cameracomponent.cpp" />
     <ClCompile Include="..\..\source\vgame\vix_game.cpp" />
     <ClCompile Include="..\..\source\vgame\vix_gameconfig.cpp" />
