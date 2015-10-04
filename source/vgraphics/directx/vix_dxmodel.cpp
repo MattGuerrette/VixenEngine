@@ -164,7 +164,7 @@ namespace Vixen {
         m_vBuffer->VUpdateSubData(0, sizeof(DXVertexPosTexNormal), m_vertices.size(), m_vertices.data());
 
         m_iBuffer = new DXIndexBuffer(m_indices.size(), m_device, m_context);
-        m_iBuffer->VSetData(&m_indices[0]);
+        m_iBuffer->VUpdateSubData(0, sizeof(unsigned short), m_indices.size(), &m_indices[0]);
 
         //create material
         if (scene->HasMaterials())

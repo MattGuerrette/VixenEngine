@@ -30,6 +30,7 @@ namespace Vixen {
         m_device = device;
         m_context = context;
         m_count = count;
+        m_buffer = nullptr;
 
         D3D11_BUFFER_DESC bd;
         ZeroMemory(&bd, sizeof(bd));
