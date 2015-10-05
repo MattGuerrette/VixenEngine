@@ -53,6 +53,8 @@ namespace Vixen {
 		/*calculate fps*/
 		void  CalculateFPS();
 
+		float  TotalTime();
+
 	private:
 		Uint32  m_startTime;
 		Uint32  m_curTime;

@@ -73,4 +73,9 @@ namespace Vixen {
 	{
 		return m_fps;
 	}
+
+	float SDLTimer::TotalTime()
+	{
+		return m_curTime;
+	}
 }

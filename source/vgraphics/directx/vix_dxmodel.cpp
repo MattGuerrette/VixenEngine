@@ -216,15 +216,14 @@ namespace Vixen {
         m_pShader = m_material->GetShader(IMaterial::ShaderRole::Pixel);
     }
 
-    void DXModel::VRender(float dt, ICamera3D* camera)
-    {
-        if (!m_vShader || !m_pShader || m_numInstances <= 0)
-            return;
+	void DXModel::VRender(float dt, float totalTime, ICamera3D* camera)
+	{
+		if (!m_vShader || !m_pShader || m_numInstances <= 0)
+			return;
 
-       
-
-        m_vShader->SetMatrix4x4("projection", ((DXCamera3D*)camera)->Projection());
-        m_vShader->SetMatrix4x4("view", ((DXCamera3D*)camera)->View());
+		m_vShader->SetMatrix4x4("projection", ((DXCamera3D*)camera)->Projection());
+		m_vShader->SetMatrix4x4("view", ((DXCamera3D*)camera)->View());
+		m_vShader->SetFloat("time", totalTime);
 
 		if (m_material->GetTexture(IMaterial::TextureRole::Diffuse)) {
             

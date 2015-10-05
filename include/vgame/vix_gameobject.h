@@ -52,7 +52,7 @@ namespace Vixen {
 		void AddChild(GameObject* gameObject);
 
 		void Update(float dt);
-		void Render(float dt, ICamera3D* camera);
+		void Render(float dt, float totalTime, ICamera3D* camera);
 		bool GetEnabled();
 		void SetEnabled(bool state, bool recursive);
 

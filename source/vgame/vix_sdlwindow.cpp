@@ -206,7 +206,7 @@ namespace Vixen {
 			m_parent->VOnUpdate(m_timer.DeltaTime());
 
 			/*render*/
-			m_parent->VOnRender(m_timer.DeltaTime());
+			m_parent->VOnRender(m_timer.DeltaTime(), m_timer.TotalTime());
 
 
 			/*update keyboard state for next frame*/

@@ -85,15 +85,15 @@ namespace Vixen {
 		DestroyObjects();
 	}
 
-    void Scene::Render(float dt)
+    void Scene::Render(float dt, float totalTime)
     {
         //render all scene object
         for (auto& object : m_topLevelObjects)
 			if (object->GetEnabled())
-				object->Render(dt, m_mainCamera);
+				object->Render(dt, totalTime, m_mainCamera);
 
         for (auto& model : ModelManager::ActiveModels())
-            model->VRender(dt, m_mainCamera);
+            model->VRender(dt, totalTime, m_mainCamera);
     }
 
     GameObject* Scene::QueryObject(std::string name)

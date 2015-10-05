@@ -41,7 +41,7 @@ namespace Vixen {
 		int Run();
 		virtual void VOnStartup(void) = 0;
 		virtual void VOnUpdate(float dt) = 0;
-		virtual void VOnRender(float dt) = 0;
+		virtual void VOnRender(float dt, float totalTime) = 0;
 		virtual void VOnShutdown(void) = 0;
 
 		IRenderer*				const GetRenderer() const;
