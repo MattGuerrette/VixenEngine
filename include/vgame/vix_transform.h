@@ -103,7 +103,7 @@ namespace Vixen {
 
 		bool	m_localDirty;
 		bool    m_worldDirty;
-
+		bool    m_test;
 
 		std::vector<Transform*> m_childTransforms;
 		Transform*              m_parent;

@@ -4,20 +4,16 @@ end
 
 function floor.OnEnable()
 	this.moveSpeed = 15.0;
+	this.transform = this.GameObject:GetTransform();
 end
 
 function floor.Update(dt)
 
-	
-	local go = this.GameObject;
-	
-	local transform = go:GetTransform();
+	--[[this.transform:TranslateZ(-dt * this.moveSpeed);
 
-	transform:TranslateZ(-dt * this.moveSpeed);
-
-	if transform.Position:Z() < -35.0 then
-		transform.Position = transform.Position + Vector3(0.0, 0.0, 250.0);
-	end
+	if this.transform.Position:Z() < -35.0 then
+		this.transform.Position = this.transform.Position + Vector3(0.0, 0.0, 250.0);
+	end]]--
 
 end
 

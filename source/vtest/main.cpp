@@ -72,12 +72,12 @@ void TestGame::VOnUpdate(float dt)
 
     }
 
-    if (!paused)
-    {
-        SceneManager::UpdateScene(dt);
+    
+    SceneManager::UpdateScene(dt);
 
-
-        m_window->VTrapCursorCenter();
+	if (!paused)
+	{
+        //m_window->VTrapCursorCenter();
     }
 }
 
@@ -87,9 +87,9 @@ void TestGame::VOnRender(float dt)
 
 
     //ALL 2D UI IS DRAW AFTER SCENE IS DRAWN
-    /*USStream ss;
+    USStream ss;
     ss << "FPS: " << m_window->VFPS();
-    m_renderer->VRenderText2D(m_font, ss.str(), Vector2(20, 20));*/
+    m_renderer->VRenderText2D(m_font, ss.str(), Vector2(20, 20));
 }
 
 void TestGame::VOnShutdown()

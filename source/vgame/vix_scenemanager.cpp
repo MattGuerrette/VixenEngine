@@ -92,6 +92,7 @@ namespace Vixen {
 
     void SceneManager::DeInitialize()
     {
+		LuaEngine::ExecuteExpression(VTEXT("collectgarbage()"));
         STLMAP_DELETE(SceneManager::instance().m_scenes);
     }
 
@@ -116,7 +117,7 @@ namespace Vixen {
 
         _manager.m_current->Update(dt);
 
-		LuaEngine::ExecuteExpression(VTEXT("collectgarbage()"));
+		
 		PrefabManager::Cleanup();
     }
 

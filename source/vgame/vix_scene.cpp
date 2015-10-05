@@ -195,6 +195,14 @@ namespace Vixen {
 		/*for (auto& obj : _scene->m_sceneObjects)
 			obj.second->SetEnabled(true, true);
 */
+
+//spawn all queued objects
+		for (auto& object : _scene->m_objectsToAdd)
+		{
+			_scene->AddSceneObject(object);
+		}
+		_scene->m_objectsToAdd.clear();
+
         return _scene;
     }
 
