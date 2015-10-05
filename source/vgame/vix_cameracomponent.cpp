@@ -89,12 +89,18 @@ namespace Vixen {
 
     void CameraComponent::VOnInit()
     {
-
+		
     }
 
     void CameraComponent::VOnEnable()
     {
-
+		if (m_camera)
+		{
+			m_camera->VSetView(m_parentTransform->GetWorldPosition(),
+				m_parentTransform->GetWorldPosition() + m_parentTransform->GetForward(),
+				m_parentTransform->GetUp());
+			m_camera->VUpdate(0.0f);
+		}
     }
 
     void CameraComponent::VUpdate(float dt)

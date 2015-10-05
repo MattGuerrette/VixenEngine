@@ -100,12 +100,12 @@ namespace Vixen {
 				component->VUpdate(dt);
 		}
 
-		for (int i = 0; i < m_children.size(); i++)
+		/*for (int i = 0; i < m_children.size(); i++)
 		{
 			GameObject* _child = m_children[i];
 			if(_child->GetEnabled())
 				_child->Update(dt);
-		}
+		}*/
 	}
 
 	void GameObject::Render(float dt, ICamera3D * camera)
@@ -114,13 +114,13 @@ namespace Vixen {
 			m_model->VBatchRender(m_transform->GetWorldMatrix());
 		}
 		
-		for (int i = 0; i < m_children.size(); i++)
+		/*for (int i = 0; i < m_children.size(); i++)
 		{
 			GameObject* _child = m_children[i];
 
 			if (_child->GetEnabled())
 				_child->Render(dt, camera);
-		}
+		}*/
 	}
 
 	bool GameObject::GetEnabled()

@@ -34,6 +34,7 @@ namespace Vixen {
 
     class VIX_API LuaScript : public IComponent
     {
+		static LuaIntf::LuaRef* s_ThisTable;
     public:
         LuaScript();
 

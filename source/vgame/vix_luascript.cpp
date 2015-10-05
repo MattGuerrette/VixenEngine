@@ -27,6 +27,8 @@
 
 namespace Vixen {
 
+	LuaIntf::LuaRef* LuaScript::s_ThisTable = NULL;
+
     LuaScript::LuaScript()
     {
         m_updateFunc = NULL;
@@ -100,9 +102,7 @@ namespace Vixen {
 
         try
         {
-
-            if (m_updateFunc->isValid())
-                m_updateFunc->call(dt);
+           m_updateFunc->call(dt);
         }
         catch (const LuaIntf::LuaException& e)
         {
@@ -207,8 +207,10 @@ namespace Vixen {
 	void LuaScript::SetObject()
 	{
 		using namespace LuaIntf;
+		if (!s_ThisTable)
+			s_ThisTable = new LuaRef(LuaEngine::L(), "_G");
 
-		LuaRef(LuaEngine::L(), "_G").set("this", m_table);
+		s_ThisTable->set("this", m_table);
 	}
 
 
