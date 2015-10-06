@@ -22,9 +22,6 @@
     <Filter Include="Header Files\opengl">
       <UniqueIdentifier>{f4566ae2-8778-473b-bba9-502c6d5c03dd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\opengl">
-      <UniqueIdentifier>{9d5f9572-6ce7-418f-918e-09242ab26bb2}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\vgraphics\directx\vix_directx.h">
@@ -173,12 +170,6 @@
     <ClCompile Include="..\..\source\vgraphics\directx\vix_dxcamera3d.cpp">
       <Filter>Source Files\directx</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\vgraphics\directx\vix_dxprimitivecube.cpp">
-      <Filter>Source Files\directx</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\vgraphics\directx\vix_dxquad.cpp">
-      <Filter>Source Files\directx</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\vgraphics\directx\vix_dxrenderer.cpp">
       <Filter>Source Files\directx</Filter>
     </ClCompile>
@@ -203,12 +194,6 @@
     <ClCompile Include="..\..\source\vgraphics\directx\vix_dxspritebatcher.cpp">
       <Filter>Source Files\directx</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\vgraphics\opengl\vix_gltexturebatcher.cpp">
-      <Filter>Source Files\opengl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\vgraphics\opengl\vix_glrenderer.cpp">
-      <Filter>Source Files\opengl</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\vgraphics\directx\vix_dxresourceloader.cpp">
       <Filter>Source Files\directx</Filter>
     </ClCompile>
@@ -221,20 +206,11 @@
     <ClCompile Include="..\..\source\vgraphics\directx\vix_dxpixelshader.cpp">
       <Filter>Source Files\directx</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\vgraphics\opengl\vix_glbuffers.cpp">
-      <Filter>Source Files\opengl</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\vgraphics\directx\vix_dxvertexbuffer.cpp">
       <Filter>Source Files\directx</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\vgraphics\directx\vix_dxindexbuffer.cpp">
       <Filter>Source Files\directx</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\vgraphics\unused\vix_mesh.cpp">
-      <Filter>Source Files\opengl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\vgraphics\unused\vix_model.cpp">
-      <Filter>Source Files\opengl</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\vgraphics\directx\vix_dxmodel.cpp">
       <Filter>Source Files\directx</Filter>

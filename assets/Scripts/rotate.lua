@@ -5,7 +5,7 @@ end
 
 function rotate.OnEnable()
 	this.moveSpeed = 15.0;
-	transform = this.GameObject:GetTransform();
+	
 end
 
 function rotate.Update(dt)
@@ -13,7 +13,7 @@ function rotate.Update(dt)
 	
 	--this.transform:TranslateZ(-dt * this.moveSpeed);
 
-	transform:TranslateZ(0.0);
+	this.GameObject:GetTransform():TranslateZ(-dt * this.moveSpeed);
 
 	--[[if this.transform.Position:Z() < -9.0 then
 		this.transform.Position = this.transform.Position + Vector3(0.0, 0.0, 225.0);
