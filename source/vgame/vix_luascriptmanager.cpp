@@ -150,6 +150,7 @@ namespace Vixen {
 			.addFunction("Y", &Vector3::Y)
 			.addFunction("Z", &Vector3::Z)
             .addFunction("__add", &Vector3::add)
+            .addFunction("__sub", &Vector3::sub)
             .addFunction("__mul", &Vector3::mul)
             .addFunction("ToString", &Vector3::ToStdString)
 			.endClass();
@@ -164,9 +165,9 @@ namespace Vixen {
 			.addFunction("RotateX", &Transform::RotateX, LUA_ARGS(_opt<float>))
 			.addFunction("RotateY", &Transform::RotateY, LUA_ARGS(_opt<float>))
 			.addFunction("RotateZ", &Transform::RotateZ, LUA_ARGS(_opt<float>))
-			.addFunction("TranslateX", &Transform::TranslateX, LUA_ARGS(_opt<float>))
-			.addFunction("TranslateY", &Transform::TranslateY, LUA_ARGS(_opt<float>))
-			.addFunction("TranslateZ", &Transform::TranslateZ, LUA_ARGS(_opt<float>))
+			.addFunction("TranslateX", &Transform::TranslateX, LUA_ARGS(float))
+			.addFunction("TranslateY", &Transform::TranslateY, LUA_ARGS(float))
+			.addFunction("TranslateZ", &Transform::TranslateZ, LUA_ARGS(float))
 			.addFunction("Translate", &Transform::Translate, LUA_ARGS(Vector3))
 			.addProperty("Position", &Transform::GetPosition, &Transform::SetPosition)
 			.addProperty("Rotation", &Transform::GetRotation, &Transform::SetRotation)
@@ -295,9 +296,13 @@ namespace Vixen {
 			.addConstant("SPACE", IKEY::SPACE)
 			.endModule();
 
-		LuaBinding(LuaEngine::L())
-			.beginModule("Prefab")
-			.addFunction("Load", &PrefabManager::Load, LUA_ARGS(_opt<std::string>));
+        LuaBinding(LuaEngine::L())
+            .beginModule("Scene")
+            .addFunction("FindObjectWithName", &SceneManager::AccessTopLevelObject, LUA_ARGS(std::string));
 
+        LuaBinding(LuaEngine::L())
+            .beginModule("Prefab")
+            .addFunction("Load", &PrefabManager::Load, LUA_ARGS(_opt<std::string>));
+            
 	}
 }

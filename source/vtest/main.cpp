@@ -72,18 +72,18 @@ void TestGame::VOnUpdate(float dt)
 
     }
 
-    if (!paused)
-    {
-        SceneManager::UpdateScene(dt);
+    
+    SceneManager::UpdateScene(dt);
 
-
-        m_window->VTrapCursorCenter();
+	if (!paused)
+	{
+        //m_window->VTrapCursorCenter();
     }
 }
 
 void TestGame::VOnRender(float dt)
 {
-    SceneManager::RenderScene();
+    SceneManager::RenderScene(dt);
 
 
     //ALL 2D UI IS DRAW AFTER SCENE IS DRAWN

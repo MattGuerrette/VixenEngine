@@ -32,7 +32,7 @@
 
 namespace Vixen {
 
-
+	
 	class VIX_API Game
 	{
 	public:

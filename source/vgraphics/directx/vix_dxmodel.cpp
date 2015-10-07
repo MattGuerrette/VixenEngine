@@ -111,6 +111,14 @@ namespace Vixen {
         //a DXMesh object
 
         aiMesh* mesh = scene->mMeshes[0];
+      
+        aiVector3D min, max, center;
+        FindMeshCenter(mesh, center, min, max);
+        m_min = Vector3(min.x, min.y, min.z);
+        m_max = Vector3(max.x, max.y, max.z);
+        aiVector3D size = max - min;
+        m_size = Vector3(size.x, size.y, size.z);
+        m_center = Vector3(center.x, center.y, center.z);
 
         size_t numVertices = mesh->mNumVertices;
 
@@ -156,7 +164,7 @@ namespace Vixen {
         m_vBuffer->VUpdateSubData(0, sizeof(DXVertexPosTexNormal), m_vertices.size(), m_vertices.data());
 
         m_iBuffer = new DXIndexBuffer(m_indices.size(), m_device, m_context);
-        m_iBuffer->VSetData(&m_indices[0]);
+        m_iBuffer->VUpdateSubData(0, sizeof(unsigned short), m_indices.size(), &m_indices[0]);
 
         //create material
         if (scene->HasMaterials())
@@ -208,16 +216,18 @@ namespace Vixen {
         m_pShader = m_material->GetShader(IMaterial::ShaderRole::Pixel);
     }
 
-    void DXModel::VRender(ICamera3D* camera)
+    void DXModel::VRender(float dt, ICamera3D* camera)
     {
         if (!m_vShader || !m_pShader || m_numInstances <= 0)
             return;
 
+       
+
         m_vShader->SetMatrix4x4("projection", ((DXCamera3D*)camera)->Projection());
         m_vShader->SetMatrix4x4("view", ((DXCamera3D*)camera)->View());
-        
 
 		if (m_material->GetTexture(IMaterial::TextureRole::Diffuse)) {
+            
 			m_pShader->VSetSamplerState("samLinear", m_material->GetTexture(IMaterial::TextureRole::Diffuse)->SampleState());
 			m_pShader->VSetShaderResourceView("txDiffuse", m_material->GetTexture(IMaterial::TextureRole::Diffuse)->ResourceView());
 		}
@@ -226,11 +236,11 @@ namespace Vixen {
 			m_pShader->VSetShaderResourceView("txDiffuse", NULL);
 		}
 
-        int i = 0;
+       /* int i = 0;
         while (i <= m_numRenderCalls)
         {
-            int offset = i * MAX_INSTANCE_PER_DRAW;
-            m_vShader->SetData("transforms", &m_instanceData[0+offset] , (sizeof(float) * 16) * MAX_INSTANCE_PER_DRAW);
+            int offset = i * MAX_INSTANCE_PER_DRAW;*/
+            m_vShader->SetData("transforms", &m_instanceData[0] , (sizeof(float) * 16) * MAX_INSTANCE_PER_DRAW);
 
             m_vShader->Activate();
             m_pShader->Activate();
@@ -239,13 +249,13 @@ namespace Vixen {
             m_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
             m_context->DrawIndexedInstanced(m_indices.size(), m_numInstances, 0, 0, 0);
 
-            i++;
-        }
+         /*   i++;
+        }*/
 
         
 
 
-        m_instanceData.clear();
+        ///m_instanceData.clear();
         m_numInstances = 0;
         m_numRenderCalls = 0;
     }
@@ -253,7 +263,7 @@ namespace Vixen {
     void DXModel::VSetWorld(MATRIX* world)
     {
 		XMStoreFloat4x4(m_world, XMMatrixTranspose(*world));
-        m_instanceData.push_back(*m_world);
+        //m_instanceData.push_back(*m_world);
     }
 
     void DXModel::VBatchRender(MATRIX* world)
@@ -261,11 +271,31 @@ namespace Vixen {
         XMFLOAT4X4 _transform;
 
         XMStoreFloat4x4(&_transform, XMMatrixTranspose(*world));
-        m_instanceData.push_back(_transform);
+        m_instanceData[m_numInstances] = _transform;
 
         m_numInstances++;
         if (m_numInstances > MAX_INSTANCE_PER_DRAW)
             m_numRenderCalls++;
     }
 
+
+    Vector3 DXModel::VMin()
+    {
+        return m_min;
+    }
+    
+    Vector3 DXModel::VMax()
+    {
+        return m_max;
+    }
+
+    Vector3 DXModel::VCenter()
+    {
+        return m_center;
+    }
+
+    Vector3 DXModel::VSize()
+    {
+        return m_size;
+    }
 }

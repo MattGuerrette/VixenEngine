@@ -37,6 +37,8 @@ namespace Vixen {
 		m_up = Vector3(0.0f, 1.0f, 0.0f);
 		m_right = Vector3(1.0f, 0.0f, 0.0f);
 
+		
+
 		m_parent = NULL;
 		SetDirty();
     }
@@ -53,6 +55,8 @@ namespace Vixen {
 		m_up = Vector3(0.0f, 1.0f, 0.0f);
 		m_right = Vector3(1.0f, 0.0f, 0.0f);
 
+	
+
 		m_parent = NULL;
 		SetDirty();
     }
@@ -66,6 +70,8 @@ namespace Vixen {
 		m_forward = Vector3(0.0f, 0.0f, 1.0f);
 		m_up = Vector3(0.0f, 1.0f, 0.0f);
 		m_right = Vector3(1.0f, 0.0f, 0.0f);
+
+	
 
 		m_parent = NULL;
 		SetDirty();
@@ -263,6 +269,7 @@ namespace Vixen {
 
 	MATRIX* Transform::GetWorldMatrix()
 	{
+		
 		if (m_worldDirty) {
 			m_worldDirty = false;
 			if (m_parent)
@@ -282,6 +289,7 @@ namespace Vixen {
 
 			m_right = m_up.Cross(m_forward);
 
+			
 		}
 
 		return &m_world;

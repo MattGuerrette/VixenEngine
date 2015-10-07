@@ -85,17 +85,28 @@ namespace Vixen {
 		DestroyObjects();
 	}
 
-    void Scene::Render()
+    void Scene::Render(float dt)
     {
         //render all scene object
         for (auto& object : m_topLevelObjects)
 			if (object->GetEnabled())
-				object->Render(m_mainCamera);
+				object->Render(dt, m_mainCamera);
 
         for (auto& model : ModelManager::ActiveModels())
-            model->VRender(m_mainCamera);
+            model->VRender(dt, m_mainCamera);
     }
 
+    GameObject* Scene::QueryObject(std::string name)
+    {
+        for (int i = 0; i < m_topLevelObjects.size(); i++)
+        {
+            GameObject* _object = m_topLevelObjects[i];
+            if (_object->GetName() == name)
+                return _object;
+        }
+
+        return NULL;
+    }
 
 	/*SETTER FUNCTIONS*/
 
@@ -184,6 +195,14 @@ namespace Vixen {
 		/*for (auto& obj : _scene->m_sceneObjects)
 			obj.second->SetEnabled(true, true);
 */
+
+//spawn all queued objects
+		for (auto& object : _scene->m_objectsToAdd)
+		{
+			_scene->AddSceneObject(object);
+		}
+		_scene->m_objectsToAdd.clear();
+
         return _scene;
     }
 

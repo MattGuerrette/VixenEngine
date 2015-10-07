@@ -82,6 +82,11 @@ namespace Vixen {
 			return Vector3(x + scalar, y + scalar, z + scalar);
 		}
 
+        inline Vector3 sub(const Vector3& rhs) const
+        {
+            return *this - rhs;
+        }
+
 		inline Vector3 operator - (const Vector3& rhs) const
 		{
 			return Vector3(x - rhs.x, y - rhs.y, z - rhs.z);

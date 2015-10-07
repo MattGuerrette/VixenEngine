@@ -37,10 +37,15 @@ namespace Vixen {
         virtual ~IModel() { }
 
         virtual bool VInitFromFile(File* file) = 0;
-        virtual void VRender(ICamera3D* camera) = 0;
+        virtual void VRender(float dt, ICamera3D* camera) = 0;
         virtual void VSetWorld(MATRIX* world) = 0;
         virtual void VSetMaterial(IMaterial* material) = 0;
         virtual void VBatchRender(MATRIX* world) = 0;
+
+        virtual Vector3 VMin() = 0;
+        virtual Vector3 VMax() = 0;
+        virtual Vector3 VCenter() = 0;
+        virtual Vector3 VSize() = 0;
     };
 
 }

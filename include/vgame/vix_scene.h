@@ -44,7 +44,7 @@ namespace Vixen {
 		void Update(float dt);
 
         /*Render Scene*/
-        void Render();
+        void Render(float dt);
 
 		/*Adds Object with ID to Scene*/
 		void AddSceneObject(GameObject* object);
@@ -52,6 +52,8 @@ namespace Vixen {
 		void QueObjectSpawn(GameObject* object);
 
 		void QueObjectDestroy(GameObject* object);
+
+        GameObject* QueryObject(std::string name);
 
 		/*Removes Object with ID from Scene*/
 		void DestroyObjects();

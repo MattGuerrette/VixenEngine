@@ -92,6 +92,7 @@ namespace Vixen {
 
     void SceneManager::DeInitialize()
     {
+		LuaEngine::ExecuteExpression(VTEXT("collectgarbage()"));
         STLMAP_DELETE(SceneManager::instance().m_scenes);
     }
 
@@ -116,15 +117,15 @@ namespace Vixen {
 
         _manager.m_current->Update(dt);
 
-		LuaEngine::ExecuteExpression(VTEXT("collectgarbage()"));
+		
 		PrefabManager::Cleanup();
     }
 
-    void SceneManager::RenderScene()
+    void SceneManager::RenderScene(float dt)
     {
         SceneManager& _manager = SceneManager::instance();
 
-        _manager.m_current->Render();
+        _manager.m_current->Render(dt);
     }
 
 	void SceneManager::PauseScene(UString id)
@@ -152,6 +153,15 @@ namespace Vixen {
 			it->second->SetPaused(false);
 		}
 	}
+
+    GameObject* SceneManager::AccessTopLevelObject(std::string id)
+    {
+        Scene* activeScene = SceneManager::ActiveScene();
+        if (activeScene)
+        {
+            return activeScene->QueryObject(id);
+        }
+    }
 
 	Scene* SceneManager::ActiveScene()
 	{

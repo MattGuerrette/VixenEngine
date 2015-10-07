@@ -115,6 +115,36 @@
     <None Include="..\..\assets\Scripts\test.lua">
       <Filter>Assets\Scripts</Filter>
     </None>
+    <None Include="..\..\assets\Scripts\wallspawn.lua">
+      <Filter>Assets\Scripts</Filter>
+    </None>
+    <None Include="..\..\assets\Prefabs\wallLeft.pfb">
+      <Filter>Assets\Prefabs</Filter>
+    </None>
+    <None Include="..\..\assets\Prefabs\wallRight.pfb">
+      <Filter>Assets\Prefabs</Filter>
+    </None>
+    <None Include="..\..\assets\Scripts\floorspawn.lua">
+      <Filter>Assets\Scripts</Filter>
+    </None>
+    <None Include="..\..\assets\Prefabs\ceiling.pfb">
+      <Filter>Assets\Prefabs</Filter>
+    </None>
+    <None Include="..\..\assets\Scripts\wall.lua">
+      <Filter>Assets\Scripts</Filter>
+    </None>
+    <None Include="..\..\assets\Models\gem_red.mdl">
+      <Filter>Assets\Models</Filter>
+    </None>
+    <None Include="..\..\assets\Prefabs\gem_red.pfb">
+      <Filter>Assets\Prefabs</Filter>
+    </None>
+    <None Include="..\..\assets\Scripts\gemspawner.lua">
+      <Filter>Assets\Scripts</Filter>
+    </None>
+    <None Include="..\..\assets\Scripts\gem.lua">
+      <Filter>Assets\Scripts</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\assets\Shaders\DirectX\Model_Textured_PS.hlsl">
@@ -127,6 +157,12 @@
       <Filter>Assets\Shaders\HLSL</Filter>
     </FxCompile>
     <FxCompile Include="..\..\assets\Shaders\DirectX\Model_VS.hlsl">
+      <Filter>Assets\Shaders\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\assets\Shaders\DirectX\SpriteBatch_PS.hlsl">
+      <Filter>Assets\Shaders\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\assets\Shaders\DirectX\SpriteBatch_VS.hlsl">
       <Filter>Assets\Shaders\HLSL</Filter>
     </FxCompile>
   </ItemGroup>

@@ -37,22 +37,21 @@ namespace Vixen {
         m_context = context;
 
         m_vBuffer = new DXVPTBuffer(MAX_VERT_COUNT, m_device, m_context);
-
+        m_iBuffer = new DXIndexBuffer(INDICES_PER_TEX * MAX_BATCH_SIZE, m_device, m_context);
+        
         //populate index buffer
-        std::vector<USHORT> indices;
         for (unsigned short i = 0, j = 0; i < MAX_BATCH_SIZE; i++, j += VERTS_PER_TEX)
         {
             //each sprite is made up of 6 indices, 3 per triangle, 2 tri's per sprite
-            indices.push_back(0 + j);
-            indices.push_back(1 + j);
-            indices.push_back(2 + j);
-            indices.push_back(2 + j);
-            indices.push_back(1 + j);
-            indices.push_back(3 + j);
-        }
-        m_iBuffer = new DXIndexBuffer(INDICES_PER_TEX* MAX_BATCH_SIZE, m_device, m_context);
-        m_iBuffer->VSetData(indices.data());
+            const std::array<unsigned short, INDICES_PER_TEX> temp =
+            {
+                0 + j, 1 + j, 2 + j,
+                2 + j, 1 + j, 3 + j
+            };
 
+            size_t offset = sizeof(unsigned short) * INDICES_PER_TEX;
+            m_iBuffer->VUpdateSubData(i == 0 ? 0 : offset, sizeof(unsigned short), INDICES_PER_TEX, temp.data());
+        }
     }
 
     DXSpriteBatcher::~DXSpriteBatcher()
@@ -278,7 +277,7 @@ namespace Vixen {
         m_vertices.push_back(DXVertexPosTex(x4, y4, 0.0f, u2, v2));
 
         size_t offset = sizeof(DXVertexPosTex) * index * VERTS_PER_TEX;
-        m_vBuffer->VUpdateSubData(offset, sizeof(DXVertexPosTex), m_vertices.size(), m_vertices.data());
+        m_vBuffer->VUpdateSubData(offset, sizeof(DXVertexPosTex), m_vertices.size(), &m_vertices[0]);
     }
 
 

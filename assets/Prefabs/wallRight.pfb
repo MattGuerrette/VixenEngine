@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<prefab id="wallRight">
+  <gameobject defaultName="rightwall" enabled = "true">
+    <transform x="2.0" y="-2.0" z="0.0" rotX="0.0" rotY="270.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
+    <model file="wall.mdl"/>
+    <scripts>
+      <script file="wall.lua"/>
+    </scripts>
+    <children>
+
+    </children>
+  </gameobject>
+</prefab>
