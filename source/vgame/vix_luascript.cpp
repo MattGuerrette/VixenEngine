@@ -24,6 +24,7 @@
 #include <vix_luascript.h>
 #include <vix_luaengine.h>
 #include <vix_luascriptmanager.h>
+#include <vix_gameobject.h>
 
 namespace Vixen {
 

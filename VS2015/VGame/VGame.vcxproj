@@ -167,12 +167,14 @@
     <ClInclude Include="..\..\include\vgame\vix_aabb.h" />
     <ClInclude Include="..\..\include\vgame\vix_cameracomponent.h" />
     <ClInclude Include="..\..\include\vgame\vix_component.h" />
+    <ClInclude Include="..\..\include\vgame\vix_components.h" />
     <ClInclude Include="..\..\include\vgame\vix_game.h" />
     <ClInclude Include="..\..\include\vgame\vix_gameconfig.h" />
     <ClInclude Include="..\..\include\vgame\vix_gameobject.h" />
     <ClInclude Include="..\..\include\vgame\vix_gamewindow.h" />
     <ClInclude Include="..\..\include\vgame\vix_input.h" />
     <ClInclude Include="..\..\include\vgame\vix_keyboardstate.h" />
+    <ClInclude Include="..\..\include\vgame\vix_lightcomponent.h" />
     <ClInclude Include="..\..\include\vgame\vix_lua.h" />
     <ClInclude Include="..\..\include\vgame\vix_luaengine.h" />
     <ClInclude Include="..\..\include\vgame\vix_luascript.h" />
@@ -197,6 +199,7 @@
     <ClCompile Include="..\..\source\vgame\vix_gameconfig.cpp" />
     <ClCompile Include="..\..\source\vgame\vix_gameobject.cpp" />
     <ClCompile Include="..\..\source\vgame\vix_input.cpp" />
+    <ClCompile Include="..\..\source\vgame\vix_lightcomponent.cpp" />
     <ClCompile Include="..\..\source\vgame\vix_luaengine.cpp" />
     <ClCompile Include="..\..\source\vgame\vix_luascript.cpp" />
     <ClCompile Include="..\..\source\vgame\vix_luascriptmanager.cpp" />

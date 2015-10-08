@@ -24,42 +24,33 @@
 #ifndef VIX_SCENE_H
 #define VIX_SCENE_H
 
-#include <vix_platform.h>
+#include <vix_containers.h>
 #include <vix_gameobject.h>
 #include <vix_tinyxml.h>
-#include <vix_containers.h>
 
 namespace Vixen {
-
 	class VIX_API Scene
 	{
-		
-
 	public:
 		Scene();
-
 		~Scene();
 
 		/*Update Scene*/
 		void Update(float dt);
 
-        /*Render Scene*/
-        void Render(float dt, float totalTime);
+		/*Render Scene*/
+		void Render(float dt, float totalTime);
 
 		/*Adds Object with ID to Scene*/
 		void AddSceneObject(GameObject* object);
-
 		void QueObjectSpawn(GameObject* object);
-
 		void QueObjectDestroy(GameObject* object);
-
-        GameObject* QueryObject(std::string name);
+		GameObject* QueryObject(std::string name);
 
 		/*Removes Object with ID from Scene*/
 		void DestroyObjects();
 
 		void SetPaused(bool paused);
-
 
 		/*SETTER FUNCTIONS*/
 		void SetID(UString id);
@@ -73,13 +64,16 @@ namespace Vixen {
 		std::vector<GameObject*>		m_topLevelObjects;
 		std::vector<GameObject*>        m_objectsToAdd;
 		std::vector<GameObject*>        m_objectsToRemove;
-        ICamera3D*                      m_mainCamera;
+		ICamera3D*                      m_mainCamera;
 
-    public:
-        static Scene*		Deserialize(File* file);
-		static GameObject*	ParseGameObject(Scene* scene, const tinyxml2::XMLElement* element);
+	public:
+		static Scene* Deserialize(File* file);
+		static GameObject* ParseGameObject(Scene* scene, const tinyxml2::XMLElement* element);
+		static Transform* ParseTransform(const tinyxml2::XMLElement * element);
+		static std::vector<IComponent*>	ParseComponents(Scene* scene, const tinyxml2::XMLElement* element);
+		static CameraComponent*	ParseCameraComponent(Scene* scene, const tinyxml2::XMLElement* element);
+		static LightComponent* ParseLightComponent(const tinyxml2::XMLElement* element);
+		static LuaScript* ParseLuaScriptComponent(const tinyxml2::XMLElement* element);
 	};
-
 }
-
 #endif

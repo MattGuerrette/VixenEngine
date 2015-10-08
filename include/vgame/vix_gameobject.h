@@ -25,11 +25,9 @@
 #define VIX_GAMEOBJECT_H
 
 #include <vix_platform.h>
-#include <vix_transform.h>
-#include <vix_model.h>
-#include <vix_camera3d.h>
-#include <vix_component.h>
 #include <vix_containers.h>
+#include <vix_components.h>
+#include <vix_model.h>
 
 namespace Vixen {
 
