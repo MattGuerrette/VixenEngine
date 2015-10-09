@@ -182,14 +182,20 @@ namespace Vixen {
 		/* GameObject                                                                     */
 		////////////////////////////////////////////////////////////////////////////////////
 
-		LuaBinding(LuaEngine::L())
-			.beginClass<GameObject>("GameObject")
-			.addFunction("SetEnabled", &GameObject::SetEnabled, LUA_ARGS(_opt<bool>, _opt<bool>))
-			.addFunction("GetChild", &GameObject::GetChild, LUA_ARGS(_opt<int>))
-			.addFunction("GetTransform", &GameObject::GetTransformRef)
-			.addFunction("GetName", &GameObject::GetName)
-			.addFunction("GetID", &GameObject::GetID)
-			.addFunction("Delete", &GameObject::Delete)
+        LuaBinding(LuaEngine::L())
+            .beginClass<GameObject>("GameObject")
+            .addFunction("SetEnabled", &GameObject::SetEnabled, LUA_ARGS(_opt<bool>, _opt<bool>))
+            .addFunction("GetChild", &GameObject::GetChild, LUA_ARGS(_opt<int>))
+            .addFunction("GetTransform", &GameObject::GetTransformRef)
+            .addFunction("GetName", &GameObject::GetName)
+            .addFunction("GetID", &GameObject::GetID)
+            .addFunction("Delete", &GameObject::Delete)
+            .addStaticFunction("TranslateZ", &GameObject::_TranslateZ, LUA_ARGS(float))
+            .addStaticFunction("GetGameObject", &GameObject::_GetActiveObject)
+            .addStaticFunction("GetTransform", &GameObject::_GetTransform)
+            .addStaticFunction("GetTransformZ", &GameObject::_GetTransformZ)
+            .addStaticFunction("GetTransformPos", &GameObject::_GetTransformPosition)
+            .addStaticFunction("SetTransformPos", &GameObject::_SetTransformPosition, LUA_ARGS(Vector3))
 			.endClass();
 
 		////////////////////////////////////////////////////////////////////////////////////

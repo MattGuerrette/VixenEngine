@@ -34,6 +34,14 @@ namespace Vixen {
 
 	class VIX_API GameObject
 	{
+    public:
+        static void         _TranslateZ(float val);
+        static Transform*   _GetTransform();
+        static void         _SetTransformPosition(Vector3 v);
+        static Vector3      _GetTransformPosition();
+        static float        _GetTransformZ();
+        static GameObject*  _GetActiveObject();
+        static GameObject*  s_ActiveObject;
 	public:
 		GameObject();
 		GameObject(Transform* transform);

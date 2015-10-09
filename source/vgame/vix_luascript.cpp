@@ -99,6 +99,8 @@ namespace Vixen {
 	{
 		SetObject();
 
+        GameObject::s_ActiveObject = this->m_parent;
+
 		LuaScriptManager::PushScript(this);
 
         try

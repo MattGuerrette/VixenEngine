@@ -28,7 +28,39 @@
 
 namespace Vixen {
 
-	GameObject::GameObject()
+    GameObject* GameObject::s_ActiveObject = NULL;
+
+    void GameObject::_TranslateZ(float val)
+    {
+        GameObject::s_ActiveObject->GetTransform()->TranslateZ(val);
+    }
+
+    GameObject* GameObject::_GetActiveObject()
+    {
+        return s_ActiveObject;
+    }
+
+    Transform* GameObject::_GetTransform()
+    {
+        return GameObject::s_ActiveObject->GetTransform();
+    }
+
+    float GameObject::_GetTransformZ()
+    {
+        return GameObject::s_ActiveObject->GetTransform()->Z();
+    }
+
+    void GameObject::_SetTransformPosition(Vector3 v)
+    {
+        GameObject::s_ActiveObject->GetTransform()->SetPosition(v);
+    }
+
+    Vector3 GameObject::_GetTransformPosition()
+    {
+        return GameObject::s_ActiveObject->GetTransform()->GetPosition();
+    }
+
+    GameObject::GameObject()
 	{
 		m_id = 0;
 		m_enabled = false;
