@@ -37,7 +37,7 @@ namespace Vixen {
 
         void VSetPerspective(float aspect, float fov, float znear, float zfar);
         void VSetView(const Vector3& eye, const Vector3& target, const Vector3& up);
-        void VUpdate(float dt);
+        void VUpdate();
 
         DirectX::XMFLOAT4X4 Projection();
         DirectX::XMFLOAT4X4 View();

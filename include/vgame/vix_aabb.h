@@ -21,7 +21,7 @@ namespace Vixen {
         Vector3 Size() const;
 
 
-        void VUpdate(float dt) override;
+        void VUpdate() override;
 
         static bool CheckCollision(AABB* a, AABB* b);
 

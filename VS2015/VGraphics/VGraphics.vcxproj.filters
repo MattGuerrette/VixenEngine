@@ -156,10 +156,10 @@
     <ClInclude Include="..\..\include\vgraphics\vix_mathfunctions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\vgraphics\vix_pointlight.h">
+    <ClInclude Include="..\..\include\vgraphics\vix_resourcemanager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\vgraphics\vix_resourcemanager.h">
+    <ClInclude Include="..\..\include\vgraphics\vix_light.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

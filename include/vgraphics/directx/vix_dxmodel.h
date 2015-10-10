@@ -46,10 +46,10 @@ namespace Vixen {
         ~DXModel();
 
         bool VInitFromFile(File* file)                  override;
-        void VRender(float dt, ICamera3D* camera)                 override;
+        void VRender(float dt, float totalTime, ICamera3D* camera)                 override;
         void VSetWorld(MATRIX* matrix)					override;
         void VSetMaterial(IMaterial* material)          override;
-        void VBatchRender(MATRIX* world)                             override;
+        void VBatchRender(MATRIX* world)                override;
 
         Vector3 VMin()      override;
         Vector3 VMax()      override;

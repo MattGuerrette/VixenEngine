@@ -40,8 +40,8 @@ namespace Vixen {
         static void				DeInitialize();
         static void				OpenScene(UString id);
 		static void             AddScene(Scene* scene);
-        static void				UpdateScene(float dt);
-        static void				RenderScene(float dt);
+        static void				UpdateScene();
+        static void				RenderScene();
 		static void				PauseScene(UString id);
 		static void				UnpauseScene(UString id);
         static GameObject*      AccessTopLevelObject(std::string id);

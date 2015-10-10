@@ -28,7 +28,39 @@
 
 namespace Vixen {
 
-	GameObject::GameObject()
+    GameObject* GameObject::s_ActiveObject = NULL;
+
+    void GameObject::_TranslateZ(float val)
+    {
+        GameObject::s_ActiveObject->GetTransform()->TranslateZ(val);
+    }
+
+    GameObject* GameObject::_GetActiveObject()
+    {
+        return s_ActiveObject;
+    }
+
+    Transform* GameObject::_GetTransform()
+    {
+        return GameObject::s_ActiveObject->GetTransform();
+    }
+
+    float GameObject::_GetTransformZ()
+    {
+        return GameObject::s_ActiveObject->GetTransform()->Z();
+    }
+
+    void GameObject::_SetTransformPosition(Vector3 v)
+    {
+        GameObject::s_ActiveObject->GetTransform()->SetPosition(v);
+    }
+
+    Vector3 GameObject::_GetTransformPosition()
+    {
+        return GameObject::s_ActiveObject->GetTransform()->GetPosition();
+    }
+
+    GameObject::GameObject()
 	{
 		m_id = 0;
 		m_enabled = false;
@@ -91,13 +123,13 @@ namespace Vixen {
 			component->VOnEnable();
 	}
 
-	void GameObject::Update(float dt)
+	void GameObject::Update()
 	{
 		for (size_t i = 0; i < m_components.size(); i++)
 		{
 			IComponent* component = m_components[i];
 			if (component)
-				component->VUpdate(dt);
+				component->VUpdate();
 		}
 
 		/*for (int i = 0; i < m_children.size(); i++)
@@ -108,19 +140,19 @@ namespace Vixen {
 		}*/
 	}
 
-	void GameObject::Render(float dt, ICamera3D * camera)
+	void GameObject::Render(ICamera3D * camera)
 	{
 		if (m_model) {
 			m_model->VBatchRender(m_transform->GetWorldMatrix());
 		}
 		
-		/*for (int i = 0; i < m_children.size(); i++)
+		for (int i = 0; i < m_children.size(); i++)
 		{
 			GameObject* _child = m_children[i];
 
 			if (_child->GetEnabled())
-				_child->Render(dt, camera);
-		}*/
+				_child->Render(camera);
+		}
 	}
 
 	bool GameObject::GetEnabled()

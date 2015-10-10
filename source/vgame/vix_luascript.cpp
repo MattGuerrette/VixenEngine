@@ -24,6 +24,8 @@
 #include <vix_luascript.h>
 #include <vix_luaengine.h>
 #include <vix_luascriptmanager.h>
+#include <vix_gameobject.h>
+#include <vix_time.h>
 
 namespace Vixen {
 
@@ -94,15 +96,17 @@ namespace Vixen {
 			LuaScriptManager::PeekScript()->SetObject();
 	}
 
-	void LuaScript::VUpdate(float dt)
+	void LuaScript::VUpdate()
 	{
 		SetObject();
+
+        GameObject::s_ActiveObject = this->m_parent;
 
 		LuaScriptManager::PushScript(this);
 
         try
         {
-           m_updateFunc->call(dt);
+           m_updateFunc->call(Time::DeltaTime());
         }
         catch (const LuaIntf::LuaException& e)
         {

@@ -39,7 +39,7 @@ namespace Vixen {
 		virtual ~IComponent() { };
 		virtual void VOnInit() = 0;
 		virtual void VOnEnable() = 0;
-		virtual void VUpdate(float dt) = 0;
+		virtual void VUpdate() = 0;
 		virtual void VOnDisable() = 0;
 		virtual void VOnDestroy() = 0;
         virtual void VBindParent(GameObject* parent) = 0;

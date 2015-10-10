@@ -25,17 +25,23 @@
 #define VIX_GAMEOBJECT_H
 
 #include <vix_platform.h>
-#include <vix_transform.h>
-#include <vix_model.h>
-#include <vix_camera3d.h>
-#include <vix_component.h>
 #include <vix_containers.h>
+#include <vix_components.h>
+#include <vix_model.h>
 
 namespace Vixen {
 
 
 	class VIX_API GameObject
 	{
+    public:
+        static void         _TranslateZ(float val);
+        static Transform*   _GetTransform();
+        static void         _SetTransformPosition(Vector3 v);
+        static Vector3      _GetTransformPosition();
+        static float        _GetTransformZ();
+        static GameObject*  _GetActiveObject();
+        static GameObject*  s_ActiveObject;
 	public:
 		GameObject();
 		GameObject(Transform* transform);
@@ -51,8 +57,8 @@ namespace Vixen {
 		void AddComponent(IComponent* component);
 		void AddChild(GameObject* gameObject);
 
-		void Update(float dt);
-		void Render(float dt, ICamera3D* camera);
+		void Update();
+		void Render(ICamera3D* camera);
 		bool GetEnabled();
 		void SetEnabled(bool state, bool recursive);
 

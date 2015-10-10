@@ -55,11 +55,6 @@ namespace Vixen {
         return m_nativeHandle;
     }
 
-	SDLTimer* SDLGameWindow::Timer()
-	{
-		return &m_timer;
-	}
-
 	void SDLGameWindow::VSetRenderer(IRenderer* renderer)
 	{
 		m_renderer = renderer;
@@ -157,13 +152,13 @@ namespace Vixen {
 		m_parent->VOnStartup();
 
 
-        m_timer.Start();
+        Time::Start();
 		//run application loop
 		m_running = true;
 		while (m_running)
 		{
 
-            m_timer.Tick();
+			Time::Tick();
 
 			SDL_Event event;
 			while (SDL_PollEvent(&event))
@@ -203,10 +198,10 @@ namespace Vixen {
 
 
 			/*update*/
-			m_parent->VOnUpdate(m_timer.DeltaTime());
+			m_parent->VOnUpdate();
 
 			/*render*/
-			m_parent->VOnRender(m_timer.DeltaTime());
+			m_parent->VOnRender();
 
 
 			/*update keyboard state for next frame*/
@@ -217,7 +212,7 @@ namespace Vixen {
 			/*swap buffers*/
 			VSwapBuffers();
 
-			m_timer.CalculateFPS();
+			Time::CalculateFPS();
 		}
 
 		m_parent->VOnShutdown();
@@ -292,11 +287,6 @@ namespace Vixen {
 		SDL_GL_DeleteContext(m_context);
 		SDL_Quit();
 	}
-
-    float SDLGameWindow::VFPS()
-    {
-        return m_timer.FPS();
-    }
 
 	void SDLGameWindow::OutputDisplayModes()
 	{

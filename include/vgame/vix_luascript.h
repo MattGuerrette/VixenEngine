@@ -28,9 +28,9 @@
 #include <vix_component.h>
 #include <vix_file.h>
 #include <vix_lua.h>
-#include <vix_gameobject.h>
 
 namespace Vixen {
+	class GameObject;
 
     class VIX_API LuaScript : public IComponent
     {
@@ -52,7 +52,7 @@ namespace Vixen {
 		
 		void VOnInit();
 		void VOnEnable();
-        void VUpdate(float dt);
+        void VUpdate();
 		void VOnDisable();
 		void VOnDestroy();
 

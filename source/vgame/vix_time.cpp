@@ -21,11 +21,11 @@
 	SOFTWARE.
 */
 
-#include <vix_sdltimer.h>
+#include <vix_time.h>
 
 namespace Vixen {
 
-	SDLTimer::SDLTimer()
+	Time::Time()
 	{
 		m_startTime = 0;
 		m_curTime = 0;
@@ -33,30 +33,30 @@ namespace Vixen {
 		m_fps = 0.0f;
 	}
 
-	void SDLTimer::Start()
+	void Time::Start()
 	{
-		m_startTime = SDL_GetTicks();
+		Time::instance().m_startTime = SDL_GetTicks();
 	}
 
-	void SDLTimer::Tick()
+	void Time::Tick()
 	{
 		/*cache current time in prev*/
-		m_prevTime = m_curTime;
+		Time::instance().m_prevTime = Time::instance().m_curTime;
 
-		m_curTime = SDL_GetTicks();
+		Time::instance().m_curTime = SDL_GetTicks();
 
 		/*calculate delta time*/
-		m_deltaTime = (float)(m_curTime - m_prevTime) / 1000.0f;
+		Time::instance().m_deltaTime = (float)(Time::instance().m_curTime - Time::instance().m_prevTime) / 1000.0f;
 	}
 
-	void SDLTimer::CalculateFPS()
+	void Time::CalculateFPS()
 	{
 		static int frameCnt = 0;
 
-		if (m_startTime < (SDL_GetTicks() - 1000.0f))
+		if (Time::instance().m_startTime < (SDL_GetTicks() - 1000.0f))
 		{
-			m_startTime = SDL_GetTicks();
-			m_fps = (float)frameCnt;
+			Time::instance().m_startTime = SDL_GetTicks();
+			Time::instance().m_fps = (float)frameCnt;
 
 			frameCnt = 0;
 		}
@@ -64,13 +64,18 @@ namespace Vixen {
 		++frameCnt;
 	}
 
-	float SDLTimer::DeltaTime()
+	float Time::DeltaTime()
 	{
-		return m_deltaTime;
+		return Time::instance().m_deltaTime;
 	}
 
-	float SDLTimer::FPS()
+	float Time::FPS()
 	{
-		return m_fps;
+		return Time::instance().m_fps;
+	}
+
+	float Time::TotalTime()
+	{
+		return Time::instance().m_curTime;
 	}
 }

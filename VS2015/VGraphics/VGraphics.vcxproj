@@ -201,7 +201,7 @@
     <ClInclude Include="..\..\include\vgraphics\vix_math.h" />
     <ClInclude Include="..\..\include\vgraphics\vix_mathfunctions.h" />
     <ClInclude Include="..\..\include\vgraphics\vix_model.h" />
-    <ClInclude Include="..\..\include\vgraphics\vix_pointlight.h" />
+    <ClInclude Include="..\..\include\vgraphics\vix_light.h" />
     <ClInclude Include="..\..\include\vgraphics\vix_rectangle.h" />
     <ClInclude Include="..\..\include\vgraphics\vix_renderer.h" />
     <ClInclude Include="..\..\include\vgraphics\vix_resourceloader.h" />
