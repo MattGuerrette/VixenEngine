@@ -58,8 +58,6 @@ namespace Vixen {
 		virtual void               VTrapCursorCenter() = 0;
         virtual void*              VNativeHandle() = 0;
 
-        virtual float              VFPS() = 0;
-
 		static const size_t DEF_WINDOW_WIDTH = 800;
 		static const size_t DEF_WINDOW_HEIGHT = 600;
 

@@ -163,7 +163,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\vcore\vix_resourcemanager.h" />
     <ClInclude Include="..\..\include\vgame\vix_aabb.h" />
     <ClInclude Include="..\..\include\vgame\vix_cameracomponent.h" />
     <ClInclude Include="..\..\include\vgame\vix_component.h" />
@@ -188,7 +187,7 @@
     <ClInclude Include="..\..\include\vgame\vix_scene.h" />
     <ClInclude Include="..\..\include\vgame\vix_scenemanager.h" />
     <ClInclude Include="..\..\include\vgame\vix_sdlinput.h" />
-    <ClInclude Include="..\..\include\vgame\vix_sdltimer.h" />
+    <ClInclude Include="..\..\include\vgame\vix_time.h" />
     <ClInclude Include="..\..\include\vgame\vix_sdlwindow.h" />
     <ClInclude Include="..\..\include\vgame\vix_transform.h" />
   </ItemGroup>
@@ -210,7 +209,7 @@
     <ClCompile Include="..\..\source\vgame\vix_scene.cpp" />
     <ClCompile Include="..\..\source\vgame\vix_scenemanager.cpp" />
     <ClCompile Include="..\..\source\vgame\vix_sdlinput.cpp" />
-    <ClCompile Include="..\..\source\vgame\vix_sdltimer.cpp" />
+    <ClCompile Include="..\..\source\vgame\vix_time.cpp" />
     <ClCompile Include="..\..\source\vgame\vix_sdlwindow.cpp" />
     <ClCompile Include="..\..\source\vgame\vix_transform.cpp" />
   </ItemGroup>

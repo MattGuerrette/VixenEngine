@@ -31,29 +31,33 @@
 #include <SDL2/SDL.h>
 #endif
 
+#include <vix_singleton.h>
+
 namespace Vixen {
 
-	class VIX_API SDLTimer
+	class VIX_API Time : public Singleton<Time>
 	{
 	public:
-		SDLTimer();
+		Time();
 
 		/*start timer*/
-		void  Start();
+		static void  Start();
 
 		/*frame tick*/
-		void  Tick();
+		static void  Tick();
 
 		/*time elapsed between frames*/
-		float DeltaTime();
+		static float DeltaTime();
+
+		/*total elapsed runtime*/
+		static float  TotalTime();
 
 		/*frames per second*/
-		float FPS();
+		static float FPS();
 
 		/*calculate fps*/
-		void  CalculateFPS();
+		static void  CalculateFPS();
 
-		float  TotalTime();
 
 	private:
 		Uint32  m_startTime;

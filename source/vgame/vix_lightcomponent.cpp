@@ -45,7 +45,7 @@ namespace Vixen {
 		
 	}
 
-	void LightComponent::VUpdate(float dt)
+	void LightComponent::VUpdate()
 	{
 
 	}

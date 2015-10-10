@@ -39,7 +39,7 @@ namespace Vixen {
 
     }
 
-    void AABB::VUpdate(float dt)
+    void AABB::VUpdate()
     {
 
     }

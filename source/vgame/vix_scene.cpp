@@ -27,6 +27,7 @@
 #include <vix_luascriptmanager.h>
 #include <vix_scenemanager.h>
 #include <vix_objectmanager.h>
+#include <vix_time.h>
 
 namespace Vixen {
 
@@ -63,7 +64,7 @@ namespace Vixen {
 		m_objectsToRemove.push_back(object);
 	}
 
-	void Scene::Update(float dt)
+	void Scene::Update()
 	{
 		if (m_paused)
 			return;
@@ -71,7 +72,7 @@ namespace Vixen {
 		//update all scene objects
 		for (auto& object : m_topLevelObjects)
 			if (object->GetEnabled())
-				object->Update(dt);
+				object->Update();
 
 		//spawn all queued objects
 		for (auto& object : m_objectsToAdd)
@@ -83,15 +84,15 @@ namespace Vixen {
 		DestroyObjects();
 	}
 
-	void Scene::Render(float dt, float totalTime)
+	void Scene::Render()
 	{
 		//render all scene object
 		for (auto& object : m_topLevelObjects)
 			if (object->GetEnabled())
-				object->Render(dt, totalTime, m_mainCamera);
+				object->Render(m_mainCamera);
 
 		for (auto& model : ModelManager::ActiveModels())
-			model->VRender(dt, totalTime, m_mainCamera);
+			model->VRender(Time::DeltaTime(), Time::TotalTime(), m_mainCamera);
 	}
 
 	GameObject* Scene::QueryObject(std::string name)

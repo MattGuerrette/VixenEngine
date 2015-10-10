@@ -111,21 +111,21 @@ namespace Vixen {
             DebugPrintF(VTEXT("SceneManager: scene %s not found\n"), id.c_str());
     }
 
-    void SceneManager::UpdateScene(float dt)
+    void SceneManager::UpdateScene()
     {
         SceneManager& _manager = SceneManager::instance();
 
-        _manager.m_current->Update(dt);
+        _manager.m_current->Update();
 
 		
 		PrefabManager::Cleanup();
     }
 
-    void SceneManager::RenderScene(float dt, float totalTime)
+    void SceneManager::RenderScene()
     {
         SceneManager& _manager = SceneManager::instance();
 
-        _manager.m_current->Render(dt, totalTime);
+        _manager.m_current->Render();
     }
 
 	void SceneManager::PauseScene(UString id)

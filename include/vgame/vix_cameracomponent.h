@@ -45,7 +45,7 @@ namespace Vixen {
 
         void VOnEnable();
 
-        void VUpdate(float dt);
+        void VUpdate();
 
         void VOnDisable();
 

@@ -99,11 +99,11 @@ namespace Vixen {
 			m_camera->VSetView(m_parentTransform->GetWorldPosition(),
 				m_parentTransform->GetWorldPosition() + m_parentTransform->GetForward(),
 				m_parentTransform->GetUp());
-			m_camera->VUpdate(0.0f);
+			m_camera->VUpdate();
 		}
     }
 
-    void CameraComponent::VUpdate(float dt)
+    void CameraComponent::VUpdate()
     {
 
         if(m_camera)
@@ -113,7 +113,7 @@ namespace Vixen {
                                   m_parentTransform->GetUp());
 
             //update camera
-            m_camera->VUpdate(dt);
+            m_camera->VUpdate();
         }
 
     }

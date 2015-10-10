@@ -52,7 +52,7 @@ namespace Vixen {
 		
 		void VOnInit();
 		void VOnEnable();
-        void VUpdate(float dt);
+        void VUpdate();
 		void VOnDisable();
 		void VOnDestroy();
 

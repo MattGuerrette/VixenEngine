@@ -58,7 +58,7 @@ namespace Vixen {
 
     }
 
-    void DXCamera3D::VUpdate(float dt)
+    void DXCamera3D::VUpdate()
     {
       
 		XMVECTOR eyePosition = XMLoadFloat3(&m_position);

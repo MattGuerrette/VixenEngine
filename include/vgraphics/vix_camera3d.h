@@ -36,7 +36,7 @@ namespace Vixen {
 
         virtual void VSetPerspective(float aspect, float fov, float znear, float zfar) = 0;
         virtual void VSetView(const Vector3& eye, const Vector3& target, const Vector3& up) = 0;
-        virtual void VUpdate(float dt) = 0;
+        virtual void VUpdate() = 0;
     };
 
 }

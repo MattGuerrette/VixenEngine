@@ -57,8 +57,8 @@ namespace Vixen {
 		void AddComponent(IComponent* component);
 		void AddChild(GameObject* gameObject);
 
-		void Update(float dt);
-		void Render(float dt, float totalTime, ICamera3D* camera);
+		void Update();
+		void Render(ICamera3D* camera);
 		bool GetEnabled();
 		void SetEnabled(bool state, bool recursive);
 

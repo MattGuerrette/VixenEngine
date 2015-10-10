@@ -26,7 +26,7 @@
 
 #include <vix_platform.h>
 #include <vix_gamewindow.h>
-#include <vix_sdltimer.h>
+#include <vix_time.h>
 #include <vix_sdlinput.h>
 #ifdef VIX_SYS_WINDOWS
 #include <SDL.h>
@@ -95,17 +95,12 @@ namespace Vixen {
 		void				VTrapCursorCenter()                    override;
         void*               VNativeHandle()                        override;
 
-        float               VFPS()                                 override;
-
 		void                OutputDisplayModes();
-
-		SDLTimer*     Timer();
 
 	private:
 		SDL_Window*			m_windowHandle;
 		SDL_GLContext		m_context;
 		SDL_GW_Params		m_params;
-		SDLTimer			m_timer;
 		SDLKeyboardState    m_kbState;
         void*               m_nativeHandle;
 	};
