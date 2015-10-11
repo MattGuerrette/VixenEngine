@@ -1,24 +1,18 @@
 /*
-	The MIT License(MIT)
+	Copyright (C) 2015  Matt Guerrette
 
-	Copyright(c) 2015 Vixen Team, Matt Guerrette
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
 
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files(the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions :
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
@@ -69,7 +63,7 @@ namespace Vixen {
 		if (LuaScriptManager::m_scriptStack.size() > 0)
 			LuaScriptManager::m_scriptStack.pop();
 	}
-	
+
 	void LuaScriptManager::PushScript(LuaScript* script)
 	{
 		LuaScriptManager::m_scriptStack.push(script);
@@ -89,17 +83,17 @@ namespace Vixen {
 			std::string _filename = UStringToStd(file->BaseName());
 
             //now I want to load the actual script object
-            
+
 			LuaBinding(LuaEngine::L())
 				.beginModule(_filename.c_str())
 					.beginModule("hash")
 					.endModule()
 				.endModule();
-			
+
 
 		    LuaEngine::ExecuteFile(_assetPath);
 
-            
+
 			LuaIntf::LuaRef* onInit = new LuaRef(LuaEngine::L(), (_filename + ".OnInit").c_str());
 			LuaIntf::LuaRef* onEnable = new LuaRef(LuaEngine::L(), (_filename + ".OnEnable").c_str());
             LuaIntf::LuaRef* update = new LuaRef(LuaEngine::L(), (_filename + ".Update").c_str());
@@ -118,10 +112,10 @@ namespace Vixen {
 
             FileManager::CloseFile(file);
             return _script;
-            
+
         }
-       
-    
+
+
         return NULL;
     }
 
@@ -130,7 +124,7 @@ namespace Vixen {
 	{
 		using namespace LuaIntf;
 
-		
+
 
 		////////////////////////////////////////////////////////////////////////////////////
 		/* Vector3                                                                        */
@@ -309,6 +303,6 @@ namespace Vixen {
         LuaBinding(LuaEngine::L())
             .beginModule("Prefab")
             .addFunction("Load", &PrefabManager::Load, LUA_ARGS(_opt<std::string>));
-            
+
 	}
 }
