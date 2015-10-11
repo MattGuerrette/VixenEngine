@@ -1,25 +1,20 @@
 /*
-	The MIT License(MIT)
+	Copyright (C) 2015  Matt Guerrette
 
-	Copyright(c) 2015 Vixen Team, Matt Guerrette
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
 
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files(the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions :
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 
 #include <vix_dxshader.h>
 
@@ -86,16 +81,16 @@ namespace Vixen {
         SampleTable::iterator it = m_sampTable.find(name);
         if (it == m_sampTable.end())
             return -1;
-        
+
         return it->second;
     }
 
     bool DXShader::VInitFromFile(File* file)
     {
-        
+
         if (!this->VInitShader(file))
             return false;
-            
+
         if (!m_shaderReflection)
         {
             //Reflect shader info
@@ -153,7 +148,7 @@ namespace Vixen {
             //set up buffer and put its pointer into the table
             m_cbArray[i].BindIndex = bindDesc.BindPoint;
             m_cbTable.insert(std::pair<std::string, ConstantBuffer*>(bufferDesc.Name, &m_cbArray[i]));
-        
+
             //Create this constant buffer
             D3D11_BUFFER_DESC _newBufferDesc;
             _newBufferDesc.Usage = D3D11_USAGE_DEFAULT;
@@ -163,7 +158,7 @@ namespace Vixen {
             _newBufferDesc.MiscFlags = 0;
             _newBufferDesc.StructureByteStride = 0;
             m_device->CreateBuffer(&_newBufferDesc, 0, &m_cbArray[i].Buffer);
-        
+
             //setup the data buffer for the cb
             m_cbArray[i].LocalDataBuffer = new BYTE[bufferDesc.Size];
             ZeroMemory(m_cbArray[i].LocalDataBuffer, bufferDesc.Size);
@@ -184,7 +179,7 @@ namespace Vixen {
                 variable.ConstantBufferIndex = i;
                 variable.ByteOffset = varDesc.StartOffset;
                 variable.Size = varDesc.Size;
-                
+
                 //Get a string representation
                 std::string varName = varDesc.Name;
 
@@ -263,12 +258,12 @@ namespace Vixen {
     {
         return SetData(name, static_cast<void*>(&data), sizeof(float) * 2);
     }
-    
+
     bool DXShader::SetFloat2(std::string name, const DirectX::XMFLOAT2 data)
     {
         return SetData(name, &data, sizeof(float) * 2);
     }
-  
+
     bool DXShader::SetFloat3(std::string name, const float data[3])
     {
         return SetData(name, static_cast<void*>(&data), sizeof(float) * 3);
