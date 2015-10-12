@@ -18,7 +18,7 @@ endif()
 #configure header file to pass
 #CMake settings to source code
 configure_file (
-    "${PROJECT_SOURCE_DIR}/vix_version.h.in"
+    "${PROJECT_SOURCE_DIR}/include/vix_version.h.in"
     "${PROJECT_SOURCE_DIR}/include/vix_version.h"
 )
 
