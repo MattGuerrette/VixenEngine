@@ -48,9 +48,11 @@ void TestGame::VOnStartup()
 
     m_renderer->VSetClearColor(Vixen::Colors::Black);
 
-    m_font = ResourceManager::OpenFont(VTEXT("Consolas_24.fnt"));
+    m_font = ResourceManager::OpenFont(VTEXT("Consolas_14.fnt"));
 
-    fontTransform = Transform(20.0f, 20.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f);
+    fontTransform = Transform(Vector3(20.0f, 20.0f, 0.0f),
+                              Vector3(0.0f, 0.0f, 0.0f),
+                              Vector3(1.0f, 1.0f, 1.0f));
 
 
     m_window->VToggleCursor();
@@ -77,7 +79,7 @@ void TestGame::VOnUpdate()
 
 	if (!paused)
 	{
-        //m_window->VTrapCursorCenter();
+        m_window->VTrapCursorCenter();
     }
 }
 
