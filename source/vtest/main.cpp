@@ -20,8 +20,8 @@ public:
 
     void VOnStartup();
     void VOnShutdown();
-    void VOnUpdate(float dt);
-    void VOnRender(float dt);
+    void VOnUpdate();
+    void VOnRender();
 
 private:
     IFont*      m_font;
@@ -56,7 +56,7 @@ void TestGame::VOnStartup()
     m_window->VToggleCursor();
 }
 
-void TestGame::VOnUpdate(float dt)
+void TestGame::VOnUpdate()
 {
     if (Input::SingleKeyPress(IKEY::F2))
         m_window->VClose();
@@ -73,7 +73,7 @@ void TestGame::VOnUpdate(float dt)
     }
 
     
-    SceneManager::UpdateScene(dt);
+    SceneManager::UpdateScene();
 
 	if (!paused)
 	{
@@ -81,14 +81,14 @@ void TestGame::VOnUpdate(float dt)
     }
 }
 
-void TestGame::VOnRender(float dt)
+void TestGame::VOnRender()
 {
-    SceneManager::RenderScene(dt);
+    SceneManager::RenderScene();
 
 
     //ALL 2D UI IS DRAW AFTER SCENE IS DRAWN
     USStream ss;
-    ss << "FPS: " << m_window->VFPS();
+    ss << "FPS: " << Time::FPS();
     m_renderer->VRenderText2D(m_font, ss.str(), Vector2(20, 20));
 }
 

@@ -47,11 +47,11 @@ void TestGame::VOnShutdown()
 int main(int argc, char* argv[])
 {
 
-    /*Vixen::DebugPrintF(VTEXT("VixenEngine\nVersion: %d.%d.%d"),
+    Vixen::DebugPrintF(VTEXT("VixenEngine\nVersion: %d.%d.%d\n"),
             VixenEngine_VERSION_MAJOR,
             VixenEngine_VERSION_MINOR,
             VixenEngine_VERSION_BUILD);
-    Vixen::DebugPrintF(VTEXT("ExecPath: %s"), Vixen::os_exec_dir().c_str());*/
+    Vixen::DebugPrintF(VTEXT("ExecPath: %s\n"), Vixen::os_exec_dir().c_str());
 
     TestGame _game;
 

@@ -7,6 +7,8 @@ endif()
 
 project(VixenEngine)
 
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
 # Version info
 set (VixenEngine_VERSION_MAJOR 0)
 set (VixenEngine_VERSION_MINOR 1)

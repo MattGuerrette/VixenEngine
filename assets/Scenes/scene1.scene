@@ -1,69 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <scene id="scene1">
-	<object-list>
-		
+  <object-list>
+
     <gameobject name="camera" enabled="true">
-      <transform x="0.0" y="7.0" z="-13.0" rotX="15.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
-      <camera mainCamera="true"/>
-      <scripts>
+      <transform x="0.0" y="6.0" z="-5.0" rotX="15.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
+      <components>
+        <camera mainCamera="true"/>
         <script file="camera.lua"/>
-      </scripts>
+      </components>
       <children>
       </children>
     </gameobject>
-		
+
     <gameobject name="minecart1" enabled="true">
-      <transform x="0.0" y="0.0" z="0.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
+      <transform x="0.0" y="0.0" z="8.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
       <model file="minecart.mdl"/>
-      <scripts>
+      <components>
+        <light kind="point" x="0.0" y="0.0" z="0.0" r="1.0" g="1.0" b="1.0" />
         <script file="player.lua"/>
-      </scripts>
+      </components>
       <children>
-       
       </children>
     </gameobject>
 
 
     <!--<gameobject name="gemspawner" enabled="true">
       <transform x="0.0" y="0.0" z="-1.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
-      <scripts>
+      <components>
         <script file="gemspawner.lua"/>
-      </scripts>
+      </components>
       <children>
-
       </children>
     </gameobject>-->
-    
+
 
     <gameobject name="floorspawner" enabled="true">
       <transform x="0.0" y="0.0" z="-1.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
-      <scripts>
+      <components>
         <script file="floorspawn.lua"/>
-      </scripts>
+      </components>
       <children>
-
       </children>
     </gameobject>
 
     <gameobject name="railspawner" enabled="true">
       <transform x="0.0" y="0.0" z="-1.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
-      <scripts>
+      <components>
         <script file="railspawn.lua"/>
-      </scripts>
+      </components>
       <children>
-
       </children>
     </gameobject>
 
     <gameobject name="wallspawner" enabled="true">
       <transform x="0.0" y="0.0" z="-1.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
-      <scripts>
+      <components>
         <script file="wallspawn.lua"/>
-      </scripts>
+      </components>
       <children>
-
       </children>
     </gameobject>
-  
-	</object-list>
+  </object-list>
 </scene>

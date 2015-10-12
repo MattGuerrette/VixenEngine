@@ -1,0 +1,79 @@
+
+if(WIN32)
+cmake_minimum_required (VERSION 3.1)
+else()
+cmake_minimum_required (VERSION 3.0)
+endif()
+
+project(VixenEngine)
+
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
+# Version info
+set (VixenEngine_VERSION_MAJOR 0)
+set (VixenEngine_VERSION_MINOR 1)
+set (VixenEngine_VERSION_BUILD 1)
+
+#configure header file to pass
+#CMake settings to source code
+configure_file (
+    "${PROJECT_SOURCE_DIR}/../include/vix_version.h.in"
+    "${PROJECT_SOURCE_DIR}/../include/vix_version.h"
+)
+
+add_subdirectory("${PROJECT_SOURCE_DIR}/vcore")
+add_subdirectory("${PROJECT_SOURCE_DIR}/vgraphics")
+add_subdirectory("${PROJECT_SOURCE_DIR}/vgame")
+add_subdirectory("${PROJECT_SOURCE_DIR}/vtest")
+
+
+
+#[[include_directories("${PROJECT_SOURCE_DIR}/../include"
+                    "${PROJECT_SOURCE_DIR}/../include/vcore"
+                    "${PROJECT_SOURCE_DIR}/../include/vgraphics"
+                    "${PROJECT_SOURCE_DIR}/../include/vgraphics/directx"
+                    "${PROJECT_SOURCE_DIR}/../include/vgame"
+                    "${PROJECT_SOURCE_DIR}/../dependencies/x64/luaintf"
+                    "${PROJECT_SOURCE_DIR}/../dependencies/x64/lua")
+                    
+file(GLOB VCORE_INC ../include/vcore/*.h)
+file(GLOB VGRAPHICS_INC ../include/vgraphics/*.h)
+file(GLOB VGRAPHICS_DX_INC ../include/vgraphics/directx/*.h)
+file(GLOB VGAME_INC ../include/vgame/*.h)
+
+file(GLOB VCORE_SRC ../source/vcore/*.cpp)
+file(GLOB VGRAPHICS_SRC ../source/vgraphics/*.cpp)
+file(GLOB VGRAPHICS_DX_SRC ../source/vgraphics/directx/*.cpp)
+file(GLOB VGAME_SRC ../source/vgame/*.cpp)
+
+add_definitions(-DLUAINTF_HEADERS_ONLY)
+add_definitions(-D_UNICODE)
+
+if(WIN32)
+    add_definitions(-DVIX_DIRECTX_BUILD)
+else()
+    add_definitions(-DVIX_OPENGL_BUILD)
+endif()
+
+source_group("Source Files\\directx" FILES ${VGRAPHICS_DX_SRC})
+
+add_library(vcore SHARED ${VCORE_INC} ${VCORE_SRC})
+add_library(vgraphics SHARED ${VGRAPHICS_SRC} ${VGRAPHICS_DX_SRC})
+add_library(vgame SHARED ${VGAME_SRC})
+
+target_compile_definitions(vcore PRIVATE VIX_NONCLIENT_BUILD)
+target_compile_definitions(vgraphics PRIVATE VIX_NONCLIENT_BUILD)
+target_compile_definitions(vgame PRIVATE VIX_NONCLIENT_BUILD)
+
+target_link_libraries(vgraphics vcore GLEW GL archive freeimage)
+target_link_libraries(vgame vcore vgraphics SDL2 lua5.2 tinyxml2 archive freeimage)
+
+add_executable(vtest ${PROJECT_SOURCE_DIR}/../source/vtest/cmaketest.cpp)
+target_link_libraries(vtest vcore vgraphics vgame SDL2 lua5.2 tinyxml2 archive freeimage)
+
+#install
+
+install (TARGETS vcore vgraphics vgame DESTINATION lib)
+install (TARGETS vtest DESTINATION bin)
+install (FILES vixen.config vixen.env DESTINATION bin)
+install (DIRECTORY assets DESTINATION bin)]]

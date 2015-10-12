@@ -25,7 +25,7 @@ function floorspawn.OnEnable()
 	do
 		local ceiling = ceilPrefab:CreateObject();
 
-		ceiling:GetTransform().Position = transform.Position + Vector3(0.0, 10.0, 0.0 + (50 * i));
+		ceiling:GetTransform().Position = transform.Position + Vector3(0.0, 9.0, 0.0 + (50 * i));
 	end
 	
 end

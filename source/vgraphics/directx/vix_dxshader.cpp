@@ -25,6 +25,7 @@ namespace Vixen {
         m_type = type;
         m_device = device;
         m_context = context;
+        m_shaderReflection = NULL;
     }
 
     DXShader::~DXShader()
