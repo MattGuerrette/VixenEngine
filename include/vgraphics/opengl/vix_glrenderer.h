@@ -35,8 +35,8 @@ namespace Vixen {
 		void    VClearBuffer(ClearArgs args);
         void    VSwapBuffers();
         void    VAttachNativeHandle(void* handle);
-        void    VRenderTexture2D(ITexture* texture, const Vector2& pos, const Rect& source);
-    	void    VRenderText2D(IFont* font, UString text, const Vector2& pos);
+		void    VRenderTexture2D(ITexture* texture, const Vector2& pos, const Rect& source);
+        void    VRenderText2D(IFont* font, UString text, const Vector2& pos);
         void    VRenderModel(IModel* model);
 
 	};
