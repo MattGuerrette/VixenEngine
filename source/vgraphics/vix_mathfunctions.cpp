@@ -34,6 +34,16 @@ namespace Vixen {
 	MATINVERSE  MathFunctions::s_MatrixInverse = reinterpret_cast<MATINVERSE>(DXMathFunctions::MatrixInverse);
 	VECTRANSFORMMATRIX MathFunctions::s_TransformVector = reinterpret_cast<VECTRANSFORMMATRIX>(DXMathFunctions::TransformVector);
 	VECTRANSFORMMATRIXROTSCALE MathFunctions::s_TransformVectorRotationScale = reinterpret_cast<VECTRANSFORMMATRIXROTSCALE>(DXMathFunctions::TransformVectorRotationScale);
+#else
+MATROTATION MathFunctions::s_MatrixRotation = NULL;
+MATROTX     MathFunctions::s_MatrixRotationX = NULL;
+MATROTY     MathFunctions::s_MatrixRotationY = NULL;
+MATROTZ     MathFunctions::s_MatrixRotationZ = NULL;
+MATTRANSLATION MathFunctions::s_MatrixTranslation = NULL;
+MATSCALING	MathFunctions::s_MatrixScaling = NULL;
+MATINVERSE  MathFunctions::s_MatrixInverse = NULL;
+VECTRANSFORMMATRIX MathFunctions::s_TransformVector = NULL;
+VECTRANSFORMMATRIXROTSCALE MathFunctions::s_TransformVectorRotationScale = NULL;
 #endif
 
 	MATRIX MathFunctions::MatrixRotation(Vector3 rotation)

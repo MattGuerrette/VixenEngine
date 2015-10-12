@@ -18,6 +18,7 @@
 #include <vix_game.h>
 #include <vix_sdlwindow.h>
 #include <vix_debugutil.h>
+#include <vix_version.h>
 
 namespace Vixen {
 
@@ -85,9 +86,13 @@ namespace Vixen {
 		/*Create the SDL_Window handle*/
 #ifdef UNICODE
 		UConverter convert;
-		std::string title = convert.to_bytes(m_params.title);
+		std::string title = convert.to_bytes(m_params.title) + " " + std::to_string(VixenEngine_VERSION_MAJOR) + "."
+		                                                + std::to_string(VixenEngine_VERSION_MINOR) + "."
+														+ std::to_string(VixenEngine_VERSION_BUILD);
 #else
-		std::string title = m_params.title;
+		std::string title = m_params.title + VTEXT(" ") + std::to_string(VixenEngine_VERSION_MAJOR) + VTEXT(".")
+		                                                + std::to_string(VixenEngine_VERSION_MINOR) + VTEXT(".")
+														+ std::to_string(VixenEngine_VERSION_BUILD);
 #endif
 		m_windowHandle = SDL_CreateWindow(title.c_str(),
 											m_params.x <= 0 ? SDL_WINDOWPOS_CENTERED : m_params.x,
@@ -125,9 +130,11 @@ namespace Vixen {
 		}
 #endif
 
-		if (m_renderer && !m_renderer->VInitialize()) {
-		  DebugPrintF(VTEXT("Renderer failed to initialize"));
-			return false;
+		if (m_renderer){
+			if(!m_renderer->VInitialize()) {
+			  DebugPrintF(VTEXT("Renderer failed to initialize"));
+				return false;
+			}
 		}
 
 		return true;
