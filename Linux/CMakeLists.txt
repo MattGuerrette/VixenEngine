@@ -1,9 +1,7 @@
 
-if(WIN32)
-cmake_minimum_required (VERSION 3.1)
-else()
+
 cmake_minimum_required (VERSION 3.0)
-endif()
+
 
 project(VixenEngine)
 
@@ -26,31 +24,26 @@ endif()
 #configure header file to pass
 #CMake settings to source code
 configure_file (
-    "${PROJECT_SOURCE_DIR}/include/vix_version.h.in"
-    "${PROJECT_SOURCE_DIR}/include/vix_version.h"
+    "${PROJECT_SOURCE_DIR}/../include/vix_version.h.in"
+    "${PROJECT_SOURCE_DIR}/../include/vix_version.h"
 )
 
-include_directories("${PROJECT_SOURCE_DIR}/include"
-                    "${PROJECT_SOURCE_DIR}/include/vcore"
-                    "${PROJECT_SOURCE_DIR}/include/vgraphics"
-                    "${PROJECT_SOURCE_DIR}/include/vgraphics/opengl"
-                    "${PROJECT_SOURCE_DIR}/include/vgame"
-                    "${PROJECT_SOURCE_DIR}/dependencies/x64/glm"
-                    "${PROJECT_SOURCE_DIR}/dependencies/x64/luaintf"
+include_directories("${PROJECT_SOURCE_DIR}/../include"
+                    "${PROJECT_SOURCE_DIR}/../include/vcore"
+                    "${PROJECT_SOURCE_DIR}/../include/vgraphics"
+                    "${PROJECT_SOURCE_DIR}/../include/vgraphics/opengl"
+                    "${PROJECT_SOURCE_DIR}/../include/vgame"
+                    "${PROJECT_SOURCE_DIR}/../dependencies/x64/glm"
+                    "${PROJECT_SOURCE_DIR}/../dependencies/x64/luaintf"
                     "/usr/include/lua5.2")
 
-file(GLOB VCORE_SRC source/vcore/*.cpp)
-file(GLOB VGRAPHICS_SRC source/vgraphics/*.cpp)
-file(GLOB VGRAPHICS_GL_SRC source/vgraphics/opengl/*.cpp)
-file(GLOB VGAME_SRC source/vgame/*.cpp)
+file(GLOB VCORE_SRC ../source/vcore/*.cpp)
+file(GLOB VGRAPHICS_SRC ../source/vgraphics/*.cpp)
+file(GLOB VGRAPHICS_GL_SRC ../source/vgraphics/opengl/*.cpp)
+file(GLOB VGAME_SRC ../source/vgame/*.cpp)
 
 add_definitions(-DLUAINTF_HEADERS_ONLY)
-
-if(WIN32)
-    add_definitions(-DVIX_DIRECTX_BUILD)
-else()
-    add_definitions(-DVIX_OPENGL_BUILD)
-endif()
+add_definitions(-DVIX_OPENGL_BUILD)
 
 add_library(vcore SHARED ${VCORE_SRC})
 add_library(vgraphics SHARED ${VGRAPHICS_SRC} ${VGRAPHICS_GL_SRC})
@@ -59,7 +52,7 @@ add_library(vgame SHARED ${VGAME_SRC})
 target_link_libraries(vgraphics vcore GLEW GL archive freeimage)
 target_link_libraries(vgame vcore vgraphics SDL2 lua5.2 tinyxml2 archive freeimage)
 
-add_executable(vtest ${PROJECT_SOURCE_DIR}/source/vtest/cmaketest.cpp)
+add_executable(vtest ${PROJECT_SOURCE_DIR}/../source/vtest/cmaketest.cpp)
 target_link_libraries(vtest vcore vgraphics vgame SDL2 lua5.2 tinyxml2 archive freeimage)
 
 #install
@@ -67,4 +60,4 @@ target_link_libraries(vtest vcore vgraphics vgame SDL2 lua5.2 tinyxml2 archive f
 install (TARGETS vcore vgraphics vgame DESTINATION lib)
 install (TARGETS vtest DESTINATION bin)
 install (FILES vixen.config vixen.env DESTINATION bin)
-install (DIRECTORY assets DESTINATION bin)
+install (DIRECTORY ../assets DESTINATION bin)
