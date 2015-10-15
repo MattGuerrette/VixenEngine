@@ -18,7 +18,7 @@
 #include <vix_scene.h>
 #include <vix_modelmanager.h>
 #include <vix_stlutil.h>
-#include <vix_luascriptmanager.h>
+//#include <vix_luascriptmanager.h>
 #include <vix_scenemanager.h>
 #include <vix_objectmanager.h>
 #include <vix_time.h>
@@ -269,11 +269,11 @@ namespace Vixen {
 		const XMLElement* child = element->FirstChildElement();
 		while (child) {
 			std::string name(child->Name());
-			IComponent* component;
+			IComponent* component = NULL;
 			if (name == "script")
 			{
 				//PARSE SCRIPT
-				component = ParseLuaScriptComponent(child);
+				//component = ParseLuaScriptComponent(child);
 			}
 			else if (name == "camera")
 			{
@@ -286,7 +286,9 @@ namespace Vixen {
 				component = ParseLightComponent(child);
 			}
 
-			components.push_back(component);
+			if (component)
+				components.push_back(component);
+
 			child = child->NextSiblingElement();
 		}
 
@@ -339,7 +341,7 @@ namespace Vixen {
 		return component;
 	}
 
-	LuaScript* Scene::ParseLuaScriptComponent(const tinyxml2::XMLElement * element)
+	/*LuaScript* Scene::ParseLuaScriptComponent(const tinyxml2::XMLElement * element)
 	{
 		using namespace tinyxml2;
 
@@ -348,5 +350,5 @@ namespace Vixen {
 
 		LuaScript* script = LuaScriptManager::LoadScript(scriptPath);
 		return script;
-	}
+	}*/
 }

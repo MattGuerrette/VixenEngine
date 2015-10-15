@@ -19,8 +19,8 @@
 #include <vix_stlutil.h>
 #include <vix_scenemanager.h>
 #include <vix_modelmanager.h>
-#include <vix_luascriptmanager.h>
-#include <vix_luascript.h>
+//#include <vix_luascriptmanager.h>
+//#include <vix_luascript.h>
 #include <vix_objectmanager.h>
 
 namespace Vixen {
@@ -100,7 +100,7 @@ namespace Vixen {
 		ObjectManager::MapSceneObject(_object);
 
 
-		size_t numScripts = prefab->ScriptCount();
+		/*size_t numScripts = prefab->ScriptCount();
 		for (size_t i = 0; i < numScripts; i++)
 		{
 			std::string scriptFile = prefab->GetScriptFile(i);
@@ -108,7 +108,7 @@ namespace Vixen {
 			LuaScript* _script = LuaScriptManager::LoadScript(UStringFromCharArray(scriptFile.c_str()));
 			_script->VBindParent(_object);
 			_object->AddComponent(_script);
-		}
+		}*/
 
 		//build children
 		size_t numChildren = prefab->ChildCount();

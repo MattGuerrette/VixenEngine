@@ -7,8 +7,8 @@
 #include <vix_gameobject.h>
 #include <vix_scenemanager.h>
 #include <vix_modelmanager.h>
-#include <vix_luaengine.h>
-#include <vix_luascriptmanager.h>
+//#include <vix_luaengine.h>
+//#include <vix_luascriptmanager.h>
 #include <vix_objectmanager.h>
 
 using namespace Vixen;
@@ -38,8 +38,8 @@ TestGame::TestGame()
 void TestGame::VOnStartup()
 {
     ObjectManager::Initialize();
-    LuaEngine::Initialize();
-    LuaScriptManager::Initialize();
+   /* LuaEngine::Initialize();
+    LuaScriptManager::Initialize();*/
     ModelManager::Initialize();
     SceneManager::Initialize();
     SceneManager::OpenScene(VTEXT("scene1"));
@@ -99,7 +99,7 @@ void TestGame::VOnShutdown()
     ModelManager::DeInitialize();
     ObjectManager::DeInitialize();
     SceneManager::DeInitialize();
-    LuaEngine::DeInitialize();
+   /* LuaEngine::DeInitialize();*/
     delete m_font;
 }
 

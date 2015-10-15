@@ -19,11 +19,11 @@
 #include <vix_stlutil.h>
 #include <vix_filemanager.h>
 #include <vix_pathmanager.h>
-#include <vix_luaengine.h>
+//#include <vix_luaengine.h>
 #include <vix_prefabmanager.h>
 #include <vix_modelmanager.h>
-#include <vix_luascript.h>
-#include <vix_luascriptmanager.h>
+//#include <vix_luascript.h>
+//#include <vix_luascriptmanager.h>
 
 namespace Vixen {
 
@@ -86,7 +86,7 @@ namespace Vixen {
 
     void SceneManager::DeInitialize()
     {
-		LuaEngine::ExecuteExpression(VTEXT("collectgarbage()"));
+		//LuaEngine::ExecuteExpression(VTEXT("collectgarbage()"));
         STLMAP_DELETE(SceneManager::instance().m_scenes);
     }
 

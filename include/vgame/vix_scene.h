@@ -67,7 +67,7 @@ namespace Vixen {
 		static std::vector<IComponent*>	ParseComponents(Scene* scene, const tinyxml2::XMLElement* element);
 		static CameraComponent*	ParseCameraComponent(Scene* scene, const tinyxml2::XMLElement* element);
 		static LightComponent* ParseLightComponent(const tinyxml2::XMLElement* element);
-		static LuaScript* ParseLuaScriptComponent(const tinyxml2::XMLElement* element);
+		//static LuaScript* ParseLuaScriptComponent(const tinyxml2::XMLElement* element);
 	};
 }
 #endif

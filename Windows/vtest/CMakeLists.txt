@@ -11,11 +11,19 @@ include_directories("${PROJECT_SOURCE_DIR}/../include"
 					"${PROJECT_SOURCE_DIR}/../dependencies/x64/SDL2/include"
                     "${PROJECT_SOURCE_DIR}/../dependencies/x64/luaintf"
                     "${PROJECT_SOURCE_DIR}/../dependencies/x64/lua/include")
+
+message(STATUS ${CMAKE_GENERATOR_PLATFORM})
+
+if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 19.0)
+	set(PLATFORM_TOOLSET "VS2013")
+else()
+	set(PLATFORM_TOOLSET "VS2015")
+endif()
 					
 					
 add_definitions(-D_UNICODE)
 
-link_directories(../../dependencies/x64/tinyxml2/Debug/ 
+link_directories(../../dependencies/x64/tinyxml2/${PLATFORM_TOOLSET}/Debug/ 
                  ../../dependencies/x64/Assimp/ 
 				 ../../dependencies/x64/FreeImage/
 				 ../../dependencies/x64/SDL2/
@@ -33,19 +41,19 @@ add_custom_command(TARGET vtest POST_BUILD
                    ${CMAKE_SOURCE_DIR}/vixen.config $<TARGET_FILE_DIR:vtest>)
 add_custom_command(TARGET vtest POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy
-                   ${CMAKE_SOURCE_DIR}/_build/vcore/$(Configuration)/vcore.dll $<TARGET_FILE_DIR:vtest>)
+                   $(SolutionDir)vcore/$(Configuration)/vcore.dll $<TARGET_FILE_DIR:vtest>)
 add_custom_command(TARGET vtest POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy
-                   ${CMAKE_SOURCE_DIR}/_build/vgraphics/$(Configuration)/vgraphics.dll $<TARGET_FILE_DIR:vtest>)
+                   $(SolutionDir)vgraphics/$(Configuration)/vgraphics.dll $<TARGET_FILE_DIR:vtest>)
 add_custom_command(TARGET vtest POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy
-                   ${CMAKE_SOURCE_DIR}/_build/vgame/$(Configuration)/vgame.dll $<TARGET_FILE_DIR:vtest>)
+                   $(SolutionDir)vgame/$(Configuration)/vgame.dll $<TARGET_FILE_DIR:vtest>)
 add_custom_command(TARGET vtest POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy
                    ${CMAKE_SOURCE_DIR}/../dependencies/$(Platform)/Assimp/assimp.dll $<TARGET_FILE_DIR:vtest>)
 add_custom_command(TARGET vtest POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy
-                   ${CMAKE_SOURCE_DIR}/../dependencies/$(Platform)/tinyxml2/$(Configuration)/tinyxml2.dll $<TARGET_FILE_DIR:vtest>)
+                   ${CMAKE_SOURCE_DIR}/../dependencies/$(Platform)/tinyxml2/${PLATFORM_TOOLSET}/$(Configuration)/tinyxml2.dll $<TARGET_FILE_DIR:vtest>)
 add_custom_command(TARGET vtest POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy
                    ${CMAKE_SOURCE_DIR}/../dependencies/$(Platform)/lua/lua.dll $<TARGET_FILE_DIR:vtest>)

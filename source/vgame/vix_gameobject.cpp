@@ -16,8 +16,6 @@
 */
 
 #include <vix_gameobject.h>
-#include <vix_lua.h>
-#include <vix_luaengine.h>
 #include <vix_objectmanager.h>
 
 namespace Vixen {
