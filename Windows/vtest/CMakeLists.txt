@@ -9,7 +9,6 @@ include_directories("${PROJECT_SOURCE_DIR}/../include"
 					"${PROJECT_SOURCE_DIR}/../dependencies/x64/Assimp/include"
 					"${PROJECT_SOURCE_DIR}/../dependencies/x64/FreeImage"
 					"${PROJECT_SOURCE_DIR}/../dependencies/x64/SDL2/include"
-                    "${PROJECT_SOURCE_DIR}/../dependencies/x64/luaintf"
                     "${PROJECT_SOURCE_DIR}/../dependencies/x64/lua/include")
 
 message(STATUS ${CMAKE_GENERATOR_PLATFORM})
