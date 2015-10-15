@@ -33,25 +33,18 @@ Vixen Engine currently targets the following platforms:
 
 Build instructions are available for Ubuntu Linux and Microsoft Windows
 
-## Windows (64-bit)
+## Windows (64-bit)  CMake
 
-Included in the repository is a Visual Studio 2015 solution file. It is already setup to build and run Vixen Engine targeting x64. There are currently no plans to target 32-bit and there are no prebuilt dependencies in the repository. If you wish to develop a 32 bit version of Vixen, you will have to retrieve all the depencies and build 32-bit versions.
+Included in the repository is a CMake lists file along with a configure batch script. The script is setup to run cmake and output a Visual Studio 2015 x64 solution with project files for each subsystem of Vixen Engine. 
 
-If you have any issues getting the VS2015 solution file to open and VCore, VGraphics, VGame, or VTest project files
-to build, please file an issue.
+All you need to do is run the configure script and locate the generate solution in the _build directory.
 
 **NOTE:** All dependencies have been included prebuilt targeting x64 with VC++14 compiler in the repository for building on Windows.
 
-## Linux
+## Linux  CMake
 
-Currently, Vixen Engine is being developed on Linux using just a Makefile and g++. There is no CMAKE build system in place.
+Vixen Engine is being developed on Linux using CMake.
 
-If you wish to develop Vixen for Linux you may need to make slight modifications to the Makefile included in the Linux directory of the Vixen Engine repository.
-
-* Make Targets
-  * vcore     (libvcore)
-  * vgraphics (libvgraphics)
-  * vgame     (libvgame)
-  * vtest     (vtest application)
+All you need to do to setup development for Linux is navigate into the Linux directory of the repo, and run the supplied configure shell script. It will run cmake and output the Makefile to the _build directory which will function as your testbed for development.
 
 **NOTE:** All Vixen libraries will output to **/usr/local/lib** as specified in Makefile.
