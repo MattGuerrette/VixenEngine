@@ -104,6 +104,8 @@ namespace Vixen {
         bool        VFindChar(UChar c, FontChar& fontChar);
 
         float       VLineHeight();
+
+		Rect		VBounds(UString text);
       
 
     private:

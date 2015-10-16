@@ -325,13 +325,24 @@ namespace Vixen {
     {
         m_spriteBatch->Begin(BatchSortMode::IMMEDITATE);
 
-        float dx = position.x;
-        float dy = position.y;
+		float x = position.x;
+		if (position.x == -1) {
+			float midX = static_cast<float>((1280 - font->VBounds(text).w) / 2);
+			x = midX;
+		}
+		float y = position.y;
+		if (position.y == -1) {
+			float midY = static_cast<float>((720 - font->VBounds(text).h) / 2);
+			y = midY;
+		}
+
+		float dx = x;
+		float dy = y;
         for (UChar &c : text)
         {
             if (c == '\n')
             {
-                dx = position.x;
+                dx = x;
                 dy += font->VLineHeight();
                 continue;
             }
