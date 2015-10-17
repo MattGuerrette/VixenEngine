@@ -82,7 +82,7 @@ namespace Vixen {
 		void DebugPrint();
 
 		void AddChildTransform(Transform* transform);
-
+		void RemoveChildTransform(Transform* transform);
 
         bool IsDirty();
 

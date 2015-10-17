@@ -54,6 +54,18 @@ namespace Vixen {
 		m_topLevelObjects.push_back(object);
 	}
 
+	void Scene::RemoveSceneObject(GameObject* object)
+	{
+		for (int i = 0; i < m_topLevelObjects.size(); i++)
+		{
+			if (m_topLevelObjects.at(i) == object)
+			{
+				m_topLevelObjects.erase(m_topLevelObjects.begin() + i);
+				return;
+			}
+		}
+	}
+	/*
 	void Scene::QueObjectSpawn(GameObject* object)
 	{
 		m_objectsToAdd.push_back(object);
@@ -63,6 +75,7 @@ namespace Vixen {
 	{
 		m_objectsToRemove.push_back(object);
 	}
+	*/
 
 	void Scene::Update()
 	{
@@ -70,26 +83,30 @@ namespace Vixen {
 			return;
 
 		//update all scene objects
-		for (auto& object : m_topLevelObjects)
-			if (object->GetEnabled())
-				object->Update();
-
-		//spawn all queued objects
-		for (auto& object : m_objectsToAdd)
+		for (int i = 0; i < m_topLevelObjects.size(); i++)
 		{
-			this->AddSceneObject(object);
+			GameObject* obj = m_topLevelObjects.at(i);
+			if(obj->IsMarkedForDestroy())
+			{
+				//destroy the object and skip over the index
+				ObjectManager::DestroyGameObject(obj);
+				m_topLevelObjects.erase(m_topLevelObjects.begin() + i);
+				i--;
+			}
+			else if (obj->GetEnabled())
+				obj->Update();
 		}
-		m_objectsToAdd.clear();
-
-		DestroyObjects();
 	}
 
 	void Scene::Render()
 	{
 		//render all scene object
-		for (auto& object : m_topLevelObjects)
-			if (object->GetEnabled())
-				object->Render(m_mainCamera);
+		for (int i = 0; i < m_topLevelObjects.size(); i++)
+		{
+			GameObject* obj = m_topLevelObjects.at(i);
+			if (!obj->IsMarkedForDestroy() && obj->GetEnabled())
+				obj->Render(m_mainCamera);
+		}
 
 		for (auto& model : ModelManager::ActiveModels())
 			model->VRender(Time::DeltaTime(), Time::TotalTime(), m_mainCamera);
@@ -114,7 +131,7 @@ namespace Vixen {
 		m_id = id;
 	}
 
-	void Scene::DestroyObjects()
+	/*void Scene::DestroyObjects()
 	{
 		int numDestroy = m_objectsToRemove.size();
 
@@ -136,7 +153,7 @@ namespace Vixen {
 		}
 
 		m_objectsToRemove.clear();
-	}
+	}*/
 
 	void Scene::SetPaused(bool paused)
 	{
@@ -193,15 +210,7 @@ namespace Vixen {
 		//////////////////////////////////////////
 		/*for (auto& obj : _scene->m_sceneObjects)
 			obj.second->SetEnabled(true, true);
-*/
-
-//spawn all queued objects
-		for (auto& object : _scene->m_objectsToAdd)
-		{
-			_scene->AddSceneObject(object);
-		}
-		_scene->m_objectsToAdd.clear();
-
+		*/
 		return _scene;
 	}
 

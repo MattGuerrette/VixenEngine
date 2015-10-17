@@ -56,11 +56,13 @@ namespace Vixen {
 
 		void AddComponent(IComponent* component);
 		void AddChild(GameObject* gameObject);
+		void RemoveChild(GameObject* gameObject);
 
 		void Update();
 		void Render(ICamera3D* camera);
 		bool GetEnabled();
 		void SetEnabled(bool state, bool recursive);
+		bool IsMarkedForDestroy();
 
 		void Delete();
 
@@ -77,7 +79,7 @@ namespace Vixen {
 
 	private:
 		bool						m_enabled;
-
+		bool						m_markedForDestroy;
 		uint32_t                    m_id;
 		UString                     m_name;
 		Transform*					m_transform;

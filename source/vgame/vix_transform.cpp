@@ -100,6 +100,18 @@ namespace Vixen {
 		transform->SetDirty();
 	}
 
+	void Transform::RemoveChildTransform(Transform * transform)
+	{
+		for (int i = 0; i < m_childTransforms.size(); i++)
+		{
+			if (m_childTransforms.at(i) == transform)
+			{
+				m_childTransforms.erase(m_childTransforms.begin() + i);
+				return;
+			}
+		}
+	}
+
     void Transform::TranslateX(float val)
     {
 		SetDirty();

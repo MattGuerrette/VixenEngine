@@ -25,6 +25,7 @@
 #include <vix_lua.h>
 #include <vix_luaengine.h>
 #include <vix_objectmanager.h>
+#include <vix_scenemanager.h>
 
 namespace Vixen {
 
@@ -103,8 +104,11 @@ namespace Vixen {
 		for (int i = 0; i < m_children.size(); i++)
 		{
 			GameObject* _child = m_children[i];
-			if(_child)
-				delete _child;
+			if (_child)
+			{
+				_child->Delete();
+			}
+
 		}
         delete m_transform;
 	}
@@ -132,12 +136,18 @@ namespace Vixen {
 				component->VUpdate();
 		}
 
-		/*for (int i = 0; i < m_children.size(); i++)
+		for (int i = 0; i < m_children.size(); i++)
 		{
 			GameObject* _child = m_children[i];
-			if(_child->GetEnabled())
-				_child->Update(dt);
-		}*/
+			if (_child->IsMarkedForDestroy())
+			{
+				ObjectManager::DestroyGameObject(_child);
+				m_children.erase(m_children.begin() + i);
+				i--;
+			}
+			else if(_child->GetEnabled())
+				_child->Update();
+		}
 	}
 
 	void GameObject::Render(ICamera3D * camera)
@@ -150,7 +160,7 @@ namespace Vixen {
 		{
 			GameObject* _child = m_children[i];
 
-			if (_child->GetEnabled())
+			if (!_child->IsMarkedForDestroy() && _child->GetEnabled())
 				_child->Render(camera);
 		}
 	}
@@ -167,7 +177,7 @@ namespace Vixen {
 
 	void GameObject::Delete()
 	{
-		ObjectManager::DestroyGameObject(this);
+		m_markedForDestroy = true;
 	}
 
 	void GameObject::SetEnabled(bool state, bool recursive)
@@ -209,6 +219,11 @@ namespace Vixen {
 		}
 	}
 
+	bool GameObject::IsMarkedForDestroy()
+	{
+		return m_markedForDestroy;
+	}
+
 
 	void GameObject::AddChild(GameObject* gameObject)
 	{
@@ -221,10 +236,38 @@ namespace Vixen {
 			current = current->m_parent;
 		}
 		//if the given object isn't a parent we can child it to this object
+		
+		//but first we have to remove it from the previous parent
+		//first case: there is no parent, attempt to remove from scene
+		if (!gameObject->m_parent)
+		{
+			SceneManager::ActiveScene()->RemoveSceneObject(gameObject);
+		}
+		//second case there is a parent remove it from that object
+		else
+		{
+			gameObject->m_parent->RemoveChild(gameObject);
+			m_transform->RemoveChildTransform(gameObject->GetTransform());
+		}
 
+		//now we can add it to this object
 		m_children.push_back(gameObject);
+		
+
 		gameObject->m_parent = this;
 		m_transform->AddChildTransform(gameObject->GetTransform());
+	}
+
+	void GameObject::RemoveChild(GameObject * gameObject)
+	{
+		for (int i = 0; i < m_children.size(); i++)
+		{
+			if (m_children.at(i) == gameObject)
+			{
+				m_children.erase(m_children.begin()+i);
+				return;
+			}
+		}
 	}
 
 	Transform* GameObject::GetTransform()

@@ -43,8 +43,9 @@ namespace Vixen {
 
 		/*Adds Object with ID to Scene*/
 		void AddSceneObject(GameObject* object);
-		void QueObjectSpawn(GameObject* object);
-		void QueObjectDestroy(GameObject* object);
+		void RemoveSceneObject(GameObject* object);
+		//void QueObjectSpawn(GameObject* object);
+		//void QueObjectDestroy(GameObject* object);
 		GameObject* QueryObject(std::string name);
 
 		/*Removes Object with ID from Scene*/
@@ -62,8 +63,8 @@ namespace Vixen {
 		UString							m_id;				//scene ID
 		bool							m_paused;
 		std::vector<GameObject*>		m_topLevelObjects;
-		std::vector<GameObject*>        m_objectsToAdd;
-		std::vector<GameObject*>        m_objectsToRemove;
+		//std::vector<GameObject*>        m_objectsToAdd;
+		//std::vector<GameObject*>        m_objectsToRemove;
 		ICamera3D*                      m_mainCamera;
 
 	public:

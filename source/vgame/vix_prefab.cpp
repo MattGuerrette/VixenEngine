@@ -132,7 +132,7 @@ namespace Vixen {
 	{
 		GameObject* _object = BuildFromPrefab(this);
 
-		SceneManager::ActiveScene()->QueObjectSpawn(_object);
+		SceneManager::ActiveScene()->AddSceneObject(_object);
 
 		return _object;
 	}

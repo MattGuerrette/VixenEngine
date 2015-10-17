@@ -79,7 +79,7 @@ namespace Vixen {
 				m_count--;
 
 				delete m_data[id];
-
+				m_data[id] = nullptr;
 				m_openIDs.emplace(id);
 			}
 
@@ -139,13 +139,7 @@ namespace Vixen {
 
 	void ObjectManager::DestroyGameObject(GameObject * object)
 	{
-		ObjectManager& _manager = ObjectManager::instance();
-
-		if (object->GetParent())
-			_manager.m_objects->DestroyObject(object->GetID());
-		else {
-			SceneManager::ActiveScene()->QueObjectDestroy(object);
-		}
+		ObjectManager::instance().m_objects->DestroyObject(object->GetID());
 	}
 
 	void ObjectManager::DestroySceneObject(uint32_t id)
