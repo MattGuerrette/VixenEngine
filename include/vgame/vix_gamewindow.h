@@ -29,6 +29,8 @@
 #include <vix_stringutil.h>
 #include <vix_rectangle.h>
 #include <vix_renderer.h>
+#include <vix_keyboardstate.h>
+#include <vix_mousestate.h>
 
 namespace Vixen {
 
@@ -40,10 +42,7 @@ namespace Vixen {
 	public:
 		virtual ~GameWindow() { }
 
-		virtual void               VSetParent(Game* game) = 0;
-		virtual void               VSetRenderer(IRenderer* renderer) = 0;
 		virtual bool               VInit() = 0;
-		virtual bool               VRun() = 0;
 		virtual void               VSetFullscreen(bool flag) = 0;
 		virtual void               VSetVisible(bool flag) = 0;
 		virtual void               VTogglePaused() = 0;
@@ -58,15 +57,22 @@ namespace Vixen {
 		virtual void               VTrapCursorCenter() = 0;
         virtual void               VSetTitle(std::string title) = 0;
         virtual void*              VNativeHandle() = 0;
+        virtual void               VPollEvents() = 0;
+        virtual void               VPollNextFrame() = 0;
+
+        virtual bool               VRunning() = 0;
+
+        virtual IKeyboardState*    VKeyboardState() = 0;
+        virtual IMouseState*       VMouseState() = 0;
 
 		static const size_t DEF_WINDOW_WIDTH = 800;
 		static const size_t DEF_WINDOW_HEIGHT = 600;
 
 	protected:
-		Game*               m_parent;
-		IRenderer*          m_renderer;     
 		UString				m_title;
 		Rect                m_clientRect;
+        IKeyboardState*     m_keyboardState;
+        IMouseState*        m_mouseState;
 		bool				m_hidden;
 		bool				m_running;
 		bool				m_paused;

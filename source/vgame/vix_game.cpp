@@ -26,6 +26,13 @@
 #include <vix_debugutil.h>
 #include <vix_resourcemanager.h>
 #include <vix_pathmanager.h>
+#include <vix_window_singleton.h>
+#include <vix_renderer_singleton.h>
+#include <vix_objectmanager.h>
+#include <vix_scenemanager.h>
+#include <vix_luaengine.h>
+#include <vix_luascriptmanager.h>
+#include <vix_modelmanager.h>
 
 #ifdef VIX_DIRECTX_BUILD
 #include <vix_dxrenderer.h>
@@ -38,12 +45,12 @@
 
 namespace Vixen {
 
-	IKeyboardState* Game::s_keyboard = NULL;
-    IMouseState*    Game::s_mouse = NULL;
+	/*IKeyboardState* Game::s_keyboard = NULL;
+    IMouseState*    Game::s_mouse = NULL;*/
 
 	Game::Game()
 	{
-        FileManager::Initialize();
+       /* FileManager::Initialize();
         PathManager::Initialize();
 
 	    m_config = new GameConfig;
@@ -62,25 +69,70 @@ namespace Vixen {
 		m_window->VSetParent(this);
 		m_window->VSetRenderer(m_renderer);
 
-        ResourceManager::AttachResourceLoader(m_resourceLoader);
+        ResourceManager::AttachResourceLoader(m_resourceLoader);*/
 	}
 
 	int Game::Run()
 	{
-		/*if application window exists*/
-		if (m_window) {
-			if(!m_window->VRun()) {
-			  DebugPrintF(VTEXT("Application loop encountered error"));
-				return -1;
-			}
-		}
+        FileManager::Initialize();
+        PathManager::Initialize();
+        if(!Window::Initialize(GameConfig()))
+            return -1;
 
-        m_renderer->VDeInitialize();
+        if (!Renderer::Initialize(Window::Handle()))
+            return -1;
+
+        Input::SetMouseState(Window::Mouse());
+        Input::SetKeyboardState(Window::Keyboard());
+
+        ResourceManager::Initialize();
+        ObjectManager::Initialize();
+        LuaEngine::Initialize();
+        LuaScriptManager::Initialize();
+        ModelManager::Initialize();
+        SceneManager::Initialize();
+        SceneManager::OpenScene(VTEXT("scene1"));
+        SceneManager::PauseScene(VTEXT("scene1"));
+
+        Renderer::SetClearColor(Colors::Black);
+
+        Time::Start();
+        while (Window::IsRunning())
+        {
+            Time::Tick();
+
+            Window::PollInput();
+
+            Renderer::ClearBuffer(ClearArgs::COLOR_DEPTH_STENCIL_BUFFER);
+
+            SceneManager::UpdateScene();
+
+            SceneManager::RenderScene();
+
+            Renderer::SwapBuffers();
+
+            Window::SwapBuffers();
+
+            Window::PollInputNextFrame();
+
+            Time::CalculateFPS();
+        }
+
+        SceneManager::DeInitialize();
+        ModelManager::DeInitialize();
+        LuaEngine::DeInitialize();
+        ObjectManager::DeInitialize();
+        ResourceManager::DeInitialize();
+        Renderer::DeInitialize();
+        Window::DeInitialize();
+        PathManager::DeInitialize();
+        FileManager::DeInitialize();
+
 
 		return 0;
 	}
 
-	GameWindow* const Game::GetWindow() const
+	/*GameWindow* const Game::GetWindow() const
 	{
 		return m_window;
 	}
@@ -103,7 +155,7 @@ namespace Vixen {
 	IMouseState* const Game::GetMouse()
 	{
 		return s_mouse;
-	}
+	}*/
 
 
 

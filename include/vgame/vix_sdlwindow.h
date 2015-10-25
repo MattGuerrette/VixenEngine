@@ -77,10 +77,7 @@ namespace Vixen {
 
 		~SDLGameWindow();
 
-		void                VSetParent(Game* game)                override;
-		void                VSetRenderer(IRenderer* renderer)      override;
 		bool                VInit()                                override;
-		bool                VRun()                                 override;
 		void                VSetVisible(bool flag)                 override;
 		void                VSetFullscreen(bool flag)              override;
 		void                VSwapBuffers()                         override;
@@ -96,13 +93,20 @@ namespace Vixen {
         void                VSetTitle(std::string title)           override;
         void*               VNativeHandle()                        override;
 
+        bool                VRunning()                             override;
+
+        void                VPollEvents()                          override;
+        void                VPollNextFrame()                       override;
+
+        IKeyboardState*     VKeyboardState()                       override;
+        IMouseState*        VMouseState()                          override;
+
 		void                OutputDisplayModes();
 
 	private:
 		SDL_Window*			m_windowHandle;
 		SDL_GLContext		m_context;
-		SDL_GW_Params		m_params;
-		SDLKeyboardState    m_kbState;
+        SDL_GW_Params		m_params;
         void*               m_nativeHandle;
 	};
 

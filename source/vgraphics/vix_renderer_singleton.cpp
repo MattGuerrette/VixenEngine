@@ -8,7 +8,7 @@
 
 namespace Vixen {
 
-    bool Renderer::Initialize(void* HWND, IRenderer::RendererType type)
+    bool Renderer::Initialize(void* HWND)
     {
         Renderer& _renderer = Renderer::instance();
 
@@ -25,7 +25,7 @@ namespace Vixen {
     {
         Renderer& _renderer = Renderer::instance();
 
-        delete _renderer.m_renderer;
+        _renderer.m_renderer->VDeInitialize();
     }
 
     void Renderer::ClearBuffer(ClearArgs args)
@@ -47,6 +47,13 @@ namespace Vixen {
         Renderer& _renderer = Renderer::instance();
 
         _renderer.m_renderer->VSwapBuffers();
+    }
+
+    IRenderer* Renderer::Handle()
+    {
+        Renderer& _renderer = Renderer::instance();
+
+        return _renderer.m_renderer;
     }
 
 }
