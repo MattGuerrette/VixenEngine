@@ -170,6 +170,7 @@ namespace Vixen {
 			.addFunction("TranslateZ", &Transform::TranslateZ, LUA_ARGS(float))
 			.addFunction("Translate", &Transform::Translate, LUA_ARGS(Vector3))
 			.addProperty("Position", &Transform::GetPosition, &Transform::SetPosition)
+			.addPropertyReadOnly("WorldPosition", &Transform::GetWorldPosition)
 			.addProperty("Rotation", &Transform::GetRotation, &Transform::SetRotation)
 			.addProperty("Scale", &Transform::GetScale, &Transform::SetScale)
 			.addFunction("Forward", &Transform::GetForward)
