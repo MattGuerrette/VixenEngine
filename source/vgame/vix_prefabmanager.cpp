@@ -25,7 +25,8 @@
 #include <vix_tinyxml.h>
 #include <vix_filemanager.h>
 #include <vix_pathmanager.h>
-
+#include <vix_scenemanager.h>
+#include <vix_luascriptmanager.h>
 
 namespace Vixen {
 
@@ -120,32 +121,133 @@ namespace Vixen {
 		return NULL;
 	}
 
+	void PrefabManager::ParseTransform(Prefab* prefab, const tinyxml2::XMLElement* element)
+	{
+		if (!element || !prefab)
+			return;
+
+		float posX = element->FloatAttribute("x");
+		float posY = element->FloatAttribute("y");
+		float posZ = element->FloatAttribute("z");
+		float rotX = element->FloatAttribute("rotX");
+		float rotY = element->FloatAttribute("rotY");
+		float rotZ = element->FloatAttribute("rotZ");
+		float scaleX = element->FloatAttribute("scaleX");
+		float scaleY = element->FloatAttribute("scaleY");
+		float scaleZ = element->FloatAttribute("scaleZ");
+		
+		prefab->SetTransform(Transform(posX, posY, posZ, rotX, rotY, rotZ, scaleX, scaleY, scaleZ));
+	}
+
+	void PrefabManager::ParseComponents(Prefab* prefab, const tinyxml2::XMLElement* element)
+	{
+		using namespace tinyxml2;
+
+		const XMLElement* child = element->FirstChildElement();
+		while (child) {
+
+			std::string name(child->Name());
+			if (name == "script")
+			{
+				//PARSE SCRIPT
+				prefab->AddScriptFile(ParseLuaScriptComponent(child));
+			}
+			else if (name == "camera")
+			{
+				//PARSE CAMERA
+				//component = ParseCameraComponent(child);
+			}
+			else if (name == "light")
+			{
+				//PARSE LIGHT
+				//component = ParseLightComponent(child);
+			}
+
+			child = child->NextSiblingElement();
+		}
+	}
+
+	CameraComponent* PrefabManager::ParseCameraComponent(const tinyxml2::XMLElement* element)
+	{
+		bool isMainCamera = element->BoolAttribute("mainCamera");
+		CameraComponent* _camera = new CameraComponent;
+		if (isMainCamera)
+			SceneManager::ActiveScene()->SetMainCamera(_camera->GetCamera());
+		return _camera;
+	}
+
+	LightComponent* PrefabManager::ParseLightComponent(const tinyxml2::XMLElement* element)
+	{
+		using namespace tinyxml2;
+
+		ILight* light = NULL;
+		float red = element->FloatAttribute("r");
+		float green = element->FloatAttribute("g");
+		float blue = element->FloatAttribute("b");
+
+		std::string kind(element->Attribute("kind"));
+		if (kind == "point") {
+			float x = element->FloatAttribute("x");
+			float y = element->FloatAttribute("y");
+			float z = element->FloatAttribute("z");
+			float radius = element->FloatAttribute("radius");
+
+			light = new PointLight;
+			light->m_ambientColor = Vector3(red, green, blue);
+			((PointLight*)light)->m_position = Vector3(x, y, z);
+			((PointLight*)light)->m_radius = radius;
+		}
+		else if (kind == "directional") {
+			float dirX = element->FloatAttribute("dirX");
+			float dirY = element->FloatAttribute("dirY");
+			float dirZ = element->FloatAttribute("dirZ");
+			light = new DirectionalLight;
+			light->m_ambientColor = Vector3(red, green, blue);
+			((DirectionalLight*)light)->m_direction = Vector3(dirX, dirY, dirZ);
+		}
+		else {
+			light = new ILight;
+			light->m_ambientColor = Vector3(red, green, blue);
+		}
+		LightComponent* component = new LightComponent(light);
+		return component;
+	}
+
+	std::string PrefabManager::ParseLuaScriptComponent(const tinyxml2::XMLElement* element)
+	{
+		using namespace tinyxml2;
+
+		const char* scriptFile = element->Attribute("file");
+		
+		return scriptFile;
+	}
+
 	Prefab* PrefabManager::ParsePrefab(const tinyxml2::XMLElement* element)
 	{
 		using namespace tinyxml2;
 
 		Prefab* _newPrefab = new Prefab;
 
-		std::string name = element->Attribute("defaultName");
+		std::string name = element->Attribute("name");
 		_newPrefab->SetName(name);
 		_newPrefab->SetEnabled(element->BoolAttribute("enabled"));
 
+		//PARSE PREFAB TRANSFORM
 		const XMLElement* transform = element->FirstChildElement("transform");
-		float posX = transform->FloatAttribute("x");
-		float posY = transform->FloatAttribute("y");
-		float posZ = transform->FloatAttribute("z");
-		float rotX = transform->FloatAttribute("rotX");
-		float rotY = transform->FloatAttribute("rotY");
-		float rotZ = transform->FloatAttribute("rotZ");
-		float scaleX = transform->FloatAttribute("scaleX");
-		float scaleY = transform->FloatAttribute("scaleY");
-		float scaleZ = transform->FloatAttribute("scaleZ");
-		_newPrefab->SetTransform(Transform(posX, posY, posZ, rotX, rotY, rotZ, scaleX, scaleY, scaleZ));
+		ParseTransform(_newPrefab, transform);
 		
-		const XMLElement* model = element->FirstChildElement("model");
-		_newPrefab->SetModelFile(model->Attribute("file"));
 
-		const XMLElement* scripts = element->FirstChildElement("scripts");
+		//PARSE PREFAB MODEL
+		const XMLElement* model = element->FirstChildElement("model");
+		if(model)
+			_newPrefab->SetModelFile(model->Attribute("file"));
+
+		//PARSE PREFAB COMPONENTS
+		const XMLElement* components = element->FirstChildElement("components");
+		if (components)
+			ParseComponents(_newPrefab, components);
+
+		/*const XMLElement* scripts = element->FirstChildElement("scripts");
 		if (scripts)
 		{
 			const XMLElement* scriptNode = scripts->FirstChildElement("script");
@@ -157,8 +259,9 @@ namespace Vixen {
 				
 				scriptNode = scriptNode->NextSiblingElement("script");
 			}
-		}
+		}*/
 
+		//PARSE PREFAB CHILDREN
 		const XMLElement* children = element->FirstChildElement("children");
 		if (children)
 		{

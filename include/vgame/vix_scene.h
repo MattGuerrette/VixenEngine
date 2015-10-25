@@ -56,6 +56,8 @@ namespace Vixen {
 		/*SETTER FUNCTIONS*/
 		void SetID(UString id);
 
+		void SetMainCamera(ICamera3D* camera);
+
 		/*GETTER FUNCTIONS*/
 		const UString& GetID();				//returns ID of scene
 

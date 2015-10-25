@@ -68,6 +68,7 @@ namespace Vixen {
 		m_model = NULL;
 		m_parent = NULL;
 		m_transform = NULL;
+		m_markedForDestroy = false;
 	}
 
 	GameObject::GameObject(Transform* transform)
@@ -77,6 +78,7 @@ namespace Vixen {
 		m_model = NULL;
 		m_parent = NULL;
 		m_transform = transform;
+		m_markedForDestroy = false;
 	}
 
 	GameObject::GameObject(Transform* transform, IModel* model)
@@ -86,6 +88,7 @@ namespace Vixen {
 		m_parent = NULL;
 		m_transform = transform;
 		m_model = model;
+		m_markedForDestroy = false;
 	}
 
 	GameObject::~GameObject()
