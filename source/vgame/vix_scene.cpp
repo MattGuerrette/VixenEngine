@@ -28,6 +28,7 @@
 #include <vix_scenemanager.h>
 #include <vix_objectmanager.h>
 #include <vix_time.h>
+#include <vix_luaengine.h>
 
 namespace Vixen {
 
@@ -110,6 +111,8 @@ namespace Vixen {
 
 		for (auto& model : ModelManager::ActiveModels())
 			model->VRender(Time::DeltaTime(), Time::TotalTime(), m_mainCamera);
+
+		LuaEngine::ExecuteExpression(VTEXT("collectgarbage()"));
 	}
 
 	GameObject* Scene::QueryObject(std::string name)
