@@ -316,10 +316,10 @@ namespace Vixen {
 		return components;
 	}
 
-	CameraComponent* Scene::ParseCameraComponent(Scene* scene, const tinyxml2::XMLElement * element)
+	Camera3DComponent* Scene::ParseCameraComponent(Scene* scene, const tinyxml2::XMLElement * element)
 	{
 		bool isMainCamera = element->BoolAttribute("mainCamera");
-		CameraComponent* _camera = new CameraComponent;
+		Camera3DComponent* _camera = new Camera3DComponent;
 		if (isMainCamera)
 			scene->m_mainCamera = _camera->GetCamera();
 		return _camera;

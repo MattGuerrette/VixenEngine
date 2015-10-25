@@ -21,8 +21,8 @@
 	SOFTWARE.
 */
 
-#ifndef VIX_CAMERACOMPONENT_H
-#define VIX_CAMERACOMPONENT_H
+#ifndef VIX_CAMERA3DCOMPONENT_H
+#define VIX_CAMERA3DCOMPONENT_H
 
 #include <vix_platform.h>
 #include <vix_component.h>
@@ -33,13 +33,13 @@ namespace Vixen {
 
     class GameObject;
 
-    class VIX_API CameraComponent : public IComponent
+    class VIX_API Camera3DComponent : public IComponent
     {
         static bool s_MainCameraExists;
     public:
-        CameraComponent();
+        Camera3DComponent();
 
-        ~CameraComponent();
+        ~Camera3DComponent();
 
         void VOnInit();
 

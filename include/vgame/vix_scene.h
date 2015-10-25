@@ -27,6 +27,7 @@
 #include <vix_containers.h>
 #include <vix_gameobject.h>
 #include <vix_tinyxml.h>
+#include <vix_camera2d.h>
 
 namespace Vixen {
 	class VIX_API Scene
@@ -65,16 +66,15 @@ namespace Vixen {
 		UString							m_id;				//scene ID
 		bool							m_paused;
 		std::vector<GameObject*>		m_topLevelObjects;
-		//std::vector<GameObject*>        m_objectsToAdd;
-		//std::vector<GameObject*>        m_objectsToRemove;
 		ICamera3D*                      m_mainCamera;
+        ICamera2D*                      m_uiCamera;
 
 	public:
 		static Scene* Deserialize(File* file);
 		static GameObject* ParseGameObject(Scene* scene, const tinyxml2::XMLElement* element);
 		static Transform* ParseTransform(const tinyxml2::XMLElement * element);
 		static std::vector<IComponent*>	ParseComponents(Scene* scene, const tinyxml2::XMLElement* element);
-		static CameraComponent*	ParseCameraComponent(Scene* scene, const tinyxml2::XMLElement* element);
+		static Camera3DComponent*	ParseCameraComponent(Scene* scene, const tinyxml2::XMLElement* element);
 		static LightComponent* ParseLightComponent(const tinyxml2::XMLElement* element);
 		static LuaScript* ParseLuaScriptComponent(const tinyxml2::XMLElement* element);
 	};

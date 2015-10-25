@@ -39,26 +39,28 @@ namespace Vixen {
 
 
         //Open Environment Config File
-        FILE* configFile = FileManager::OpenFile(os_exec_dir() + VTEXT("vixen.config"))->Handle();
+        File* configFile = FileManager::OpenFile(os_exec_dir() + VTEXT("vixen.config"));
+        if (!configFile)
+            return false;
 
 		XMLDOC document;
-        XMLError err = document.LoadFile(configFile);
+        XMLError err = document.LoadFile(configFile->Handle());
 		UString errMsg;
 		if (XMLErrCheck(err, errMsg)) {
 			DebugPrintF(VTEXT("GameConfig file failed to load: %s\n"),
 				errMsg.c_str());
-            FileManager::CloseFile(os_exec_dir() + VTEXT("vixen.config"));
+            FileManager::CloseFile(configFile);
 			return false;
 		}
 
 		/*Parse config file*/
 		if (!ParseConfig(document)) {
 			DebugPrintF(VTEXT("GameConfig failed to parse"));
-            FileManager::CloseFile(os_exec_dir() + VTEXT("vixen.config"));
+            FileManager::CloseFile(configFile);
             return false;
 		}
 
-        FileManager::CloseFile(os_exec_dir() + VTEXT("vixen.config"));
+        FileManager::CloseFile(configFile);
 		return true;
 	}
 

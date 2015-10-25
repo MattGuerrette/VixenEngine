@@ -167,10 +167,10 @@ namespace Vixen {
 		}
 	}
 
-	CameraComponent* PrefabManager::ParseCameraComponent(const tinyxml2::XMLElement* element)
+	Camera3DComponent* PrefabManager::ParseCameraComponent(const tinyxml2::XMLElement* element)
 	{
 		bool isMainCamera = element->BoolAttribute("mainCamera");
-		CameraComponent* _camera = new CameraComponent;
+		Camera3DComponent* _camera = new Camera3DComponent;
 		if (isMainCamera)
 			SceneManager::ActiveScene()->SetMainCamera(_camera->GetCamera());
 		return _camera;
@@ -246,20 +246,6 @@ namespace Vixen {
 		const XMLElement* components = element->FirstChildElement("components");
 		if (components)
 			ParseComponents(_newPrefab, components);
-
-		/*const XMLElement* scripts = element->FirstChildElement("scripts");
-		if (scripts)
-		{
-			const XMLElement* scriptNode = scripts->FirstChildElement("script");
-			while (scriptNode != NULL)
-			{
-				const char* scriptFile = scriptNode->Attribute("file");
-				
-				_newPrefab->AddScriptFile(scriptFile);
-				
-				scriptNode = scriptNode->NextSiblingElement("script");
-			}
-		}*/
 
 		//PARSE PREFAB CHILDREN
 		const XMLElement* children = element->FirstChildElement("children");
