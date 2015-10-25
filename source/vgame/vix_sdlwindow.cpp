@@ -246,6 +246,11 @@ namespace Vixen {
 		SDL_GL_SwapWindow(m_windowHandle);
 	}
 
+    void SDLGameWindow::VSetTitle(std::string title)
+    {
+        SDL_SetWindowTitle(m_windowHandle, title.c_str());
+    }
+
 	const UString& SDLGameWindow::VGetTitle()
 	{
 		return m_title;

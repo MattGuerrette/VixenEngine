@@ -93,6 +93,7 @@ namespace Vixen {
 		void                VToggleCursor()                        override;
 		void                VTogglePaused()                        override;
 		void				VTrapCursorCenter()                    override;
+        void                VSetTitle(std::string title)           override;
         void*               VNativeHandle()                        override;
 
 		void                OutputDisplayModes();

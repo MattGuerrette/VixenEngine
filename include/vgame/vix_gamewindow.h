@@ -56,6 +56,7 @@ namespace Vixen {
 		virtual void               VClose() = 0;
 		virtual void               VToggleCursor() = 0;
 		virtual void               VTrapCursorCenter() = 0;
+        virtual void               VSetTitle(std::string title) = 0;
         virtual void*              VNativeHandle() = 0;
 
 		static const size_t DEF_WINDOW_WIDTH = 800;
