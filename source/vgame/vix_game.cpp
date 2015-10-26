@@ -22,7 +22,6 @@
 */
 
 #include <vix_game.h>
-#include <vix_sdlwindow.h>
 #include <vix_debugutil.h>
 #include <vix_resourcemanager.h>
 #include <vix_pathmanager.h>
@@ -34,42 +33,11 @@
 #include <vix_luascriptmanager.h>
 #include <vix_modelmanager.h>
 
-#ifdef VIX_DIRECTX_BUILD
-#include <vix_dxrenderer.h>
-#include <vix_dxresourceloader.h>
-#endif
-
-#ifdef VIX_OPENGL_BUILD
-#include <vix_glrenderer.h>
-#endif
-
 namespace Vixen {
-
-	/*IKeyboardState* Game::s_keyboard = NULL;
-    IMouseState*    Game::s_mouse = NULL;*/
 
 	Game::Game()
 	{
-       /* FileManager::Initialize();
-        PathManager::Initialize();
-
-	    m_config = new GameConfig;
-		m_window = new SDLGameWindow(m_config->WindowArgs());
-#ifdef VIX_DIRECTX_BUILD
-        m_renderer = new DXRenderer;
-        m_resourceLoader = new DXResourceLoader((DXRenderer*)m_renderer);
-#elif defined(VIX_OPENGL_BUILD)
-        m_renderer = new GLRenderer;
-#endif
-		s_keyboard = new SDLKeyboardState;
-		Input::SetKeyboardState(s_keyboard);
-		s_mouse = new SDLMouseState;
-        Input::SetMouseState(s_mouse);
-
-		m_window->VSetParent(this);
-		m_window->VSetRenderer(m_renderer);
-
-        ResourceManager::AttachResourceLoader(m_resourceLoader);*/
+      
 	}
 
 	int Game::Run()
@@ -131,32 +99,6 @@ namespace Vixen {
 
 		return 0;
 	}
-
-	/*GameWindow* const Game::GetWindow() const
-	{
-		return m_window;
-	}
-
-	IRenderer* const Game::GetRenderer() const
-	{
-		return m_renderer;
-	}
-
-	GameConfig* const Game::GetConfig() const
-	{
-	    return m_config;
-	}
-
-	IKeyboardState* const Game::GetKeyboard()
-	{
-		return s_keyboard;
-	}
-
-	IMouseState* const Game::GetMouse()
-	{
-		return s_mouse;
-	}*/
-
 
 
 }

@@ -49,6 +49,13 @@ namespace Vixen {
         _renderer.m_renderer->VSwapBuffers();
     }
 
+    void Renderer::Render2DText(IFont* font, UString text, const Vector2& position)
+    {
+        Renderer& _renderer = Renderer::instance();
+
+        _renderer.m_renderer->VRenderText2D(font, text, position);
+    }
+
     IRenderer* Renderer::Handle()
     {
         Renderer& _renderer = Renderer::instance();

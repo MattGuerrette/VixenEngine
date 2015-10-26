@@ -20,6 +20,8 @@ namespace Vixen {
 
         static void         SwapBuffers();
 
+        static void         Render2DText(IFont* font, UString text, const Vector2& position);
+
         static IRenderer*   Handle();
 
     private:

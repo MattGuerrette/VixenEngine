@@ -3,6 +3,7 @@
 
 #include <vix_platform.h>
 #include <vix_uicomponent.h>
+#include <vix_gameobject.h>
 #include <vix_stringutil.h>
 
 namespace Vixen {
@@ -11,14 +12,16 @@ namespace Vixen {
     {
     public:
         UIText();
-        UIText(std::string text);
+        UIText(UString text);
 
         ~UIText();
 
         void VRender(ICamera2D* camera);
 
     private:
-        std::string m_text;
+        UString     m_text;
+        Vector2     m_position;
+        IFont*      m_font;
     };
 }
 
