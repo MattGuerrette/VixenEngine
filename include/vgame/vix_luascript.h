@@ -58,6 +58,9 @@ namespace Vixen {
 
         void VBindParent(GameObject* parent);
 
+		IComponent::Type VGetType();
+		void		     VSetType(IComponent::Type type);
+
     private:
         UString             m_id;
 		std::string	        m_tablePath;
@@ -70,6 +73,8 @@ namespace Vixen {
         LuaIntf::LuaRef*    m_updateFunc;
 		LuaIntf::LuaRef*    m_onDisableFunc;
 		LuaIntf::LuaRef*    m_onDestroyFunc;
+
+		IComponent::Type    m_type;
     };
 
 }

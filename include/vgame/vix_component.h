@@ -43,7 +43,21 @@ namespace Vixen {
 		virtual void VOnDisable() = 0;
 		virtual void VOnDestroy() = 0;
         virtual void VBindParent(GameObject* parent) = 0;
-		
+
+		enum class Type
+		{
+			LUA_SCRIPT,
+			POINT_LIGHT,
+			SPOT_LIGHT,
+			DIRECTIONAL_LIGHT,
+			UI_TEXT,
+			UI_BUTTON,
+			UI_TEXTURE,
+			SPRITE
+		};
+
+		virtual IComponent::Type VGetType() = 0;
+		virtual void VSetType(IComponent::Type type) = 0;
 	};
 
 }

@@ -147,27 +147,45 @@ namespace Vixen {
 		while (child) {
 
 			std::string name(child->Name());
+			IComponent* _component = NULL;
 			if (name == "script")
 			{
 				//PARSE SCRIPT
-				prefab->AddScriptFile(ParseLuaScriptComponent(child));
+				//prefab->AddScriptFile(ParseLuaScriptComponent(child));
+
+				_component = ParseLuaScriptComponent(child);
 			}
 			else if (name == "camera")
 			{
 				//PARSE CAMERA
 				//component = ParseCameraComponent(child);
+
+				_component = ParseCameraComponent(child);
 			}
 			else if (name == "light")
 			{
 				//PARSE LIGHT
-				//component = ParseLightComponent(child);
+				
+
+				_component = ParseLightComponent(child);
+			}
+			else if (name == "ui-text")
+			{
+				//PARSE UI TEXT
+
+				_component = ParseUITextComponent(child);
 			}
 
 			child = child->NextSiblingElement();
 		}
 	}
 
-	Camera3DComponent* PrefabManager::ParseCameraComponent(const tinyxml2::XMLElement* element)
+	IComponent* PrefabManager::ParseUITextComponent(const tinyxml2::XMLElement* element)
+	{
+
+	}
+
+	IComponent* PrefabManager::ParseCameraComponent(const tinyxml2::XMLElement* element)
 	{
 		bool isMainCamera = element->BoolAttribute("mainCamera");
 		Camera3DComponent* _camera = new Camera3DComponent;
@@ -176,7 +194,7 @@ namespace Vixen {
 		return _camera;
 	}
 
-	LightComponent* PrefabManager::ParseLightComponent(const tinyxml2::XMLElement* element)
+	IComponent* PrefabManager::ParseLightComponent(const tinyxml2::XMLElement* element)
 	{
 		using namespace tinyxml2;
 
@@ -213,13 +231,15 @@ namespace Vixen {
 		return component;
 	}
 
-	std::string PrefabManager::ParseLuaScriptComponent(const tinyxml2::XMLElement* element)
+	IComponent* PrefabManager::ParseLuaScriptComponent(const tinyxml2::XMLElement* element)
 	{
 		using namespace tinyxml2;
 
 		const char* scriptFile = element->Attribute("file");
-		
-		return scriptFile;
+		UString scriptPath = UStringFromCharArray(scriptFile);
+
+		LuaScript* script = LuaScriptManager::LoadScript(scriptPath);
+		return script;
 	}
 
 	Prefab* PrefabManager::ParsePrefab(const tinyxml2::XMLElement* element)

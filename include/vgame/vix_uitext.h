@@ -2,13 +2,14 @@
 #define VIX_UITEXT_H
 
 #include <vix_platform.h>
-#include <vix_uicomponent.h>
+#include <vix_component.h>
+#include <vix_rendercomponent2D.h>
 #include <vix_gameobject.h>
 #include <vix_stringutil.h>
 
 namespace Vixen {
 
-    class VIX_API UIText : public IUIComponent
+    class VIX_API UIText : public IRenderComponent2D, public IComponent
     {
     public:
         UIText();
@@ -16,12 +17,23 @@ namespace Vixen {
 
         ~UIText();
 
+		void VOnInit();
+		void VOnEnable();
+		void VUpdate();
+		void VOnDisable();
+		void VOnDestroy();
         void VRender(ICamera2D* camera);
+		void VBindParent(GameObject* parent);
+
+		void VSetType(IComponent::Type type);
+		IComponent::Type VGetType();
 
     private:
         UString     m_text;
-        Vector2     m_position;
         IFont*      m_font;
+		GameObject* m_parent;
+
+		IComponent::Type m_type;
     };
 }
 

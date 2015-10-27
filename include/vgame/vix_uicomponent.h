@@ -12,6 +12,7 @@ namespace Vixen {
         virtual ~IUIComponent() { };
 
         virtual void VRender(ICamera2D* camera) = 0;
+		
     };
 
 }

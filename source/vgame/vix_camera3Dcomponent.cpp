@@ -134,5 +134,14 @@ namespace Vixen {
 		m_parentTransform = parent->GetTransform();
     }
 
+	void Camera3DComponent::VSetType(IComponent::Type type)
+	{
+		m_type = type;
+	}
+
+	IComponent::Type Camera3DComponent::VGetType()
+	{
+		return m_type;
+	}
 
 }

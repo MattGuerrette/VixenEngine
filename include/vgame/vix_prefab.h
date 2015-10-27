@@ -74,6 +74,8 @@ namespace Vixen {
 		std::string				    m_modelFile;
 
 		std::vector<std::string>    m_scriptFiles;
+
+		std::vector<IComponent*>    m_components;
 		std::vector<Prefab*>		m_children;
 
 		uint32_t                    m_refCount;
