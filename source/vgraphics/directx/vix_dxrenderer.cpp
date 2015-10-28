@@ -218,9 +218,6 @@ namespace Vixen {
 
         m_ImmediateContext->RSSetViewports(1, &vp);
 
-        m_spriteBatch = new DXSpriteBatcher(m_Device, m_ImmediateContext);
-        m_spriteBatch->SetVertexShader((DXVertexShader*)ResourceManager::OpenShader(VTEXT("SpriteBatch_VS.hlsl"), ShaderType::VERTEX_SHADER));
-        m_spriteBatch->SetPixelShader((DXPixelShader*)ResourceManager::OpenShader(VTEXT("SpriteBatch_PS.hlsl"), ShaderType::PIXEL_SHADER));
 
         OrthoRect _ortho;
         _ortho.left = 0.0f;
@@ -228,12 +225,7 @@ namespace Vixen {
         _ortho.top = 0.0f;
         _ortho.bottom = static_cast<float>(height);
         m_camera2D->VSetOrthoRHOffCenter(_ortho, 0.0f, 1.0f);
-
-        //m_camera3D->VSetPerspective(static_cast<float>(width) / static_cast<float>(height),
-           // DirectX::XMConvertToRadians(45.0f), 0.01f, 1000.0f);
-        //m_camera3D->VSetView(Vector3(0.0f, 10.0f, 0.0f), Vector3(0.0f, 0.0f, 1.0f), Vector3(0.0f, 1.0f, 0.0f));
-
-        m_spriteBatch->SetCamera(m_camera2D);
+  
 
 
         D3D11_BLEND_DESC blendDesc;
@@ -260,6 +252,15 @@ namespace Vixen {
         
 
         return true;
+    }
+
+    void DXRenderer::VInitializeSpriteBatch()
+    {
+        m_spriteBatch = new DXSpriteBatcher(m_Device, m_ImmediateContext);
+        m_spriteBatch->SetVertexShader((DXVertexShader*)ResourceManager::OpenShader(VTEXT("SpriteBatch_VS.hlsl"), ShaderType::VERTEX_SHADER));
+        m_spriteBatch->SetPixelShader((DXPixelShader*)ResourceManager::OpenShader(VTEXT("SpriteBatch_PS.hlsl"), ShaderType::PIXEL_SHADER));
+
+        m_spriteBatch->SetCamera(m_camera2D);
     }
 
     void DXRenderer::VSetClearColor(const Color& c)

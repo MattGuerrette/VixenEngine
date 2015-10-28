@@ -29,6 +29,9 @@
 #include <vix_objectmanager.h>
 #include <vix_time.h>
 #include <vix_luaengine.h>
+#include <vix_resourcemanager.h>
+
+#include <vix_components.h>
 
 namespace Vixen {
 
@@ -105,12 +108,23 @@ namespace Vixen {
 		for (int i = 0; i < m_topLevelObjects.size(); i++)
 		{
 			GameObject* obj = m_topLevelObjects.at(i);
-			if (!obj->IsMarkedForDestroy() && obj->GetEnabled())
+			if (!obj->IsMarkedForDestroy() && !obj->IsMarkedForLateRender() && obj->GetEnabled())
 				obj->Render(m_mainCamera);
 		}
 
 		for (auto& model : ModelManager::ActiveModels())
 			model->VRender(Time::DeltaTime(), Time::TotalTime(), m_mainCamera);
+
+        //render all late render (UI) scene objects
+        //NOTE: this is expensive, as we are iterating over the list of objects again...
+        //      what should happen is the list should be sorted once, leaving all late render objects
+        //      last to be drawn.
+        for (int i = 0; i < m_topLevelObjects.size(); i++)
+        {
+            GameObject* obj = m_topLevelObjects.at(i);
+            if (obj->IsMarkedForLateRender() && obj->GetEnabled())
+                obj->Render(m_mainCamera);
+        }
 
 		LuaEngine::ExecuteExpression(VTEXT("collectgarbage()"));
 	}
@@ -308,6 +322,11 @@ namespace Vixen {
 				//PARSE LIGHT
 				component = ParseLightComponent(child);
 			}
+            else if (name == "ui-text")
+            {
+                //PARSE UI-TEXT
+                component = ParseUITextComponent(child);
+            }
 
 			components.push_back(component);
 			child = child->NextSiblingElement();
@@ -316,7 +335,7 @@ namespace Vixen {
 		return components;
 	}
 
-	Camera3DComponent* Scene::ParseCameraComponent(Scene* scene, const tinyxml2::XMLElement * element)
+	IComponent* Scene::ParseCameraComponent(Scene* scene, const tinyxml2::XMLElement * element)
 	{
 		bool isMainCamera = element->BoolAttribute("mainCamera");
 		Camera3DComponent* _camera = new Camera3DComponent;
@@ -325,7 +344,7 @@ namespace Vixen {
 		return _camera;
 	}
 
-	LightComponent* Scene::ParseLightComponent(const tinyxml2::XMLElement * element)
+    IComponent* Scene::ParseLightComponent(const tinyxml2::XMLElement * element)
 	{
 		using namespace tinyxml2;
 
@@ -362,7 +381,7 @@ namespace Vixen {
 		return component;
 	}
 
-	LuaScript* Scene::ParseLuaScriptComponent(const tinyxml2::XMLElement * element)
+    IComponent* Scene::ParseLuaScriptComponent(const tinyxml2::XMLElement * element)
 	{
 		using namespace tinyxml2;
 
@@ -372,4 +391,18 @@ namespace Vixen {
 		LuaScript* script = LuaScriptManager::LoadScript(scriptPath);
 		return script;
 	}
+
+    IComponent* Scene::ParseUITextComponent(const tinyxml2::XMLElement* element)
+    {
+        using namespace tinyxml2;
+
+        const char* text = element->Attribute("text");
+        const char* font = element->Attribute("font");
+
+
+        IFont*  _font = ResourceManager::OpenFont(UStringFromCharArray(font));
+        UIText* _text = new UIText(UStringFromCharArray(text), _font);
+        
+        return _text;
+    }
 }

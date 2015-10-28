@@ -54,6 +54,7 @@ namespace Vixen {
         Input::SetKeyboardState(Window::Keyboard());
 
         ResourceManager::Initialize();
+        Renderer::InitializeSpriteBatch();
         ObjectManager::Initialize();
         LuaEngine::Initialize();
         LuaScriptManager::Initialize();

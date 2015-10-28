@@ -26,6 +26,7 @@
 
 #include <vix_containers.h>
 #include <vix_gameobject.h>
+#include <vix_component.h>
 #include <vix_tinyxml.h>
 #include <vix_camera2d.h>
 
@@ -70,13 +71,16 @@ namespace Vixen {
         ICamera2D*                      m_uiCamera;
 
 	public:
-		static Scene* Deserialize(File* file);
-		static GameObject* ParseGameObject(Scene* scene, const tinyxml2::XMLElement* element);
-		static Transform* ParseTransform(const tinyxml2::XMLElement * element);
+		static Scene*                   Deserialize(File* file);
+
+    private:
+		static GameObject*              ParseGameObject(Scene* scene, const tinyxml2::XMLElement* element);
+		static Transform*               ParseTransform(const tinyxml2::XMLElement * element);
 		static std::vector<IComponent*>	ParseComponents(Scene* scene, const tinyxml2::XMLElement* element);
-		static Camera3DComponent*	ParseCameraComponent(Scene* scene, const tinyxml2::XMLElement* element);
-		static LightComponent* ParseLightComponent(const tinyxml2::XMLElement* element);
-		static LuaScript* ParseLuaScriptComponent(const tinyxml2::XMLElement* element);
+		static IComponent*	            ParseCameraComponent(Scene* scene, const tinyxml2::XMLElement* element);
+		static IComponent*              ParseLightComponent(const tinyxml2::XMLElement* element);
+		static IComponent*              ParseLuaScriptComponent(const tinyxml2::XMLElement* element);
+        static IComponent*              ParseUITextComponent(const tinyxml2::XMLElement* element);
 	};
 }
 #endif

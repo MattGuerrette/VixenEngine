@@ -14,6 +14,8 @@ namespace Vixen {
 
         static void		    DeInitialize();
 
+        static void         InitializeSpriteBatch();
+
         static void         SetClearColor(const Color& c);
 
         static void         ClearBuffer(ClearArgs args);

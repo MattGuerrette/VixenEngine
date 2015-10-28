@@ -21,6 +21,14 @@ namespace Vixen {
             return false;
     }
 
+    void Renderer::InitializeSpriteBatch()
+    {
+        Renderer& _renderer = Renderer::instance();
+
+
+        _renderer.m_renderer->VInitializeSpriteBatch();
+    }
+
     void Renderer::DeInitialize()
     {
         Renderer& _renderer = Renderer::instance();

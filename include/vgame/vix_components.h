@@ -29,5 +29,6 @@ SOFTWARE.
 #include <vix_camera3Dcomponent.h>
 //#include <vix_rendercomponent.h>
 #include <vix_luascript.h>
+#include <vix_uitext.h>
 
 #endif

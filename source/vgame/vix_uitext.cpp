@@ -17,9 +17,26 @@ namespace Vixen {
 		m_parent = NULL;
     }
 
+    UIText::UIText(UString text, IFont* font)
+    {
+        m_text = text;
+        m_font = font;
+        m_parent = NULL;
+    }
+
     UIText::~UIText()
     {
+        delete m_font;
+    }
 
+    void UIText::SetText(std::string text)
+    {
+        m_text = UStringFromCharArray(text.c_str());
+    }
+
+    std::string UIText::GetText()
+    {
+        return UStringToStd(m_text);
     }
 
 	void UIText::VOnInit()
@@ -50,6 +67,7 @@ namespace Vixen {
 	void UIText::VBindParent(GameObject* parent)
 	{
 		m_parent = parent;
+        m_parent->MarkForLateRender();
 	}
 
     void UIText::VRender(ICamera2D* camera)

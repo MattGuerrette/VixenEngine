@@ -14,6 +14,7 @@ namespace Vixen {
     public:
         UIText();
         UIText(UString text);
+        UIText(UString text, IFont* font);
 
         ~UIText();
 
@@ -27,6 +28,9 @@ namespace Vixen {
 
 		void VSetType(IComponent::Type type);
 		IComponent::Type VGetType();
+
+        std::string GetText();
+        void        SetText(std::string text);
 
     private:
         UString     m_text;

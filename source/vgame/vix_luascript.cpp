@@ -33,6 +33,10 @@ namespace Vixen {
 
 	LuaScript::LuaScript()
 	{
+        m_onInitFunc = NULL;
+        m_onDestroyFunc = NULL;
+        m_onEnableFunc = NULL;
+        m_onDisableFunc = NULL;
 		m_updateFunc = NULL;
 		m_parent = NULL;
 
@@ -40,12 +44,12 @@ namespace Vixen {
 	}
 
 	LuaScript::~LuaScript()
-	{
-		delete m_onInitFunc;
-		delete m_onEnableFunc;
-		delete m_updateFunc;
-		delete m_onDisableFunc;
-		delete m_onDestroyFunc;
+    {
+        delete m_onInitFunc;
+        delete m_onEnableFunc;
+        delete m_updateFunc;
+        delete m_onDisableFunc;
+        delete m_onDestroyFunc;
 	}
 
 	void LuaScript::SetPath(UString path)
@@ -162,13 +166,6 @@ namespace Vixen {
 
 
 		LuaScriptManager::PopScript();
-
-		//when we destroy the script, also delete pointers
-		delete m_onInitFunc;
-		delete m_onEnableFunc;
-		delete m_updateFunc;
-		delete m_onDisableFunc;
-		delete m_onDestroyFunc;
 
 		if (LuaScriptManager::PeekScript())
 			LuaScriptManager::PeekScript()->SetObject();

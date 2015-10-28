@@ -27,6 +27,7 @@
 #include <vix_pathmanager.h>
 #include <vix_scenemanager.h>
 #include <vix_luascriptmanager.h>
+#include <vix_components.h>
 
 namespace Vixen {
 

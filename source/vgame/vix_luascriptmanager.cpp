@@ -37,6 +37,7 @@
 #include <vix_input.h>
 #include <vix_scenemanager.h>
 #include <vix_prefabmanager.h>
+#include <vix_components.h>
 
 namespace Vixen {
 
@@ -130,7 +131,13 @@ namespace Vixen {
 	{
 		using namespace LuaIntf;
 
-		
+        ////////////////////////////////////////////////////////////////////////////////////
+        /* UIText                                                                         */
+        ////////////////////////////////////////////////////////////////////////////////////
+        LuaBinding(LuaEngine::L())
+            .beginClass<UIText>("UIText")
+            .addProperty("Text", &UIText::GetText, &UIText::SetText)
+            .endClass();
 
 		////////////////////////////////////////////////////////////////////////////////////
 		/* Vector3                                                                        */
@@ -192,6 +199,7 @@ namespace Vixen {
             .addFunction("GetName", &GameObject::GetName)
             .addFunction("GetID", &GameObject::GetID)
             .addFunction("Delete", &GameObject::Delete)
+            .addFunction("GetTextComponent", &GameObject::GetTextComponent)
             .addStaticFunction("TranslateZ", &GameObject::_TranslateZ, LUA_ARGS(float))
             .addStaticFunction("GetGameObject", &GameObject::_GetActiveObject)
             .addStaticFunction("GetTransform", &GameObject::_GetTransform)
@@ -316,6 +324,11 @@ namespace Vixen {
         LuaBinding(LuaEngine::L())
             .beginModule("Game")
             .addFunction("Exit", &Game::Exit)
+            .endModule();
+
+        LuaBinding(LuaEngine::L())
+            .beginModule("Time")
+            .addFunction("FPS", &Time::FPS)
             .endModule();
             
 	}

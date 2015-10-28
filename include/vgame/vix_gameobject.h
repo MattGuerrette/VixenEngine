@@ -26,11 +26,13 @@
 
 #include <vix_platform.h>
 #include <vix_containers.h>
-#include <vix_components.h>
+#include <vix_component.h>
 #include <vix_model.h>
+#include <vix_transform.h>
 
 namespace Vixen {
 
+    class UIText;
 
 	class VIX_API GameObject
 	{
@@ -63,6 +65,9 @@ namespace Vixen {
 		bool GetEnabled();
 		void SetEnabled(bool state, bool recursive);
 		bool IsMarkedForDestroy();
+        bool IsMarkedForLateRender();
+
+        void MarkForLateRender();
 
 		void Delete();
 
@@ -77,9 +82,14 @@ namespace Vixen {
 		GameObject* GetChild(int index);
 
 
+        
+    public:
+        UIText* GetTextComponent();
+
 	private:
 		bool						m_enabled;
 		bool						m_markedForDestroy;
+        bool                        m_markedForLateRender;
 		uint32_t                    m_id;
 		UString                     m_name;
 		Transform*					m_transform;
@@ -90,6 +100,9 @@ namespace Vixen {
 		GameObject*					m_parent;
 
 	};
+
+
+    
 		
 }
 

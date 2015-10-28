@@ -27,6 +27,8 @@
 #include <vix_objectmanager.h>
 #include <vix_scenemanager.h>
 
+#include <vix_components.h>
+
 namespace Vixen {
 
     GameObject* GameObject::s_ActiveObject = NULL;
@@ -69,6 +71,7 @@ namespace Vixen {
 		m_parent = NULL;
 		m_transform = NULL;
 		m_markedForDestroy = false;
+        m_markedForLateRender = false;
 	}
 
 	GameObject::GameObject(Transform* transform)
@@ -79,6 +82,7 @@ namespace Vixen {
 		m_parent = NULL;
 		m_transform = transform;
 		m_markedForDestroy = false;
+        m_markedForLateRender = false;
 	}
 
 	GameObject::GameObject(Transform* transform, IModel* model)
@@ -89,6 +93,7 @@ namespace Vixen {
 		m_transform = transform;
 		m_model = model;
 		m_markedForDestroy = false;
+        m_markedForLateRender = false;
 	}
 
 	GameObject::~GameObject()
@@ -101,6 +106,7 @@ namespace Vixen {
 			if (component)
 			{
 				component->VOnDestroy();
+                delete component;
 			}
 		}
 
@@ -158,6 +164,14 @@ namespace Vixen {
 		if (m_model) {
 			m_model->VBatchRender(m_transform->GetWorldMatrix());
 		}
+
+        for (int i = 0; i < m_components.size(); i++)
+        {
+            IRenderComponent2D* _renderComponent2D = dynamic_cast<IRenderComponent2D*>(m_components[i]);
+            if (_renderComponent2D)
+                _renderComponent2D->VRender(NULL);
+
+        }
 		
 		for (int i = 0; i < m_children.size(); i++)
 		{
@@ -227,6 +241,15 @@ namespace Vixen {
 		return m_markedForDestroy;
 	}
 
+    bool GameObject::IsMarkedForLateRender()
+    {
+        return m_markedForLateRender;
+    }
+
+    void GameObject::MarkForLateRender()
+    {
+        m_markedForLateRender = true;
+    }
 
 	void GameObject::AddChild(GameObject* gameObject)
 	{
@@ -310,5 +333,19 @@ namespace Vixen {
 	{
 		return UStringToStd(m_name);
 	}
+
+
+    UIText* GameObject::GetTextComponent()
+    {
+        uint32_t numComponents = m_components.size();
+        for (uint32_t i = 0; i < numComponents; i++)
+        {
+            UIText* _text = dynamic_cast<UIText*>(m_components[i]);
+            if (_text)
+                return _text;
+        }
+
+        return NULL;
+    }
 
 }
