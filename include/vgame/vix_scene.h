@@ -54,18 +54,20 @@ namespace Vixen {
 		void DestroyObjects();
 
 		void SetPaused(bool paused);
+		void SetHidden(bool hidden);
 
 		/*SETTER FUNCTIONS*/
-		void SetID(UString id);
+		void SetID(std::string id);
 
 		void SetMainCamera(ICamera3D* camera);
 
 		/*GETTER FUNCTIONS*/
-		const UString& GetID();				//returns ID of scene
+		const std::string& GetID();				//returns ID of scene
 
 	private:
-		UString							m_id;				//scene ID
+		std::string						m_id;				//scene ID
 		bool							m_paused;
+		bool							m_hidden;
 		std::vector<GameObject*>		m_topLevelObjects;
 		ICamera3D*                      m_mainCamera;
         ICamera2D*                      m_uiCamera;

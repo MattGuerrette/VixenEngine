@@ -33,21 +33,25 @@ namespace Vixen {
 
     class VIX_API SceneManager : public Singleton<SceneManager>
     {
-        typedef std::map<UString, Scene*> SceneMap;
+        typedef std::map<std::string, Scene*> SceneMap;
+		typedef std::queue<Scene*> SceneQueue;
     public:
        
         static bool				Initialize();
         static void				DeInitialize();
-        static void				OpenScene(UString id);
+        static void				OpenScene(std::string id);
 		static void             AddScene(Scene* scene);
         static void				UpdateScene();
         static void				RenderScene();
-		static void				PauseScene(UString id);
-		static void				UnpauseScene(UString id);
+		static void				PauseScene(std::string id);
+		static void				UnpauseScene(std::string id);
         static GameObject*      AccessTopLevelObject(std::string id);
 		static Scene*			ActiveScene();
+		static void				HideScene(std::string sceneID);
+		static void				ShowScene(std::string sceneID);
 
     private:
+		SceneQueue m_sceneQueue;
         SceneMap   m_scenes;
         Scene*     m_current;
     };

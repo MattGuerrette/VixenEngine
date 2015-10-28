@@ -60,7 +60,7 @@ namespace Vixen {
         LuaScriptManager::Initialize();
         ModelManager::Initialize();
         SceneManager::Initialize();
-        SceneManager::OpenScene(VTEXT("scene1"));
+        //SceneManager::OpenScene("scene1");
         //SceneManager::PauseScene(VTEXT("scene1"));
 
         Renderer::SetClearColor(Colors::Black);

@@ -44,6 +44,7 @@ namespace Vixen {
 	Scene::Scene()
 	{
 		m_paused = false;
+		m_hidden = false;
 		m_mainCamera = NULL;
 	}
 
@@ -104,6 +105,9 @@ namespace Vixen {
 
 	void Scene::Render()
 	{
+		if (m_hidden)
+			return;
+
 		//render all scene object
 		for (int i = 0; i < m_topLevelObjects.size(); i++)
 		{
@@ -143,7 +147,7 @@ namespace Vixen {
 
 	/*SETTER FUNCTIONS*/
 
-	void Scene::SetID(UString id)
+	void Scene::SetID(std::string id)
 	{
 		m_id = id;
 	}
@@ -182,9 +186,14 @@ namespace Vixen {
 		m_paused = paused;
 	}
 
+	void Scene::SetHidden(bool hidden)
+	{
+		m_hidden = hidden;
+	}
+
 
 	/*GETTER FUNCTIONS*/
-	const UString& Scene::GetID()
+	const std::string& Scene::GetID()
 	{
 		return m_id;
 	}
@@ -217,7 +226,7 @@ namespace Vixen {
 		const XMLElement* objectListElement = sceneElement->FirstChildElement("object-list");
 		const XMLElement* gameObjectElement = objectListElement->FirstChildElement("gameobject");
 		const char* sceneID = sceneElement->Attribute("id");
-		_scene->SetID(UStringFromCharArray(sceneID));
+		_scene->SetID(sceneID);
 		while (gameObjectElement != NULL)
 		{
 			GameObject* _gameObject = ParseGameObject(_scene, gameObjectElement);
