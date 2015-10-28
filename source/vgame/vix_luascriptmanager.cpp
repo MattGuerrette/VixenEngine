@@ -21,7 +21,7 @@
 	SOFTWARE.
 */
 
-
+#include <vix_game.h>
 #include <vix_luascriptmanager.h>
 #include <vix_luaengine.h>
 #include <vix_pathmanager.h>
@@ -302,6 +302,7 @@ namespace Vixen {
 			.addConstant("LEFT", IKEY::LEFT)
 			.addConstant("RIGHT", IKEY::RIGHT)
 			.addConstant("SPACE", IKEY::SPACE)
+            .addConstant("ESC", IKEY::ESC)
 			.endModule();
 
         LuaBinding(LuaEngine::L())
@@ -311,6 +312,11 @@ namespace Vixen {
         LuaBinding(LuaEngine::L())
             .beginModule("Prefab")
             .addFunction("Load", &PrefabManager::Load, LUA_ARGS(_opt<std::string>));
+
+        LuaBinding(LuaEngine::L())
+            .beginModule("Game")
+            .addFunction("Exit", &Game::Exit)
+            .endModule();
             
 	}
 }

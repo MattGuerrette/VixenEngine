@@ -54,6 +54,13 @@ namespace Vixen {
         _window.m_window->VPollNextFrame();
     }
 
+    void Window::Close()
+    {
+        Window& _window = Window::instance();
+
+        _window.m_window->VClose();
+    }
+
     IKeyboardState* Window::Keyboard()
     {
         Window& _window = Window::instance();

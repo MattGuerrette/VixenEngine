@@ -101,4 +101,9 @@ namespace Vixen {
 	}
 
 
+    void Game::Exit()
+    {
+        Window::Close();
+    }
+
 }

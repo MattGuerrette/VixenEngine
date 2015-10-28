@@ -24,6 +24,8 @@ namespace Vixen {
 
         static void  PollInputNextFrame();
 
+        static void  Close();
+
         static IKeyboardState* Keyboard();
         
         static IMouseState*    Mouse();

@@ -39,6 +39,9 @@ namespace Vixen {
 		Game();
 
 		int Run();
+
+        static void Exit();
+
 		/*virtual void VOnStartup(void) = 0;
 		virtual void VOnUpdate(void) = 0;
 		virtual void VOnRender(void) = 0;
