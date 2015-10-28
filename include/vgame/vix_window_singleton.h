@@ -10,25 +10,33 @@ namespace Vixen {
     class VIX_API Window : public Singleton<Window>
     {
     public:
-        static bool Initialize(const GameConfig& config);
+        static bool             Initialize(const GameConfig& config);
 
-        static void DeInitialize();
+        static void             DeInitialize();
 
-        static void* Handle();
+        static void*            Handle();
 
-        static bool  IsRunning();
+        static bool             IsRunning();
 
-        static void  PollInput();
+        static void             PollInput();
 
-        static void  SwapBuffers();
+        static void             SwapBuffers();
 
-        static void  PollInputNextFrame();
+        static void             PollInputNextFrame();
 
-        static void  Close();
-
-        static IKeyboardState* Keyboard();
+        static void             TrapCursorCenter();
         
-        static IMouseState*    Mouse();
+        static void             ToggleCursor();
+
+        static void             Close();
+
+        static IKeyboardState*  Keyboard();
+        
+        static IMouseState*     Mouse();
+
+        static uint32_t         Width();
+
+        static uint32_t         Height();
 
     private:
         GameWindow*  m_window;

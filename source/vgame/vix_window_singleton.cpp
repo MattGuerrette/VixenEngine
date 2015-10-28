@@ -61,6 +61,34 @@ namespace Vixen {
         _window.m_window->VClose();
     }
 
+    void Window::TrapCursorCenter()
+    {
+        Window& _window = Window::instance();
+
+        _window.m_window->VTrapCursorCenter();
+    }
+
+    void Window::ToggleCursor()
+    {
+        Window& _window = Window::instance();
+
+        _window.m_window->VToggleCursor();
+    }
+
+    uint32_t Window::Width()
+    {
+        Window& _window = Window::instance();
+
+        return _window.m_window->VGetClientBounds().w;
+    }
+
+    uint32_t Window::Height()
+    {
+        Window& _window = Window::instance();
+
+        return _window.m_window->VGetClientBounds().h;
+    }
+
     IKeyboardState* Window::Keyboard()
     {
         Window& _window = Window::instance();

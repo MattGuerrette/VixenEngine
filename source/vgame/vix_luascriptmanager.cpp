@@ -22,6 +22,7 @@
 */
 
 #include <vix_game.h>
+#include <vix_window_singleton.h>
 #include <vix_luascriptmanager.h>
 #include <vix_luaengine.h>
 #include <vix_pathmanager.h>
@@ -324,6 +325,14 @@ namespace Vixen {
         LuaBinding(LuaEngine::L())
             .beginModule("Game")
             .addFunction("Exit", &Game::Exit)
+            .endModule();
+
+        LuaBinding(LuaEngine::L())
+            .beginModule("Window")
+            .addFunction("ToggleCursor", &Window::ToggleCursor)
+            .addFunction("TrapCursorCenter", &Window::TrapCursorCenter)
+            .addProperty("Width", &Window::Width)
+            .addProperty("Height", &Window::Height)
             .endModule();
 
         LuaBinding(LuaEngine::L())
