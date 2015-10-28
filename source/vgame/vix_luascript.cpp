@@ -35,14 +35,28 @@ namespace Vixen {
 	{
 		m_updateFunc = NULL;
 		m_parent = NULL;
+
+		m_type = IComponent::Type::LUA_SCRIPT;
 	}
 
 	LuaScript::~LuaScript()
 	{
+		delete m_onInitFunc;
+		delete m_onEnableFunc;
 		delete m_updateFunc;
+		delete m_onDisableFunc;
+		delete m_onDestroyFunc;
 	}
 
+	void LuaScript::SetPath(UString path)
+	{
+		m_path = path;
+	}
 
+	UString LuaScript::GetPath()
+	{
+		return m_path;
+	}
 
 	void LuaScript::VOnInit()
 	{

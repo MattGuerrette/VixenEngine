@@ -176,13 +176,16 @@ namespace Vixen {
 				_component = ParseUITextComponent(child);
 			}
 
+			if (_component != NULL)
+				prefab->AddComponent(_component);
+
 			child = child->NextSiblingElement();
 		}
 	}
 
 	IComponent* PrefabManager::ParseUITextComponent(const tinyxml2::XMLElement* element)
 	{
-
+		return NULL;
 	}
 
 	IComponent* PrefabManager::ParseCameraComponent(const tinyxml2::XMLElement* element)
@@ -239,6 +242,8 @@ namespace Vixen {
 		UString scriptPath = UStringFromCharArray(scriptFile);
 
 		LuaScript* script = LuaScriptManager::LoadScript(scriptPath);
+		script->SetPath(scriptPath);
+
 		return script;
 	}
 
