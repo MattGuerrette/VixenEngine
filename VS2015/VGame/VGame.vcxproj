@@ -193,7 +193,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\vgame\vix_aabb.cpp" />
-    <ClCompile Include="..\..\source\vgame\vix_cameracomponent.cpp" />
+    <ClCompile Include="..\..\source\vgame\vix_camera3Dcomponent.cpp" />
     <ClCompile Include="..\..\source\vgame\vix_game.cpp" />
     <ClCompile Include="..\..\source\vgame\vix_gameconfig.cpp" />
     <ClCompile Include="..\..\source\vgame\vix_gameobject.cpp" />
