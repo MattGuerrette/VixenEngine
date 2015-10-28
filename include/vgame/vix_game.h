@@ -39,27 +39,27 @@ namespace Vixen {
 		Game();
 
 		int Run();
-		virtual void VOnStartup(void) = 0;
+		/*virtual void VOnStartup(void) = 0;
 		virtual void VOnUpdate(void) = 0;
 		virtual void VOnRender(void) = 0;
-		virtual void VOnShutdown(void) = 0;
+		virtual void VOnShutdown(void) = 0;*/
 
-		IRenderer*				const GetRenderer() const;
+		/*IRenderer*				const GetRenderer() const;
 		GameWindow*			    const GetWindow()   const;
 		GameConfig*				const GetConfig()   const;
 
 		static IKeyboardState*	const GetKeyboard();
-		static IMouseState*		const GetMouse();
+		static IMouseState*		const GetMouse();*/
 
 	protected:
-		GameConfig*				m_config;
+		/*GameConfig*				m_config;
 		GameWindow*			    m_window;
 		IRenderer*				m_renderer;
-        IResourceLoader*		m_resourceLoader;
+        IResourceLoader*		m_resourceLoader;*/
 
     private:
-		static IKeyboardState*	s_keyboard;
-		static IMouseState*	    s_mouse;
+		/*static IKeyboardState*	s_keyboard;
+		static IMouseState*	    s_mouse;*/
 	};
 
 }

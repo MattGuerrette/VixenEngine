@@ -66,5 +66,13 @@ namespace Vixen {
 		//m_parentTransform = parent->GetTransform();
 	}
 
+	void LightComponent::VSetType(IComponent::Type type)
+	{
+		m_type = type;
+	}
 
+	IComponent::Type LightComponent::VGetType()
+	{
+		return m_type;
+	}
 }

@@ -51,10 +51,15 @@ namespace Vixen {
 
 		void VBindParent(GameObject* parent);
 
+		IComponent::Type VGetType();
+
+		void VSetType(IComponent::Type type);
+
 	private:
 		GameObject*         m_parent;
 		//Transform*          m_parentTransform;
 		ILight*				m_light;
+		IComponent::Type    m_type;
 	};
 
 }

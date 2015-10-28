@@ -22,89 +22,83 @@
 */
 
 #include <vix_game.h>
-#include <vix_sdlwindow.h>
 #include <vix_debugutil.h>
 #include <vix_resourcemanager.h>
 #include <vix_pathmanager.h>
-
-#ifdef VIX_DIRECTX_BUILD
-#include <vix_dxrenderer.h>
-#include <vix_dxresourceloader.h>
-#endif
-
-#ifdef VIX_OPENGL_BUILD
-#include <vix_glrenderer.h>
-#endif
+#include <vix_window_singleton.h>
+#include <vix_renderer_singleton.h>
+#include <vix_objectmanager.h>
+#include <vix_scenemanager.h>
+#include <vix_luaengine.h>
+#include <vix_luascriptmanager.h>
+#include <vix_modelmanager.h>
 
 namespace Vixen {
 
-	IKeyboardState* Game::s_keyboard = NULL;
-    IMouseState*    Game::s_mouse = NULL;
-
 	Game::Game()
 	{
-        FileManager::Initialize();
-        PathManager::Initialize();
-
-	    m_config = new GameConfig;
-		m_window = new SDLGameWindow(m_config->WindowArgs());
-#ifdef VIX_DIRECTX_BUILD
-        m_renderer = new DXRenderer;
-        m_resourceLoader = new DXResourceLoader((DXRenderer*)m_renderer);
-#elif defined(VIX_OPENGL_BUILD)
-        m_renderer = new GLRenderer;
-#endif
-		s_keyboard = new SDLKeyboardState;
-		Input::SetKeyboardState(s_keyboard);
-		s_mouse = new SDLMouseState;
-        Input::SetMouseState(s_mouse);
-
-		m_window->VSetParent(this);
-		m_window->VSetRenderer(m_renderer);
-
-        ResourceManager::AttachResourceLoader(m_resourceLoader);
+      
 	}
 
 	int Game::Run()
 	{
-		/*if application window exists*/
-		if (m_window) {
-			if(!m_window->VRun()) {
-			  DebugPrintF(VTEXT("Application loop encountered error"));
-				return -1;
-			}
-		}
+        FileManager::Initialize();
+        PathManager::Initialize();
+        if(!Window::Initialize(GameConfig()))
+            return -1;
 
-        m_renderer->VDeInitialize();
+        if (!Renderer::Initialize(Window::Handle()))
+            return -1;
+
+        Input::SetMouseState(Window::Mouse());
+        Input::SetKeyboardState(Window::Keyboard());
+
+        ResourceManager::Initialize();
+        ObjectManager::Initialize();
+        LuaEngine::Initialize();
+        LuaScriptManager::Initialize();
+        ModelManager::Initialize();
+        SceneManager::Initialize();
+        SceneManager::OpenScene(VTEXT("scene1"));
+        //SceneManager::PauseScene(VTEXT("scene1"));
+
+        Renderer::SetClearColor(Colors::Black);
+
+        Time::Start();
+        while (Window::IsRunning())
+        {
+            Time::Tick();
+
+            Window::PollInput();
+
+            Renderer::ClearBuffer(ClearArgs::COLOR_DEPTH_STENCIL_BUFFER);
+
+            SceneManager::UpdateScene();
+
+            SceneManager::RenderScene();
+
+            Renderer::SwapBuffers();
+
+            Window::SwapBuffers();
+
+            Window::PollInputNextFrame();
+
+            Time::CalculateFPS();
+        }
+
+        SceneManager::DeInitialize();
+        ModelManager::DeInitialize();
+        LuaEngine::DeInitialize();
+        ObjectManager::DeInitialize();
+        ResourceManager::DeInitialize();
+        Renderer::DeInitialize();
+        Window::DeInitialize();
+        PathManager::DeInitialize();
+        FileManager::DeInitialize();
+
 
 		return 0;
 	}
-
-	GameWindow* const Game::GetWindow() const
-	{
-		return m_window;
-	}
-
-	IRenderer* const Game::GetRenderer() const
-	{
-		return m_renderer;
-	}
-
-	GameConfig* const Game::GetConfig() const
-	{
-	    return m_config;
-	}
-
-	IKeyboardState* const Game::GetKeyboard()
-	{
-		return s_keyboard;
-	}
-
-	IMouseState* const Game::GetMouse()
-	{
-		return s_mouse;
-	}
-
 
 
 }

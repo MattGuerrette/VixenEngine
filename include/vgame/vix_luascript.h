@@ -40,7 +40,11 @@ namespace Vixen {
 
         ~LuaScript();
 
+
         void SetID(UString id);
+		void SetPath(UString path);
+
+		UString GetPath();
 
 		void BindOnInitFunction(LuaIntf::LuaRef* _func);
 		void BindOnEnableFunction(LuaIntf::LuaRef* _func);
@@ -58,8 +62,12 @@ namespace Vixen {
 
         void VBindParent(GameObject* parent);
 
+		IComponent::Type VGetType();
+		void		     VSetType(IComponent::Type type);
+
     private:
         UString             m_id;
+		UString				m_path;
 		std::string	        m_tablePath;
         GameObject*         m_parent;
 		LuaIntf::LuaRef     m_table;
@@ -70,6 +78,8 @@ namespace Vixen {
         LuaIntf::LuaRef*    m_updateFunc;
 		LuaIntf::LuaRef*    m_onDisableFunc;
 		LuaIntf::LuaRef*    m_onDestroyFunc;
+
+		IComponent::Type    m_type;
     };
 
 }

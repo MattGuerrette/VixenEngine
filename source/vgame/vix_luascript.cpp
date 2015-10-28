@@ -31,22 +31,36 @@ namespace Vixen {
 
 	LuaIntf::LuaRef* LuaScript::s_ThisTable = NULL;
 
-    LuaScript::LuaScript()
-    {
-        m_updateFunc = NULL;
-        m_parent = NULL;
-    }
+	LuaScript::LuaScript()
+	{
+		m_updateFunc = NULL;
+		m_parent = NULL;
 
-    LuaScript::~LuaScript()
-    {
-        delete m_updateFunc;
-    }
+		m_type = IComponent::Type::LUA_SCRIPT;
+	}
 
+	LuaScript::~LuaScript()
+	{
+		delete m_onInitFunc;
+		delete m_onEnableFunc;
+		delete m_updateFunc;
+		delete m_onDisableFunc;
+		delete m_onDestroyFunc;
+	}
 
-    
+	void LuaScript::SetPath(UString path)
+	{
+		m_path = path;
+	}
+
+	UString LuaScript::GetPath()
+	{
+		return m_path;
+	}
+
 	void LuaScript::VOnInit()
 	{
-		
+
 		//prepare for executing lua script
 		//need to set active Global gameobject
 		VBindParent(m_parent);
@@ -55,18 +69,18 @@ namespace Vixen {
 
 		LuaScriptManager::PushScript(this);
 
-        try
-        {
-            if (m_onInitFunc->isValid())
-                m_onInitFunc->call();
-        }
-        catch (const LuaIntf::LuaException& e)
-        {
-            DebugPrintF(VTEXT("LuaScript Error: %s\n"), UStringFromCharArray(e.what()).c_str());
-        }
-		
+		try
+		{
+			if (m_onInitFunc->isValid())
+				m_onInitFunc->call();
+		}
+		catch (const LuaIntf::LuaException& e)
+		{
+			DebugPrintF(VTEXT("LuaScript Error: %s\n"), UStringFromCharArray(e.what()).c_str());
+		}
 
-		
+
+
 		LuaScriptManager::PopScript();
 		if (LuaScriptManager::PeekScript())
 			LuaScriptManager::PeekScript()->SetObject();
@@ -78,17 +92,17 @@ namespace Vixen {
 
 		LuaScriptManager::PushScript(this);
 
-        try
-        {
-            if (m_onEnableFunc->isValid())
-                m_onEnableFunc->call();
-        }
-        catch (const LuaIntf::LuaException& e)
-        {
-            DebugPrintF(VTEXT("LuaScript Error: %s\n"), UStringFromCharArray(e.what()).c_str());
-        }
+		try
+		{
+			if (m_onEnableFunc->isValid())
+				m_onEnableFunc->call();
+		}
+		catch (const LuaIntf::LuaException& e)
+		{
+			DebugPrintF(VTEXT("LuaScript Error: %s\n"), UStringFromCharArray(e.what()).c_str());
+		}
 
-		
+
 
 		LuaScriptManager::PopScript();
 
@@ -100,23 +114,23 @@ namespace Vixen {
 	{
 		SetObject();
 
-        GameObject::s_ActiveObject = this->m_parent;
+		GameObject::s_ActiveObject = this->m_parent;
 
 		LuaScriptManager::PushScript(this);
 
-        try
-        {
-           m_updateFunc->call(Time::DeltaTime());
-        }
-        catch (const LuaIntf::LuaException& e)
-        {
-            DebugPrintF(VTEXT("LuaScript Error: %s\n"), UStringFromCharArray(e.what()).c_str());
-        }
+		try
+		{
+			m_updateFunc->call(Time::DeltaTime());
+		}
+		catch (const LuaIntf::LuaException& e)
+		{
+			DebugPrintF(VTEXT("LuaScript Error: %s\n"), UStringFromCharArray(e.what()).c_str());
+		}
 
 
 
-		
-		
+
+
 		LuaScriptManager::PopScript();
 		if (LuaScriptManager::PeekScript())
 			LuaScriptManager::PeekScript()->SetObject();
@@ -131,7 +145,7 @@ namespace Vixen {
 		if (m_onDisableFunc->isValid())
 			m_onDisableFunc->call();
 
-		
+
 		LuaScriptManager::PopScript();
 		if (LuaScriptManager::PeekScript())
 			LuaScriptManager::PeekScript()->SetObject();
@@ -145,8 +159,8 @@ namespace Vixen {
 
 		if (m_onDestroyFunc->isValid())
 			m_onDestroyFunc->call();
-		
-		
+
+
 		LuaScriptManager::PopScript();
 
 		//when we destroy the script, also delete pointers
@@ -186,27 +200,27 @@ namespace Vixen {
 		m_onDestroyFunc = _func;
 	}
 
-    void LuaScript::VBindParent(GameObject* gameObject)
-    {
+	void LuaScript::VBindParent(GameObject* gameObject)
+	{
 		using namespace LuaIntf;
 
-        if(!m_parent)
-            m_parent = gameObject;
+		if (!m_parent)
+			m_parent = gameObject;
 
 		m_tablePath = "_G." + UStringToStd(m_id) + ".hash." + std::to_string(m_parent->GetID());
 
 		LuaBinding(LuaEngine::L())
 			.beginModule(UStringToStd(m_id).c_str())
-				.beginModule("hash")
-					.beginModule(std::to_string(m_parent->GetID()).c_str())
-						.addVariableRef("GameObject", m_parent)
-					.endModule()
-			    .endModule()
+			.beginModule("hash")
+			.beginModule(std::to_string(m_parent->GetID()).c_str())
+			.addVariableRef("GameObject", m_parent)
+			.endModule()
+			.endModule()
 			.endModule();
 
 		m_table = LuaRef(LuaEngine::L(), m_tablePath.c_str());
 
-    }
+	}
 
 	void LuaScript::SetObject()
 	{
@@ -218,9 +232,18 @@ namespace Vixen {
 	}
 
 
-    void LuaScript::SetID(UString id)
-    {
-        m_id = id;
-    }
+	void LuaScript::SetID(UString id)
+	{
+		m_id = id;
+	}
 
+	void LuaScript::VSetType(IComponent::Type type)
+	{
+		m_type = type;
+	}
+
+	IComponent::Type LuaScript::VGetType()
+	{
+		return m_type;
+	}
 }

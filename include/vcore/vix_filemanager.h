@@ -38,6 +38,7 @@ namespace Vixen {
         ~FileManager();
 
         static void     Initialize();
+        static void     DeInitialize();
         static File*    OpenFile(UString filePath);
         static void     CloseFile(File* file);
         static void     CloseFile(UString filePath);
