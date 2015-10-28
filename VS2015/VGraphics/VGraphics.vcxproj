@@ -171,7 +171,6 @@
     <ClInclude Include="..\..\include\vgraphics\directx\vix_dxmathfunctions.h" />
     <ClInclude Include="..\..\include\vgraphics\directx\vix_dxmodel.h" />
     <ClInclude Include="..\..\include\vgraphics\directx\vix_dxpixelshader.h" />
-    <ClInclude Include="..\..\include\vgraphics\directx\vix_dxprimitivecube.h" />
     <ClInclude Include="..\..\include\vgraphics\directx\vix_dxrenderer.h" />
     <ClInclude Include="..\..\include\vgraphics\directx\vix_dxresourceloader.h" />
     <ClInclude Include="..\..\include\vgraphics\directx\vix_dxshader.h" />
@@ -199,6 +198,7 @@
     <ClInclude Include="..\..\include\vgraphics\vix_light.h" />
     <ClInclude Include="..\..\include\vgraphics\vix_rectangle.h" />
     <ClInclude Include="..\..\include\vgraphics\vix_renderer.h" />
+    <ClInclude Include="..\..\include\vgraphics\vix_renderer_singleton.h" />
     <ClInclude Include="..\..\include\vgraphics\vix_resourceloader.h" />
     <ClInclude Include="..\..\include\vgraphics\vix_resourcemanager.h" />
     <ClInclude Include="..\..\include\vgraphics\vix_shader.h" />
@@ -257,6 +257,7 @@
     <ClCompile Include="..\..\source\vgraphics\vix_math.cpp" />
     <ClCompile Include="..\..\source\vgraphics\vix_mathfunctions.cpp" />
     <ClCompile Include="..\..\source\vgraphics\vix_rectangle.cpp" />
+    <ClCompile Include="..\..\source\vgraphics\vix_renderer_singleton.cpp" />
     <ClCompile Include="..\..\source\vgraphics\vix_resourcemanager.cpp" />
     <ClCompile Include="..\..\source\vgraphics\vix_vector2.cpp" />
     <ClCompile Include="..\..\source\vgraphics\vix_vector3.cpp" />

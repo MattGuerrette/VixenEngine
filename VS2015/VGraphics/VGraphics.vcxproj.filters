@@ -36,9 +36,6 @@
     <ClInclude Include="..\..\include\vgraphics\directx\vix_dxcamera3d.h">
       <Filter>Header Files\directx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\vgraphics\directx\vix_dxprimitivecube.h">
-      <Filter>Header Files\directx</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\vgraphics\directx\vix_dxrenderer.h">
       <Filter>Header Files\directx</Filter>
     </ClInclude>
@@ -165,6 +162,9 @@
     <ClInclude Include="..\..\include\vgraphics\vix_light.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\vgraphics\vix_renderer_singleton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\vgraphics\directx\vix_dxcamera2d.cpp">
@@ -255,6 +255,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\vgraphics\vix_resourcemanager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\vgraphics\vix_renderer_singleton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
