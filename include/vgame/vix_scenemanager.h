@@ -34,12 +34,12 @@ namespace Vixen {
     class VIX_API SceneManager : public Singleton<SceneManager>
     {
         typedef std::map<std::string, Scene*> SceneMap;
-		typedef std::queue<Scene*> SceneQueue;
 		typedef std::vector<Scene*> SceneList;
     public:
        
         static bool				Initialize();
         static void				DeInitialize();
+		static bool				LoadScene(std::string fileName, std::string id = "", bool initial = false);
         static void				OpenScene(std::string id);
 		static void             AddScene(Scene* scene);
         static void				UpdateScenes();
@@ -58,7 +58,6 @@ namespace Vixen {
 		static void				SetOrder(std::string sceneID, uint32_t order);
 
     private:
-		SceneQueue m_sceneQueue;
         SceneMap   m_scenes;
 		SceneList  m_sceneList;
         Scene*     m_current;
