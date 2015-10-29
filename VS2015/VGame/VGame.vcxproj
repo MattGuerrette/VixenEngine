@@ -166,7 +166,6 @@
     <ClInclude Include="..\..\include\vgame\vix_aabb.h" />
     <ClInclude Include="..\..\include\vgame\vix_camera2Dcomponent.h" />
     <ClInclude Include="..\..\include\vgame\vix_camera3Dcomponent.h" />
-    <ClInclude Include="..\..\include\vgame\vix_cameracomponent.h" />
     <ClInclude Include="..\..\include\vgame\vix_component.h" />
     <ClInclude Include="..\..\include\vgame\vix_components.h" />
     <ClInclude Include="..\..\include\vgame\vix_game.h" />
@@ -193,7 +192,6 @@
     <ClInclude Include="..\..\include\vgame\vix_time.h" />
     <ClInclude Include="..\..\include\vgame\vix_sdlwindow.h" />
     <ClInclude Include="..\..\include\vgame\vix_transform.h" />
-    <ClInclude Include="..\..\include\vgame\vix_uicomponent.h" />
     <ClInclude Include="..\..\include\vgame\vix_uitext.h" />
     <ClInclude Include="..\..\include\vgame\vix_window_singleton.h" />
   </ItemGroup>
