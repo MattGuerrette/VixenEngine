@@ -314,13 +314,21 @@ namespace Vixen {
             .addConstant("ESC", IKEY::ESC)
 			.endModule();
 
-        LuaBinding(LuaEngine::L())
-            .beginModule("Scene")
-            .addFunction("FindObjectWithName", &SceneManager::AccessTopLevelObject, LUA_ARGS(std::string));
+		LuaBinding(LuaEngine::L())
+			.beginModule("Scene")
+			.addFunction("FindObjectWithName", &SceneManager::AccessTopLevelObject, LUA_ARGS(std::string))
+			.addFunction("OpenScene", &SceneManager::OpenScene, LUA_ARGS(std::string))
+			.addFunction("SetOrder", &SceneManager::SetOrder, LUA_ARGS(std::string, int32_t))
+			.addFunction("PauseScene", &SceneManager::PauseScene, LUA_ARGS(std::string))
+			.addFunction("UnpauseScene", &SceneManager::UnpauseScene, LUA_ARGS(std::string))
+			.addFunction("ShowScene", &SceneManager::ShowScene, LUA_ARGS(std::string))
+			.addFunction("HideScene", &SceneManager::HideScene, LUA_ARGS(std::string))
+			.endModule();
 
-        LuaBinding(LuaEngine::L())
-            .beginModule("Prefab")
-            .addFunction("Load", &PrefabManager::Load, LUA_ARGS(_opt<std::string>));
+		LuaBinding(LuaEngine::L())
+			.beginModule("Prefab")
+			.addFunction("Load", &PrefabManager::Load, LUA_ARGS(_opt<std::string>))
+			.endModule();
 
         LuaBinding(LuaEngine::L())
             .beginModule("Game")

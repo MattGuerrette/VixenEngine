@@ -60,8 +60,6 @@ namespace Vixen {
         LuaScriptManager::Initialize();
         ModelManager::Initialize();
         SceneManager::Initialize();
-        //SceneManager::OpenScene("scene1");
-        //SceneManager::PauseScene(VTEXT("scene1"));
 
         Renderer::SetClearColor(Colors::Black);
 
@@ -74,9 +72,9 @@ namespace Vixen {
 
             Renderer::ClearBuffer(ClearArgs::COLOR_DEPTH_STENCIL_BUFFER);
 
-            SceneManager::UpdateScene();
+            SceneManager::UpdateScenes();
 
-            SceneManager::RenderScene();
+            SceneManager::RenderScenes();
 
             Renderer::SwapBuffers();
 

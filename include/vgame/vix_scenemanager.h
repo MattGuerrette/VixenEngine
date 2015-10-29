@@ -35,24 +35,31 @@ namespace Vixen {
     {
         typedef std::map<std::string, Scene*> SceneMap;
 		typedef std::queue<Scene*> SceneQueue;
+		typedef std::vector<Scene*> SceneList;
     public:
        
         static bool				Initialize();
         static void				DeInitialize();
         static void				OpenScene(std::string id);
 		static void             AddScene(Scene* scene);
-        static void				UpdateScene();
-        static void				RenderScene();
-		static void				PauseScene(std::string id);
-		static void				UnpauseScene(std::string id);
+        static void				UpdateScenes();
+		static void				RenderScenes();
+		
         static GameObject*      AccessTopLevelObject(std::string id);
 		static Scene*			ActiveScene();
+
+
+
+		static void				PauseScene(std::string sceneID);
+		static void				UnpauseScene(std::string sceneID);
 		static void				HideScene(std::string sceneID);
 		static void				ShowScene(std::string sceneID);
+		static void				SetOrder(std::string sceneID, uint32_t order);
 
     private:
 		SceneQueue m_sceneQueue;
         SceneMap   m_scenes;
+		SceneList  m_sceneList;
         Scene*     m_current;
     };
 

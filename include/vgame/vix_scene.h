@@ -46,15 +46,15 @@ namespace Vixen {
 		/*Adds Object with ID to Scene*/
 		void AddSceneObject(GameObject* object);
 		void RemoveSceneObject(GameObject* object);
-		//void QueObjectSpawn(GameObject* object);
-		//void QueObjectDestroy(GameObject* object);
+	
 		GameObject* QueryObject(std::string name);
-
-		/*Removes Object with ID from Scene*/
-		void DestroyObjects();
 
 		void SetPaused(bool paused);
 		void SetHidden(bool hidden);
+		
+		bool IsPaused();
+		bool IsHidden();
+		
 
 		/*SETTER FUNCTIONS*/
 		void SetID(std::string id);
@@ -65,6 +65,7 @@ namespace Vixen {
 		const std::string& GetID();				//returns ID of scene
 
 	private:
+		uint32_t						m_order;
 		std::string						m_id;				//scene ID
 		bool							m_paused;
 		bool							m_hidden;

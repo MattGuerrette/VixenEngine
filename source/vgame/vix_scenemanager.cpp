@@ -71,7 +71,9 @@ namespace Vixen {
 					if (scene) {
 						_manager.m_scenes[scene->GetID()] = scene;
 						_manager.m_sceneQueue.push(scene);
+						_manager.m_sceneList.push_back(scene);
 						_manager.m_current = scene;
+						
 					}
                         
                     FileManager::CloseFile(_sceneFile);
@@ -100,6 +102,27 @@ namespace Vixen {
         STLMAP_DELETE(SceneManager::instance().m_scenes);
     }
 
+	void SceneManager::SetOrder(std::string sceneID, uint32_t order)
+	{
+		SceneManager& _manager = SceneManager::instance();
+
+		//attempt to find scene with id
+		SceneMap::iterator it = _manager.m_scenes.find(sceneID);
+		if (it != _manager.m_scenes.end())
+		{
+			Scene* _scene = it->second;
+			if (_scene) {
+				for (int32_t i = 0; i < _manager.m_sceneList.size(); i++) {
+					if (_scene == _manager.m_sceneList[i]) {
+						_manager.m_sceneList.erase(_manager.m_sceneList.begin() + i);
+						_manager.m_sceneList.insert(_manager.m_sceneList.begin() + order, _scene);
+						return;
+					}
+				}
+			}
+		}
+	}
+
     void SceneManager::OpenScene(std::string id)
     {
         SceneManager& _manager = SceneManager::instance();
@@ -121,6 +144,7 @@ namespace Vixen {
 				if (scene) {
 					_manager.m_scenes[scene->GetID()] = scene;
 					_manager.m_sceneQueue.push(scene);
+					_manager.m_sceneList.push_back(scene);
 				}
 
 				FileManager::CloseFile(_sceneFile);
@@ -131,21 +155,35 @@ namespace Vixen {
             
     }
 
-    void SceneManager::UpdateScene()
+    void SceneManager::UpdateScenes()
     {
         SceneManager& _manager = SceneManager::instance();
 
-        _manager.m_current->Update();
+		int32_t numScenes = _manager.m_sceneList.size();
+		for (int32_t i = 0; i < numScenes; i++)
+		{
+			Scene* _scene = _manager.m_sceneList[i];
+			if (_scene && !_scene->IsPaused())
+				_scene->Update();
+		}
+        //_manager.m_current->Update();
 
 		
 		PrefabManager::Cleanup();
     }
 
-    void SceneManager::RenderScene()
+    void SceneManager::RenderScenes()
     {
         SceneManager& _manager = SceneManager::instance();
 
-        _manager.m_current->Render();
+		int32_t numScenes = _manager.m_sceneList.size();
+		for (int32_t i = 0; i < numScenes; i++)
+		{
+			Scene* _scene = _manager.m_sceneList[i];
+			if (_scene && !_scene->IsHidden())
+				_scene->Render();
+		}
+        //_manager.m_current->Render();
     }
 
 	void SceneManager::PauseScene(std::string id)
@@ -194,24 +232,22 @@ namespace Vixen {
 	{
 		SceneManager& _manager = SceneManager::instance();
 
-
 		SceneMap::iterator it = _manager.m_scenes.find(id);
 		if (it != _manager.m_scenes.end())
 		{
-			//make this scene the current
 			it->second->SetHidden(true);
-		}
-
-		if (_manager.m_sceneQueue.size() > 1) {
-			//need to hide the active scene
-			Scene* _scene = _manager.m_sceneQueue.front();
-			_scene->SetHidden(true);
 		}
 	}
 
 	void SceneManager::ShowScene(std::string id)
 	{
+		SceneManager& _manager = SceneManager::instance();
 
+		SceneMap::iterator it = _manager.m_scenes.find(id);
+		if (it != _manager.m_scenes.end())
+		{
+			it->second->SetHidden(false);
+		}
 	}
 
 }

@@ -45,6 +45,7 @@ namespace Vixen {
 	{
 		m_paused = false;
 		m_hidden = false;
+		
 		m_mainCamera = NULL;
 	}
 
@@ -70,23 +71,10 @@ namespace Vixen {
 			}
 		}
 	}
-	/*
-	void Scene::QueObjectSpawn(GameObject* object)
-	{
-		m_objectsToAdd.push_back(object);
-	}
 
-	void Scene::QueObjectDestroy(GameObject* object)
-	{
-		m_objectsToRemove.push_back(object);
-	}
-	*/
 
 	void Scene::Update()
 	{
-		if (m_paused)
-			return;
-
 		//update all scene objects
 		for (int i = 0; i < m_topLevelObjects.size(); i++)
 		{
@@ -105,9 +93,6 @@ namespace Vixen {
 
 	void Scene::Render()
 	{
-		if (m_hidden)
-			return;
-
 		//render all scene object
 		for (int i = 0; i < m_topLevelObjects.size(); i++)
 		{
@@ -157,30 +142,6 @@ namespace Vixen {
 		m_mainCamera = camera;
 	}
 
-	/*void Scene::DestroyObjects()
-	{
-		int numDestroy = m_objectsToRemove.size();
-
-		int numTopLevelObjects = m_topLevelObjects.size();
-		for (int i = 0; i < numDestroy; i++)
-		{
-			GameObject* _object = m_objectsToRemove[i];
-			for (int j = 0; j < numTopLevelObjects; j++)
-			{
-				GameObject* _topLevel = m_topLevelObjects[j];
-				if (_topLevel->GetID() == _object->GetID())
-				{
-					m_topLevelObjects.erase(m_topLevelObjects.begin() + j);
-					ObjectManager::DestroySceneObject(_object->GetID());
-					j--;
-					numTopLevelObjects--;
-				}
-			}
-		}
-
-		m_objectsToRemove.clear();
-	}*/
-
 	void Scene::SetPaused(bool paused)
 	{
 		m_paused = paused;
@@ -192,11 +153,24 @@ namespace Vixen {
 	}
 
 
+
 	/*GETTER FUNCTIONS*/
 	const std::string& Scene::GetID()
 	{
 		return m_id;
 	}
+
+	bool Scene::IsPaused()
+	{
+		return m_paused;
+	}
+
+	bool Scene::IsHidden()
+	{
+		return m_hidden;
+	}
+
+	
 
 
 	///////////////////////////////////////////////////////////////////////
