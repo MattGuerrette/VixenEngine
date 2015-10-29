@@ -50,6 +50,7 @@ namespace Vixen {
 
 
 
+		static void				ReloadScene(std::string sceneID);
 		static void				PauseScene(std::string sceneID);
 		static void				UnpauseScene(std::string sceneID);
 		static void				HideScene(std::string sceneID);

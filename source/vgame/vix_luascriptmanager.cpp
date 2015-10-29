@@ -323,6 +323,7 @@ namespace Vixen {
 			.addFunction("UnpauseScene", &SceneManager::UnpauseScene, LUA_ARGS(std::string))
 			.addFunction("ShowScene", &SceneManager::ShowScene, LUA_ARGS(std::string))
 			.addFunction("HideScene", &SceneManager::HideScene, LUA_ARGS(std::string))
+			.addFunction("ReloadScene", &SceneManager::ReloadScene, LUA_ARGS(std::string))
 			.endModule();
 
 		LuaBinding(LuaEngine::L())

@@ -164,6 +164,7 @@ namespace Vixen {
 		if (m_onDestroyFunc->isValid())
 			m_onDestroyFunc->call();
 
+		s_ThisTable->set(m_tablePath, LUA_TNIL);
 
 		LuaScriptManager::PopScript();
 

@@ -129,12 +129,7 @@ namespace Vixen {
 
         //attempt to find scene with id
         SceneMap::iterator it = _manager.m_scenes.find(id);
-        if (it != _manager.m_scenes.end())
-        {
-            //make this scene the current
-            _manager.m_current = it->second;
-        }
-		else
+        if (it == _manager.m_scenes.end())
 		{
 			std::string _path = id + ".scene";
 			File* _sceneFile = FileManager::OpenFile(PathManager::ScenePath() + UStringFromCharArray(_path.c_str()));
@@ -159,10 +154,10 @@ namespace Vixen {
     {
         SceneManager& _manager = SceneManager::instance();
 
-		int32_t numScenes = _manager.m_sceneList.size();
-		for (int32_t i = 0; i < numScenes; i++)
+		for (int32_t i = 0; i < _manager.m_sceneList.size(); i++)
 		{
 			Scene* _scene = _manager.m_sceneList[i];
+			_manager.m_current = _scene;
 			if (_scene && !_scene->IsPaused())
 				_scene->Update();
 		}
@@ -176,8 +171,8 @@ namespace Vixen {
     {
         SceneManager& _manager = SceneManager::instance();
 
-		int32_t numScenes = _manager.m_sceneList.size();
-		for (int32_t i = 0; i < numScenes; i++)
+
+		for (int32_t i = 0; i < _manager.m_sceneList.size(); i++)
 		{
 			Scene* _scene = _manager.m_sceneList[i];
 			if (_scene && !_scene->IsHidden())
@@ -250,4 +245,37 @@ namespace Vixen {
 		}
 	}
 
+
+	void SceneManager::ReloadScene(std::string sceneID)
+	{
+		SceneManager& _manager = SceneManager::instance();
+
+		for (int32_t i = 0; i < _manager.m_sceneList.size(); i++)
+		{
+			Scene* _scene = _manager.m_sceneList[i];
+			if (_scene)
+			{
+				if (_scene->GetID() == sceneID)
+				{
+					_manager.m_sceneList.erase(_manager.m_sceneList.begin() + i);
+					delete _scene;
+
+					std::string sceneFile = sceneID + ".scene";
+					File* _sceneFile = FileManager::OpenFile(PathManager::ScenePath() + UStringFromCharArray(sceneFile.c_str()));
+					if (_sceneFile)
+					{
+						_scene = Scene::Deserialize(_sceneFile);
+						if (_scene) {
+							_manager.m_scenes[_scene->GetID()] = _scene;
+							_manager.m_sceneQueue.push(_scene);
+							_manager.m_sceneList.push_back(_scene);
+						}
+
+						FileManager::CloseFile(_sceneFile);
+					}
+					return;
+				}
+			}
+		}
+	}
 }
