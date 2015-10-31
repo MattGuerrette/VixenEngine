@@ -137,11 +137,6 @@ namespace Vixen {
 		m_id = id;
 	}
 
-	void Scene::SetName(std::string name)
-	{
-		m_name = name;
-	}
-
 	void Scene::SetMainCamera(ICamera3D * camera)
 	{
 		m_mainCamera = camera;
@@ -163,15 +158,6 @@ namespace Vixen {
 	const std::string& Scene::GetID()
 	{
 		return m_id;
-	}
-
-	const std::string& Scene::GetName()
-	{
-		if (m_name.empty()) 
-		{
-			return m_id;
-		}
-		return m_name;
 	}
 
 	bool Scene::IsPaused()
