@@ -38,7 +38,6 @@ namespace Vixen {
     {
         m_device = device;
         m_context = context;
-        m_material = new DXMaterial;
         m_vBuffer = nullptr;
         m_iBuffer = nullptr;
 
@@ -73,20 +72,9 @@ namespace Vixen {
         //Now we want to parse the value of the model
         const XMLElement* modelElement = document.FirstChildElement("model");
         const XMLElement* fileElement = modelElement->FirstChildElement("file");
-        const XMLElement* vShaderElement = modelElement->FirstChildElement("vertex-shader");
-        const XMLElement* pShaderElement = modelElement->FirstChildElement("pixel-shader");
 
         const char* modelfile = fileElement->Attribute("val");
-        const char* vShaderFile = vShaderElement->Attribute("val");
-        const char* pShaderFile = pShaderElement->Attribute("val");
 
-        //set material shaders
-        m_material->VSetShader(IMaterial::ShaderRole::Vertex,
-            ResourceManager::OpenShader(UStringFromCharArray(vShaderFile), ShaderType::VERTEX_SHADER));
-        m_material->VSetShader(IMaterial::ShaderRole::Pixel,
-            ResourceManager::OpenShader(UStringFromCharArray(pShaderFile), ShaderType::PIXEL_SHADER));
-        m_vShader = m_material->GetShader(IMaterial::ShaderRole::Vertex);
-        m_pShader = m_material->GetShader(IMaterial::ShaderRole::Pixel);
 
         UString _modelPath = PathManager::AssetPath() + VTEXT("Models/Data/") + UStringFromCharArray(modelfile);
         _modelPath = os_path(_modelPath);
@@ -138,6 +126,21 @@ namespace Vixen {
 				_vert.normal.y = normal.y;
 				_vert.normal.z = normal.z;
 			}
+
+			if (mesh->HasTangentsAndBitangents()) {
+				aiVector3D tangent;
+				tangent = mesh->mTangents[i];
+				aiVector3D bitangent;
+				bitangent = mesh->mBitangents[i];
+
+				_vert.tangent.x = tangent.x;
+				_vert.tangent.y = tangent.y;
+				_vert.tangent.z = tangent.z;
+
+				_vert.bitangent.x = bitangent.x;
+				_vert.bitangent.y = bitangent.y;
+				_vert.bitangent.z = bitangent.z;
+			}
            
    
 			if (mesh->HasTextureCoords(0)) {
@@ -166,93 +169,28 @@ namespace Vixen {
         m_iBuffer = new DXIndexBuffer(m_indices.size(), m_device, m_context);
         m_iBuffer->VUpdateSubData(0, sizeof(unsigned short), m_indices.size(), &m_indices[0]);
 
-        //create material
-        if (scene->HasMaterials())
-        {
-            aiMaterial* mat = scene->mMaterials[scene->mNumMaterials - 1];
-
-            aiString name;
-            aiGetMaterialString(mat, AI_MATKEY_NAME, &name);
-            //grab ambient color
-            aiColor4D ambientColor;
-            aiGetMaterialColor(mat, AI_MATKEY_COLOR_AMBIENT, &ambientColor);
-            m_material->VSetAmbientColor(Color(ambientColor.r, ambientColor.g, ambientColor.b, ambientColor.a));
-
-            //grab diffuse color
-            aiColor4D diffuseColor;
-            aiGetMaterialColor(mat, AI_MATKEY_COLOR_DIFFUSE, &diffuseColor);
-            m_material->VSetDiffuseColor(Color(diffuseColor.r, diffuseColor.g, diffuseColor.b, diffuseColor.a));
-
-            //grab specular color
-            aiColor4D specularColor;
-            aiGetMaterialColor(mat, AI_MATKEY_COLOR_SPECULAR, &specularColor);
-            m_material->VSetSpecularColor(Color(specularColor.r, specularColor.g, specularColor.b, specularColor.a));
-
-            //grab specular shininess
-            float specularWeight;
-            aiGetMaterialFloat(mat, AI_MATKEY_SHININESS, &specularWeight);
-            m_material->VSetSpecularWeight(specularWeight);
-
-            //Set diffuse matertial texture
-            aiString diffuse;
-            aiGetMaterialTexture(mat, aiTextureType_DIFFUSE, 0, &diffuse);
-
-            if (mat->GetTextureCount(aiTextureType_DIFFUSE) > 0)
-            {
-                ITexture* diffuseTexture = ResourceManager::OpenTexture(UStringFromCharArray(diffuse.data));
-                if (diffuseTexture)
-                    m_material->VSetTexture(IMaterial::TextureRole::Diffuse, diffuseTexture);
-            }
-
-        }
-
         return true;
     }
 
     void DXModel::VSetMaterial(IMaterial* material)
     {
         m_material = (DXMaterial*)material;
-        m_vShader = m_material->GetShader(IMaterial::ShaderRole::Vertex);
-        m_pShader = m_material->GetShader(IMaterial::ShaderRole::Pixel);
     }
 
 	void DXModel::VRender(float dt, float totalTime, ICamera3D* camera)
 	{
-		if (!m_vShader || !m_pShader || m_numInstances <= 0)
+		if (m_numInstances <= 0)
 			return;
 
-		m_vShader->SetMatrix4x4("projection", ((DXCamera3D*)camera)->Projection());
-		m_vShader->SetMatrix4x4("view", ((DXCamera3D*)camera)->View());
-		m_vShader->SetFloat("time", totalTime);
+		m_material->GetVertexShader()->SetMatrix4x4("projection", ((DXCamera3D*)camera)->Projection());
+		m_material->GetVertexShader()->SetMatrix4x4("view", ((DXCamera3D*)camera)->View());
+		m_material->GetVertexShader()->VSetData("transforms", &m_instanceData[0] , (sizeof(float) * 16) * MAX_INSTANCE_PER_DRAW);
+		m_material->VBind();
 
-		if (m_material->GetTexture(IMaterial::TextureRole::Diffuse)) {
-            
-			m_pShader->VSetSamplerState("samLinear", m_material->GetTexture(IMaterial::TextureRole::Diffuse)->SampleState());
-			m_pShader->VSetShaderResourceView("txDiffuse", m_material->GetTexture(IMaterial::TextureRole::Diffuse)->ResourceView());
-		}
-		else {
-			m_pShader->VSetSamplerState("samLinear", NULL);
-			m_pShader->VSetShaderResourceView("txDiffuse", NULL);
-		}
-
-       /* int i = 0;
-        while (i <= m_numRenderCalls)
-        {
-            int offset = i * MAX_INSTANCE_PER_DRAW;*/
-            m_vShader->SetData("transforms", &m_instanceData[0] , (sizeof(float) * 16) * MAX_INSTANCE_PER_DRAW);
-
-            m_vShader->Activate();
-            m_pShader->Activate();
-            m_vBuffer->VBind();
-            m_iBuffer->VBind();
-            m_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-            m_context->DrawIndexedInstanced(m_indices.size(), m_numInstances, 0, 0, 0);
-
-         /*   i++;
-        }*/
-
-        
-
+        m_vBuffer->VBind();
+        m_iBuffer->VBind();
+        m_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+        m_context->DrawIndexedInstanced(m_indices.size(), m_numInstances, 0, 0, 0);
 
         ///m_instanceData.clear();
         m_numInstances = 0;

@@ -35,6 +35,7 @@
 #include <vix_shader.h>
 #include <vix_directx.h>
 #include <vix_containers.h>
+#include <vix_texture.h>
 
 namespace Vixen {
 
@@ -75,17 +76,20 @@ namespace Vixen {
         void UpdateBuffer(std::string name);
 
         //Set Shader Data
-        bool SetData(std::string name, const void* data, size_t size);
-        bool SetInt(std::string name, int data);
-        bool SetFloat(std::string name, float data);
-        bool SetFloat2(std::string name, const float data[2]);
-        bool SetFloat2(std::string name, const DirectX::XMFLOAT2 data);
-        bool SetFloat3(std::string name, const float data[3]);
-        bool SetFloat3(std::string name, const DirectX::XMFLOAT3 data);
-        bool SetFloat4(std::string name, const float data[4]);
-        bool SetFloat4(std::string name, const DirectX::XMFLOAT4 data);
-        bool SetMatrix4x4(std::string name, const float data[16]);
-        bool SetMatrix4x4(std::string name, const DirectX::XMFLOAT4X4 data);
+        bool VSetData(std::string name, const void* data, size_t size);
+        bool VSetInt(std::string name, int data);
+        bool VSetFloat(std::string name, float data);
+        bool VSetFloat2(std::string name, const float data[2]);
+        bool VSetFloat3(std::string name, const float data[3]);
+        bool VSetFloat4(std::string name, const float data[4]);
+        bool VSetMatrix4x4(std::string name, const float data[16]);
+
+		bool SetFloat2(std::string name, const DirectX::XMFLOAT2 data);
+		bool SetFloat3(std::string name, const DirectX::XMFLOAT3 data);
+		bool SetFloat4(std::string name, const DirectX::XMFLOAT4 data);
+		bool SetMatrix4x4(std::string name, const DirectX::XMFLOAT4X4 data);
+
+		bool VBindTexture(std::string name, ITexture* texture);
 
         virtual bool VSetShaderResourceView(std::string name, ID3D11ShaderResourceView* rv) = 0;
         virtual bool VSetSamplerState(std::string name, ID3D11SamplerState* ss) = 0;

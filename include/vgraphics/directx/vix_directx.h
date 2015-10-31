@@ -74,20 +74,28 @@ struct DXVertexPosTexNormal
     float             u;
     float             v;
     DirectX::XMFLOAT3 normal;
+	DirectX::XMFLOAT3 tangent;
+	DirectX::XMFLOAT3 bitangent;
 
     DXVertexPosTexNormal() {
         pos.x = 0.0f; pos.y = 0.0f; pos.z = 0.0f;
         u = 0.0f; v = 0.0f;
         normal.x = 0.0f; normal.y = 0.0f; normal.z = 0.0f;
+		tangent.x = 0.0f; tangent.y = 0.0f; tangent.z = 0.0f;
+		bitangent.x = 0.0f; bitangent.y = 0.0f; bitangent.z = 0.0f;
     }
 
     DXVertexPosTexNormal(float _x, float _y, float _z,
         float _u, float _v,
-        float _nx, float _ny, float _nz)
+        float _nx, float _ny, float _nz,
+		float _tx, float _ty, float _tz,
+		float _btx, float _bty, float _btz)
     {
         pos.x = _x; pos.y = _y; pos.z = _z;
         u = _u; v = _v;
         normal.x = _nx; normal.y = _ny; normal.z = _nz;
+		tangent.x = _tx; tangent.y = _ty; tangent.z = _tz;
+		bitangent.x = _btx; bitangent.y = _bty; bitangent.z = _btz;
     }
 };
 

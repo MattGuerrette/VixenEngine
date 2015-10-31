@@ -42,6 +42,7 @@ namespace Vixen {
         IShader*    LoadShader(File* file, ShaderType type) override;
         IModel*     LoadModel(File* file)                   override;
         IFont*      LoadFont(File* file)                    override;
+		IMaterial*  LoadMaterial(File* file)				override;
        
     private:
         DXRenderer* m_renderer;

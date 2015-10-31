@@ -84,4 +84,13 @@ namespace Vixen {
 
         return NULL;
     }
+
+	IMaterial* DXResourceLoader::LoadMaterial(File* file)
+	{
+		DXMaterial* _material = new DXMaterial;
+		if (_material->VInitFromFile(file))
+			return _material;
+
+		return NULL;
+	}
 }

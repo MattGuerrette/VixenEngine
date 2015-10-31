@@ -48,7 +48,8 @@ namespace Vixen {
         Texture,
         Model,
         Font,
-        Shader
+        Shader,
+		Material
     };
 
     /**

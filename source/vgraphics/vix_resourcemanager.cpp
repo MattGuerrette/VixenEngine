@@ -158,4 +158,29 @@ namespace Vixen {
         return NULL;
     }
 
+	IMaterial* ResourceManager::OpenMaterial(UString filePath)
+	{
+		UString assetPath = PathManager::ModelPath();
+
+		assetPath += filePath;
+		assetPath = os_path(assetPath);
+
+		File* file = FileManager::OpenFile(assetPath);
+		if (file)
+		{
+			//Create Renderer Specific model type
+			ResourceManager& _RM = ResourceManager::instance();
+
+			if (_RM.m_resourceLoader)
+			{
+				//Need to load a material object into memory
+				IMaterial* _material = _RM.m_resourceLoader->LoadMaterial(file);
+				FileManager::CloseFile(file);
+				return _material;
+			}
+		}
+
+		return NULL;
+	}
+
 }
