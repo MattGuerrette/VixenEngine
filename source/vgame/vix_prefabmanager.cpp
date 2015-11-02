@@ -28,6 +28,7 @@
 #include <vix_scenemanager.h>
 #include <vix_luascriptmanager.h>
 #include <vix_components.h>
+#include <vix_resourcemanager.h>
 
 namespace Vixen {
 
@@ -246,6 +247,34 @@ namespace Vixen {
 		script->SetPath(scriptPath);
 
 		return script;
+	}
+
+	IComponent* PrefabManager::ParseModelComponent(const tinyxml2::XMLElement* element)
+	{
+		using namespace tinyxml2;
+
+		const char* file = element->Attribute("file");
+		const char* materialFile = element->Attribute("material");
+
+		IModel* _model = ResourceManager::OpenModel(UStringFromCharArray(file));
+		if (!_model) {
+			DebugPrintF(VTEXT("Failed to open model.\n"));
+			return NULL;
+		}
+		ModelManager::RegisterModel(UStringFromCharArray(file), _model);
+
+
+		IMaterial* _material = ResourceManager::OpenMaterial(UStringFromCharArray(materialFile));
+		if (!_material) {
+			DebugPrintF(VTEXT("Failed to open material.\n"));
+			return NULL;
+		}
+
+		ModelComponent* _modelComponent = new ModelComponent;
+		_modelComponent->SetModel(_model);
+		_modelComponent->SetMaterial(_material);
+
+		return _modelComponent;
 	}
 
 	Prefab* PrefabManager::ParsePrefab(const tinyxml2::XMLElement* element)

@@ -38,6 +38,8 @@ namespace Vixen {
     DXMaterial::~DXMaterial()
     {
         STLMAP_DELETE(m_shaders);
+		STLMAP_DELETE(m_vsVariables);
+		STLMAP_DELETE(m_psVariables);
     }
 
     void DXMaterial::VBind()
@@ -125,8 +127,8 @@ namespace Vixen {
 		while (shaderChild)
 		{
 			//read all child data for pixel shader
-
-			if (shaderChild->Name() == "texture") {
+			std::string _name = shaderChild->Name();
+			if (_name == "texture") {
 				//read texture
 
 				std::string key = shaderChild->Attribute("name");
@@ -140,7 +142,7 @@ namespace Vixen {
 				variableMap[key] = new TextureVariable(texture);
 			}
 
-			if (shaderChild->Name() == "vec4") {
+			if (_name == "vec4") {
 				//read vec4
 
 				std::string key = shaderChild->Attribute("name");

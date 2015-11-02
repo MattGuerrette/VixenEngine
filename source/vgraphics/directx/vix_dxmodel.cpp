@@ -40,6 +40,7 @@ namespace Vixen {
         m_context = context;
         m_vBuffer = nullptr;
         m_iBuffer = nullptr;
+		m_material = nullptr;
 
 		m_world = new XMFLOAT4X4;
 
@@ -49,7 +50,6 @@ namespace Vixen {
 
     DXModel::~DXModel()
     {
-        delete m_material;
         delete m_vBuffer;
         delete m_iBuffer;
     }
@@ -60,26 +60,26 @@ namespace Vixen {
 
         //File is actually an XML file
         //we should now open for reading
-        XMLDOC document;
+       /* XMLDOC document;
         XMLError err = document.LoadFile(file->Handle());
         UString errString;
         if (XMLErrCheck(err, errString))
         {
             DebugPrintF(VTEXT("MDL File failed to load\n"));
             return false;
-        }
+        }*/
 
         //Now we want to parse the value of the model
-        const XMLElement* modelElement = document.FirstChildElement("model");
+        /*const XMLElement* modelElement = document.FirstChildElement("model");
         const XMLElement* fileElement = modelElement->FirstChildElement("file");
 
         const char* modelfile = fileElement->Attribute("val");
 
 
-        UString _modelPath = PathManager::AssetPath() + VTEXT("Models/Data/") + UStringFromCharArray(modelfile);
-        _modelPath = os_path(_modelPath);
+        UString _modelPath = PathManager::AssetPath() + VTEXT("Models/Data/") + UStringFromCharArray(modelfile);*/
+       /* _modelPath = os_path(_modelPath);*/
         Assimp::Importer _importer;
-        std::string _path = UStringToStd(_modelPath);
+		std::string _path = UStringToStd(file->FilePath());
         const aiScene* scene = _importer.ReadFile(_path.c_str(), aiProcess_CalcTangentSpace |
             aiProcess_Triangulate |
             aiProcess_GenNormals |

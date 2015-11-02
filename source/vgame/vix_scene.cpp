@@ -310,6 +310,11 @@ namespace Vixen {
                 //PARSE UI-TEXT
                 component = ParseUITextComponent(child);
             }
+			else if (name == "model")
+			{
+				//PARSE MODEL COMPONENT
+				component = ParseModelComponent(child);
+			}
 
 			components.push_back(component);
 			child = child->NextSiblingElement();
@@ -388,4 +393,32 @@ namespace Vixen {
         
         return _text;
     }
+
+	IComponent* Scene::ParseModelComponent(const tinyxml2::XMLElement* element)
+	{
+		using namespace tinyxml2;
+
+		const char* file = element->Attribute("file");
+		const char* materialFile = element->Attribute("material");
+
+		IModel* _model = ResourceManager::OpenModel(UStringFromCharArray(file));
+		if (!_model) {
+			DebugPrintF(VTEXT("Failed to open model.\n"));
+			return NULL;
+		}
+		ModelManager::RegisterModel(UStringFromCharArray(file), _model);
+			
+
+		IMaterial* _material = ResourceManager::OpenMaterial(UStringFromCharArray(materialFile));
+		if (!_material) {
+			DebugPrintF(VTEXT("Failed to open material.\n"));
+			return NULL;
+		}
+
+		ModelComponent* _modelComponent = new ModelComponent;
+		_modelComponent->SetModel(_model);
+		_modelComponent->SetMaterial(_material);
+			
+		return _modelComponent;
+	}
 }

@@ -31,6 +31,7 @@
 #include <vix_shadervariable.h>
 #include <vix_dxvertexshader.h>
 #include <vix_dxpixelshader.h>
+#include <vix_tinyxml.h>
 
 namespace Vixen {
 

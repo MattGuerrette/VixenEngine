@@ -161,15 +161,19 @@ namespace Vixen {
 
 	void GameObject::Render(ICamera3D * camera)
 	{
-		if (m_model) {
+		/*if (m_model) {
 			m_model->VBatchRender(m_transform->GetWorldMatrix());
-		}
+		}*/
 
         for (int i = 0; i < m_components.size(); i++)
         {
             IRenderComponent2D* _renderComponent2D = dynamic_cast<IRenderComponent2D*>(m_components[i]);
             if (_renderComponent2D)
                 _renderComponent2D->VRender(NULL);
+
+			IRenderComponent* _renderComponent = dynamic_cast<IRenderComponent*>(m_components[i]);
+			if (_renderComponent)
+				_renderComponent->VRender(camera);
 
         }
 		

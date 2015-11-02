@@ -84,6 +84,7 @@ namespace Vixen {
 		static IComponent*              ParseLightComponent(const tinyxml2::XMLElement* element);
 		static IComponent*              ParseLuaScriptComponent(const tinyxml2::XMLElement* element);
         static IComponent*              ParseUITextComponent(const tinyxml2::XMLElement* element);
+		static IComponent*				ParseModelComponent(const tinyxml2::XMLElement* element);
 	};
 }
 #endif

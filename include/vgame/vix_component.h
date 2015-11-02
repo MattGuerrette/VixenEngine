@@ -53,7 +53,8 @@ namespace Vixen {
 			UI_TEXT,
 			UI_BUTTON,
 			UI_TEXTURE,
-			SPRITE
+			SPRITE,
+			MODEL
 		};
 
 		virtual IComponent::Type VGetType() = 0;

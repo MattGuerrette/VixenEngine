@@ -1,0 +1,69 @@
+#include <vix_modelcomponent.h>
+
+namespace Vixen {
+
+	ModelComponent::ModelComponent()
+	{
+
+	}
+
+	void ModelComponent::VOnInit()
+	{
+
+	}
+
+	void ModelComponent::VOnEnable()
+	{
+
+	}
+
+	void ModelComponent::VOnDisable()
+	{
+
+	}
+
+	void ModelComponent::VOnDestroy()
+	{
+		delete m_model;
+		delete m_material;
+	}
+
+	void ModelComponent::VUpdate()
+	{
+
+	}
+
+	void ModelComponent::VRender(ICamera3D* camera)
+	{
+		if (m_model)
+			m_model->VBatchRender(m_parent->GetTransform()->GetWorldMatrix());
+	}
+
+	void ModelComponent::VBindParent(GameObject* parent)
+	{
+		m_parent = parent;
+	}
+
+	void ModelComponent::VSetType(IComponent::Type type)
+	{
+		m_type = type;
+	}
+	
+	IComponent::Type ModelComponent::VGetType()
+	{
+		return m_type;
+	}
+
+	void ModelComponent::SetModel(IModel* model)
+	{
+		m_model = model;
+	}
+
+	void ModelComponent::SetMaterial(IMaterial* material)
+	{
+		m_material = material;
+		if (m_model)
+			m_model->VSetMaterial(m_material);
+	}
+
+}

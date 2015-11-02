@@ -11,6 +11,11 @@ namespace Vixen {
 		m_val = val;
 	}
 
+	FloatVariable::~FloatVariable()
+	{
+
+	}
+
 	void FloatVariable::VBind(std::string name, IShader* shader)
 	{
 		if (!shader)
@@ -29,6 +34,11 @@ namespace Vixen {
 		m_y = y;
 		m_z = z;
 		m_w = w;
+	}
+
+	Float4Variable::~Float4Variable()
+	{
+
 	}
 
 	void Float4Variable::VBind(std::string name, IShader* shader)
@@ -50,6 +60,11 @@ namespace Vixen {
 		m_val = val;
 	}
 
+	IntVariable::~IntVariable()
+	{
+
+	}
+
 	void IntVariable::VBind(std::string name, IShader* shader)
 	{
 		if (!shader)
@@ -68,6 +83,11 @@ namespace Vixen {
 			m_val[i] = val[i];
 	}
 
+	Matrix4FloatVariable::~Matrix4FloatVariable()
+	{
+
+	}
+
 	void Matrix4FloatVariable::VBind(std::string name, IShader* shader)
 	{
 		if (!shader)
@@ -83,6 +103,11 @@ namespace Vixen {
 	TextureVariable::TextureVariable(ITexture* texture)
 	{
 		m_texture = texture;
+	}
+
+	TextureVariable::~TextureVariable()
+	{
+		delete m_texture;
 	}
 
 	void TextureVariable::VBind(std::string name, IShader* shader)

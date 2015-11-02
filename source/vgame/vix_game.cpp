@@ -58,7 +58,7 @@ namespace Vixen {
         ObjectManager::Initialize();
         LuaEngine::Initialize();
         LuaScriptManager::Initialize();
-        ModelManager::Initialize();
+        //ModelManager::Initialize();
         SceneManager::Initialize();
 
         Renderer::SetClearColor(Colors::Black);

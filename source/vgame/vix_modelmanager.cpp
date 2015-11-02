@@ -30,53 +30,53 @@
 
 namespace Vixen {
 
-    bool ModelManager::Initialize()
-    {
-        ModelManager& _manager = ModelManager::instance();
+    //bool ModelManager::Initialize()
+    //{
+    //    ModelManager& _manager = ModelManager::instance();
 
-        using namespace tinyxml2;
+    //    using namespace tinyxml2;
 
-        //need to attempt to open scene list
-        File* file = FileManager::OpenFile(PathManager::ModelPath() + VTEXT("models.config"));
-        if (file) {
+    //    //need to attempt to open scene list
+    //    File* file = FileManager::OpenFile(PathManager::ModelPath() + VTEXT("models.config"));
+    //    if (file) {
 
-            //File is actually an XML file
-            //we should now open for reading
-            XMLDOC document;
-            XMLError err = document.LoadFile(file->Handle());
-            UString errString;
-            if (XMLErrCheck(err, errString))
-            {
-                DebugPrintF(VTEXT("Models Config File failed to load\n"));
-                FileManager::CloseFile(file);
-                return false;
-            }
+    //        //File is actually an XML file
+    //        //we should now open for reading
+    //        XMLDOC document;
+    //        XMLError err = document.LoadFile(file->Handle());
+    //        UString errString;
+    //        if (XMLErrCheck(err, errString))
+    //        {
+    //            DebugPrintF(VTEXT("Models Config File failed to load\n"));
+    //            FileManager::CloseFile(file);
+    //            return false;
+    //        }
 
-            const XMLElement* modelsElement = document.FirstChildElement("models");
-            const XMLElement* modelElement = modelsElement->FirstChildElement("model");
-            while (modelElement != NULL)
-            {
-                const char* fileID = modelElement->Attribute("file");
-                UString id = UStringFromCharArray(fileID);
-                IModel* model = ResourceManager::OpenModel(id);
-                if (model)
-                    _manager.m_models[id] = model;
-                else
-                    DebugPrintF(VTEXT("ModelManager: %s failed to load"), id.c_str());
+    //        const XMLElement* modelsElement = document.FirstChildElement("models");
+    //        const XMLElement* modelElement = modelsElement->FirstChildElement("model");
+    //        while (modelElement != NULL)
+    //        {
+    //            const char* fileID = modelElement->Attribute("file");
+    //            UString id = UStringFromCharArray(fileID);
+    //            IModel* model = ResourceManager::OpenModel(id);
+    //            if (model)
+    //                _manager.m_models[id] = model;
+    //            else
+    //                DebugPrintF(VTEXT("ModelManager: %s failed to load"), id.c_str());
 
-                modelElement = modelElement->NextSiblingElement("model");
-            }
-            FileManager::CloseFile(file);
-            return true;
-        }
+    //            modelElement = modelElement->NextSiblingElement("model");
+    //        }
+    //        FileManager::CloseFile(file);
+    //        return true;
+    //    }
 
-        FileManager::CloseFile(file);
-        return false;
-    }
+    //    FileManager::CloseFile(file);
+    //    return false;
+    //}
 
     void ModelManager::DeInitialize()
     {
-        STLMAP_DELETE(ModelManager::instance().m_models);
+        //STLMAP_DELETE(ModelManager::instance().m_models);
     }
 
     IModel* ModelManager::AccessModel(UString id)
@@ -89,6 +89,14 @@ namespace Vixen {
         else
             return NULL;
     }
+
+	void ModelManager::RegisterModel(UString id, IModel* model)
+	{
+		ModelManager& _manager = ModelManager::instance();
+
+		_manager.m_models[id] = model;
+	}
+
     std::vector<IModel*> ModelManager::ActiveModels()
     {
         ModelManager& _manager = ModelManager::instance();

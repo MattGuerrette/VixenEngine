@@ -303,6 +303,10 @@ namespace Vixen {
 
 	bool DXShader::VBindTexture(std::string name, ITexture* texture)
 	{
-		VSetShaderResourceView(name, ((DXTexture*)texture)->ResourceView());
+		bool success = true;
+		success = VSetSamplerState("samLinear", ((DXTexture*)texture)->SampleState());
+		success = VSetShaderResourceView(name, ((DXTexture*)texture)->ResourceView());
+
+		return success;
 	}
 }

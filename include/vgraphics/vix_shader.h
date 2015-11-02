@@ -28,6 +28,7 @@
 #include <vix_platform.h>
 #include <vix_stringutil.h>
 #include <vix_file.h>
+#include <vix_texture.h>
 
 namespace Vixen {
 
@@ -56,7 +57,7 @@ namespace Vixen {
 		virtual bool	VSetData(std::string name, const void* data, size_t size) = 0;
 		virtual bool	VSetInt(std::string name, int data) = 0;
 		virtual bool	VSetFloat(std::string name, float data) = 0;
-		virtual bool	VVSetFloat2(std::string name, const float data[2]) = 0;
+		virtual bool	VSetFloat2(std::string name, const float data[2]) = 0;
 		virtual bool	VSetFloat3(std::string name, const float data[3]) = 0;
 		virtual bool	VSetFloat4(std::string name, const float data[4]) = 0;
 		virtual bool	VSetMatrix4x4(std::string name, const float data[16]) = 0;
