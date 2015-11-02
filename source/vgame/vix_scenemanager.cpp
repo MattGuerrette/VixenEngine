@@ -63,12 +63,16 @@ namespace Vixen {
             const XMLElement* sceneNode = sceneList->FirstChildElement("scene");
             while (sceneNode != NULL)
             {
-				const char* sceneName = sceneNode->Attribute("name");
                 const char* sceneFile = sceneNode->Attribute("file");
 				bool initial = sceneNode->BoolAttribute("initial");
 
-				_manager.LoadScene(sceneFile, sceneName, initial);
-
+				Scene* scene = _manager.LoadScene(sceneFile, initial);
+				if (scene) {
+					DebugPrintF(VTEXT("SceneManager: loaded scene %s successfully \n"), sceneFile);
+				}
+				else {
+					DebugPrintF(VTEXT("SceneManager: scene %s not found\n"), sceneFile);
+				}
                 sceneNode = sceneNode->NextSiblingElement("scene");
             }
             FileManager::CloseFile(file);
@@ -113,7 +117,7 @@ namespace Vixen {
 		}
 	}
 
-	bool SceneManager::LoadScene(std::string fileName, std::string id, bool initial)
+	Scene* SceneManager::LoadScene(std::string fileName, bool initial)
 	{
 		SceneManager& _manager = SceneManager::instance();
 
@@ -122,22 +126,21 @@ namespace Vixen {
 		{
 			Scene* scene = Scene::Deserialize(sceneFile);
 			if (scene) {
-				scene->SetName(id);
-				_manager.m_scenes[scene->GetName()] = scene;
+				scene->SetFileName(fileName);
+				
+				_manager.m_sceneFiles[scene->GetID()] = scene->GetFileName();
+				_manager.m_scenes[scene->GetID()] = scene;
+
 				if (initial) {
 					_manager.m_sceneList.push_back(scene);
 					_manager.m_current = scene;
 				}
+				return scene;
 			}
 
 			FileManager::CloseFile(sceneFile);
-			return true;
 		}
-		else
-		{
-			DebugPrintF(VTEXT("SceneManager: scene %s not found\n"), id.c_str());
-		}
-		return false;
+		return nullptr;
 	}
 
 
@@ -149,8 +152,16 @@ namespace Vixen {
         SceneMap::iterator it = _manager.m_scenes.find(id);
         if (it == _manager.m_scenes.end())
 		{
-			std::string _path = id + ".scene";
-			_manager.LoadScene(_path);
+			SceneFileMap::iterator itt = _manager.m_sceneFiles.find(id);
+			if (itt == _manager.m_sceneFiles.end())
+			{
+				DebugPrintF(VTEXT("SceneManager: scene %s not found\n"), id.c_str());
+			}
+			else {
+				std::string fileName = itt->second;
+				Scene* scene = _manager.LoadScene(fileName);
+				_manager.m_sceneList.push_back(scene);
+			}
 		}
 		else {
 			Scene* scene = it->second;
@@ -258,19 +269,21 @@ namespace Vixen {
 	void SceneManager::ReloadScene(std::string sceneID)
 	{
 		SceneManager& _manager = SceneManager::instance();
-
+		
 		for (int32_t i = 0; i < _manager.m_sceneList.size(); i++)
 		{
 			Scene* _scene = _manager.m_sceneList[i];
 			if (_scene)
 			{
-				if (_scene->GetName() == sceneID)
+				if (_scene->GetID() == sceneID)
 				{
+					std::string sceneFile = _scene->GetFileName();
+
 					_manager.m_sceneList.erase(_manager.m_sceneList.begin() + i);
 					delete _scene;
 
-					std::string sceneFile = sceneID + ".scene";
-					_manager.LoadScene(sceneFile);
+					_scene = _manager.LoadScene(sceneFile);
+					_manager.m_sceneList.push_back(_scene);
 					return;
 				}
 			}
