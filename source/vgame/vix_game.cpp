@@ -32,6 +32,7 @@
 #include <vix_luaengine.h>
 #include <vix_luascriptmanager.h>
 #include <vix_modelmanager.h>
+#include <vix_prefabmanager.h>
 
 namespace Vixen {
 
@@ -85,7 +86,9 @@ namespace Vixen {
             Time::CalculateFPS();
         }
 
-        SceneManager::DeInitialize();
+		SceneManager::DeInitialize();
+		PrefabManager::Cleanup();
+        
         ModelManager::DeInitialize();
         LuaEngine::DeInitialize();
         ObjectManager::DeInitialize();

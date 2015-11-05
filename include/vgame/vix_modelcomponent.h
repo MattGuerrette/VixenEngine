@@ -34,6 +34,9 @@ namespace Vixen {
 		void SetModel(IModel* model);
 		void SetMaterial(IMaterial* material);
 
+		IModel*		GetModel();
+		IMaterial*	GetMaterial();
+
 	private:
 		IModel*				m_model;
 		IMaterial*			m_material;

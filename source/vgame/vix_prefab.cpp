@@ -28,6 +28,8 @@
 #include <vix_luascriptmanager.h>
 #include <vix_luascript.h>
 #include <vix_objectmanager.h>
+#include <vix_modelcomponent.h>
+#include <vix_resourcemanager.h>
 
 namespace Vixen {
 
@@ -38,6 +40,10 @@ namespace Vixen {
 
 	Prefab::~Prefab()
 	{
+		for (auto& c : m_components)
+			c->VOnDestroy();
+
+		STLVEC_DELETE(m_components);
 		STLVEC_DELETE(m_children);
 	}
 
@@ -123,6 +129,18 @@ namespace Vixen {
 						_script->VBindParent(_object);
 						_object->AddComponent(_script);
 
+					} break;
+
+					case IComponent::Type::MODEL:
+					{
+						//ModelComponent* _modelComponent = (ModelComponent*)component;
+
+						//ModelComponent* _newComponent = new ModelComponent;
+						//_newComponent->SetModel(_modelComponent->GetModel());
+						////_newComponent->SetMaterial(ResourceManager::OpenMaterial(_modelComponent->GetMaterial()->VFilePath()));
+
+						//_newComponent->VBindParent(_object);
+						//_object->AddComponent(_newComponent);
 					} break;
 
 					case IComponent::Type::UI_TEXT:

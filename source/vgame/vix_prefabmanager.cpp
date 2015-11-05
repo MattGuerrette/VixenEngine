@@ -29,6 +29,7 @@
 #include <vix_luascriptmanager.h>
 #include <vix_components.h>
 #include <vix_resourcemanager.h>
+#include <vix_modelmanager.h>
 
 namespace Vixen {
 
@@ -177,6 +178,10 @@ namespace Vixen {
 
 				_component = ParseUITextComponent(child);
 			}
+			else if (name == "model")
+			{
+				_component = ParseModelComponent(child);
+			}
 
 			if (_component != NULL)
 				prefab->AddComponent(_component);
@@ -256,14 +261,16 @@ namespace Vixen {
 		const char* file = element->Attribute("file");
 		const char* materialFile = element->Attribute("material");
 
-		IModel* _model = ResourceManager::OpenModel(UStringFromCharArray(file));
+		IModel* _model = ModelManager::AccessModel(UStringFromCharArray(file));;
 		if (!_model) {
-			DebugPrintF(VTEXT("Failed to open model.\n"));
-			return NULL;
+			_model = ResourceManager::OpenModel(UStringFromCharArray(file));
+			if (!_model) {
+				DebugPrintF(VTEXT("Failed to open model.\n"));
+				return NULL;
+			}
+			ModelManager::RegisterModel(UStringFromCharArray(file), _model);
 		}
-		ModelManager::RegisterModel(UStringFromCharArray(file), _model);
-
-
+		
 		IMaterial* _material = ResourceManager::OpenMaterial(UStringFromCharArray(materialFile));
 		if (!_material) {
 			DebugPrintF(VTEXT("Failed to open material.\n"));

@@ -4,7 +4,9 @@ namespace Vixen {
 
 	ModelComponent::ModelComponent()
 	{
-
+		m_type = IComponent::Type::MODEL;
+		m_material = nullptr;
+		m_model = nullptr;
 	}
 
 	void ModelComponent::VOnInit()
@@ -24,7 +26,6 @@ namespace Vixen {
 
 	void ModelComponent::VOnDestroy()
 	{
-		delete m_model;
 		delete m_material;
 	}
 
@@ -66,4 +67,13 @@ namespace Vixen {
 			m_model->VSetMaterial(m_material);
 	}
 
+	IModel* ModelComponent::GetModel()
+	{
+		return m_model;
+	}
+
+	IMaterial* ModelComponent::GetMaterial()
+	{
+		return m_material;
+	}
 }

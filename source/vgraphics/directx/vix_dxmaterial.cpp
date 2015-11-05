@@ -42,6 +42,11 @@ namespace Vixen {
 		STLMAP_DELETE(m_psVariables);
     }
 
+	UString DXMaterial::VFilePath()
+	{
+		return m_path;
+	}
+
     void DXMaterial::VBind()
 	{
 		for (auto& vsVariable : m_vsVariables)
@@ -73,6 +78,9 @@ namespace Vixen {
 		//need to parse .VMT file and load material data
 
 		using namespace tinyxml2;
+
+		m_path = file->FileName();
+		
 
 		XMLDOC document;
 		XMLError err = document.LoadFile(file->Handle());

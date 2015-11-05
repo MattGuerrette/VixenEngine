@@ -58,7 +58,6 @@ namespace Vixen {
 		static IComponent*				ParseUITextComponent(const tinyxml2::XMLElement* element);
 		static IComponent*              ParseModelComponent(const tinyxml2::XMLElement* element);
 
-
 	private:
 		PrefabMap  m_prefabs;
 	};

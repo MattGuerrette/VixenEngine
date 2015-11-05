@@ -53,13 +53,13 @@ namespace Vixen {
 
 		bool VInitFromFile(File* file);
 
-
+		UString VFilePath();
 
     private:
 		VariableMap								m_vsVariables;
 		VariableMap								m_psVariables;
         std::map<ShaderRole,  DXShader*>		m_shaders;
-
+		UString									m_path;
 
 	private:
 		static bool ReadShaderChildren(tinyxml2::XMLElement* shaderElement, VariableMap& variableMap);
