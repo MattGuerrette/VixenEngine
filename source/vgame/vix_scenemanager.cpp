@@ -143,7 +143,6 @@ namespace Vixen {
 		return nullptr;
 	}
 
-
     void SceneManager::OpenScene(std::string id)
     {
         SceneManager& _manager = SceneManager::instance();
