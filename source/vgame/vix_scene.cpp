@@ -137,6 +137,11 @@ namespace Vixen {
 		m_id = id;
 	}
 
+	void Scene::SetFileName(std::string name)
+	{
+		m_fileName = name;
+	}
+
 	void Scene::SetMainCamera(ICamera3D * camera)
 	{
 		m_mainCamera = camera;
@@ -158,6 +163,11 @@ namespace Vixen {
 	const std::string& Scene::GetID()
 	{
 		return m_id;
+	}
+
+	const std::string& Scene::GetFileName()
+	{
+		return m_fileName;
 	}
 
 	bool Scene::IsPaused()

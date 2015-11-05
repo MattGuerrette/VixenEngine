@@ -58,15 +58,23 @@ namespace Vixen {
 
 		/*SETTER FUNCTIONS*/
 		void SetID(std::string id);
-
+		void SetFileName(std::string name);
 		void SetMainCamera(ICamera3D* camera);
 
 		/*GETTER FUNCTIONS*/
 		const std::string& GetID();				//returns ID of scene
+<<<<<<< HEAD
+		const std::string& GetFileName();
+=======
+>>>>>>> master
 
 	private:
 		uint32_t						m_order;
 		std::string						m_id;				//scene ID
+<<<<<<< HEAD
+		std::string						m_fileName;
+=======
+>>>>>>> master
 		bool							m_paused;
 		bool							m_hidden;
 		std::vector<GameObject*>		m_topLevelObjects;

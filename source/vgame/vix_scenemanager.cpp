@@ -64,21 +64,15 @@ namespace Vixen {
             while (sceneNode != NULL)
             {
                 const char* sceneFile = sceneNode->Attribute("file");
-                File* _sceneFile = FileManager::OpenFile(PathManager::ScenePath() + UStringFromCharArray(sceneFile));
-                if (_sceneFile)
-                {
-                    Scene* scene = Scene::Deserialize(_sceneFile);
-					if (scene) {
-						_manager.m_scenes[scene->GetID()] = scene;
-						_manager.m_sceneQueue.push(scene);
-						_manager.m_sceneList.push_back(scene);
-						_manager.m_current = scene;
-						
-					}
-                        
-                    FileManager::CloseFile(_sceneFile);
-                }
+				bool initial = sceneNode->BoolAttribute("initial");
 
+				Scene* scene = _manager.LoadScene(sceneFile, initial);
+				if (scene) {
+					DebugPrintF(VTEXT("SceneManager: loaded scene %s successfully \n"), sceneFile);
+				}
+				else {
+					DebugPrintF(VTEXT("SceneManager: scene %s not found\n"), sceneFile);
+				}
                 sceneNode = sceneNode->NextSiblingElement("scene");
             }
             FileManager::CloseFile(file);
@@ -123,6 +117,32 @@ namespace Vixen {
 		}
 	}
 
+	Scene* SceneManager::LoadScene(std::string fileName, bool initial)
+	{
+		SceneManager& _manager = SceneManager::instance();
+
+		File* sceneFile = FileManager::OpenFile(PathManager::ScenePath() + UStringFromCharArray(fileName.c_str()));
+		if (sceneFile)
+		{
+			Scene* scene = Scene::Deserialize(sceneFile);
+			if (scene) {
+				scene->SetFileName(fileName);
+				
+				_manager.m_sceneFiles[scene->GetID()] = scene->GetFileName();
+				_manager.m_scenes[scene->GetID()] = scene;
+
+				if (initial) {
+					_manager.m_sceneList.push_back(scene);
+					_manager.m_current = scene;
+				}
+				return scene;
+			}
+
+			FileManager::CloseFile(sceneFile);
+		}
+		return nullptr;
+	}
+
     void SceneManager::OpenScene(std::string id)
     {
         SceneManager& _manager = SceneManager::instance();
@@ -131,21 +151,20 @@ namespace Vixen {
         SceneMap::iterator it = _manager.m_scenes.find(id);
         if (it == _manager.m_scenes.end())
 		{
-			std::string _path = id + ".scene";
-			File* _sceneFile = FileManager::OpenFile(PathManager::ScenePath() + UStringFromCharArray(_path.c_str()));
-			if (_sceneFile)
+			SceneFileMap::iterator itt = _manager.m_sceneFiles.find(id);
+			if (itt == _manager.m_sceneFiles.end())
 			{
-				Scene* scene = Scene::Deserialize(_sceneFile);
-				if (scene) {
-					_manager.m_scenes[scene->GetID()] = scene;
-					_manager.m_sceneQueue.push(scene);
-					_manager.m_sceneList.push_back(scene);
-				}
-
-				FileManager::CloseFile(_sceneFile);
-			}
-			else
 				DebugPrintF(VTEXT("SceneManager: scene %s not found\n"), id.c_str());
+			}
+			else {
+				std::string fileName = itt->second;
+				Scene* scene = _manager.LoadScene(fileName);
+				_manager.m_sceneList.push_back(scene);
+			}
+		}
+		else {
+			Scene* scene = it->second;
+			_manager.m_sceneList.push_back(scene);
 		}
             
     }
@@ -249,7 +268,7 @@ namespace Vixen {
 	void SceneManager::ReloadScene(std::string sceneID)
 	{
 		SceneManager& _manager = SceneManager::instance();
-
+		
 		for (int32_t i = 0; i < _manager.m_sceneList.size(); i++)
 		{
 			Scene* _scene = _manager.m_sceneList[i];
@@ -257,22 +276,13 @@ namespace Vixen {
 			{
 				if (_scene->GetID() == sceneID)
 				{
+					std::string sceneFile = _scene->GetFileName();
+
 					_manager.m_sceneList.erase(_manager.m_sceneList.begin() + i);
 					delete _scene;
 
-					std::string sceneFile = sceneID + ".scene";
-					File* _sceneFile = FileManager::OpenFile(PathManager::ScenePath() + UStringFromCharArray(sceneFile.c_str()));
-					if (_sceneFile)
-					{
-						_scene = Scene::Deserialize(_sceneFile);
-						if (_scene) {
-							_manager.m_scenes[_scene->GetID()] = _scene;
-							_manager.m_sceneQueue.push(_scene);
-							_manager.m_sceneList.push_back(_scene);
-						}
-
-						FileManager::CloseFile(_sceneFile);
-					}
+					_scene = _manager.LoadScene(sceneFile);
+					_manager.m_sceneList.push_back(_scene);
 					return;
 				}
 			}
