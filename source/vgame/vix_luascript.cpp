@@ -31,7 +31,7 @@ namespace Vixen {
 
 	LuaIntf::LuaRef* LuaScript::s_ThisTable = NULL;
 
-	LuaScript::LuaScript()
+	LuaScript::LuaScript() : Component(Type::LUA_SCRIPT)
 	{
         m_onInitFunc = NULL;
         m_onDestroyFunc = NULL;
@@ -40,7 +40,7 @@ namespace Vixen {
 		m_updateFunc = NULL;
 		m_parent = NULL;
 
-		m_type = IComponent::Type::LUA_SCRIPT;
+		m_type = Component::Type::LUA_SCRIPT;
 	}
 
 	LuaScript::~LuaScript()
@@ -233,15 +233,5 @@ namespace Vixen {
 	void LuaScript::SetID(UString id)
 	{
 		m_id = id;
-	}
-
-	void LuaScript::VSetType(IComponent::Type type)
-	{
-		m_type = type;
-	}
-
-	IComponent::Type LuaScript::VGetType()
-	{
-		return m_type;
 	}
 }

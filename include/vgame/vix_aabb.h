@@ -7,7 +7,7 @@
 
 namespace Vixen {
 
-    class VIX_API AABB : public IComponent
+    class VIX_API AABB : public Component
     {
     public:
         AABB(Vector3 centroid, Vector3 halfSize);

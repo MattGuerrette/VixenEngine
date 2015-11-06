@@ -32,7 +32,7 @@ namespace Vixen {
 
 	class GameObject;
 
-	class VIX_API LightComponent : public IComponent
+	class VIX_API LightComponent : public Component
 	{
 	public:
 		LightComponent(ILight* light);
@@ -49,17 +49,9 @@ namespace Vixen {
 
 		void VOnDestroy();
 
-		void VBindParent(GameObject* parent);
-
-		IComponent::Type VGetType();
-
-		void VSetType(IComponent::Type type);
-
 	private:
-		GameObject*         m_parent;
 		//Transform*          m_parentTransform;
 		ILight*				m_light;
-		IComponent::Type    m_type;
 	};
 
 }

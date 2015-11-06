@@ -25,7 +25,7 @@ SOFTWARE.
 #include <vix_gameobject.h>
 
 namespace Vixen {
-	LightComponent::LightComponent(ILight* light)
+	LightComponent::LightComponent(ILight* light) : Component(Type::LIGHT)
 	{
 		m_light = light;
 	}
@@ -58,21 +58,5 @@ namespace Vixen {
 	void LightComponent::VOnDestroy()
 	{
 
-	}
-
-	void LightComponent::VBindParent(GameObject* parent)
-	{
-		m_parent = parent;
-		//m_parentTransform = parent->GetTransform();
-	}
-
-	void LightComponent::VSetType(IComponent::Type type)
-	{
-		m_type = type;
-	}
-
-	IComponent::Type LightComponent::VGetType()
-	{
-		return m_type;
 	}
 }

@@ -9,7 +9,7 @@
 
 namespace Vixen {
 
-    class VIX_API UIText : public IRenderComponent2D, public IComponent
+    class VIX_API UIText : public IRenderComponent2D, public Component
     {
     public:
         UIText();
@@ -26,18 +26,12 @@ namespace Vixen {
         void VRender(ICamera2D* camera);
 		void VBindParent(GameObject* parent);
 
-		void VSetType(IComponent::Type type);
-		IComponent::Type VGetType();
-
         std::string GetText();
         void        SetText(std::string text);
 
     private:
         UString     m_text;
         IFont*      m_font;
-		GameObject* m_parent;
-
-		IComponent::Type m_type;
     };
 }
 

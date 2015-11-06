@@ -56,7 +56,7 @@ namespace Vixen {
 		Transform* GetTransform();
 		Transform& GetTransformRef();
 
-		void AddComponent(IComponent* component);
+		void AddComponent(Component* component);
 		void AddChild(GameObject* gameObject);
 		void RemoveChild(GameObject* gameObject);
 
@@ -94,7 +94,7 @@ namespace Vixen {
 		UString                     m_name;
 		Transform*					m_transform;
 		IModel*						m_model;
-		std::vector<IComponent*>	m_components;
+		std::vector<Component*>	m_components;
 
 		std::vector<GameObject*>    m_children;
 		GameObject*					m_parent;

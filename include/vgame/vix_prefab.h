@@ -50,7 +50,7 @@ namespace Vixen {
 		void SetModelFile(std::string file);
 
 		void AddChild(Prefab* child);
-		void AddComponent(IComponent* component);
+		void AddComponent(Component* component);
 		void AddScriptFile(std::string file);
 
 		GameObject* CreateObject();
@@ -76,7 +76,7 @@ namespace Vixen {
 
 		std::vector<std::string>    m_scriptFiles;
 
-		std::vector<IComponent*>    m_components;
+		std::vector<Component*>    m_components;
 		std::vector<Prefab*>		m_children;
 
 		uint32_t                    m_refCount;

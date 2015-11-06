@@ -109,13 +109,13 @@ namespace Vixen {
 		uint32_t numComponents = prefab->m_components.size();
 		for (uint32_t i = 0; i < numComponents; i++)
 		{
-			IComponent* component = prefab->m_components[i];
+			Component* component = prefab->m_components[i];
 
 			if (component)
 			{
 				switch (component->VGetType())
 				{
-					case IComponent::Type::LUA_SCRIPT:
+					case Component::Type::LUA_SCRIPT:
 					{
 
 						//Should be able to be created from copy construct not reloading.
@@ -125,7 +125,7 @@ namespace Vixen {
 
 					} break;
 
-					case IComponent::Type::UI_TEXT:
+					case Component::Type::UI_TEXT:
 					{
 
 
@@ -156,7 +156,7 @@ namespace Vixen {
 		return _object;
 	}
 
-	void Prefab::AddComponent(IComponent* component)
+	void Prefab::AddComponent(Component* component)
 	{
 		m_components.push_back(component);
 	}

@@ -3,21 +3,21 @@
 
 namespace Vixen {
 
-    UIText::UIText()
+    UIText::UIText() : Component(Type::UI_TEXT)
     {
         m_text = VTEXT("");
         m_font = NULL;
 		m_parent = NULL;
     }
 
-    UIText::UIText(UString text)
+    UIText::UIText(UString text) : Component(Type::UI_TEXT)
     {
         m_text = text;
         m_font = NULL;
 		m_parent = NULL;
     }
 
-    UIText::UIText(UString text, IFont* font)
+    UIText::UIText(UString text, IFont* font) : Component(Type::UI_TEXT)
     {
         m_text = text;
         m_font = font;
@@ -78,14 +78,4 @@ namespace Vixen {
                                    Vector2(m_parent->GetTransform()->X(),
 										   m_parent->GetTransform()->Y()));
     }
-
-	void UIText::VSetType(IComponent::Type type)
-	{
-		m_type = type;
-	}
-
-	IComponent::Type UIText::VGetType()
-	{
-		return m_type;
-	}
 }

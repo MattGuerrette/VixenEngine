@@ -42,7 +42,7 @@ namespace Vixen {
 
     bool Camera3DComponent::s_MainCameraExists = false;
 
-    Camera3DComponent::Camera3DComponent()
+    Camera3DComponent::Camera3DComponent() : Component(Type::UNUSED)
     {
         #ifdef VIX_SYS_WINDOWS
             m_camera = new DXCamera3D;
@@ -134,12 +134,12 @@ namespace Vixen {
 		m_parentTransform = parent->GetTransform();
     }
 
-	void Camera3DComponent::VSetType(IComponent::Type type)
+	void Camera3DComponent::VSetType(Component::Type type)
 	{
 		m_type = type;
 	}
 
-	IComponent::Type Camera3DComponent::VGetType()
+	Component::Type Camera3DComponent::VGetType()
 	{
 		return m_type;
 	}
