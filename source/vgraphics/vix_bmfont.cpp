@@ -19,6 +19,7 @@
 #include <vix_tinyxml.h>
 #include <vix_debugutil.h>
 #include <vix_resourcemanager.h>
+#include <vix_rectangle.h>
 
 namespace Vixen {
 
@@ -90,6 +91,37 @@ namespace Vixen {
     {
         return m_fontFile.common.lineHeight;
     }
+
+
+	Rect BMFont::VBounds(UString text)
+	{
+		Rect bounds;
+		int dx = 0;
+		int lineH = m_fontFile.common.lineHeight;
+		int dy = lineH;
+		/*Iterate over characters in text*/
+		for (const UChar& c : text)
+		{
+			if (c == '\n') {
+				dx = 0;
+				dy += lineH;
+			}
+
+			//Find the font character and advance the
+			//pixel units based on the xAdvance value
+			FontChar fc;
+			if (VFindChar(c, fc)) {
+				dx += fc.xAdvance;
+			}
+		}
+
+		bounds.x = 0;
+		bounds.y = 0;
+		bounds.w = dx;
+		bounds.h = dy;
+
+		return bounds;
+	}
 
 
     void BMFont::ReadFontInfo(XMLDOC& doc, BMFontFile& file)

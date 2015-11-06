@@ -22,6 +22,10 @@
 #include <vix_scenemanager.h>
 #include <vix_objectmanager.h>
 #include <vix_time.h>
+#include <vix_luaengine.h>
+#include <vix_resourcemanager.h>
+
+#include <vix_components.h>
 
 namespace Vixen {
 
@@ -34,6 +38,8 @@ namespace Vixen {
 	Scene::Scene()
 	{
 		m_paused = false;
+		m_hidden = false;
+		
 		m_mainCamera = NULL;
 	}
 
@@ -48,45 +54,62 @@ namespace Vixen {
 		m_topLevelObjects.push_back(object);
 	}
 
-	void Scene::QueObjectSpawn(GameObject* object)
+	void Scene::RemoveSceneObject(GameObject* object)
 	{
-		m_objectsToAdd.push_back(object);
+		for (int i = 0; i < m_topLevelObjects.size(); i++)
+		{
+			if (m_topLevelObjects.at(i) == object)
+			{
+				m_topLevelObjects.erase(m_topLevelObjects.begin() + i);
+				return;
+			}
+		}
 	}
 
-	void Scene::QueObjectDestroy(GameObject* object)
-	{
-		m_objectsToRemove.push_back(object);
-	}
 
 	void Scene::Update()
 	{
-		if (m_paused)
-			return;
-
 		//update all scene objects
-		for (auto& object : m_topLevelObjects)
-			if (object->GetEnabled())
-				object->Update();
-
-		//spawn all queued objects
-		for (auto& object : m_objectsToAdd)
+		for (int i = 0; i < m_topLevelObjects.size(); i++)
 		{
-			this->AddSceneObject(object);
+			GameObject* obj = m_topLevelObjects.at(i);
+			if(obj->IsMarkedForDestroy())
+			{
+				//destroy the object and skip over the index
+				ObjectManager::DestroyGameObject(obj);
+				m_topLevelObjects.erase(m_topLevelObjects.begin() + i);
+				i--;
+			}
+			else if (obj->GetEnabled())
+				obj->Update();
 		}
-		m_objectsToAdd.clear();
-
-		DestroyObjects();
 	}
 
 	void Scene::Render()
 	{
 		//render all scene object
-		for (auto& object : m_topLevelObjects)
-			if (object->GetEnabled())
-				object->Render(m_mainCamera);
+		for (int i = 0; i < m_topLevelObjects.size(); i++)
+		{
+			GameObject* obj = m_topLevelObjects.at(i);
+			if (!obj->IsMarkedForDestroy() && !obj->IsMarkedForLateRender() && obj->GetEnabled())
+				obj->Render(m_mainCamera);
+		}
 
 		for (auto& model : ModelManager::ActiveModels())
 			model->VRender(Time::DeltaTime(), Time::TotalTime(), m_mainCamera);
+
+        //render all late render (UI) scene objects
+        //NOTE: this is expensive, as we are iterating over the list of objects again...
+        //      what should happen is the list should be sorted once, leaving all late render objects
+        //      last to be drawn.
+        for (int i = 0; i < m_topLevelObjects.size(); i++)
+        {
+            GameObject* obj = m_topLevelObjects.at(i);
+            if (obj->IsMarkedForLateRender() && obj->GetEnabled())
+                obj->Render(m_mainCamera);
+        }
+
+		LuaEngine::ExecuteExpression(VTEXT("collectgarbage()"));
 	}
 
 	GameObject* Scene::QueryObject(std::string name)
@@ -103,33 +126,19 @@ namespace Vixen {
 
 	/*SETTER FUNCTIONS*/
 
-	void Scene::SetID(UString id)
+	void Scene::SetID(std::string id)
 	{
 		m_id = id;
 	}
 
-	void Scene::DestroyObjects()
+	void Scene::SetFileName(std::string name)
 	{
-		int numDestroy = m_objectsToRemove.size();
+		m_fileName = name;
+	}
 
-		int numTopLevelObjects = m_topLevelObjects.size();
-		for (int i = 0; i < numDestroy; i++)
-		{
-			GameObject* _object = m_objectsToRemove[i];
-			for (int j = 0; j < numTopLevelObjects; j++)
-			{
-				GameObject* _topLevel = m_topLevelObjects[j];
-				if (_topLevel->GetID() == _object->GetID())
-				{
-					m_topLevelObjects.erase(m_topLevelObjects.begin() + j);
-					ObjectManager::DestroySceneObject(_object->GetID());
-					j--;
-					numTopLevelObjects--;
-				}
-			}
-		}
-
-		m_objectsToRemove.clear();
+	void Scene::SetMainCamera(ICamera3D * camera)
+	{
+		m_mainCamera = camera;
 	}
 
 	void Scene::SetPaused(bool paused)
@@ -137,12 +146,35 @@ namespace Vixen {
 		m_paused = paused;
 	}
 
+	void Scene::SetHidden(bool hidden)
+	{
+		m_hidden = hidden;
+	}
+
+
 
 	/*GETTER FUNCTIONS*/
-	const UString& Scene::GetID()
+	const std::string& Scene::GetID()
 	{
 		return m_id;
 	}
+
+	const std::string& Scene::GetFileName()
+	{
+		return m_fileName;
+	}
+
+	bool Scene::IsPaused()
+	{
+		return m_paused;
+	}
+
+	bool Scene::IsHidden()
+	{
+		return m_hidden;
+	}
+
+	
 
 
 	///////////////////////////////////////////////////////////////////////
@@ -172,7 +204,7 @@ namespace Vixen {
 		const XMLElement* objectListElement = sceneElement->FirstChildElement("object-list");
 		const XMLElement* gameObjectElement = objectListElement->FirstChildElement("gameobject");
 		const char* sceneID = sceneElement->Attribute("id");
-		_scene->SetID(UStringFromCharArray(sceneID));
+		_scene->SetID(sceneID);
 		while (gameObjectElement != NULL)
 		{
 			GameObject* _gameObject = ParseGameObject(_scene, gameObjectElement);
@@ -187,15 +219,7 @@ namespace Vixen {
 		//////////////////////////////////////////
 		/*for (auto& obj : _scene->m_sceneObjects)
 			obj.second->SetEnabled(true, true);
-*/
-
-//spawn all queued objects
-		for (auto& object : _scene->m_objectsToAdd)
-		{
-			_scene->AddSceneObject(object);
-		}
-		_scene->m_objectsToAdd.clear();
-
+		*/
 		return _scene;
 	}
 
@@ -220,7 +244,7 @@ namespace Vixen {
 		_object->SetEnabled(enabled, false);
 		ObjectManager::MapSceneObject(_object);
 
-		std::vector<IComponent*> components = ParseComponents(scene, element->FirstChildElement("components"));
+		std::vector<Component*> components = ParseComponents(scene, element->FirstChildElement("components"));
 		for (auto& component : components)
 		{
 			component->VBindParent(_object);
@@ -260,16 +284,20 @@ namespace Vixen {
 		return new Transform(posX, posY, posZ, rotX, rotY, rotZ, scaleX, scaleY, scaleZ);
 	}
 
-	std::vector<IComponent*> Scene::ParseComponents(Scene* scene, const tinyxml2::XMLElement * element)
+	std::vector<Component*> Scene::ParseComponents(Scene* scene, const tinyxml2::XMLElement * element)
 	{
 		using namespace tinyxml2;
 
-		std::vector<IComponent*> components;
+		std::vector<Component*> components;
 
 		const XMLElement* child = element->FirstChildElement();
 		while (child) {
 			std::string name(child->Name());
+<<<<<<< HEAD
 			IComponent* component = NULL;
+=======
+			Component* component;
+>>>>>>> 5d61730afc80281f2da012a8e50084e490f8a879
 			if (name == "script")
 			{
 				//PARSE SCRIPT
@@ -285,6 +313,11 @@ namespace Vixen {
 				//PARSE LIGHT
 				component = ParseLightComponent(child);
 			}
+            else if (name == "ui-text")
+            {
+                //PARSE UI-TEXT
+                component = ParseUITextComponent(child);
+            }
 
 			if (component)
 				components.push_back(component);
@@ -295,16 +328,16 @@ namespace Vixen {
 		return components;
 	}
 
-	CameraComponent* Scene::ParseCameraComponent(Scene* scene, const tinyxml2::XMLElement * element)
+	Component* Scene::ParseCameraComponent(Scene* scene, const tinyxml2::XMLElement * element)
 	{
 		bool isMainCamera = element->BoolAttribute("mainCamera");
-		CameraComponent* _camera = new CameraComponent;
+		Camera3DComponent* _camera = new Camera3DComponent;
 		if (isMainCamera)
 			scene->m_mainCamera = _camera->GetCamera();
 		return _camera;
 	}
 
-	LightComponent* Scene::ParseLightComponent(const tinyxml2::XMLElement * element)
+    Component* Scene::ParseLightComponent(const tinyxml2::XMLElement * element)
 	{
 		using namespace tinyxml2;
 
@@ -341,7 +374,11 @@ namespace Vixen {
 		return component;
 	}
 
+<<<<<<< HEAD
 	/*LuaScript* Scene::ParseLuaScriptComponent(const tinyxml2::XMLElement * element)
+=======
+    Component* Scene::ParseLuaScriptComponent(const tinyxml2::XMLElement * element)
+>>>>>>> 5d61730afc80281f2da012a8e50084e490f8a879
 	{
 		using namespace tinyxml2;
 
@@ -350,5 +387,24 @@ namespace Vixen {
 
 		LuaScript* script = LuaScriptManager::LoadScript(scriptPath);
 		return script;
+<<<<<<< HEAD
 	}*/
 }
+=======
+	}
+
+    Component* Scene::ParseUITextComponent(const tinyxml2::XMLElement* element)
+    {
+        using namespace tinyxml2;
+
+        const char* text = element->Attribute("text");
+        const char* font = element->Attribute("font");
+
+
+        IFont*  _font = ResourceManager::OpenFont(UStringFromCharArray(font));
+        UIText* _text = new UIText(UStringFromCharArray(text), _font);
+        
+        return _text;
+    }
+}
+>>>>>>> 5d61730afc80281f2da012a8e50084e490f8a879

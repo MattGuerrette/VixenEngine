@@ -30,6 +30,7 @@ namespace Vixen
         ~PathManager();
 
         static void    Initialize();
+        static void    DeInitialize();
         static UString AssetPath();
         static UString ScenePath();
         static UString ModelPath();

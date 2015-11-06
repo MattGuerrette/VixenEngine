@@ -212,9 +212,6 @@ namespace Vixen {
 
         m_ImmediateContext->RSSetViewports(1, &vp);
 
-        m_spriteBatch = new DXSpriteBatcher(m_Device, m_ImmediateContext);
-        m_spriteBatch->SetVertexShader((DXVertexShader*)ResourceManager::OpenShader(VTEXT("SpriteBatch_VS.hlsl"), ShaderType::VERTEX_SHADER));
-        m_spriteBatch->SetPixelShader((DXPixelShader*)ResourceManager::OpenShader(VTEXT("SpriteBatch_PS.hlsl"), ShaderType::PIXEL_SHADER));
 
         OrthoRect _ortho;
         _ortho.left = 0.0f;
@@ -222,12 +219,7 @@ namespace Vixen {
         _ortho.top = 0.0f;
         _ortho.bottom = static_cast<float>(height);
         m_camera2D->VSetOrthoRHOffCenter(_ortho, 0.0f, 1.0f);
-
-        //m_camera3D->VSetPerspective(static_cast<float>(width) / static_cast<float>(height),
-           // DirectX::XMConvertToRadians(45.0f), 0.01f, 1000.0f);
-        //m_camera3D->VSetView(Vector3(0.0f, 10.0f, 0.0f), Vector3(0.0f, 0.0f, 1.0f), Vector3(0.0f, 1.0f, 0.0f));
-
-        m_spriteBatch->SetCamera(m_camera2D);
+  
 
 
         D3D11_BLEND_DESC blendDesc;
@@ -254,6 +246,15 @@ namespace Vixen {
 
 
         return true;
+    }
+
+    void DXRenderer::VInitializeSpriteBatch()
+    {
+        m_spriteBatch = new DXSpriteBatcher(m_Device, m_ImmediateContext);
+        m_spriteBatch->SetVertexShader((DXVertexShader*)ResourceManager::OpenShader(VTEXT("SpriteBatch_VS.hlsl"), ShaderType::VERTEX_SHADER));
+        m_spriteBatch->SetPixelShader((DXPixelShader*)ResourceManager::OpenShader(VTEXT("SpriteBatch_PS.hlsl"), ShaderType::PIXEL_SHADER));
+
+        m_spriteBatch->SetCamera(m_camera2D);
     }
 
     void DXRenderer::VSetClearColor(const Color& c)
@@ -319,13 +320,24 @@ namespace Vixen {
     {
         m_spriteBatch->Begin(BatchSortMode::IMMEDITATE);
 
-        float dx = position.x;
-        float dy = position.y;
+		float x = position.x;
+		if (position.x == -1) {
+			float midX = static_cast<float>((1280 - font->VBounds(text).w) / 2);
+			x = midX;
+		}
+		float y = position.y;
+		if (position.y == -1) {
+			float midY = static_cast<float>((720 - font->VBounds(text).h) / 2);
+			y = midY;
+		}
+
+		float dx = x;
+		float dy = y;
         for (UChar &c : text)
         {
             if (c == '\n')
             {
-                dx = position.x;
+                dx = x;
                 dy += font->VLineHeight();
                 continue;
             }

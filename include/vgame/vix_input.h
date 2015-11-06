@@ -85,6 +85,7 @@ namespace Vixen {
 		NUM8,
 		NUM9,
 		NUM0,
+		ESC
 	};
 
 	class IKeyboardState;

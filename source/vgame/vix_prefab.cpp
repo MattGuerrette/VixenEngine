@@ -100,15 +100,46 @@ namespace Vixen {
 		ObjectManager::MapSceneObject(_object);
 
 
+<<<<<<< HEAD
 		/*size_t numScripts = prefab->ScriptCount();
 		for (size_t i = 0; i < numScripts; i++)
+=======
+		uint32_t numComponents = prefab->m_components.size();
+		for (uint32_t i = 0; i < numComponents; i++)
+>>>>>>> 5d61730afc80281f2da012a8e50084e490f8a879
 		{
-			std::string scriptFile = prefab->GetScriptFile(i);
+			Component* component = prefab->m_components[i];
 
+<<<<<<< HEAD
 			LuaScript* _script = LuaScriptManager::LoadScript(UStringFromCharArray(scriptFile.c_str()));
 			_script->VBindParent(_object);
 			_object->AddComponent(_script);
 		}*/
+=======
+			if (component)
+			{
+				switch (component->VGetType())
+				{
+					case Component::Type::LUA_SCRIPT:
+					{
+
+						//Should be able to be created from copy construct not reloading.
+						LuaScript* _script = LuaScriptManager::LoadScript(((LuaScript*)component)->GetPath());
+						_script->VBindParent(_object);
+						_object->AddComponent(_script);
+
+					} break;
+
+					case Component::Type::UI_TEXT:
+					{
+
+
+
+					} break;
+				}
+			}
+		}
+>>>>>>> 5d61730afc80281f2da012a8e50084e490f8a879
 
 		//build children
 		size_t numChildren = prefab->ChildCount();
@@ -126,9 +157,14 @@ namespace Vixen {
 	{
 		GameObject* _object = BuildFromPrefab(this);
 
-		SceneManager::ActiveScene()->QueObjectSpawn(_object);
+		SceneManager::ActiveScene()->AddSceneObject(_object);
 
 		return _object;
+	}
+
+	void Prefab::AddComponent(Component* component)
+	{
+		m_components.push_back(component);
 	}
 
 	void Prefab::IncRefCount()

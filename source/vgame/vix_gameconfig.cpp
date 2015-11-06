@@ -34,6 +34,11 @@ namespace Vixen {
 
         //Open Environment Config File
         File* configFile = FileManager::OpenFile(os_exec_dir() + VTEXT("vixen.config"));
+<<<<<<< HEAD
+=======
+        if (!configFile)
+            return false;
+>>>>>>> 5d61730afc80281f2da012a8e50084e490f8a879
 
 		XMLDOC document;
         XMLError err = document.LoadFile(configFile->Handle());

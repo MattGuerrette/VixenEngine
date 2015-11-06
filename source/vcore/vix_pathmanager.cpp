@@ -78,6 +78,11 @@ namespace Vixen
         FileManager::CloseFile(envFile);
     }
 
+    void PathManager::DeInitialize()
+    {
+        
+    }
+
     UString PathManager::AssetPath()
     {
         return _AssetPath;

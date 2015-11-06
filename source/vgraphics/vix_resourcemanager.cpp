@@ -17,12 +17,35 @@
 
 #include <vix_resourcemanager.h>
 #include <vix_pathmanager.h>
+#include <vix_renderer_singleton.h>
+
+#ifdef VIX_SYS_WINDOWS
+#include <vix_dxresourceloader.h>
+#endif
 
 namespace Vixen {
 
     ResourceManager::~ResourceManager()
     {
 
+    }
+
+    bool ResourceManager::Initialize()
+    {
+        ResourceManager& _manager = ResourceManager::instance();
+
+#ifdef VIX_SYS_WINDOWS
+        _manager.m_resourceLoader = new DXResourceLoader((DXRenderer*)Renderer::Handle());
+#endif
+
+        return true;
+    }
+
+    void ResourceManager::DeInitialize()
+    {
+        ResourceManager& _manager = ResourceManager::instance();
+
+        delete _manager.m_resourceLoader;
     }
 
     void ResourceManager::AttachResourceLoader(IResourceLoader* loader)

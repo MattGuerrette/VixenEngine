@@ -19,7 +19,7 @@
 
 namespace Vixen {
 
-    AABB::AABB(Vector3 centroid, Vector3 halfSize)
+    AABB::AABB(Vector3 centroid, Vector3 halfSize) : Component(Type::UNUSED)
     {
 
     }

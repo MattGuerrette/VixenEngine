@@ -99,6 +99,11 @@ namespace Vixen {
 
         float       VLineHeight();
 
+<<<<<<< HEAD
+=======
+		Rect		VBounds(UString text);
+      
+>>>>>>> 5d61730afc80281f2da012a8e50084e490f8a879
 
     private:
         IFont::CharMap          m_charMap;

@@ -27,17 +27,52 @@ namespace Vixen {
 	class Game;
     class GameObject;
 
-	class VIX_API IComponent
+	class VIX_API Component
 	{
 	public:
-		virtual ~IComponent() { };
+
+		enum class Type
+		{
+			UNUSED,
+			LUA_SCRIPT,
+			LIGHT,
+			UI_TEXT,
+			UI_BUTTON,
+			UI_TEXTURE,
+			SPRITE
+		};
+
+		Component(Type type)
+		{
+			m_type = type;
+		}
+
+		virtual ~Component() { };
 		virtual void VOnInit() = 0;
 		virtual void VOnEnable() = 0;
 		virtual void VUpdate() = 0;
 		virtual void VOnDisable() = 0;
 		virtual void VOnDestroy() = 0;
+<<<<<<< HEAD
         virtual void VBindParent(GameObject* parent) = 0;
 
+=======
+
+		virtual void VBindParent(GameObject* parent)
+		{
+			m_parent = parent;
+		}
+
+
+		virtual Component::Type VGetType()
+		{
+			return m_type;
+		}
+
+	protected:
+		GameObject* m_parent;
+		Type		m_type;
+>>>>>>> 5d61730afc80281f2da012a8e50084e490f8a879
 	};
 
 }

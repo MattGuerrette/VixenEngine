@@ -20,7 +20,9 @@
 
 #include <vix_containers.h>
 #include <vix_gameobject.h>
+#include <vix_component.h>
 #include <vix_tinyxml.h>
+#include <vix_camera2d.h>
 
 namespace Vixen {
 	class VIX_API Scene
@@ -37,30 +39,37 @@ namespace Vixen {
 
 		/*Adds Object with ID to Scene*/
 		void AddSceneObject(GameObject* object);
-		void QueObjectSpawn(GameObject* object);
-		void QueObjectDestroy(GameObject* object);
+		void RemoveSceneObject(GameObject* object);
+	
 		GameObject* QueryObject(std::string name);
 
-		/*Removes Object with ID from Scene*/
-		void DestroyObjects();
-
 		void SetPaused(bool paused);
+		void SetHidden(bool hidden);
+		
+		bool IsPaused();
+		bool IsHidden();
+		
 
 		/*SETTER FUNCTIONS*/
-		void SetID(UString id);
+		void SetID(std::string id);
+		void SetFileName(std::string name);
+		void SetMainCamera(ICamera3D* camera);
 
 		/*GETTER FUNCTIONS*/
-		const UString& GetID();				//returns ID of scene
-
+		const std::string& GetID();				//returns ID of scene
+		const std::string& GetFileName();
 	private:
-		UString							m_id;				//scene ID
+		uint32_t						m_order;
+		std::string						m_id;				//scene ID
+		std::string						m_fileName;
 		bool							m_paused;
+		bool							m_hidden;
 		std::vector<GameObject*>		m_topLevelObjects;
-		std::vector<GameObject*>        m_objectsToAdd;
-		std::vector<GameObject*>        m_objectsToRemove;
 		ICamera3D*                      m_mainCamera;
+        ICamera2D*                      m_uiCamera;
 
 	public:
+<<<<<<< HEAD
 		static Scene* Deserialize(File* file);
 		static GameObject* ParseGameObject(Scene* scene, const tinyxml2::XMLElement* element);
 		static Transform* ParseTransform(const tinyxml2::XMLElement * element);
@@ -68,6 +77,18 @@ namespace Vixen {
 		static CameraComponent*	ParseCameraComponent(Scene* scene, const tinyxml2::XMLElement* element);
 		static LightComponent* ParseLightComponent(const tinyxml2::XMLElement* element);
 		//static LuaScript* ParseLuaScriptComponent(const tinyxml2::XMLElement* element);
+=======
+		static Scene*                   Deserialize(File* file);
+
+    private:
+		static GameObject*              ParseGameObject(Scene* scene, const tinyxml2::XMLElement* element);
+		static Transform*               ParseTransform(const tinyxml2::XMLElement * element);
+		static std::vector<Component*>	ParseComponents(Scene* scene, const tinyxml2::XMLElement* element);
+		static Component*	            ParseCameraComponent(Scene* scene, const tinyxml2::XMLElement* element);
+		static Component*              ParseLightComponent(const tinyxml2::XMLElement* element);
+		static Component*              ParseLuaScriptComponent(const tinyxml2::XMLElement* element);
+        static Component*              ParseUITextComponent(const tinyxml2::XMLElement* element);
+>>>>>>> 5d61730afc80281f2da012a8e50084e490f8a879
 	};
 }
 #endif
