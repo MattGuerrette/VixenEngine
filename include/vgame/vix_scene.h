@@ -63,18 +63,11 @@ namespace Vixen {
 
 		/*GETTER FUNCTIONS*/
 		const std::string& GetID();				//returns ID of scene
-<<<<<<< HEAD
 		const std::string& GetFileName();
-=======
->>>>>>> master
-
 	private:
 		uint32_t						m_order;
 		std::string						m_id;				//scene ID
-<<<<<<< HEAD
 		std::string						m_fileName;
-=======
->>>>>>> master
 		bool							m_paused;
 		bool							m_hidden;
 		std::vector<GameObject*>		m_topLevelObjects;

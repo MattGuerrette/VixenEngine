@@ -34,11 +34,8 @@ namespace Vixen {
     class VIX_API SceneManager : public Singleton<SceneManager>
     {
         typedef std::map<std::string, Scene*> SceneMap;
-<<<<<<< HEAD
 		typedef std::map<std::string, std::string> SceneFileMap;
-=======
 		typedef std::queue<Scene*> SceneQueue;
->>>>>>> master
 		typedef std::vector<Scene*> SceneList;
     public:
        
