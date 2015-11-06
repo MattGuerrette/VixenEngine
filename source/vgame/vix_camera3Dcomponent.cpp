@@ -15,7 +15,7 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <vix_cameracomponent.h>
+#include <vix_camera3Dcomponent.h>
 
 //NOTE:
 //
@@ -34,9 +34,9 @@
 
 namespace Vixen {
 
-    bool CameraComponent::s_MainCameraExists = false;
+    bool Camera3DComponent::s_MainCameraExists = false;
 
-    CameraComponent::CameraComponent()
+    Camera3DComponent::Camera3DComponent() : Component(Type::UNUSED)
     {
         #ifdef VIX_SYS_WINDOWS
             m_camera = new DXCamera3D;
@@ -54,39 +54,39 @@ namespace Vixen {
         #endif
     }
 
-    CameraComponent::~CameraComponent()
+    Camera3DComponent::~Camera3DComponent()
     {
         delete m_camera;
     }
 
-    bool CameraComponent::IsMainCamera()
+    bool Camera3DComponent::IsMainCamera()
     {
         return m_isMainCamera;
     }
 
-    ICamera3D* CameraComponent::GetCamera()
+    ICamera3D* Camera3DComponent::GetCamera()
     {
         return m_camera;
     }
 
-    void CameraComponent::SetPerspective(float aspect, float fov, float znear, float zfar)
+    void Camera3DComponent::SetPerspective(float aspect, float fov, float znear, float zfar)
     {
         if(m_camera)
             m_camera->VSetPerspective(aspect, fov, znear, zfar);
     }
 
-    void CameraComponent::SetView(const Vector3& eye, const Vector3& target, const Vector3& up)
+    void Camera3DComponent::SetView(const Vector3& eye, const Vector3& target, const Vector3& up)
     {
         if(m_camera)
             m_camera->VSetView(eye, target, up);
     }
 
-    void CameraComponent::VOnInit()
+    void Camera3DComponent::VOnInit()
     {
 
     }
 
-    void CameraComponent::VOnEnable()
+    void Camera3DComponent::VOnEnable()
     {
 		if (m_camera)
 		{
@@ -97,7 +97,7 @@ namespace Vixen {
 		}
     }
 
-    void CameraComponent::VUpdate()
+    void Camera3DComponent::VUpdate()
     {
 
         if(m_camera)
@@ -112,21 +112,30 @@ namespace Vixen {
 
     }
 
-    void CameraComponent::VOnDisable()
+    void Camera3DComponent::VOnDisable()
     {
 
     }
 
-    void CameraComponent::VOnDestroy()
+    void Camera3DComponent::VOnDestroy()
     {
 
     }
 
-    void CameraComponent::VBindParent(GameObject* parent)
+    void Camera3DComponent::VBindParent(GameObject* parent)
     {
         m_parent = parent;
 		m_parentTransform = parent->GetTransform();
     }
 
+	void Camera3DComponent::VSetType(Component::Type type)
+	{
+		m_type = type;
+	}
+
+	Component::Type Camera3DComponent::VGetType()
+	{
+		return m_type;
+	}
 
 }

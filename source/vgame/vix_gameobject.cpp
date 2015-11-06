@@ -17,6 +17,9 @@
 
 #include <vix_gameobject.h>
 #include <vix_objectmanager.h>
+#include <vix_scenemanager.h>
+
+#include <vix_components.h>
 
 namespace Vixen {
 
@@ -59,6 +62,8 @@ namespace Vixen {
 		m_model = NULL;
 		m_parent = NULL;
 		m_transform = NULL;
+		m_markedForDestroy = false;
+        m_markedForLateRender = false;
 	}
 
 	GameObject::GameObject(Transform* transform)
@@ -68,6 +73,8 @@ namespace Vixen {
 		m_model = NULL;
 		m_parent = NULL;
 		m_transform = transform;
+		m_markedForDestroy = false;
+        m_markedForLateRender = false;
 	}
 
 	GameObject::GameObject(Transform* transform, IModel* model)
@@ -77,6 +84,8 @@ namespace Vixen {
 		m_parent = NULL;
 		m_transform = transform;
 		m_model = model;
+		m_markedForDestroy = false;
+        m_markedForLateRender = false;
 	}
 
 	GameObject::~GameObject()
@@ -85,18 +94,22 @@ namespace Vixen {
 
 		for (size_t i = 0; i < m_components.size(); i++)
 		{
-			IComponent* component = m_components[i];
+			Component* component = m_components[i];
 			if (component)
 			{
 				component->VOnDestroy();
+                delete component;
 			}
 		}
 
 		for (int i = 0; i < m_children.size(); i++)
 		{
 			GameObject* _child = m_children[i];
-			if(_child)
-				delete _child;
+			if (_child)
+			{
+				_child->Delete();
+			}
+
 		}
         delete m_transform;
 	}
@@ -107,7 +120,7 @@ namespace Vixen {
 		m_model->VSetWorld(m_transform->GetWorldMatrix());
 	}
 
-	void GameObject::AddComponent(IComponent* component)
+	void GameObject::AddComponent(Component* component)
 	{
 		m_components.push_back(component);
 		component->VOnInit();
@@ -119,17 +132,23 @@ namespace Vixen {
 	{
 		for (size_t i = 0; i < m_components.size(); i++)
 		{
-			IComponent* component = m_components[i];
+			Component* component = m_components[i];
 			if (component)
 				component->VUpdate();
 		}
 
-		/*for (int i = 0; i < m_children.size(); i++)
+		for (int i = 0; i < m_children.size(); i++)
 		{
 			GameObject* _child = m_children[i];
-			if(_child->GetEnabled())
-				_child->Update(dt);
-		}*/
+			if (_child->IsMarkedForDestroy())
+			{
+				ObjectManager::DestroyGameObject(_child);
+				m_children.erase(m_children.begin() + i);
+				i--;
+			}
+			else if(_child->GetEnabled())
+				_child->Update();
+		}
 	}
 
 	void GameObject::Render(ICamera3D * camera)
@@ -138,11 +157,22 @@ namespace Vixen {
 			m_model->VBatchRender(m_transform->GetWorldMatrix());
 		}
 
+<<<<<<< HEAD
+=======
+        for (int i = 0; i < m_components.size(); i++)
+        {
+            IRenderComponent2D* _renderComponent2D = dynamic_cast<IRenderComponent2D*>(m_components[i]);
+            if (_renderComponent2D)
+                _renderComponent2D->VRender(NULL);
+
+        }
+		
+>>>>>>> 5d61730afc80281f2da012a8e50084e490f8a879
 		for (int i = 0; i < m_children.size(); i++)
 		{
 			GameObject* _child = m_children[i];
 
-			if (_child->GetEnabled())
+			if (!_child->IsMarkedForDestroy() && _child->GetEnabled())
 				_child->Render(camera);
 		}
 	}
@@ -159,7 +189,7 @@ namespace Vixen {
 
 	void GameObject::Delete()
 	{
-		ObjectManager::DestroyGameObject(this);
+		m_markedForDestroy = true;
 	}
 
 	void GameObject::SetEnabled(bool state, bool recursive)
@@ -174,7 +204,7 @@ namespace Vixen {
 			{
 				for (size_t i = 0; i < m_components.size(); i++)
 				{
-					IComponent* component = m_components[i];
+					Component* component = m_components[i];
 					if (component)
 						component->VOnEnable();
 				}
@@ -184,7 +214,7 @@ namespace Vixen {
 			{
 				for (size_t i = 0; i < m_components.size(); i++)
 				{
-					IComponent* component = m_components[i];
+					Component* component = m_components[i];
 					if (component)
 						component->VOnDisable();
 				}
@@ -201,6 +231,20 @@ namespace Vixen {
 		}
 	}
 
+	bool GameObject::IsMarkedForDestroy()
+	{
+		return m_markedForDestroy;
+	}
+
+    bool GameObject::IsMarkedForLateRender()
+    {
+        return m_markedForLateRender;
+    }
+
+    void GameObject::MarkForLateRender()
+    {
+        m_markedForLateRender = true;
+    }
 
 	void GameObject::AddChild(GameObject* gameObject)
 	{
@@ -213,10 +257,38 @@ namespace Vixen {
 			current = current->m_parent;
 		}
 		//if the given object isn't a parent we can child it to this object
+		
+		//but first we have to remove it from the previous parent
+		//first case: there is no parent, attempt to remove from scene
+		if (!gameObject->m_parent)
+		{
+			SceneManager::ActiveScene()->RemoveSceneObject(gameObject);
+		}
+		//second case there is a parent remove it from that object
+		else
+		{
+			gameObject->m_parent->RemoveChild(gameObject);
+			m_transform->RemoveChildTransform(gameObject->GetTransform());
+		}
 
+		//now we can add it to this object
 		m_children.push_back(gameObject);
+		
+
 		gameObject->m_parent = this;
 		m_transform->AddChildTransform(gameObject->GetTransform());
+	}
+
+	void GameObject::RemoveChild(GameObject * gameObject)
+	{
+		for (int i = 0; i < m_children.size(); i++)
+		{
+			if (m_children.at(i) == gameObject)
+			{
+				m_children.erase(m_children.begin()+i);
+				return;
+			}
+		}
 	}
 
 	Transform* GameObject::GetTransform()
@@ -257,4 +329,22 @@ namespace Vixen {
 		return UStringToStd(m_name);
 	}
 
+<<<<<<< HEAD
 }
+=======
+
+    UIText* GameObject::GetTextComponent()
+    {
+        uint32_t numComponents = m_components.size();
+        for (uint32_t i = 0; i < numComponents; i++)
+        {
+            UIText* _text = dynamic_cast<UIText*>(m_components[i]);
+            if (_text)
+                return _text;
+        }
+
+        return NULL;
+    }
+
+}
+>>>>>>> 5d61730afc80281f2da012a8e50084e490f8a879

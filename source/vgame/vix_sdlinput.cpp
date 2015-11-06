@@ -312,6 +312,8 @@ namespace Vixen {
 			return SDL_SCANCODE_8;
 		case Vixen::IKEY::NUM9:
 			return SDL_SCANCODE_9;
+		case Vixen::IKEY::ESC:
+			return SDL_SCANCODE_ESCAPE;
 		default:
 			return SDL_SCANCODE_0;
 			break;

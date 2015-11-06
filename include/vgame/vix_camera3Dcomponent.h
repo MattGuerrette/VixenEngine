@@ -15,8 +15,8 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef VIX_CAMERACOMPONENT_H
-#define VIX_CAMERACOMPONENT_H
+#ifndef VIX_CAMERA3DCOMPONENT_H
+#define VIX_CAMERA3DCOMPONENT_H
 
 #include <vix_platform.h>
 #include <vix_component.h>
@@ -27,13 +27,13 @@ namespace Vixen {
 
     class GameObject;
 
-    class VIX_API CameraComponent : public IComponent
+    class VIX_API Camera3DComponent : public Component
     {
         static bool s_MainCameraExists;
     public:
-        CameraComponent();
+        Camera3DComponent();
 
-        ~CameraComponent();
+        ~Camera3DComponent();
 
         void VOnInit();
 
@@ -46,6 +46,10 @@ namespace Vixen {
         void VOnDestroy();
 
         void VBindParent(GameObject* parent);
+
+		Component::Type VGetType();
+
+		void VSetType(Component::Type type);
 
         void SetPerspective(float aspect, float fov, float znear, float zfar);
 
@@ -60,6 +64,8 @@ namespace Vixen {
 		Transform*          m_parentTransform;
         bool                m_isMainCamera;
         ICamera3D*          m_camera;
+
+		Component::Type    m_type;
     };
 
 }

@@ -20,11 +20,13 @@
 
 #include <vix_platform.h>
 #include <vix_containers.h>
-#include <vix_components.h>
+#include <vix_component.h>
 #include <vix_model.h>
+#include <vix_transform.h>
 
 namespace Vixen {
 
+    class UIText;
 
 	class VIX_API GameObject
 	{
@@ -48,13 +50,18 @@ namespace Vixen {
 		Transform* GetTransform();
 		Transform& GetTransformRef();
 
-		void AddComponent(IComponent* component);
+		void AddComponent(Component* component);
 		void AddChild(GameObject* gameObject);
+		void RemoveChild(GameObject* gameObject);
 
 		void Update();
 		void Render(ICamera3D* camera);
 		bool GetEnabled();
 		void SetEnabled(bool state, bool recursive);
+		bool IsMarkedForDestroy();
+        bool IsMarkedForLateRender();
+
+        void MarkForLateRender();
 
 		void Delete();
 
@@ -69,20 +76,31 @@ namespace Vixen {
 		GameObject* GetChild(int index);
 
 
+        
+    public:
+        UIText* GetTextComponent();
+
 	private:
 		bool						m_enabled;
-
+		bool						m_markedForDestroy;
+        bool                        m_markedForLateRender;
 		uint32_t                    m_id;
 		UString                     m_name;
 		Transform*					m_transform;
 		IModel*						m_model;
-		std::vector<IComponent*>	m_components;
+		std::vector<Component*>	m_components;
 
 		std::vector<GameObject*>    m_children;
 		GameObject*					m_parent;
 
 	};
 
+<<<<<<< HEAD
+=======
+
+    
+		
+>>>>>>> 5d61730afc80281f2da012a8e50084e490f8a879
 }
 
 #endif

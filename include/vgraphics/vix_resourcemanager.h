@@ -56,6 +56,10 @@ namespace Vixen {
     public:
         ~ResourceManager();
 
+        static bool Initialize();
+
+        static void DeInitialize();
+
         static void         AttachResourceLoader(IResourceLoader* loader);
         static ITexture*    OpenTexture(UString filePath);
         static IShader*     OpenShader(UString filePath, ShaderType type);

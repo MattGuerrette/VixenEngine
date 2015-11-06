@@ -47,6 +47,8 @@ namespace Vixen {
 
         void    VSwapBuffers() override;
 
+        void    VInitializeSpriteBatch() override;
+
         void    VAttachNativeHandle(void* handle) override;
 
         void    VRenderTexture2D(ITexture* texture, const Vector2& position, const Rect& source) override;

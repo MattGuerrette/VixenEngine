@@ -22,7 +22,7 @@ namespace Vixen {
 
     FileManager::~FileManager()
     {
-        STLMAP_DELETE(FileManager::m_files);
+        
     }
 
     void FileManager::Initialize()
@@ -31,6 +31,11 @@ namespace Vixen {
 
         manager.m_totalOpenBytes = 0;
         manager.m_totalOpenFiles = 0;
+    }
+
+    void FileManager::DeInitialize()
+    {
+        STLMAP_DELETE(FileManager::instance().m_files);
     }
 
     void FileManager::PrintOpen()

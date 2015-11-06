@@ -15,7 +15,8 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
+#include <vix_game.h>
+#include <vix_window_singleton.h>
 #include <vix_luascriptmanager.h>
 #include <vix_luaengine.h>
 #include <vix_pathmanager.h>
@@ -31,6 +32,7 @@
 #include <vix_input.h>
 #include <vix_scenemanager.h>
 #include <vix_prefabmanager.h>
+#include <vix_components.h>
 
 namespace Vixen {
 
@@ -124,22 +126,32 @@ namespace Vixen {
 	{
 		using namespace LuaIntf;
 
+<<<<<<< HEAD:source/unused/vgame/vix_luascriptmanager.cpp
 
+=======
+        ////////////////////////////////////////////////////////////////////////////////////
+        /* UIText                                                                         */
+        ////////////////////////////////////////////////////////////////////////////////////
+        LuaBinding(LuaEngine::L())
+            .beginClass<UIText>("UIText")
+            .addProperty("Text", &UIText::GetText, &UIText::SetText)
+            .endClass();
+>>>>>>> 5d61730afc80281f2da012a8e50084e490f8a879:source/vgame/vix_luascriptmanager.cpp
 
 		////////////////////////////////////////////////////////////////////////////////////
 		/* Vector3                                                                        */
 		////////////////////////////////////////////////////////////////////////////////////
 		LuaBinding(LuaEngine::L())
 			.beginClass<Vector3>("Vector3")
-			.addConstructor(LUA_ARGS(_opt<float>, _opt<float>, _opt<float>))
+			.addConstructor(LUA_ARGS(float, float, float))
 			.addFunction("Length", &Vector3::Length)
 			.addFunction("LengthSquared", &Vector3::LengthSquared)
-			.addFunction("Distance", &Vector3::Distance, LUA_ARGS(_opt<Vector3>))
-			.addFunction("Dot", &Vector3::Dot, LUA_ARGS(_opt<Vector3>))
+			.addFunction("Distance", &Vector3::Distance, LUA_ARGS(Vector3))
+			.addFunction("Dot", &Vector3::Dot, LUA_ARGS(Vector3))
 			.addFunction("Normalize", &Vector3::Normalize)
 			.addFunction("normalise", &Vector3::normalise)
-			.addFunction("Angle", &Vector3::Angle, LUA_ARGS(_opt<Vector3>))
-			.addFunction("Cross", &Vector3::Cross, LUA_ARGS(_opt<Vector3>))
+			.addFunction("Angle", &Vector3::Angle, LUA_ARGS(Vector3))
+			.addFunction("Cross", &Vector3::Cross, LUA_ARGS(Vector3))
 			.addFunction("X", &Vector3::X)
 			.addFunction("Y", &Vector3::Y)
 			.addFunction("Z", &Vector3::Z)
@@ -164,6 +176,7 @@ namespace Vixen {
 			.addFunction("TranslateZ", &Transform::TranslateZ, LUA_ARGS(float))
 			.addFunction("Translate", &Transform::Translate, LUA_ARGS(Vector3))
 			.addProperty("Position", &Transform::GetPosition, &Transform::SetPosition)
+			.addPropertyReadOnly("WorldPosition", &Transform::GetWorldPosition)
 			.addProperty("Rotation", &Transform::GetRotation, &Transform::SetRotation)
 			.addProperty("Scale", &Transform::GetScale, &Transform::SetScale)
 			.addFunction("Forward", &Transform::GetForward)
@@ -178,12 +191,14 @@ namespace Vixen {
 
         LuaBinding(LuaEngine::L())
             .beginClass<GameObject>("GameObject")
-            .addFunction("SetEnabled", &GameObject::SetEnabled, LUA_ARGS(_opt<bool>, _opt<bool>))
-            .addFunction("GetChild", &GameObject::GetChild, LUA_ARGS(_opt<int>))
+            .addFunction("SetEnabled", &GameObject::SetEnabled, LUA_ARGS(bool, bool))
+            .addFunction("GetChild", &GameObject::GetChild, LUA_ARGS(int))
+			.addFunction("AddChild", &GameObject::AddChild, LUA_ARGS(GameObject*))
             .addFunction("GetTransform", &GameObject::GetTransformRef)
             .addFunction("GetName", &GameObject::GetName)
             .addFunction("GetID", &GameObject::GetID)
             .addFunction("Delete", &GameObject::Delete)
+            .addFunction("GetTextComponent", &GameObject::GetTextComponent)
             .addStaticFunction("TranslateZ", &GameObject::_TranslateZ, LUA_ARGS(float))
             .addStaticFunction("GetGameObject", &GameObject::_GetActiveObject)
             .addStaticFunction("GetTransform", &GameObject::_GetTransform)
@@ -294,15 +309,49 @@ namespace Vixen {
 			.addConstant("LEFT", IKEY::LEFT)
 			.addConstant("RIGHT", IKEY::RIGHT)
 			.addConstant("SPACE", IKEY::SPACE)
+            .addConstant("ESC", IKEY::ESC)
+			.endModule();
+
+		LuaBinding(LuaEngine::L())
+			.beginModule("Scene")
+			.addFunction("FindObjectWithName", &SceneManager::AccessTopLevelObject, LUA_ARGS(std::string))
+			.addFunction("OpenScene", &SceneManager::OpenScene, LUA_ARGS(std::string))
+			.addFunction("SetOrder", &SceneManager::SetOrder, LUA_ARGS(std::string, int32_t))
+			.addFunction("PauseScene", &SceneManager::PauseScene, LUA_ARGS(std::string))
+			.addFunction("UnpauseScene", &SceneManager::UnpauseScene, LUA_ARGS(std::string))
+			.addFunction("ShowScene", &SceneManager::ShowScene, LUA_ARGS(std::string))
+			.addFunction("HideScene", &SceneManager::HideScene, LUA_ARGS(std::string))
+			.addFunction("ReloadScene", &SceneManager::ReloadScene, LUA_ARGS(std::string))
+			.endModule();
+
+		LuaBinding(LuaEngine::L())
+			.beginModule("Prefab")
+			.addFunction("Load", &PrefabManager::Load, LUA_ARGS(_opt<std::string>))
 			.endModule();
 
         LuaBinding(LuaEngine::L())
-            .beginModule("Scene")
-            .addFunction("FindObjectWithName", &SceneManager::AccessTopLevelObject, LUA_ARGS(std::string));
+            .beginModule("Game")
+            .addFunction("Exit", &Game::Exit)
+            .endModule();
 
         LuaBinding(LuaEngine::L())
+            .beginModule("Window")
+            .addFunction("ToggleCursor", &Window::ToggleCursor)
+            .addFunction("TrapCursorCenter", &Window::TrapCursorCenter)
+            .addProperty("Width", &Window::Width)
+            .addProperty("Height", &Window::Height)
+            .endModule();
+
+        LuaBinding(LuaEngine::L())
+<<<<<<< HEAD:source/unused/vgame/vix_luascriptmanager.cpp
             .beginModule("Prefab")
             .addFunction("Load", &PrefabManager::Load, LUA_ARGS(_opt<std::string>));
 
+=======
+            .beginModule("Time")
+            .addFunction("FPS", &Time::FPS)
+            .endModule();
+            
+>>>>>>> 5d61730afc80281f2da012a8e50084e490f8a879:source/vgame/vix_luascriptmanager.cpp
 	}
 }

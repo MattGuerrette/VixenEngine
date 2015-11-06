@@ -19,7 +19,7 @@
 #include <vix_gameobject.h>
 
 namespace Vixen {
-	LightComponent::LightComponent(ILight* light)
+	LightComponent::LightComponent(ILight* light) : Component(Type::LIGHT)
 	{
 		m_light = light;
 	}
@@ -53,6 +53,7 @@ namespace Vixen {
 	{
 
 	}
+<<<<<<< HEAD
 
 	void LightComponent::VBindParent(GameObject* parent)
 	{
@@ -62,3 +63,6 @@ namespace Vixen {
 
 
 }
+=======
+}
+>>>>>>> 5d61730afc80281f2da012a8e50084e490f8a879
