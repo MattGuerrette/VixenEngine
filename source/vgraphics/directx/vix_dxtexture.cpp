@@ -27,6 +27,7 @@
 namespace Vixen {
 
     DXTexture::DXTexture(ID3D11Device* device, ID3D11DeviceContext* context)
+        : Asset()
     {
         m_device = device;
         m_context = context;

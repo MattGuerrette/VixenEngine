@@ -1,5 +1,6 @@
 #include <vix_uitext.h>
 #include <vix_renderer_singleton.h>
+#include <vix_resourcemanager.h>
 
 namespace Vixen {
 
@@ -26,7 +27,9 @@ namespace Vixen {
 
     UIText::~UIText()
     {
-        delete m_font;
+        Asset* _font = (Asset*)m_font;
+
+        ResourceManager::DecrementAssetRef(_font);
     }
 
     void UIText::SetText(std::string text)

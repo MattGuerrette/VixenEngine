@@ -31,6 +31,7 @@
 namespace Vixen {
 
     DXMaterial::DXMaterial()
+        : Asset()
     {
 
     }

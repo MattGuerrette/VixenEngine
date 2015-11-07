@@ -30,6 +30,7 @@
 namespace Vixen {
 
     BMFont::BMFont()
+        : Asset()
     {
 
     }

@@ -281,4 +281,20 @@ namespace Vixen {
 		else
 			return NULL;
 	}
+
+    void ResourceManager::IncrementAssetRef(Asset* asset)
+    {
+        if (asset)
+            asset->IncrementRefCount();
+    }
+
+    void ResourceManager::DecrementAssetRef(Asset* asset)
+    {
+        if (asset) {
+            asset->DecrementRefCount();
+
+            if (asset->RefCount() <= 0)
+                delete asset;
+        }
+    }
 }

@@ -15,9 +15,6 @@ namespace Vixen {
 	void Asset::DecrementRefCount()
 	{
 		m_refCount--;
-
-		if (m_refCount <= 0)
-			delete this;
 	}
 	
 	uint32_t Asset::RefCount()

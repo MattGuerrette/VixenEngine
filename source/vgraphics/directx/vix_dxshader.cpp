@@ -27,6 +27,7 @@
 namespace Vixen {
 
     DXShader::DXShader(ID3D11Device* device, ID3D11DeviceContext* context, ShaderType type)
+        : Asset()
     {
         m_type = type;
         m_device = device;

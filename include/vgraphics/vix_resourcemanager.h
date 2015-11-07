@@ -81,6 +81,9 @@ namespace Vixen {
 		static uint32_t     NumLoadedModels();
 		static IModel*		ModelAsset(uint32_t index);
 
+        static void         IncrementAssetRef(Asset* asset);
+        static void         DecrementAssetRef(Asset* asset);
+
     private:
         IResourceLoader* m_resourceLoader;
 

@@ -58,7 +58,6 @@ namespace Vixen {
         ObjectManager::Initialize();
         LuaEngine::Initialize();
         LuaScriptManager::Initialize();
-        //ModelManager::Initialize();
         SceneManager::Initialize();
 
 
@@ -90,7 +89,6 @@ namespace Vixen {
 		SceneManager::DeInitialize();
 		PrefabManager::Cleanup();
         
-        //ModelManager::DeInitialize();
         LuaEngine::DeInitialize();
         ObjectManager::DeInitialize();
         ResourceManager::DeInitialize();

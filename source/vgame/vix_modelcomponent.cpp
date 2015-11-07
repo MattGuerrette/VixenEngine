@@ -26,6 +26,7 @@ namespace Vixen {
 
 	void ModelComponent::VOnDestroy()
 	{
+        delete m_model;
 		delete m_material;
 	}
 
