@@ -74,11 +74,13 @@ namespace Vixen {
     private:
 		static GameObject*              ParseGameObject(Scene* scene, const tinyxml2::XMLElement* element);
 		static Transform*               ParseTransform(const tinyxml2::XMLElement * element);
+
 		static std::vector<Component*>	ParseComponents(Scene* scene, const tinyxml2::XMLElement* element);
 		static Component*	            ParseCameraComponent(Scene* scene, const tinyxml2::XMLElement* element);
-		static Component*              ParseLightComponent(const tinyxml2::XMLElement* element);
-		static Component*              ParseLuaScriptComponent(const tinyxml2::XMLElement* element);
-        static Component*              ParseUITextComponent(const tinyxml2::XMLElement* element);
+		static Component*				ParseLightComponent(const tinyxml2::XMLElement* element);
+		static Component*				ParseLuaScriptComponent(const tinyxml2::XMLElement* element);
+        static Component*				ParseUITextComponent(const tinyxml2::XMLElement* element);
+		static Component*				ParseModelComponent(const tinyxml2::XMLElement* element);
 	};
 }
 #endif

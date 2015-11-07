@@ -20,6 +20,7 @@
 
 #include <vix_platform.h>
 #include <vix_camera3d.h>
+#include <vix_gameobject.h>
 
 namespace Vixen {
 
@@ -29,7 +30,6 @@ namespace Vixen {
 		virtual ~IRenderComponent() { };
 
 		virtual void VRender(ICamera3D* camera) = 0;
-
 	};
 
 }

@@ -22,6 +22,7 @@
 #include <vix_dxpixelshader.h>
 #include <vix_dxmodel.h>
 #include <vix_bmfont.h>
+#include <vix_filemanager.h>
 
 namespace Vixen {
 
@@ -35,16 +36,16 @@ namespace Vixen {
 
     }
 
-    ITexture* DXResourceLoader::LoadTexture(File* file)
+    Texture* DXResourceLoader::LoadTexture(File* file)
     {
-        ITexture* _texture = new DXTexture(m_renderer->Device(), m_renderer->DeviceContext());
+        DXTexture* _texture = new DXTexture(m_renderer->Device(), m_renderer->DeviceContext());
         if (_texture->VInitFromFile(file))
             return _texture;
 
         return NULL;
     }
 
-    IShader* DXResourceLoader::LoadShader(File* file, ShaderType type)
+    Shader* DXResourceLoader::LoadShader(File* file, ShaderType type)
     {
         DXShader* _shader = NULL;
 
@@ -61,7 +62,7 @@ namespace Vixen {
         return NULL;
     }
 
-    IModel* DXResourceLoader::LoadModel(File* file)
+    Model* DXResourceLoader::LoadModel(File* file)
     {
         DXModel* _model = new DXModel(m_renderer->Device(), m_renderer->DeviceContext());
         if (_model->VInitFromFile(file))
@@ -70,7 +71,7 @@ namespace Vixen {
         return NULL;
     }
 
-    IFont* DXResourceLoader::LoadFont(File* file)
+    Font* DXResourceLoader::LoadFont(File* file)
     {
         BMFont* _font = new BMFont;
         if (_font->VInitFromFile(file))
@@ -78,4 +79,14 @@ namespace Vixen {
 
         return NULL;
     }
+
+	Material* DXResourceLoader::LoadMaterial(File* file)
+	{
+		DXMaterial* _material = new DXMaterial;
+
+		if (_material->VInitFromFile(file))
+			return _material;
+
+		return NULL;
+	}
 }

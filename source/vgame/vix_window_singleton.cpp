@@ -103,4 +103,11 @@ namespace Vixen {
 
         return _window.m_window->VMouseState();
     }
+
+	SDLControllerState * Window::Controller()
+	{
+		Window& _window = Window::instance();
+
+		return _window.m_window->VControllerState();
+	}
 }

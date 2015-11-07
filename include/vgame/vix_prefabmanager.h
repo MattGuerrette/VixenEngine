@@ -46,11 +46,12 @@ namespace Vixen {
 		static Prefab*					ParsePrefab(const tinyxml2::XMLElement* element);
 		static void						ParseTransform(Prefab* prefab, const tinyxml2::XMLElement* element);
 		static void                     ParseComponents(Prefab* prefab, const tinyxml2::XMLElement* element);
+
 		static Component*				ParseCameraComponent(const tinyxml2::XMLElement* element);
 		static Component*				ParseLightComponent(const tinyxml2::XMLElement* element);
 		static Component*				ParseLuaScriptComponent(const tinyxml2::XMLElement* element);
 		static Component*				ParseUITextComponent(const tinyxml2::XMLElement* element);
-
+		static Component*               ParseModelComponent(const tinyxml2::XMLElement* element);
 
 	private:
 		PrefabMap  m_prefabs;

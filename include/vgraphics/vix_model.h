@@ -22,18 +22,20 @@
 #include <vix_file.h>
 #include <vix_camera3d.h>
 #include <vix_material.h>
+#include <vix_asset.h>
 
 namespace Vixen {
 
-    class VIX_API IModel
+    class VIX_API Model : public Asset
     {
     public:
-        virtual ~IModel() { }
+		Model();
 
-        virtual bool VInitFromFile(File* file) = 0;
+        virtual ~Model() { }
+
         virtual void VRender(float dt, float totalTime, ICamera3D* camera) = 0;
         virtual void VSetWorld(MATRIX* world) = 0;
-        virtual void VSetMaterial(IMaterial* material) = 0;
+        virtual void VSetMaterial(Material* material) = 0;
         virtual void VBatchRender(MATRIX* world) = 0;
 
         virtual Vector3 VMin() = 0;

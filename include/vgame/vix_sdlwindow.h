@@ -94,6 +94,7 @@ namespace Vixen {
 
         IKeyboardState*     VKeyboardState()                       override;
         IMouseState*        VMouseState()                          override;
+		SDLControllerState* VControllerState();
 
 		void                OutputDisplayModes();
 

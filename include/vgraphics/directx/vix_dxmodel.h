@@ -27,11 +27,10 @@
 #include <vix_dxtexture.h>
 #include <vix_dxcamera3d.h>
 #include <vix_dxmaterial.h>
-#include <atlbase.h>
 
 namespace Vixen {
 
-    class VIX_API DXModel : public IModel
+    class VIX_API DXModel : public Model
     {
         static const int MAX_INSTANCE_PER_DRAW = 1000;
     public:
@@ -42,7 +41,7 @@ namespace Vixen {
         bool VInitFromFile(File* file)                  override;
         void VRender(float dt, float totalTime, ICamera3D* camera)                 override;
         void VSetWorld(MATRIX* matrix)					override;
-        void VSetMaterial(IMaterial* material)          override;
+        void VSetMaterial(Material* material)          override;
         void VBatchRender(MATRIX* world)                override;
 
         Vector3 VMin()      override;

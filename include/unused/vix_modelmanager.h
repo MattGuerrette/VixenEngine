@@ -29,10 +29,17 @@ namespace Vixen {
     {
         typedef std::map<UString, IModel*> ModelMap;
     public:
+<<<<<<< HEAD:include/vgame/vix_modelmanager.h
 
 
         static bool    Initialize();
+=======
+       
+        
+        //static bool    Initialize();
+>>>>>>> 7e4502b797e001a298b2a224c9fc4b4dcc75a61d:include/unused/vix_modelmanager.h
         static void    DeInitialize();
+		static void	   RegisterModel(UString id, IModel* model);
         static IModel* AccessModel(UString id);
         static std::vector<IModel*> ActiveModels();
 

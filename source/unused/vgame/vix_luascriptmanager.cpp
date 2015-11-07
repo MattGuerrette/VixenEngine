@@ -226,17 +226,21 @@ namespace Vixen {
 		LuaBinding(LuaEngine::L())
 			.beginModule("Input")
 			.addFunction("KeyPress", &Input::KeyPress)
-			.addFunction("SingleKeyPress", &Input::SingleKeyPress)
+			.addFunction("KeyPressSingle", &Input::KeyPressSingle)
 			.addFunction("KeyRelease", &Input::KeyRelease)
-			.addFunction("ButtonPress", &Input::ButtonPress)
-			.addFunction("SingleButtonPress", &Input::SingleButtonPress)
-			.addFunction("ButtonRelease", &Input::ButtonRelease)
+			.addFunction("MouseButtonPress", &Input::MouseButtonPress)
+			.addFunction("MouseButtonPressSingle", &Input::MouseButtonPressSingle)
+			.addFunction("MouseButtonRelease", &Input::MouseButtonRelease)
 			.addFunction("MouseX", &Input::MouseX)
 			.addFunction("MouseY", &Input::MouseY)
 			.addFunction("MouseWheelX", &Input::MouseWheelX)
 			.addFunction("MouseWheelY", &Input::MouseWheelY)
 			.addFunction("MouseDeltaX", &Input::DeltaX)
 			.addFunction("MouseDeltaY", &Input::DeltaY)
+			.addFunction("ControllerAxis", &Input::ControllerAxis)
+			.addFunction("ControllerButtonPress", &Input::ControllerButtonPress)
+			.addFunction("ControllerButtonPressSingle", &Input::ControllerButtonPressSingle)
+			.addFunction("ControllerButtonRelease", &Input::ControllerButtonRelease)
 			.endModule();
 
         ////////////////////////////////////////////////////////////////////////////////////
@@ -310,6 +314,33 @@ namespace Vixen {
 			.addConstant("RIGHT", IKEY::RIGHT)
 			.addConstant("SPACE", IKEY::SPACE)
             .addConstant("ESC", IKEY::ESC)
+			.endModule();
+
+
+		LuaBinding(LuaEngine::L())
+			.beginModule("IAXIS")
+			.addConstant("LEFTX", IAXIS::LEFTX)
+			.addConstant("LEFTY", IAXIS::LEFTY)
+			.addConstant("RIGHTX", IAXIS::RIGHTX)
+			.addConstant("RIGHTY", IAXIS::RIGHTY)
+			.addConstant("LEFTTRIGGER", IAXIS::LEFTTRIGGER)
+			.addConstant("RIGHTTRIGGER", IAXIS::RIGHTTRIGGER)
+			.endModule();
+
+		LuaBinding(LuaEngine::L())
+			.beginModule("IBUTTON")
+			.addConstant("A", IBUTTON::A)
+			.addConstant("B", IBUTTON::B)
+			.addConstant("X", IBUTTON::X)
+			.addConstant("Y", IBUTTON::Y)
+			.addConstant("UP", IBUTTON::UP)
+			.addConstant("LEFT", IBUTTON::LEFT)
+			.addConstant("DOWN", IBUTTON::DOWN)
+			.addConstant("RIGHT", IBUTTON::RIGHT)
+			.addConstant("BACK", IBUTTON::BACK)
+			.addConstant("START", IBUTTON::START)
+			.addConstant("LEFTBUMPER", IBUTTON::LEFTBUMPER)
+			.addConstant("RIGHTTBUMPER", IBUTTON::RIGHTBUMPER)
 			.endModule();
 
 		LuaBinding(LuaEngine::L())

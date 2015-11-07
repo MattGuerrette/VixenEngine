@@ -19,6 +19,7 @@
 #include <vix_dxtexture.h>
 #include <vix_directx.h>
 #include <vix_rectangle.h>
+#include <vix_resourcemanager.h>
 #include <array>
 
 namespace Vixen {
@@ -50,8 +51,9 @@ namespace Vixen {
 
     DXSpriteBatcher::~DXSpriteBatcher()
     {
-        delete m_vShader;
-        delete m_pShader;
+        ResourceManager::DecrementAssetRef(m_vShader);
+		ResourceManager::DecrementAssetRef(m_pShader);
+        
         delete m_vBuffer;
         delete m_iBuffer;
     }
@@ -62,7 +64,7 @@ namespace Vixen {
         m_beFlag = true;
     }
 
-    void DXSpriteBatcher::Render(ITexture* texture, BatchInfo info)
+    void DXSpriteBatcher::Render(Texture* texture, BatchInfo info)
     {
         if (!texture)
             return;

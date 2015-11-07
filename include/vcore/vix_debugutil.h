@@ -106,8 +106,8 @@ namespace Vixen {
 
 		//Call Win32 API with formatted string
 #ifdef VIX_SYS_WINDOWS
-		OutputDebugString(s_buffer);
 		ConsoleWriteErr(UString(s_buffer));
+		OutputDebugString(s_buffer);
 #else
 		std::cerr << s_buffer << std::endl;
 #endif

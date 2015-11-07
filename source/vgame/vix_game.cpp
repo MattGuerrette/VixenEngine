@@ -23,7 +23,9 @@
 #include <vix_renderer_singleton.h>
 #include <vix_objectmanager.h>
 #include <vix_scenemanager.h>
-#include <vix_modelmanager.h>
+#include <vix_luaengine.h>
+#include <vix_luascriptmanager.h>
+#include <vix_prefabmanager.h>
 
 namespace Vixen {
 
@@ -48,12 +50,16 @@ namespace Vixen {
 
         Input::SetMouseState(Window::Mouse());
         Input::SetKeyboardState(Window::Keyboard());
+		Input::SetControllerState(Window::Controller());
 
         ResourceManager::Initialize();
         Renderer::InitializeSpriteBatch();
-        //ObjectManager::Initialize();
-        //ModelManager::Initialize();
-        //SceneManager::Initialize();
+
+        ObjectManager::Initialize();
+        LuaEngine::Initialize();
+        LuaScriptManager::Initialize();
+        SceneManager::Initialize();
+
 
         Renderer::SetClearColor(Colors::Black);
 
@@ -79,11 +85,18 @@ namespace Vixen {
             Time::CalculateFPS();
         }
 
-        //SceneManager::DeInitialize();
-        //ModelManager::DeInitialize();
-        //ObjectManager::DeInitialize();
+
+		SceneManager::DeInitialize();
+		PrefabManager::Cleanup();
+
+
+
+        LuaEngine::DeInitialize();
+        ObjectManager::DeInitialize();
         ResourceManager::DeInitialize();
         Renderer::DeInitialize();
+		ResourceManager::PrintLoaded();
+
         Window::DeInitialize();
         PathManager::DeInitialize();
         FileManager::DeInitialize();

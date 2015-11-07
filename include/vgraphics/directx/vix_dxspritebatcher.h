@@ -47,7 +47,7 @@ namespace Vixen {
         std::vector<DXVertexPosTex> m_vertices;
 
         /*current texture*/
-        ITexture*              m_texture;
+        Texture*              m_texture;
 
         /*begin end flag*/
         bool                   m_beFlag;
@@ -77,7 +77,7 @@ namespace Vixen {
         void Begin(BatchSortMode mode);
 
         /*render texure*/
-        void Render(ITexture* texture, BatchInfo info);
+        void Render(Texture* texture, BatchInfo info);
 
         void SetVertexShader(DXVertexShader* vShader);
 

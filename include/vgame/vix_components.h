@@ -21,6 +21,12 @@
 #include <vix_platform.h>
 #include <vix_lightcomponent.h>
 #include <vix_camera3Dcomponent.h>
+<<<<<<< HEAD
+=======
+#include <vix_modelcomponent.h>
+//#include <vix_rendercomponent.h>
+#include <vix_luascript.h>
+>>>>>>> 7e4502b797e001a298b2a224c9fc4b4dcc75a61d
 #include <vix_uitext.h>
 
 #endif

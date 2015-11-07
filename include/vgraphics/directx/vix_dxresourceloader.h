@@ -32,11 +32,20 @@ namespace Vixen {
 
         ~DXResourceLoader();
 
+<<<<<<< HEAD
         ITexture*   LoadTexture(File* file)                 override;
         IShader*    LoadShader(File* file, ShaderType type) override;
         IModel*     LoadModel(File* file)                   override;
         IFont*      LoadFont(File* file)                    override;
 
+=======
+        Texture*   LoadTexture(File* file)                 override;
+        Shader*    LoadShader(File* file, ShaderType type) override;
+        Model*     LoadModel(File* file)                   override;
+        Font*      LoadFont(File* file)                    override;
+		Material*  LoadMaterial(File* file)				override;
+       
+>>>>>>> 7e4502b797e001a298b2a224c9fc4b4dcc75a61d
     private:
         DXRenderer* m_renderer;
     };

@@ -22,10 +22,11 @@
 #include <vix_directx.h>
 #include <vix_freeimage.h>
 #include <vix_texture.h>
+#include <vix_asset.h>
 
 namespace Vixen {
 
-    class VIX_API DXTexture : public ITexture
+    class VIX_API DXTexture : public Texture
     {
     public:
         DXTexture(ID3D11Device* device, ID3D11DeviceContext* context);

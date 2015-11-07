@@ -51,9 +51,9 @@ namespace Vixen {
 
         void    VAttachNativeHandle(void* handle) override;
 
-        void    VRenderTexture2D(ITexture* texture, const Vector2& position, const Rect& source) override;
+        void    VRenderTexture2D(Texture* texture, const Vector2& position, const Rect& source) override;
 
-        void    VRenderText2D(IFont* font, UString text, const Vector2& position) override;
+        void    VRenderText2D(Font* font, UString text, const Vector2& position) override;
 
         ID3D11Device* Device();
 

@@ -41,11 +41,8 @@ namespace Vixen {
 	public:
 		GameObject();
 		GameObject(Transform* transform);
-		GameObject(Transform* transform, IModel* model);
-
+		
 		~GameObject();
-
-		void SetModel(IModel* model);
 
 		Transform* GetTransform();
 		Transform& GetTransformRef();
@@ -87,9 +84,13 @@ namespace Vixen {
 		uint32_t                    m_id;
 		UString                     m_name;
 		Transform*					m_transform;
+<<<<<<< HEAD
 		IModel*						m_model;
 		std::vector<Component*>	    m_components;
+=======
+>>>>>>> 7e4502b797e001a298b2a224c9fc4b4dcc75a61d
 
+		std::vector<Component*>		m_components;
 		std::vector<GameObject*>    m_children;
 		GameObject*					m_parent;
 

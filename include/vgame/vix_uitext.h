@@ -14,7 +14,7 @@ namespace Vixen {
     public:
         UIText();
         UIText(UString text);
-        UIText(UString text, IFont* font);
+        UIText(UString text, Font* font);
 
         ~UIText();
 
@@ -31,7 +31,8 @@ namespace Vixen {
 
     private:
         UString     m_text;
-        IFont*      m_font;
+        Font*       m_font;
+		GameObject* m_parent;
     };
 }
 

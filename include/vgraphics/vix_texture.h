@@ -21,16 +21,18 @@
 #include <vix_platform.h>
 #include <vix_freeimage.h>
 #include <vix_file.h>
+#include <vix_asset.h>
 
 namespace Vixen {
 
-	class VIX_API ITexture
+	class VIX_API Texture : public Asset
 	{
 	public:
-        virtual ~ITexture() { }
+		Texture();
+
+        virtual ~Texture() { }
 
         virtual bool VInitFromBMP(FREEIMAGE_BMP* bmp) = 0;
-        virtual bool VInitFromFile(File* file) = 0;
 
         virtual size_t VGetWidth() const = 0;
         virtual size_t VGetHeight() const = 0;

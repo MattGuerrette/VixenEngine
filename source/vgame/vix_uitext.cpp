@@ -1,23 +1,28 @@
 #include <vix_uitext.h>
 #include <vix_renderer_singleton.h>
+#include <vix_resourcemanager.h>
 
 namespace Vixen {
 
-    UIText::UIText() : Component(Type::UI_TEXT)
+    UIText::UIText() 
+		: Component(Type::UI_TEXT)
     {
         m_text = VTEXT("");
         m_font = NULL;
 		m_parent = NULL;
     }
 
-    UIText::UIText(UString text) : Component(Type::UI_TEXT)
+    UIText::UIText(UString text) 
+		: Component(Type::UI_TEXT)
     {
         m_text = text;
         m_font = NULL;
 		m_parent = NULL;
     }
 
-    UIText::UIText(UString text, IFont* font) : Component(Type::UI_TEXT)
+
+    UIText::UIText(UString text, Font* font)
+		: Component(Component::Type::UI_TEXT)
     {
         m_text = text;
         m_font = font;
@@ -26,7 +31,7 @@ namespace Vixen {
 
     UIText::~UIText()
     {
-        delete m_font;
+        ResourceManager::DecrementAssetRef(m_font);
     }
 
     void UIText::SetText(std::string text)

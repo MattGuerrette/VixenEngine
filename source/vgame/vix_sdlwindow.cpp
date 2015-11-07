@@ -20,6 +20,7 @@
 #include <vix_debugutil.h>
 #include <vix_version.h>
 
+
 namespace Vixen {
 
 	SDLGameWindow::SDLGameWindow(const SDL_GW_Params& params)
@@ -68,7 +69,7 @@ namespace Vixen {
 	{
 		/* Initialize SDL
 		*/
-		if (SDL_Init(SDL_INIT_TIMER) != 0) {
+		if (SDL_Init(SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0) {
 			DebugPrintF(VTEXT("SDL Failed to Initialize"));
             return false;
 		}
@@ -120,7 +121,7 @@ namespace Vixen {
         m_mouseState = new SDLMouseState;
         m_keyboardState = new SDLKeyboardState;
 
-
+		m_controllerState = new SDLControllerState;
         m_running = true;
 
 		return true;
@@ -131,32 +132,45 @@ namespace Vixen {
         SDL_Event event;
         while (SDL_PollEvent(&event))
         {
-            switch (event.type)
-            {
-            case SDL_QUIT:
-                VClose();
-                break;
+			switch (event.type)
+			{
+				case SDL_QUIT:
+					VClose();
+					break;
 
-            case SDL_KEYDOWN:
-                ((SDLKeyboardState*)m_keyboardState)->KeyDown(event.key.keysym.scancode);
-                break;
+				case SDL_KEYDOWN:
+					((SDLKeyboardState*)m_keyboardState)->KeyDown(event.key.keysym.scancode);
+					break;
 
-            case SDL_KEYUP:
-                ((SDLKeyboardState*)m_keyboardState)->KeyUp(event.key.keysym.scancode);
-                break;
+				case SDL_KEYUP:
+					((SDLKeyboardState*)m_keyboardState)->KeyUp(event.key.keysym.scancode);
+					break;
 
-            case SDL_MOUSEBUTTONDOWN:
-            case SDL_MOUSEBUTTONUP:
-                ((SDLMouseState*)m_mouseState)->MouseEvent(event.button);
-                break;
+				case SDL_MOUSEBUTTONDOWN:
+				case SDL_MOUSEBUTTONUP:
+					((SDLMouseState*)m_mouseState)->MouseEvent(event.button);
+					break;
 
-            case SDL_MOUSEWHEEL:
-                ((SDLMouseState*)m_mouseState)->MouseWheelEvent(event.wheel);
-                break;
+				case SDL_MOUSEWHEEL:
+					((SDLMouseState*)m_mouseState)->MouseWheelEvent(event.wheel);
+					break;
 
-            case SDL_MOUSEMOTION:
-                ((SDLMouseState*)m_mouseState)->MouseMove(event.motion.x, event.motion.y);
-                break;
+				case SDL_MOUSEMOTION:
+					((SDLMouseState*)m_mouseState)->MouseMove(event.motion.x, event.motion.y);
+					break;
+				case SDL_CONTROLLERDEVICEADDED:
+					SDL_GameControllerOpen(event.cdevice.which);
+					break;
+
+				case SDL_CONTROLLERBUTTONDOWN:
+					m_controllerState->ButtonDown((SDL_GameControllerButton)event.cbutton.button, event.cbutton.which);
+					break;
+				case SDL_CONTROLLERBUTTONUP:
+					m_controllerState->ButtonUp((SDL_GameControllerButton)event.cbutton.button, event.cbutton.which);
+					break;
+				case SDL_CONTROLLERAXISMOTION:
+					m_controllerState->Axis((SDL_GameControllerAxis)event.caxis.axis, event.caxis.value, event.caxis.which);
+					break;
             }
         }
     }
@@ -171,12 +185,19 @@ namespace Vixen {
         return m_mouseState;
     }
 
+	SDLControllerState * SDLGameWindow::VControllerState()
+	{
+		return m_controllerState;
+	}
+
     void SDLGameWindow::VPollNextFrame()
     {
         /*update keyboard state for next frame*/
         ((SDLKeyboardState*)m_keyboardState)->UpdatePrev();
         /*update mouse state for next frame*/
         ((SDLMouseState*)m_mouseState)->UpdatePrev();
+		/*update mouse state for next frame*/
+		(m_controllerState)->UpdatePrev();
     }
 
 	void SDLGameWindow::VSetFullscreen(bool flag)

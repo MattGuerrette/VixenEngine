@@ -23,10 +23,11 @@
 #include <vix_texture.h>
 #include <vix_shader.h>
 #include <vix_color.h>
+#include <vix_asset.h>
 
 namespace Vixen {
 
-    class VIX_API IMaterial
+    class VIX_API Material : public Asset
     {
     public:
         enum class TextureRole
@@ -36,7 +37,7 @@ namespace Vixen {
             SpecularColor,
             SpecularHighlight,
             Alpha,
-            Bump,
+            Normal,
             Displacement,
             Decal
         };
@@ -47,23 +48,15 @@ namespace Vixen {
             Pixel
         };
 
+		Material();
 
-        virtual ~IMaterial() { };
+        virtual ~Material() { };
 
         virtual void VBind() = 0;
         virtual void VUnbind() = 0;
 
-        virtual ITexture* VGetTexture(TextureRole role) = 0;
-        virtual IShader*  VGetShader(ShaderRole role) = 0;
-
-        virtual void VSetAmbientColor(Color color) = 0;
-        virtual void VSetDiffuseColor(Color color) = 0;
-        virtual void VSetSpecularColor(Color color) = 0;
-        virtual void VSetSpecularWeight(float weight) = 0;
-        virtual void VSetAlphaTransparency(float transparency) = 0;
-        virtual void VSetTexture(TextureRole role, ITexture* texture) = 0;
-        virtual void VSetShader(ShaderRole role, IShader* shader) = 0;
-
+		virtual UString VFilePath() = 0;
+		
     };
 
 }

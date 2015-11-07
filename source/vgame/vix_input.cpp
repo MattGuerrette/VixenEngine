@@ -18,10 +18,13 @@
 #include <vix_input.h>
 #include <vix_keyboardstate.h>
 #include <vix_mousestate.h>
+#include <vix_sdlinput.h>
 
 #ifdef VIX_SYS_LINUX
 #include <cstddef>
 #endif
+
+#include <cstdint>
 
 namespace Vixen {
 
@@ -31,15 +34,16 @@ namespace Vixen {
 	// INPUT
 	//////////////////////////////////////////
 
-	IKeyboardState* Input::s_keyState = NULL;
-    IMouseState*    Input::s_mouseState = NULL;
+	IKeyboardState*			Input::s_keyState = NULL;
+    IMouseState*			Input::s_mouseState = NULL;
+	SDLControllerState*		Input::s_controllerState = NULL;
 
 	bool Input::KeyPress(IKEY key)
 	{
 		return s_keyState->VKeyPress(key);
 	}
 
-	bool Input::SingleKeyPress(IKEY key)
+	bool Input::KeyPressSingle(IKEY key)
 	{
 		return s_keyState->VSingleKeyPress(key);
 	}
@@ -53,6 +57,11 @@ namespace Vixen {
 	{
 		s_keyState = keyState;
 	}
+
+
+	/****************************************************MOUSE*************************************************/
+
+
 
     void Input::SetMouseState(IMouseState* mouseState)
     {
@@ -89,19 +98,48 @@ namespace Vixen {
         return s_mouseState->VDeltaY(val);
     }
 
-    bool Input::ButtonPress(IMBUTTON button)
+    bool Input::MouseButtonPress(IMBUTTON button)
     {
         return s_mouseState->VButtonPress(button);
     }
 
-    bool Input::ButtonRelease(IMBUTTON button)
+    bool Input::MouseButtonRelease(IMBUTTON button)
     {
         return s_mouseState->VButtonRelease(button);
     }
 
-    bool Input::SingleButtonPress(IMBUTTON button)
+
+	/****************************************************CONTROLLER*************************************************/
+
+
+	void Input::SetControllerState(SDLControllerState * controllerState)
+	{
+		s_controllerState = controllerState;
+	}
+
+	bool Input::ControllerButtonPress(IBUTTON button, int controller)
+	{
+		return s_controllerState->VButtonPress(button, controller);
+	}
+
+	bool Input::ControllerButtonPressSingle(IBUTTON button, int controller)
+	{
+		return s_controllerState->VButtonPressSingle(button, controller);
+	}
+
+	bool Input::ControllerButtonRelease(IBUTTON button, int controller)
+	{
+		return s_controllerState->VButtonRelease(button, controller);
+	}
+
+	float Input::ControllerAxis(IAXIS axis, int controller)
+	{
+		return s_controllerState->VAxis(axis, controller);
+	}
+
+    bool Input::MouseButtonPressSingle(IMBUTTON button)
     {
-        return s_mouseState->VSingleButtonPress(button);
+        return s_mouseState->VButtonPressSingle(button);
     }
 
 }

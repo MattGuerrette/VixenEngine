@@ -16,7 +16,6 @@
 */
 
 #include <vix_scene.h>
-#include <vix_modelmanager.h>
 #include <vix_stlutil.h>
 #include <vix_scenemanager.h>
 #include <vix_objectmanager.h>
@@ -93,8 +92,12 @@ namespace Vixen {
 				obj->Render(m_mainCamera);
 		}
 
-		for (auto& model : ModelManager::ActiveModels())
-			model->VRender(Time::DeltaTime(), Time::TotalTime(), m_mainCamera);
+		for (uint32_t i = 0; i < ResourceManager::NumLoadedModels(); i++)
+		{
+			Model* model = ResourceManager::ModelAsset(i);
+			if (model)
+				model->VRender(Time::DeltaTime(), Time::TotalTime(), m_mainCamera);
+		}
 
         //render all late render (UI) scene objects
         //NOTE: this is expensive, as we are iterating over the list of objects again...
@@ -235,8 +238,7 @@ namespace Vixen {
 			modelFile = model->Attribute("file");
 		}
 
-		GameObject* _object = new GameObject(transform,
-			ModelManager::AccessModel(UStringFromCharArray(modelFile.c_str())));
+		GameObject* _object = new GameObject(transform);
 		_object->SetName(UStringFromCharArray(objectName));
 		_object->SetEnabled(enabled, false);
 		ObjectManager::MapSceneObject(_object);
@@ -312,6 +314,11 @@ namespace Vixen {
                 //PARSE UI-TEXT
                 component = ParseUITextComponent(child);
             }
+			else if (name == "model")
+			{
+				//PARSE MODEL COMPONENT
+				component = ParseModelComponent(child);
+			}
 
 			if (component)
 				components.push_back(component);
@@ -376,9 +383,39 @@ namespace Vixen {
         const char* font = element->Attribute("font");
 
 
-        IFont*  _font = ResourceManager::OpenFont(UStringFromCharArray(font));
+        Font*  _font = ResourceManager::OpenFont(UStringFromCharArray(font));
+		_font->IncrementRefCount();
+
         UIText* _text = new UIText(UStringFromCharArray(text), _font);
 
         return _text;
     }
+
+	Component* Scene::ParseModelComponent(const tinyxml2::XMLElement* element)
+	{
+		using namespace tinyxml2;
+
+		const char* file = element->Attribute("file");
+		const char* materialFile = element->Attribute("material");
+
+		Model* _model = ResourceManager::OpenModel(UStringFromCharArray(file));
+		if (!_model) {
+			DebugPrintF(VTEXT("Failed to open model.\n"));
+			return NULL;
+		}
+		_model->IncrementRefCount();
+
+		Material* _material = ResourceManager::OpenMaterial(UStringFromCharArray(materialFile));
+		if (!_material) {
+			DebugPrintF(VTEXT("Failed to open material.\n"));
+			return NULL;
+		}
+		_material->IncrementRefCount();
+
+		ModelComponent* _modelComponent = new ModelComponent;
+		_modelComponent->SetModel(_model);
+		_modelComponent->SetMaterial(_material);
+
+		return _modelComponent;
+	}
 }

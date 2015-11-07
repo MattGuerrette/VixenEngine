@@ -20,23 +20,42 @@
 #include <vix_tinyxml.h>
 #include <vix_resourcemanager.h>
 #include <vix_pathmanager.h>
+#include <vix_shader.h>
+#include <vix_resourcemanager.h>
 
 namespace Vixen {
 
     DXMaterial::DXMaterial()
+        : Material()
     {
 
     }
 
     DXMaterial::~DXMaterial()
     {
-        STLMAP_DELETE(m_shaders);
-        STLMAP_DELETE(m_textures);
+
+		for (auto& shader : m_shaders)
+			ResourceManager::DecrementAssetRef(shader.second);
+
+		STLMAP_DELETE(m_vsVariables);
+		STLMAP_DELETE(m_psVariables);
     }
 
-    void DXMaterial::VBind()
-    {
+	UString DXMaterial::VFilePath()
+	{
+		return m_path;
+	}
 
+    void DXMaterial::VBind()
+	{
+		for (auto& vsVariable : m_vsVariables)
+			vsVariable.second->VBind(vsVariable.first, m_shaders[ShaderRole::Vertex]);
+		for (auto& psVariable : m_psVariables)
+			psVariable.second->VBind(psVariable.first, m_shaders[ShaderRole::Pixel]);
+
+		//activate all shaders
+		m_shaders[ShaderRole::Vertex]->Activate();
+		m_shaders[ShaderRole::Pixel]->Activate();
     }
 
     void DXMaterial::VUnbind()
@@ -44,70 +63,110 @@ namespace Vixen {
 
     }
 
+	DXVertexShader* DXMaterial::GetVertexShader()
+	{
+		return (DXVertexShader*)m_shaders[ShaderRole::Vertex];
+	}
 
-    void DXMaterial::VSetAmbientColor(Color color)
-    {
-        m_ambientColor = color;
-    }
 
-    void DXMaterial::VSetDiffuseColor(Color color)
-    {
-        m_diffuseColor = color;
-    }
+	bool DXMaterial::VInitFromFile(File* file)
+	{
+		if (!file)
+			return false;
 
-    void DXMaterial::VSetSpecularColor(Color color)
-    {
-        m_specularColor = color;
-    }
+		//need to parse .VMT file and load material data
 
-    void DXMaterial::VSetSpecularWeight(float weight)
-    {
-        m_specularWeight = weight;
-    }
+		using namespace tinyxml2;
 
-    void DXMaterial::VSetAlphaTransparency(float transparency)
-    {
-        m_transparency = transparency;
-    }
+		m_path = file->FileName();
 
-    void DXMaterial::VSetShader(IMaterial::ShaderRole role, IShader* shader)
-    {
-        m_shaders[role] = (DXShader*)shader;
-    }
 
-    void DXMaterial::VSetTexture(IMaterial::TextureRole role, ITexture* texture)
-    {
-        m_textures[role] = (DXTexture*)texture;
-    }
+		XMLDOC document;
+		XMLError err = document.LoadFile(file->Handle());
+		UString errString;
+		if (XMLErrCheck(err, errString))
+		{
+			DebugPrintF(VTEXT("Vixen Material File: %s failed to load\n"), file->BaseName().c_str());
+			return false;
+		}
 
-    ITexture* DXMaterial::VGetTexture(IMaterial::TextureRole role)
-    {
-        //try and find texture matching role
-        std::map<IMaterial::TextureRole, DXTexture*>::iterator it = m_textures.find(role);
-        if (it != m_textures.end())
-            return it->second;
-        else
-            return NULL;
-    }
+		XMLElement* matElement = document.FirstChildElement("material");
 
-    IShader* DXMaterial::VGetShader(IMaterial::ShaderRole role)
-    {
-        //try and find shader matching role
-        std::map<IMaterial::ShaderRole, DXShader*>::iterator it = m_shaders.find(role);
-        if (it != m_shaders.end())
-            return it->second;
-        else
-            return NULL;
-    }
+		//PARSE VERTEX SHADER
+		XMLElement* vsElement = matElement->FirstChildElement("vertex-shader");
+		if (!vsElement) {
+			DebugPrintF(VTEXT("Vixen Material File: %s, missing vertex-shader"), file->BaseName().c_str());
+			return false;
+		}
 
-    DXTexture* DXMaterial::GetTexture(IMaterial::TextureRole role)
-    {
-        return (DXTexture*)VGetTexture(role);
-    }
+		UString shaderPath = UStringFromCharArray(vsElement->Attribute("file"));
+		Shader* vsShader = ResourceManager::OpenShader(shaderPath, ShaderType::VERTEX_SHADER);
+		vsShader->IncrementRefCount();
+		if (!vsShader)
+			return false;
+		m_shaders[ShaderRole::Vertex] = (DXShader*)vsShader;
 
-    DXShader* DXMaterial::GetShader(IMaterial::ShaderRole role)
-    {
-        return (DXShader*)VGetShader(role);
-    }
+		if (!ReadShaderChildren(vsElement, m_vsVariables))
+			return false;
 
+		//PARSE PIXEL SHADER
+		XMLElement* psElement = matElement->FirstChildElement("pixel-shader");
+		if (!psElement) {
+			DebugPrintF(VTEXT("Vixen Material File: %s, missing pixel-shader"), file->BaseName().c_str());
+			return false;
+		}
+
+		shaderPath = UStringFromCharArray(psElement->Attribute("file"));
+		Shader* psShader = ResourceManager::OpenShader(shaderPath, ShaderType::PIXEL_SHADER);
+		psShader->IncrementRefCount();
+		if (!psShader)
+			return false;
+		m_shaders[ShaderRole::Pixel] = (DXShader*)psShader;
+
+		if (!ReadShaderChildren(psElement, m_psVariables))
+			return false;
+
+		return true;
+	}
+
+	bool DXMaterial::ReadShaderChildren(tinyxml2::XMLElement* shaderElement, DXMaterial::VariableMap& variableMap)
+	{
+		using namespace tinyxml2;
+
+		XMLElement* shaderChild = shaderElement->FirstChildElement();
+		while (shaderChild)
+		{
+			//read all child data for pixel shader
+			std::string _name = shaderChild->Name();
+			if (_name == "texture") {
+				//read texture
+
+				std::string key = shaderChild->Attribute("name");
+				std::string fileName = shaderChild->Attribute("file");
+
+				Texture* texture = ResourceManager::OpenTexture(UStringFromCharArray(fileName.c_str()));
+				if (!texture) {
+					return false;
+				}
+
+				variableMap[key] = new TextureVariable(texture);
+			}
+
+			if (_name == "vec4") {
+				//read vec4
+
+				std::string key = shaderChild->Attribute("name");
+				float x = shaderChild->FloatAttribute("x");
+				float y = shaderChild->FloatAttribute("y");
+				float z = shaderChild->FloatAttribute("z");
+				float w = shaderChild->FloatAttribute("w");
+
+				variableMap[key] = new Float4Variable(x, y, z, w);
+			}
+
+			shaderChild = shaderChild->NextSiblingElement();
+		}
+
+		return true;
+	}
 }

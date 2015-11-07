@@ -20,6 +20,7 @@
 #include <vix_scenemanager.h>
 
 #include <vix_components.h>
+#include <vix_component.h>
 
 namespace Vixen {
 
@@ -59,7 +60,6 @@ namespace Vixen {
 	{
 		m_id = 0;
 		m_enabled = false;
-		m_model = NULL;
 		m_parent = NULL;
 		m_transform = NULL;
 		m_markedForDestroy = false;
@@ -70,20 +70,8 @@ namespace Vixen {
 	{
 		m_id = 0;
 		m_enabled = false;
-		m_model = NULL;
 		m_parent = NULL;
 		m_transform = transform;
-		m_markedForDestroy = false;
-        m_markedForLateRender = false;
-	}
-
-	GameObject::GameObject(Transform* transform, IModel* model)
-	{
-		m_id = 0;
-		m_enabled = false;
-		m_parent = NULL;
-		m_transform = transform;
-		m_model = model;
 		m_markedForDestroy = false;
         m_markedForLateRender = false;
 	}
@@ -107,18 +95,14 @@ namespace Vixen {
 			GameObject* _child = m_children[i];
 			if (_child)
 			{
-				_child->Delete();
+				delete _child;
 			}
 
 		}
         delete m_transform;
 	}
 
-	void GameObject::SetModel(IModel* model)
-	{
-		m_model = model;
-		m_model->VSetWorld(m_transform->GetWorldMatrix());
-	}
+
 
 	void GameObject::AddComponent(Component* component)
 	{
@@ -153,15 +137,15 @@ namespace Vixen {
 
 	void GameObject::Render(ICamera3D * camera)
 	{
-		if (m_model) {
-			m_model->VBatchRender(m_transform->GetWorldMatrix());
-		}
-
         for (int i = 0; i < m_components.size(); i++)
         {
             IRenderComponent2D* _renderComponent2D = dynamic_cast<IRenderComponent2D*>(m_components[i]);
             if (_renderComponent2D)
                 _renderComponent2D->VRender(NULL);
+
+			IRenderComponent* _renderComponent = dynamic_cast<IRenderComponent*>(m_components[i]);
+			if (_renderComponent)
+				_renderComponent->VRender(camera);
 
         }
 
