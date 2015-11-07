@@ -60,7 +60,7 @@ namespace Vixen {
 
 		bool VButtonRelease(IMBUTTON button);
 		bool VButtonPress(IMBUTTON button);
-		bool VSingleButtonPress(IMBUTTON button);
+		bool VButtonPressSingle(IMBUTTON button);
 
 		/*State Methods*/
 		void MouseMove(int x, int y);
@@ -94,11 +94,38 @@ namespace Vixen {
 		bool VKeyPress(IKEY key);
 		bool VSingleKeyPress(IKEY key);
 		bool VKeyRelease(IKEY key);
+
 	private:
 		KeyState  m_current;
 		KeyState  m_previous;
 
 		SDL_Scancode convertFromIKEY(IKEY key);
+	};
+
+	class VIX_API SDLControllerState
+	{
+		typedef std::map<SDL_GameControllerButton, bool> ControllerState;
+		typedef std::map<SDL_GameControllerAxis, Sint16> AxisState;
+	public:
+		SDLControllerState();
+
+		void Axis(SDL_GameControllerAxis axis, Sint16 val, int controller);
+		void ButtonDown(SDL_GameControllerButton button, int controller);
+		void ButtonUp(SDL_GameControllerButton button, int controller);
+		void UpdatePrev();
+
+		float VAxis(IAXIS axis, int controller);
+		bool VButtonPress(IBUTTON button, int controller);
+		bool VButtonPressSingle(IBUTTON button, int controller);
+		bool VButtonRelease(IBUTTON button, int controller);
+
+	private:
+		ControllerState m_currentControllers[4];
+		ControllerState m_previousControllers[4];
+		AxisState m_currentAxis[4];
+
+		SDL_GameControllerButton convertFromIBUTTON(IBUTTON button);
+		SDL_GameControllerAxis convertFromIAXIS(IAXIS axis);
 	};
 
 }

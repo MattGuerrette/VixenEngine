@@ -25,7 +25,7 @@
 #define VIX_INPUT_H
 
 #include <vix_platform.h>
-
+#include <cstdint>
 
 namespace Vixen {
 
@@ -94,32 +94,64 @@ namespace Vixen {
 		ESC
 	};
 
+	enum class IBUTTON {
+		UP,
+		LEFT,
+		DOWN,
+		RIGHT,
+		A,
+		B,
+		X,
+		Y,
+		LEFTBUMPER,
+		RIGHTBUMPER,
+		START,
+		BACK
+	};
+
+	enum class IAXIS {
+		LEFTX,
+		LEFTY,
+		RIGHTX,
+		RIGHTY,
+		RIGHTTRIGGER,
+		LEFTTRIGGER
+	};
+
 	class IKeyboardState;
     class IMouseState;
+	class SDLControllerState;
 
 	class VIX_API Input
 	{
 	public:
-		static bool KeyPress(IKEY key);
-		static bool SingleKeyPress(IKEY key);
-		static bool KeyRelease(IKEY key);
 		static void SetKeyboardState(IKeyboardState* keyState);
-        static void SetMouseState(IMouseState* mouseState);
+		static bool KeyPress(IKEY key);
+		static bool KeyPressSingle(IKEY key);
+		static bool KeyRelease(IKEY key);
 
+
+        static void SetMouseState(IMouseState* mouseState);
         static int  MouseX();
         static int  MouseY();
 		static int  MouseWheelX();
 		static int  MouseWheelY();
         static int  DeltaX(int val);
         static int  DeltaY(int val);
+        static bool MouseButtonPress(IMBUTTON button);
+        static bool MouseButtonPressSingle(IMBUTTON button);
+		static bool MouseButtonRelease(IMBUTTON button);
 
-        static bool ButtonRelease(IMBUTTON button);
-        static bool ButtonPress(IMBUTTON button);
-        static bool SingleButtonPress(IMBUTTON button);
+		static void SetControllerState(SDLControllerState* controllerState);
+		static bool ControllerButtonPress(IBUTTON button, int controller);
+		static bool ControllerButtonPressSingle(IBUTTON button, int controller);
+		static bool ControllerButtonRelease(IBUTTON button, int controller);
+		static int16_t ControllerAxis(IAXIS axis, int controller);
 
 	private:
-		static IKeyboardState* s_keyState;
-        static IMouseState*    s_mouseState;
+		static IKeyboardState*		s_keyState;
+        static IMouseState*			s_mouseState;
+		static SDLControllerState*  s_controllerState;
 	};
 
 }
