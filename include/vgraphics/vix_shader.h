@@ -64,8 +64,6 @@ namespace Vixen {
 
 		virtual bool    VBindTexture(std::string name, ITexture* texture) = 0;
 
-        virtual bool	VInitFromFile(File* file) = 0;
-
     protected:
         virtual void VBind() = 0;
         virtual void VUnbind() = 0;

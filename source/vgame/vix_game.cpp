@@ -31,7 +31,6 @@
 #include <vix_scenemanager.h>
 #include <vix_luaengine.h>
 #include <vix_luascriptmanager.h>
-#include <vix_modelmanager.h>
 #include <vix_prefabmanager.h>
 
 namespace Vixen {
@@ -62,6 +61,8 @@ namespace Vixen {
         //ModelManager::Initialize();
         SceneManager::Initialize();
 
+
+
         Renderer::SetClearColor(Colors::Black);
 
         Time::Start();
@@ -89,7 +90,7 @@ namespace Vixen {
 		SceneManager::DeInitialize();
 		PrefabManager::Cleanup();
         
-        ModelManager::DeInitialize();
+        //ModelManager::DeInitialize();
         LuaEngine::DeInitialize();
         ObjectManager::DeInitialize();
         ResourceManager::DeInitialize();

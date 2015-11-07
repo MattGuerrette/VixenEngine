@@ -74,8 +74,18 @@ namespace Vixen {
         static IFont*       OpenFont(UString filePath);
         static IMaterial*   OpenMaterial(UString filePath);
 
+		static Asset*		AccessAsset(UString assetName);
+		static void			MapAsset(UString assetName, Asset* asset);
+		static void			ReleaseAsset(Asset* asset);
+
+		static uint32_t     NumLoadedModels();
+		static IModel*		ModelAsset(uint32_t index);
+
     private:
         IResourceLoader* m_resourceLoader;
+
+		std::map<UString, Asset*> m_assetMap;
+		std::vector<IModel*>	  m_models;
     };
 
 

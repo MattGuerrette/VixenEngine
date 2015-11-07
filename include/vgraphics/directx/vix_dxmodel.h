@@ -33,11 +33,11 @@
 #include <vix_dxtexture.h>
 #include <vix_dxcamera3d.h>
 #include <vix_dxmaterial.h>
-#include <atlbase.h>
+#include <vix_asset.h>
 
 namespace Vixen {
 
-    class VIX_API DXModel : public IModel
+    class VIX_API DXModel : public IModel, public Asset
     {
         static const int MAX_INSTANCE_PER_DRAW = 1000;
     public:

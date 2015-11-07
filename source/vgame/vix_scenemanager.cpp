@@ -27,7 +27,6 @@
 #include <vix_pathmanager.h>
 #include <vix_luaengine.h>
 #include <vix_prefabmanager.h>
-#include <vix_modelmanager.h>
 #include <vix_luascript.h>
 #include <vix_luascriptmanager.h>
 

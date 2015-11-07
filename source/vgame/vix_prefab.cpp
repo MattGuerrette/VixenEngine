@@ -24,7 +24,6 @@
 #include <vix_prefab.h>
 #include <vix_stlutil.h>
 #include <vix_scenemanager.h>
-#include <vix_modelmanager.h>
 #include <vix_luascriptmanager.h>
 #include <vix_luascript.h>
 #include <vix_objectmanager.h>
@@ -105,8 +104,7 @@ namespace Vixen {
 		Vector3 _objectRot = prefab->GetTransform().GetRotation();
 		Vector3 _objectScale = prefab->GetTransform().GetScale();
 		Transform* _objectTransform = new Transform(_objectPos, _objectRot, _objectScale);
-		GameObject* _object = new GameObject(_objectTransform,
-			ModelManager::AccessModel(UStringFromCharArray(prefab->GetModelFile().c_str())));
+		GameObject* _object = new GameObject(_objectTransform);
 		_object->SetName(UStringFromCharArray(prefab->GetName().c_str()));
 		_object->SetEnabled(prefab->GetEnabled(), false);
 		ObjectManager::MapSceneObject(_object);

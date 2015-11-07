@@ -22,7 +22,6 @@
 */
 
 #include <vix_scene.h>
-#include <vix_modelmanager.h>
 #include <vix_stlutil.h>
 #include <vix_luascriptmanager.h>
 #include <vix_scenemanager.h>
@@ -101,8 +100,12 @@ namespace Vixen {
 				obj->Render(m_mainCamera);
 		}
 
-		for (auto& model : ModelManager::ActiveModels())
-			model->VRender(Time::DeltaTime(), Time::TotalTime(), m_mainCamera);
+		for (uint32_t i = 0; i < ResourceManager::NumLoadedModels(); i++)
+		{
+			IModel* model = ResourceManager::ModelAsset(i);
+			if (model)
+				model->VRender(Time::DeltaTime(), Time::TotalTime(), m_mainCamera);
+		}
 
         //render all late render (UI) scene objects
         //NOTE: this is expensive, as we are iterating over the list of objects again...
@@ -234,8 +237,7 @@ namespace Vixen {
 			modelFile = model->Attribute("file");
 		}
 
-		GameObject* _object = new GameObject(transform,
-			ModelManager::AccessModel(UStringFromCharArray(modelFile.c_str())));
+		GameObject* _object = new GameObject(transform);
 		_object->SetName(UStringFromCharArray(objectName));
 		_object->SetEnabled(enabled, false);
 		ObjectManager::MapSceneObject(_object);
@@ -406,9 +408,7 @@ namespace Vixen {
 			DebugPrintF(VTEXT("Failed to open model.\n"));
 			return NULL;
 		}
-		ModelManager::RegisterModel(UStringFromCharArray(file), _model);
 			
-
 		IMaterial* _material = ResourceManager::OpenMaterial(UStringFromCharArray(materialFile));
 		if (!_material) {
 			DebugPrintF(VTEXT("Failed to open material.\n"));

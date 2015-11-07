@@ -57,27 +57,7 @@ namespace Vixen {
     bool DXModel::VInitFromFile(File* file)
     {
         using namespace tinyxml2;
-
-        //File is actually an XML file
-        //we should now open for reading
-       /* XMLDOC document;
-        XMLError err = document.LoadFile(file->Handle());
-        UString errString;
-        if (XMLErrCheck(err, errString))
-        {
-            DebugPrintF(VTEXT("MDL File failed to load\n"));
-            return false;
-        }*/
-
-        //Now we want to parse the value of the model
-        /*const XMLElement* modelElement = document.FirstChildElement("model");
-        const XMLElement* fileElement = modelElement->FirstChildElement("file");
-
-        const char* modelfile = fileElement->Attribute("val");
-
-
-        UString _modelPath = PathManager::AssetPath() + VTEXT("Models/Data/") + UStringFromCharArray(modelfile);*/
-       /* _modelPath = os_path(_modelPath);*/
+       
         Assimp::Importer _importer;
 		std::string _path = UStringToStd(file->FilePath());
         const aiScene* scene = _importer.ReadFile(_path.c_str(), aiProcess_CalcTangentSpace |

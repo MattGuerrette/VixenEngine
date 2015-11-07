@@ -36,6 +36,7 @@
 #include <vix_directx.h>
 #include <vix_containers.h>
 #include <vix_texture.h>
+#include <vix_asset.h>
 
 namespace Vixen {
 
@@ -53,7 +54,7 @@ namespace Vixen {
         size_t ConstantBufferIndex;
     };
 
-    class VIX_API DXShader : public IShader
+    class VIX_API DXShader : public IShader, public Asset
     {
         typedef std::unordered_map<std::string, ConstantBuffer*> CBTable;
         typedef std::unordered_map<std::string, ShaderVariable>  SVTable;

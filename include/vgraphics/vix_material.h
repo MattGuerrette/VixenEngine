@@ -60,11 +60,6 @@ namespace Vixen {
         virtual void VUnbind() = 0;
 
 		virtual UString VFilePath() = 0;
-
-        /*virtual ITexture* VGetTexture(TextureRole role) = 0;
-        virtual IShader*  VGetShader(ShaderRole role) = 0;*/
-
-		virtual bool VInitFromFile(File* file) = 0;
 		
     };
 

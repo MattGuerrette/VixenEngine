@@ -32,12 +32,13 @@
 #include <vix_dxvertexshader.h>
 #include <vix_dxpixelshader.h>
 #include <vix_tinyxml.h>
+#include <vix_asset.h>
 
 namespace Vixen {
 
 	
 
-    class VIX_API DXMaterial : public IMaterial
+    class VIX_API DXMaterial : public IMaterial, public Asset
     {
 		typedef std::map<std::string, IShaderVariable*> VariableMap;
     public:

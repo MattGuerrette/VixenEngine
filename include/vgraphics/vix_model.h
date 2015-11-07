@@ -36,7 +36,6 @@ namespace Vixen {
     public:
         virtual ~IModel() { }
 
-        virtual bool VInitFromFile(File* file) = 0;
         virtual void VRender(float dt, float totalTime, ICamera3D* camera) = 0;
         virtual void VSetWorld(MATRIX* world) = 0;
         virtual void VSetMaterial(IMaterial* material) = 0;

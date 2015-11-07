@@ -36,7 +36,6 @@ namespace Vixen {
         virtual ~ITexture() { }
 
         virtual bool VInitFromBMP(FREEIMAGE_BMP* bmp) = 0;
-        virtual bool VInitFromFile(File* file) = 0;
 
         virtual size_t VGetWidth() const = 0;
         virtual size_t VGetHeight() const = 0;

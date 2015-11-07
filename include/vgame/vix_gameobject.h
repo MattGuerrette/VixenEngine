@@ -47,11 +47,8 @@ namespace Vixen {
 	public:
 		GameObject();
 		GameObject(Transform* transform);
-		GameObject(Transform* transform, IModel* model);
-
+		
 		~GameObject();
-
-		void SetModel(IModel* model);
 
 		Transform* GetTransform();
 		Transform& GetTransformRef();

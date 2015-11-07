@@ -29,7 +29,6 @@
 #include <vix_luascriptmanager.h>
 #include <vix_components.h>
 #include <vix_resourcemanager.h>
-#include <vix_modelmanager.h>
 
 namespace Vixen {
 
@@ -261,14 +260,13 @@ namespace Vixen {
 		const char* file = element->Attribute("file");
 		const char* materialFile = element->Attribute("material");
 
-		IModel* _model = ModelManager::AccessModel(UStringFromCharArray(file));;
+		IModel* _model = (IModel*)ResourceManager::AccessAsset(UStringFromCharArray(file));
 		if (!_model) {
 			_model = ResourceManager::OpenModel(UStringFromCharArray(file));
 			if (!_model) {
 				DebugPrintF(VTEXT("Failed to open model.\n"));
 				return NULL;
 			}
-			ModelManager::RegisterModel(UStringFromCharArray(file), _model);
 		}
 		
 		IMaterial* _material = ResourceManager::OpenMaterial(UStringFromCharArray(materialFile));

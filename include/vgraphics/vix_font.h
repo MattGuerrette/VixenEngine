@@ -29,6 +29,7 @@
 #include <vix_texture.h>
 #include <vix_containers.h>
 #include <vix_rectangle.h>
+#include <vix_asset.h>
 
 namespace Vixen {
 
@@ -53,7 +54,6 @@ namespace Vixen {
 
         virtual ~IFont() { };
 
-        virtual bool      VInitFromFile(File* file) = 0;
         virtual ITexture* VPageTexture(size_t index) = 0;
         virtual bool      VFindChar(UChar c, FontChar& fontChar) = 0;
         virtual float     VLineHeight() = 0;

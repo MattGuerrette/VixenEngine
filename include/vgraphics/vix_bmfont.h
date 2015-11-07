@@ -92,7 +92,7 @@ namespace Vixen {
         std::vector<BMFontKerning>  kernings;
     };
 
-    class VIX_API BMFont : public IFont
+    class VIX_API BMFont : public IFont, public Asset
     {
     public:
         BMFont();

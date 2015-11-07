@@ -28,6 +28,7 @@
 #include <vix_dxpixelshader.h>
 #include <vix_dxmodel.h>
 #include <vix_bmfont.h>
+#include <vix_filemanager.h>
 
 namespace Vixen {
 
@@ -43,7 +44,7 @@ namespace Vixen {
 
     ITexture* DXResourceLoader::LoadTexture(File* file)
     {
-        ITexture* _texture = new DXTexture(m_renderer->Device(), m_renderer->DeviceContext());
+        DXTexture* _texture = new DXTexture(m_renderer->Device(), m_renderer->DeviceContext());
         if (_texture->VInitFromFile(file))
             return _texture;
 
@@ -88,6 +89,7 @@ namespace Vixen {
 	IMaterial* DXResourceLoader::LoadMaterial(File* file)
 	{
 		DXMaterial* _material = new DXMaterial;
+
 		if (_material->VInitFromFile(file))
 			return _material;
 

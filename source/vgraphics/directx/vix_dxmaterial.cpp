@@ -80,7 +80,7 @@ namespace Vixen {
 		using namespace tinyxml2;
 
 		m_path = file->FileName();
-		
+
 
 		XMLDOC document;
 		XMLError err = document.LoadFile(file->Handle());
@@ -125,6 +125,7 @@ namespace Vixen {
 		if (!ReadShaderChildren(psElement, m_psVariables))
 			return false;
 		
+		return true;
 	}
 
 	bool DXMaterial::ReadShaderChildren(tinyxml2::XMLElement* shaderElement, DXMaterial::VariableMap& variableMap)
