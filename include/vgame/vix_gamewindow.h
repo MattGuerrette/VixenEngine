@@ -36,6 +36,8 @@ namespace Vixen {
 
 	class Game;
 
+	class SDLControllerState;
+
 	class VIX_API GameWindow : INonCopy
 	{
 
@@ -64,6 +66,7 @@ namespace Vixen {
 
         virtual IKeyboardState*    VKeyboardState() = 0;
         virtual IMouseState*       VMouseState() = 0;
+		virtual SDLControllerState* VControllerState() = 0;
 
 		static const size_t DEF_WINDOW_WIDTH = 800;
 		static const size_t DEF_WINDOW_HEIGHT = 600;
@@ -73,6 +76,7 @@ namespace Vixen {
 		Rect                m_clientRect;
         IKeyboardState*     m_keyboardState;
         IMouseState*        m_mouseState;
+		SDLControllerState* m_controllerState;
 		bool				m_hidden;
 		bool				m_running;
 		bool				m_paused;

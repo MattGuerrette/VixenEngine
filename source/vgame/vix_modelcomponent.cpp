@@ -1,10 +1,11 @@
 #include <vix_modelcomponent.h>
+#include <vix_resourcemanager.h>
 
 namespace Vixen {
 
 	ModelComponent::ModelComponent()
+		: Component(Component::Type::MODEL)
 	{
-		m_type = IComponent::Type::MODEL;
 		m_material = nullptr;
 		m_model = nullptr;
 	}
@@ -26,8 +27,8 @@ namespace Vixen {
 
 	void ModelComponent::VOnDestroy()
 	{
-        delete m_model;
-		delete m_material;
+		ResourceManager::DecrementAssetRef(m_model);
+		ResourceManager::DecrementAssetRef(m_material);
 	}
 
 	void ModelComponent::VUpdate()
@@ -44,16 +45,6 @@ namespace Vixen {
 	void ModelComponent::VBindParent(GameObject* parent)
 	{
 		m_parent = parent;
-	}
-
-	void ModelComponent::VSetType(IComponent::Type type)
-	{
-		m_type = type;
-	}
-	
-	IComponent::Type ModelComponent::VGetType()
-	{
-		return m_type;
 	}
 
 	void ModelComponent::SetModel(Model* model)

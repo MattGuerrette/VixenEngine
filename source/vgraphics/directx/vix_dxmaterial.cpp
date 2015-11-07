@@ -27,6 +27,7 @@
 #include <vix_resourcemanager.h>
 #include <vix_pathmanager.h>
 #include <vix_shader.h>
+#include <vix_resourcemanager.h>
 
 namespace Vixen {
 
@@ -38,7 +39,9 @@ namespace Vixen {
 
     DXMaterial::~DXMaterial()
     {
-        STLMAP_DELETE(m_shaders);
+		for (auto& shader : m_shaders)
+			ResourceManager::DecrementAssetRef(shader.second);
+
 		STLMAP_DELETE(m_vsVariables);
 		STLMAP_DELETE(m_psVariables);
     }
@@ -103,6 +106,7 @@ namespace Vixen {
 
 		UString shaderPath = UStringFromCharArray(vsElement->Attribute("file"));
 		Shader* vsShader = ResourceManager::OpenShader(shaderPath, ShaderType::VERTEX_SHADER);
+		vsShader->IncrementRefCount();
 		if (!vsShader)
 			return false;
 		m_shaders[ShaderRole::Vertex] = (DXShader*)vsShader;
@@ -119,6 +123,7 @@ namespace Vixen {
 
 		shaderPath = UStringFromCharArray(psElement->Attribute("file"));
 		Shader* psShader = ResourceManager::OpenShader(shaderPath, ShaderType::PIXEL_SHADER);
+		psShader->IncrementRefCount();
 		if (!psShader)
 			return false;
 		m_shaders[ShaderRole::Pixel] = (DXShader*)psShader;

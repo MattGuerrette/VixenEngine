@@ -140,6 +140,11 @@ namespace Vixen {
 		m_id = id;
 	}
 
+	void Scene::SetFileName(std::string name)
+	{
+		m_fileName = name;
+	}
+
 	void Scene::SetMainCamera(ICamera3D * camera)
 	{
 		m_mainCamera = camera;
@@ -161,6 +166,11 @@ namespace Vixen {
 	const std::string& Scene::GetID()
 	{
 		return m_id;
+	}
+
+	const std::string& Scene::GetFileName()
+	{
+		return m_fileName;
 	}
 
 	bool Scene::IsPaused()
@@ -242,7 +252,7 @@ namespace Vixen {
 		_object->SetEnabled(enabled, false);
 		ObjectManager::MapSceneObject(_object);
 
-		std::vector<IComponent*> components = ParseComponents(scene, element->FirstChildElement("components"));
+		std::vector<Component*> components = ParseComponents(scene, element->FirstChildElement("components"));
 		for (auto& component : components)
 		{
 			component->VBindParent(_object);
@@ -282,16 +292,16 @@ namespace Vixen {
 		return new Transform(posX, posY, posZ, rotX, rotY, rotZ, scaleX, scaleY, scaleZ);
 	}
 
-	std::vector<IComponent*> Scene::ParseComponents(Scene* scene, const tinyxml2::XMLElement * element)
+	std::vector<Component*> Scene::ParseComponents(Scene* scene, const tinyxml2::XMLElement * element)
 	{
 		using namespace tinyxml2;
 
-		std::vector<IComponent*> components;
+		std::vector<Component*> components;
 
 		const XMLElement* child = element->FirstChildElement();
 		while (child) {
 			std::string name(child->Name());
-			IComponent* component;
+			Component* component;
 			if (name == "script")
 			{
 				//PARSE SCRIPT
@@ -325,7 +335,7 @@ namespace Vixen {
 		return components;
 	}
 
-	IComponent* Scene::ParseCameraComponent(Scene* scene, const tinyxml2::XMLElement * element)
+	Component* Scene::ParseCameraComponent(Scene* scene, const tinyxml2::XMLElement * element)
 	{
 		bool isMainCamera = element->BoolAttribute("mainCamera");
 		Camera3DComponent* _camera = new Camera3DComponent;
@@ -334,7 +344,7 @@ namespace Vixen {
 		return _camera;
 	}
 
-    IComponent* Scene::ParseLightComponent(const tinyxml2::XMLElement * element)
+    Component* Scene::ParseLightComponent(const tinyxml2::XMLElement * element)
 	{
 		using namespace tinyxml2;
 
@@ -371,7 +381,7 @@ namespace Vixen {
 		return component;
 	}
 
-    IComponent* Scene::ParseLuaScriptComponent(const tinyxml2::XMLElement * element)
+    Component* Scene::ParseLuaScriptComponent(const tinyxml2::XMLElement * element)
 	{
 		using namespace tinyxml2;
 
@@ -382,7 +392,7 @@ namespace Vixen {
 		return script;
 	}
 
-    IComponent* Scene::ParseUITextComponent(const tinyxml2::XMLElement* element)
+    Component* Scene::ParseUITextComponent(const tinyxml2::XMLElement* element)
     {
         using namespace tinyxml2;
 
@@ -391,12 +401,14 @@ namespace Vixen {
 
 
         Font*  _font = ResourceManager::OpenFont(UStringFromCharArray(font));
+		_font->IncrementRefCount();
+
         UIText* _text = new UIText(UStringFromCharArray(text), _font);
-        
+		
         return _text;
     }
 
-	IComponent* Scene::ParseModelComponent(const tinyxml2::XMLElement* element)
+	Component* Scene::ParseModelComponent(const tinyxml2::XMLElement* element)
 	{
 		using namespace tinyxml2;
 
@@ -408,12 +420,14 @@ namespace Vixen {
 			DebugPrintF(VTEXT("Failed to open model.\n"));
 			return NULL;
 		}
+		_model->IncrementRefCount();
 			
 		Material* _material = ResourceManager::OpenMaterial(UStringFromCharArray(materialFile));
 		if (!_material) {
 			DebugPrintF(VTEXT("Failed to open material.\n"));
 			return NULL;
 		}
+		_material->IncrementRefCount();
 
 		ModelComponent* _modelComponent = new ModelComponent;
 		_modelComponent->SetModel(_model);

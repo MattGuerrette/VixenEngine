@@ -8,7 +8,7 @@
 
 namespace Vixen {
 
-	class VIX_API ModelComponent : public IRenderComponent, public IComponent
+	class VIX_API ModelComponent : public IRenderComponent, public Component
 	{
 	public:
 		ModelComponent();
@@ -25,10 +25,6 @@ namespace Vixen {
 
 		void VBindParent(GameObject* parent);
 
-		IComponent::Type VGetType();
-
-		void VSetType(IComponent::Type type);
-
 		void VRender(ICamera3D* camera);
 
 		void SetModel(Model* model);
@@ -40,7 +36,6 @@ namespace Vixen {
 	private:
 		Model*				m_model;
 		Material*			m_material;
-		IComponent::Type	m_type;
 		GameObject*			m_parent;
 	};
 

@@ -84,6 +84,8 @@ namespace Vixen {
         static void         IncrementAssetRef(Asset* asset);
         static void         DecrementAssetRef(Asset* asset);
 
+		static void			PrintLoaded();
+
     private:
         IResourceLoader* m_resourceLoader;
 

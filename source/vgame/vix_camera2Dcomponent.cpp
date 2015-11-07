@@ -8,7 +8,7 @@
 
 namespace Vixen {
 
-    Camera2DComponent::Camera2DComponent()
+    Camera2DComponent::Camera2DComponent() : Component(Type::UNUSED)
     {
         #ifdef VIX_SYS_WINDOWS
                 m_camera = new DXCamera2D;
@@ -45,11 +45,6 @@ namespace Vixen {
     }
 
     void Camera2DComponent::VOnDestroy()
-    {
-
-    }
-
-    void Camera2DComponent::VBindParent(GameObject* parent)
     {
 
     }

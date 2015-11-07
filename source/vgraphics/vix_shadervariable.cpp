@@ -1,4 +1,5 @@
 #include <vix_shadervariable.h>
+#include <vix_resourcemanager.h>
 
 namespace Vixen {
 
@@ -107,7 +108,7 @@ namespace Vixen {
 
 	TextureVariable::~TextureVariable()
 	{
-		delete m_texture;
+		ResourceManager::DecrementAssetRef(m_texture);
 	}
 
 	void TextureVariable::VBind(std::string name, Shader* shader)

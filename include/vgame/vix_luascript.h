@@ -32,7 +32,7 @@
 namespace Vixen {
 	class GameObject;
 
-    class VIX_API LuaScript : public IComponent
+    class VIX_API LuaScript : public Component
     {
 		static LuaIntf::LuaRef* s_ThisTable;
     public:
@@ -62,14 +62,10 @@ namespace Vixen {
 
         void VBindParent(GameObject* parent);
 
-		IComponent::Type VGetType();
-		void		     VSetType(IComponent::Type type);
-
     private:
         UString             m_id;
 		UString				m_path;
 		std::string	        m_tablePath;
-        GameObject*         m_parent;
 		LuaIntf::LuaRef     m_table;
 
 		//function in lua references
@@ -78,8 +74,6 @@ namespace Vixen {
         LuaIntf::LuaRef*    m_updateFunc;
 		LuaIntf::LuaRef*    m_onDisableFunc;
 		LuaIntf::LuaRef*    m_onDestroyFunc;
-
-		IComponent::Type    m_type;
     };
 
 }

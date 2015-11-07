@@ -28,6 +28,7 @@
 #include <vix_scenemanager.h>
 
 #include <vix_components.h>
+#include <vix_component.h>
 
 namespace Vixen {
 
@@ -89,7 +90,7 @@ namespace Vixen {
 
 		for (size_t i = 0; i < m_components.size(); i++)
 		{
-			IComponent* component = m_components[i];
+			Component* component = m_components[i];
 			if (component)
 			{
 				component->VOnDestroy();
@@ -102,14 +103,16 @@ namespace Vixen {
 			GameObject* _child = m_children[i];
 			if (_child)
 			{
-				_child->Delete();
+				delete _child;
 			}
 
 		}
         delete m_transform;
 	}
 
-	void GameObject::AddComponent(IComponent* component)
+
+
+	void GameObject::AddComponent(Component* component)
 	{
 		m_components.push_back(component);
 		component->VOnInit();
@@ -121,7 +124,7 @@ namespace Vixen {
 	{
 		for (size_t i = 0; i < m_components.size(); i++)
 		{
-			IComponent* component = m_components[i];
+			Component* component = m_components[i];
 			if (component)
 				component->VUpdate();
 		}
@@ -190,7 +193,7 @@ namespace Vixen {
 			{
 				for (size_t i = 0; i < m_components.size(); i++)
 				{
-					IComponent* component = m_components[i];
+					Component* component = m_components[i];
 					if (component)
 						component->VOnEnable();
 				}
@@ -200,7 +203,7 @@ namespace Vixen {
 			{
 				for (size_t i = 0; i < m_components.size(); i++)
 				{
-					IComponent* component = m_components[i];
+					Component* component = m_components[i];
 					if (component)
 						component->VOnDisable();
 				}

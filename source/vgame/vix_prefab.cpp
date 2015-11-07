@@ -113,13 +113,14 @@ namespace Vixen {
 		uint32_t numComponents = prefab->m_components.size();
 		for (uint32_t i = 0; i < numComponents; i++)
 		{
-			IComponent* component = prefab->m_components[i];
+			Component* component = prefab->m_components[i];
 
 			if (component)
 			{
-				switch (component->VGetType())
+				Component::Type type = component->VGetType();
+				switch (type)
 				{
-					case IComponent::Type::LUA_SCRIPT:
+					case Component::Type::LUA_SCRIPT:
 					{
 
 						//Should be able to be created from copy construct not reloading.
@@ -129,19 +130,22 @@ namespace Vixen {
 
 					} break;
 
-					case IComponent::Type::MODEL:
+					case Component::Type::MODEL:
 					{
-						//ModelComponent* _modelComponent = (ModelComponent*)component;
+						ModelComponent* _modelComponent = (ModelComponent*)component;
 
-						//ModelComponent* _newComponent = new ModelComponent;
-						//_newComponent->SetModel(_modelComponent->GetModel());
-						////_newComponent->SetMaterial(ResourceManager::OpenMaterial(_modelComponent->GetMaterial()->VFilePath()));
+						ModelComponent* _newComponent = new ModelComponent;
+						_modelComponent->GetModel()->IncrementRefCount();
+						_modelComponent->GetMaterial()->IncrementRefCount();
+						_newComponent->SetModel(_modelComponent->GetModel());
+						_newComponent->SetMaterial(_modelComponent->GetMaterial());
 
-						//_newComponent->VBindParent(_object);
-						//_object->AddComponent(_newComponent);
+						_newComponent->VBindParent(_object);
+						_object->AddComponent(_newComponent);
 					} break;
 
-					case IComponent::Type::UI_TEXT:
+				
+					case Component::Type::UI_TEXT:
 					{
 
 
@@ -172,7 +176,7 @@ namespace Vixen {
 		return _object;
 	}
 
-	void Prefab::AddComponent(IComponent* component)
+	void Prefab::AddComponent(Component* component)
 	{
 		m_components.push_back(component);
 	}

@@ -149,7 +149,7 @@ namespace Vixen {
 		while (child) {
 
 			std::string name(child->Name());
-			IComponent* _component = NULL;
+			Component* _component = NULL;
 			if (name == "script")
 			{
 				//PARSE SCRIPT
@@ -189,12 +189,12 @@ namespace Vixen {
 		}
 	}
 
-	IComponent* PrefabManager::ParseUITextComponent(const tinyxml2::XMLElement* element)
+	Component* PrefabManager::ParseUITextComponent(const tinyxml2::XMLElement* element)
 	{
 		return NULL;
 	}
 
-	IComponent* PrefabManager::ParseCameraComponent(const tinyxml2::XMLElement* element)
+	Component* PrefabManager::ParseCameraComponent(const tinyxml2::XMLElement* element)
 	{
 		bool isMainCamera = element->BoolAttribute("mainCamera");
 		Camera3DComponent* _camera = new Camera3DComponent;
@@ -203,7 +203,7 @@ namespace Vixen {
 		return _camera;
 	}
 
-	IComponent* PrefabManager::ParseLightComponent(const tinyxml2::XMLElement* element)
+	Component* PrefabManager::ParseLightComponent(const tinyxml2::XMLElement* element)
 	{
 		using namespace tinyxml2;
 
@@ -240,7 +240,7 @@ namespace Vixen {
 		return component;
 	}
 
-	IComponent* PrefabManager::ParseLuaScriptComponent(const tinyxml2::XMLElement* element)
+	Component* PrefabManager::ParseLuaScriptComponent(const tinyxml2::XMLElement* element)
 	{
 		using namespace tinyxml2;
 
@@ -253,7 +253,7 @@ namespace Vixen {
 		return script;
 	}
 
-	IComponent* PrefabManager::ParseModelComponent(const tinyxml2::XMLElement* element)
+	Component* PrefabManager::ParseModelComponent(const tinyxml2::XMLElement* element)
 	{
 		using namespace tinyxml2;
 
@@ -268,12 +268,14 @@ namespace Vixen {
 				return NULL;
 			}
 		}
+		_model->IncrementRefCount();
 		
 		Material* _material = ResourceManager::OpenMaterial(UStringFromCharArray(materialFile));
 		if (!_material) {
 			DebugPrintF(VTEXT("Failed to open material.\n"));
 			return NULL;
 		}
+		_material->IncrementRefCount();
 
 		ModelComponent* _modelComponent = new ModelComponent;
 		_modelComponent->SetModel(_model);

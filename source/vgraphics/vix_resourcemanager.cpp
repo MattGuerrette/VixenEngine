@@ -189,7 +189,7 @@ namespace Vixen {
 				{
 					//Need to load a font object into memory
 					_font = _RM.m_resourceLoader->LoadFont(file);
-
+				
 					ResourceManager::MapAsset(file->FileName(), _font);
 				}
 
@@ -224,6 +224,7 @@ namespace Vixen {
 					//Need to load a material object into memory
 					_material = _RM.m_resourceLoader->LoadMaterial(file);
 
+					
 					ResourceManager::MapAsset(file->FileName(), _material);
 				}
 				
@@ -251,6 +252,7 @@ namespace Vixen {
 	{
 		ResourceManager& _RM = ResourceManager::instance();
 
+		asset->SetFileName(assetName);
 		_RM.m_assetMap[assetName] = asset;
 	}
 
@@ -290,11 +292,34 @@ namespace Vixen {
 
     void ResourceManager::DecrementAssetRef(Asset* asset)
     {
-        if (asset) {
-            asset->DecrementRefCount();
+		ResourceManager& _RM = ResourceManager::instance();
 
-            if (asset->RefCount() <= 0)
-                delete asset;
-        }
+		if (asset->RefCount() <= 1) {
+
+			UString fileName = asset->FileName();
+
+			delete asset;
+			asset = nullptr;
+
+			_RM.m_assetMap[fileName] = nullptr;
+		}
+			
+
+        if (asset)
+            asset->DecrementRefCount();
     }
+
+	void ResourceManager::PrintLoaded()
+	{
+		ResourceManager& _RM = ResourceManager::instance();
+
+		for (auto& asset : _RM.m_assetMap)
+		{
+			Asset* _asset = asset.second;
+			if (_asset) {
+				DebugPrintF(VTEXT("File: %s\n"), _asset->FileName().c_str());
+				DebugPrintF(VTEXT("RefCount: %d\n"), _asset->RefCount());
+			}
+		}
+	}
 }

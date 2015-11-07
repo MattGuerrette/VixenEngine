@@ -58,15 +58,16 @@ namespace Vixen {
 
 		/*SETTER FUNCTIONS*/
 		void SetID(std::string id);
-
+		void SetFileName(std::string name);
 		void SetMainCamera(ICamera3D* camera);
 
 		/*GETTER FUNCTIONS*/
 		const std::string& GetID();				//returns ID of scene
-
+		const std::string& GetFileName();
 	private:
 		uint32_t						m_order;
 		std::string						m_id;				//scene ID
+		std::string						m_fileName;
 		bool							m_paused;
 		bool							m_hidden;
 		std::vector<GameObject*>		m_topLevelObjects;
@@ -79,12 +80,13 @@ namespace Vixen {
     private:
 		static GameObject*              ParseGameObject(Scene* scene, const tinyxml2::XMLElement* element);
 		static Transform*               ParseTransform(const tinyxml2::XMLElement * element);
-		static std::vector<IComponent*>	ParseComponents(Scene* scene, const tinyxml2::XMLElement* element);
-		static IComponent*	            ParseCameraComponent(Scene* scene, const tinyxml2::XMLElement* element);
-		static IComponent*              ParseLightComponent(const tinyxml2::XMLElement* element);
-		static IComponent*              ParseLuaScriptComponent(const tinyxml2::XMLElement* element);
-        static IComponent*              ParseUITextComponent(const tinyxml2::XMLElement* element);
-		static IComponent*				ParseModelComponent(const tinyxml2::XMLElement* element);
+
+		static std::vector<Component*>	ParseComponents(Scene* scene, const tinyxml2::XMLElement* element);
+		static Component*	            ParseCameraComponent(Scene* scene, const tinyxml2::XMLElement* element);
+		static Component*				ParseLightComponent(const tinyxml2::XMLElement* element);
+		static Component*				ParseLuaScriptComponent(const tinyxml2::XMLElement* element);
+        static Component*				ParseUITextComponent(const tinyxml2::XMLElement* element);
+		static Component*				ParseModelComponent(const tinyxml2::XMLElement* element);
 	};
 }
 #endif

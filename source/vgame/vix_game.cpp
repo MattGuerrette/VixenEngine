@@ -52,6 +52,7 @@ namespace Vixen {
 
         Input::SetMouseState(Window::Mouse());
         Input::SetKeyboardState(Window::Keyboard());
+		Input::SetControllerState(Window::Controller());
 
         ResourceManager::Initialize();
         Renderer::InitializeSpriteBatch();
@@ -88,11 +89,15 @@ namespace Vixen {
 
 		SceneManager::DeInitialize();
 		PrefabManager::Cleanup();
+
+		
         
         LuaEngine::DeInitialize();
         ObjectManager::DeInitialize();
         ResourceManager::DeInitialize();
         Renderer::DeInitialize();
+		ResourceManager::PrintLoaded();
+
         Window::DeInitialize();
         PathManager::DeInitialize();
         FileManager::DeInitialize();

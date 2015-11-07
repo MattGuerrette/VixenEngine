@@ -7,7 +7,7 @@
 
 namespace Vixen {
 
-    class VIX_API Camera2DComponent : public IComponent
+    class VIX_API Camera2DComponent : public Component
     {
     public:
         Camera2DComponent();
@@ -23,8 +23,6 @@ namespace Vixen {
         void VOnDisable();
 
         void VOnDestroy();
-
-        void VBindParent(GameObject* parent);
 
     private:
         ICamera2D*  m_camera;

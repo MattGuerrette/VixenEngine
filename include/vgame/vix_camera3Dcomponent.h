@@ -33,7 +33,7 @@ namespace Vixen {
 
     class GameObject;
 
-    class VIX_API Camera3DComponent : public IComponent
+    class VIX_API Camera3DComponent : public Component
     {
         static bool s_MainCameraExists;
     public:
@@ -53,9 +53,9 @@ namespace Vixen {
 
         void VBindParent(GameObject* parent);
 
-		IComponent::Type VGetType();
+		Component::Type VGetType();
 
-		void VSetType(IComponent::Type type);
+		void VSetType(Component::Type type);
 
         void SetPerspective(float aspect, float fov, float znear, float zfar);
 
@@ -71,7 +71,7 @@ namespace Vixen {
         bool                m_isMainCamera;
         ICamera3D*          m_camera;
 
-		IComponent::Type    m_type;
+		Component::Type    m_type;
     };
 
 }

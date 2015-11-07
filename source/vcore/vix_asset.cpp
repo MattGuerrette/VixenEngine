@@ -21,4 +21,14 @@ namespace Vixen {
 	{
 		return m_refCount;
 	}
+
+	UString Asset::FileName()
+	{
+		return m_fileName;
+	}
+
+	void Asset::SetFileName(UString fileName)
+	{
+		m_fileName = fileName;
+	}
 }

@@ -23,6 +23,7 @@
 
 #include <vix_dxrenderer.h>
 #include <vix_dxprimitivecube.h>
+#include <vix_dxvertexshader.h>
 #include <vix_dxquad.h>
 #include <vix_freeimage.h>
 #include <vix_filemanager.h>
@@ -257,8 +258,14 @@ namespace Vixen {
     void DXRenderer::VInitializeSpriteBatch()
     {
         m_spriteBatch = new DXSpriteBatcher(m_Device, m_ImmediateContext);
-        m_spriteBatch->SetVertexShader((DXVertexShader*)ResourceManager::OpenShader(VTEXT("SpriteBatch_VS.hlsl"), ShaderType::VERTEX_SHADER));
-        m_spriteBatch->SetPixelShader((DXPixelShader*)ResourceManager::OpenShader(VTEXT("SpriteBatch_PS.hlsl"), ShaderType::PIXEL_SHADER));
+
+		DXVertexShader* _vShader = (DXVertexShader*)ResourceManager::OpenShader(VTEXT("SpriteBatch_VS.hlsl"), ShaderType::VERTEX_SHADER);
+		_vShader->IncrementRefCount();
+        m_spriteBatch->SetVertexShader(_vShader);
+
+		DXPixelShader* _pShader = (DXPixelShader*)ResourceManager::OpenShader(VTEXT("SpriteBatch_PS.hlsl"), ShaderType::PIXEL_SHADER);
+		_pShader->IncrementRefCount();
+        m_spriteBatch->SetPixelShader(_pShader);
 
         m_spriteBatch->SetCamera(m_camera2D);
     }

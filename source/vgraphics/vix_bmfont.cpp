@@ -37,7 +37,8 @@ namespace Vixen {
 
     BMFont::~BMFont()
     {
-        STLVEC_DELETE(m_textures);
+		for (auto& tex : m_textures)
+			ResourceManager::DecrementAssetRef(tex);
     }
 
     bool BMFont::VInitFromFile(File* file)

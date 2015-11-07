@@ -33,23 +33,15 @@ namespace Vixen {
 	class Game;
     class GameObject;
 
-	class VIX_API IComponent
+	class VIX_API Component
 	{
 	public:
-		virtual ~IComponent() { };
-		virtual void VOnInit() = 0;
-		virtual void VOnEnable() = 0;
-		virtual void VUpdate() = 0;
-		virtual void VOnDisable() = 0;
-		virtual void VOnDestroy() = 0;
-        virtual void VBindParent(GameObject* parent) = 0;
 
 		enum class Type
 		{
+			UNUSED,
 			LUA_SCRIPT,
-			POINT_LIGHT,
-			SPOT_LIGHT,
-			DIRECTIONAL_LIGHT,
+			LIGHT,
 			UI_TEXT,
 			UI_BUTTON,
 			UI_TEXTURE,
@@ -57,8 +49,32 @@ namespace Vixen {
 			MODEL
 		};
 
-		virtual IComponent::Type VGetType() = 0;
-		virtual void VSetType(IComponent::Type type) = 0;
+		Component(Type type)
+		{
+			m_type = type;
+		}
+
+		virtual ~Component() { };
+		virtual void VOnInit() = 0;
+		virtual void VOnEnable() = 0;
+		virtual void VUpdate() = 0;
+		virtual void VOnDisable() = 0;
+		virtual void VOnDestroy() = 0;
+
+		virtual void VBindParent(GameObject* parent)
+		{
+			m_parent = parent;
+		}
+
+
+		virtual Component::Type VGetType()
+		{
+			return m_type;
+		}
+
+	protected:
+		GameObject* m_parent;
+		Type		m_type;
 	};
 
 }

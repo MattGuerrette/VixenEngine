@@ -23,7 +23,12 @@ namespace Vixen {
 
 		uint32_t RefCount();
 
+		UString FileName();
+
+		void SetFileName(UString fileName);
+
 	private:
+		UString  m_fileName;
 		uint32_t m_refCount;
 	};
 
