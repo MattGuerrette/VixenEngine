@@ -138,7 +138,7 @@ namespace Vixen {
 		return s_controllerState->VButtonRelease(button, controller);
 	}
 
-	int16_t Input::ControllerAxis(IAXIS axis, int controller)
+	float Input::ControllerAxis(IAXIS axis, int controller)
 	{
 		return s_controllerState->VAxis(axis, controller);
 	}

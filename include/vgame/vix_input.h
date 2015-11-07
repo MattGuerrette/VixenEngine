@@ -146,7 +146,7 @@ namespace Vixen {
 		static bool ControllerButtonPress(IBUTTON button, int controller);
 		static bool ControllerButtonPressSingle(IBUTTON button, int controller);
 		static bool ControllerButtonRelease(IBUTTON button, int controller);
-		static int16_t ControllerAxis(IAXIS axis, int controller);
+		static float ControllerAxis(IAXIS axis, int controller);
 
 	private:
 		static IKeyboardState*		s_keyState;
