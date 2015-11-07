@@ -1,0 +1,23 @@
+﻿Build started 11/7/2015 5:58:13 PM.
+     1>Project "D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Geometry\Bullet3Geometry.vcxproj" on node 5 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /I"D:\Users\mpg7287\bullet3-2.83.6\src" /Zi /nologo /W3 /WX- /Od /Ob0 /D WIN32 /D _DEBUG /D _DEBUG /D USE_GRAPHICAL_BENCHMARK /D _CRT_SECURE_NO_WARNINGS /D _CRT_SECURE_NO_DEPRECATE /D _SCL_SECURE_NO_WARNINGS /D "CMAKE_INTDIR=\"Debug\"" /D _WINDLL /D _MBCS /Gm- /EHsc /RTC1 /MTd /GS /arch:SSE /fp:fast /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"x64\Debug\\" /Fd"x64\Debug\vc140.pdb" /Gd /TP /errorReport:prompt "D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Geometry\b3ConvexHullComputer.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Geometry\b3GeometryUtil.cpp"
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+         b3ConvexHullComputer.cpp
+         b3GeometryUtil.cpp
+         Generating Code...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Users\mpg7287\bullet3-2.83.6\x64\Debug\Bullet3Geometry_Debug.lib" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Users\mpg7287\bullet3-2.83.6\x64\Debug\Bullet3Geometry_Debug.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Users\mpg7287\bullet3-2.83.6\x64\Debug\Bullet3Geometry_Debug.lib" /MACHINE:X64 /DLL x64\Debug\b3ConvexHullComputer.obj
+         x64\Debug\b3GeometryUtil.obj
+     1>b3ConvexHullComputer.obj : error LNK2019: unresolved external symbol b3OutputErrorMessageVarArgsInternal referenced in function "private: static enum b3ConvexHullInternal::Orientation __cdecl b3ConvexHullInternal::getOrientation(class b3ConvexHullInternal::Edge const *,class b3ConvexHullInternal::Edge const *,class b3ConvexHullInternal::Point32 const &,class b3ConvexHullInternal::Point32 const &)" (?getOrientation@b3ConvexHullInternal@@CA?AW4Orientation@1@PEBVEdge@1@0AEBVPoint32@1@1@Z)
+     1>b3GeometryUtil.obj : error LNK2001: unresolved external symbol b3OutputErrorMessageVarArgsInternal
+     1>b3ConvexHullComputer.obj : error LNK2019: unresolved external symbol "void * __cdecl b3AlignedAllocInternal(unsigned __int64,int)" (?b3AlignedAllocInternal@@YAPEAX_KH@Z) referenced in function "public: __cdecl b3ConvexHullInternal::PoolArray<class b3ConvexHullInternal::Edge>::PoolArray<class b3ConvexHullInternal::Edge>(int)" (??0?$PoolArray@VEdge@b3ConvexHullInternal@@@b3ConvexHullInternal@@QEAA@H@Z)
+     1>b3GeometryUtil.obj : error LNK2001: unresolved external symbol "void * __cdecl b3AlignedAllocInternal(unsigned __int64,int)" (?b3AlignedAllocInternal@@YAPEAX_KH@Z)
+     1>b3ConvexHullComputer.obj : error LNK2019: unresolved external symbol "void __cdecl b3AlignedFreeInternal(void *)" (?b3AlignedFreeInternal@@YAXPEAX@Z) referenced in function "public: __cdecl b3ConvexHullInternal::Pool<class b3ConvexHullInternal::Edge>::~Pool<class b3ConvexHullInternal::Edge>(void)" (??1?$Pool@VEdge@b3ConvexHullInternal@@@b3ConvexHullInternal@@QEAA@XZ)
+     1>b3GeometryUtil.obj : error LNK2001: unresolved external symbol "void __cdecl b3AlignedFreeInternal(void *)" (?b3AlignedFreeInternal@@YAXPEAX@Z)
+     1>D:\Users\mpg7287\bullet3-2.83.6\x64\Debug\Bullet3Geometry_Debug.lib : fatal error LNK1120: 3 unresolved externals
+     1>Done Building Project "D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Geometry\Bullet3Geometry.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:02.20

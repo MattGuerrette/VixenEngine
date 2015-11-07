@@ -1,0 +1,38 @@
+﻿Build started 11/7/2015 5:42:12 PM.
+     1>Project "D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Serialize\Bullet2FileLoader\Bullet2FileLoader.vcxproj" on node 2 (Build target(s)).
+     1>CustomBuild:
+         Building Custom Rule D:/Users/mpg7287/bullet3-2.83.6/src/Bullet3Serialize/Bullet2FileLoader/CMakeLists.txt
+         CMake does not need to re-run because D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Serialize\Bullet2FileLoader\CMakeFiles\generate.stamp is up-to-date.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /I"D:\Users\mpg7287\bullet3-2.83.6\src" /Zi /nologo /W3 /WX- /Od /Ob0 /D WIN32 /D _DEBUG /D _DEBUG /D USE_GRAPHICAL_BENCHMARK /D _CRT_SECURE_NO_WARNINGS /D _CRT_SECURE_NO_DEPRECATE /D _SCL_SECURE_NO_WARNINGS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MTd /GS /arch:SSE /fp:fast /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"x64\Debug\\" /Fd"x64\Debug\Bullet2FileLoader.pdb" /Gd /TP /errorReport:prompt "D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Serialize\Bullet2FileLoader\b3BulletFile.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Serialize\Bullet2FileLoader\b3Chunk.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Serialize\Bullet2FileLoader\b3DNA.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Serialize\Bullet2FileLoader\b3File.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Serialize\Bullet2FileLoader\b3Serializer.cpp"
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+         b3BulletFile.cpp
+         b3Chunk.cpp
+         b3DNA.cpp
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Serialize\Bullet2FileLoader\b3DNA.cpp(278): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Serialize\Bullet2FileLoader\b3DNA.cpp(393): warning C4311: 'type cast': pointer truncation from 'char *' to 'long'
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Serialize\Bullet2FileLoader\b3DNA.cpp(393): warning C4302: 'type cast': truncation from 'char *' to 'long'
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Serialize\Bullet2FileLoader\b3DNA.cpp(429): warning C4311: 'type cast': pointer truncation from 'char *' to 'long'
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Serialize\Bullet2FileLoader\b3DNA.cpp(429): warning C4302: 'type cast': truncation from 'char *' to 'long'
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Serialize\Bullet2FileLoader\b3DNA.cpp(526): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+         b3File.cpp
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Serialize\Bullet2FileLoader\b3File.cpp(34): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Serialize\Bullet2FileLoader\b3File.cpp(78): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Serialize\Bullet2FileLoader\b3File.cpp(432): warning C4311: 'type cast': pointer truncation from 'char *' to 'long'
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Serialize\Bullet2FileLoader\b3File.cpp(432): warning C4302: 'type cast': truncation from 'char *' to 'long'
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Serialize\Bullet2FileLoader\b3File.cpp(469): warning C4311: 'type cast': pointer truncation from 'char *' to 'long'
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Serialize\Bullet2FileLoader\b3File.cpp(469): warning C4302: 'type cast': truncation from 'char *' to 'long'
+         b3Serializer.cpp
+         Generating Code...
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\Lib.exe /OUT:"D:\Users\mpg7287\bullet3-2.83.6\x64\Debug\Bullet2FileLoader_Debug.lib" /NOLOGO /MACHINE:X64 x64\Debug\b3BulletFile.obj
+         x64\Debug\b3Chunk.obj
+         x64\Debug\b3DNA.obj
+         x64\Debug\b3File.obj
+         x64\Debug\b3Serializer.obj
+         Bullet2FileLoader.vcxproj -> D:\Users\mpg7287\bullet3-2.83.6\x64\Debug\Bullet2FileLoader_Debug.lib
+     1>Done Building Project "D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Serialize\Bullet2FileLoader\Bullet2FileLoader.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:03.44

@@ -1,0 +1,47 @@
+﻿Build started 11/7/2015 5:58:12 PM.
+     1>Project "D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Collision\Bullet3Collision.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /I"D:\Users\mpg7287\bullet3-2.83.6\src" /Zi /nologo /W3 /WX- /Od /Ob0 /D WIN32 /D _DEBUG /D _DEBUG /D USE_GRAPHICAL_BENCHMARK /D _CRT_SECURE_NO_WARNINGS /D _CRT_SECURE_NO_DEPRECATE /D _SCL_SECURE_NO_WARNINGS /D "CMAKE_INTDIR=\"Debug\"" /D _WINDLL /D _MBCS /Gm- /EHsc /RTC1 /MTd /GS /arch:SSE /fp:fast /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"x64\Debug\\" /Fd"x64\Debug\vc140.pdb" /Gd /TP /errorReport:prompt "D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Collision\BroadPhaseCollision\b3DynamicBvh.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Collision\BroadPhaseCollision\b3DynamicBvhBroadphase.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Collision\BroadPhaseCollision\b3OverlappingPairCache.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Collision\NarrowPhaseCollision\b3ConvexUtility.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Collision\NarrowPhaseCollision\b3CpuNarrowPhase.cpp"
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+         b3DynamicBvh.cpp
+         b3DynamicBvhBroadphase.cpp
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Collision/BroadPhaseCollision/b3DynamicBvh.h(968): warning C4101: 'resultNormal': unreferenced local variable
+         D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Collision\BroadPhaseCollision\b3DynamicBvhBroadphase.cpp(249): note: see reference to function template instantiation 'void b3DynamicBvh::rayTestInternal<BroadphaseRayTester>(const b3DbvtNode *,const b3Vector3 &,const b3Vector3 &,const b3Vector3 &,unsigned int [],b3Scalar,const b3Vector3 &,const b3Vector3 &,T &) const' being compiled
+                 with
+                 [
+                     T=BroadphaseRayTester
+                 ]
+         b3OverlappingPairCache.cpp
+         b3ConvexUtility.cpp
+         b3CpuNarrowPhase.cpp
+         Generating Code...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Users\mpg7287\bullet3-2.83.6\x64\Debug\Bullet3Collision_Debug.lib" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Users\mpg7287\bullet3-2.83.6\x64\Debug\Bullet3Collision_Debug.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Users\mpg7287\bullet3-2.83.6\x64\Debug\Bullet3Collision_Debug.lib" /MACHINE:X64 /DLL x64\Debug\b3DynamicBvh.obj
+         x64\Debug\b3DynamicBvhBroadphase.obj
+         x64\Debug\b3OverlappingPairCache.obj
+         x64\Debug\b3ConvexUtility.obj
+         x64\Debug\b3CpuNarrowPhase.obj
+     1>b3CpuNarrowPhase.obj : error LNK2001: unresolved external symbol b3OutputErrorMessageVarArgsInternal
+     1>b3DynamicBvh.obj : error LNK2001: unresolved external symbol b3OutputErrorMessageVarArgsInternal
+     1>b3DynamicBvhBroadphase.obj : error LNK2001: unresolved external symbol b3OutputErrorMessageVarArgsInternal
+     1>b3OverlappingPairCache.obj : error LNK2001: unresolved external symbol b3OutputErrorMessageVarArgsInternal
+     1>b3ConvexUtility.obj : error LNK2001: unresolved external symbol b3OutputErrorMessageVarArgsInternal
+     1>b3CpuNarrowPhase.obj : error LNK2001: unresolved external symbol "void * __cdecl b3AlignedAllocInternal(unsigned __int64,int)" (?b3AlignedAllocInternal@@YAPEAX_KH@Z)
+     1>b3DynamicBvh.obj : error LNK2001: unresolved external symbol "void * __cdecl b3AlignedAllocInternal(unsigned __int64,int)" (?b3AlignedAllocInternal@@YAPEAX_KH@Z)
+     1>b3DynamicBvhBroadphase.obj : error LNK2001: unresolved external symbol "void * __cdecl b3AlignedAllocInternal(unsigned __int64,int)" (?b3AlignedAllocInternal@@YAPEAX_KH@Z)
+     1>b3OverlappingPairCache.obj : error LNK2001: unresolved external symbol "void * __cdecl b3AlignedAllocInternal(unsigned __int64,int)" (?b3AlignedAllocInternal@@YAPEAX_KH@Z)
+     1>b3ConvexUtility.obj : error LNK2001: unresolved external symbol "void * __cdecl b3AlignedAllocInternal(unsigned __int64,int)" (?b3AlignedAllocInternal@@YAPEAX_KH@Z)
+     1>b3CpuNarrowPhase.obj : error LNK2001: unresolved external symbol "void __cdecl b3AlignedFreeInternal(void *)" (?b3AlignedFreeInternal@@YAXPEAX@Z)
+     1>b3DynamicBvh.obj : error LNK2001: unresolved external symbol "void __cdecl b3AlignedFreeInternal(void *)" (?b3AlignedFreeInternal@@YAXPEAX@Z)
+     1>b3DynamicBvhBroadphase.obj : error LNK2001: unresolved external symbol "void __cdecl b3AlignedFreeInternal(void *)" (?b3AlignedFreeInternal@@YAXPEAX@Z)
+     1>b3OverlappingPairCache.obj : error LNK2001: unresolved external symbol "void __cdecl b3AlignedFreeInternal(void *)" (?b3AlignedFreeInternal@@YAXPEAX@Z)
+     1>b3ConvexUtility.obj : error LNK2001: unresolved external symbol "void __cdecl b3AlignedFreeInternal(void *)" (?b3AlignedFreeInternal@@YAXPEAX@Z)
+     1>b3ConvexUtility.obj : error LNK2019: unresolved external symbol "private: float __cdecl b3ConvexHullComputer::compute(void const *,bool,int,int,float,float)" (?compute@b3ConvexHullComputer@@AEAAMPEBX_NHHMM@Z) referenced in function "public: float __cdecl b3ConvexHullComputer::compute(float const *,int,int,float,float)" (?compute@b3ConvexHullComputer@@QEAAMPEBMHHMM@Z)
+     1>b3CpuNarrowPhase.obj : error LNK2019: unresolved external symbol b3EnterProfileZone referenced in function "public: __cdecl b3ProfileZone::b3ProfileZone(char const *)" (??0b3ProfileZone@@QEAA@PEBD@Z)
+     1>b3CpuNarrowPhase.obj : error LNK2019: unresolved external symbol b3LeaveProfileZone referenced in function "public: __cdecl b3ProfileZone::~b3ProfileZone(void)" (??1b3ProfileZone@@QEAA@XZ)
+     1>D:\Users\mpg7287\bullet3-2.83.6\x64\Debug\Bullet3Collision_Debug.lib : fatal error LNK1120: 6 unresolved externals
+     1>Done Building Project "D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Collision\Bullet3Collision.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:02.56

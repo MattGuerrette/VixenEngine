@@ -1,0 +1,161 @@
+﻿Build started 11/7/2015 5:59:25 PM.
+     1>Project "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\BulletDynamics.vcxproj" on node 3 (Build target(s)).
+     1>Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Users\mpg7287\bullet3-2.83.6\x64\Debug\BulletDynamics_Debug.lib" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Users\mpg7287\bullet3-2.83.6\x64\Debug\BulletDynamics_Debug.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Users\mpg7287\bullet3-2.83.6\x64\Debug\BulletDynamics_Debug.lib" /MACHINE:X64 /DLL x64\Debug\btKinematicCharacterController.obj
+         x64\Debug\btConeTwistConstraint.obj
+         x64\Debug\btContactConstraint.obj
+         x64\Debug\btFixedConstraint.obj
+         x64\Debug\btGearConstraint.obj
+         x64\Debug\btGeneric6DofConstraint.obj
+         x64\Debug\btGeneric6DofSpringConstraint.obj
+         x64\Debug\btGeneric6DofSpring2Constraint.obj
+         x64\Debug\btHinge2Constraint.obj
+         x64\Debug\btHingeConstraint.obj
+         x64\Debug\btPoint2PointConstraint.obj
+         x64\Debug\btSequentialImpulseConstraintSolver.obj
+         x64\Debug\btNNCGConstraintSolver.obj
+         x64\Debug\btSliderConstraint.obj
+         x64\Debug\btSolve2LinearConstraint.obj
+         x64\Debug\btTypedConstraint.obj
+         x64\Debug\btUniversalConstraint.obj
+         x64\Debug\btDiscreteDynamicsWorld.obj
+         x64\Debug\btRigidBody.obj
+         x64\Debug\btSimpleDynamicsWorld.obj
+         x64\Debug\btRaycastVehicle.obj
+         x64\Debug\btWheelInfo.obj
+         x64\Debug\btMultiBody.obj
+         x64\Debug\btMultiBodyConstraintSolver.obj
+         x64\Debug\btMultiBodyDynamicsWorld.obj
+         x64\Debug\btMultiBodyJointLimitConstraint.obj
+         x64\Debug\btMultiBodyConstraint.obj
+         x64\Debug\btMultiBodyPoint2Point.obj
+         x64\Debug\btMultiBodyJointMotor.obj
+         x64\Debug\btDantzigLCP.obj
+         x64\Debug\btMLCPSolver.obj
+         x64\Debug\btLemkeAlgorithm.obj
+     1>btMultiBodyJointMotor.obj : error LNK2001: unresolved external symbol "void * __cdecl btAlignedAllocInternal(unsigned __int64,int)" (?btAlignedAllocInternal@@YAPEAX_KH@Z)
+     1>btDantzigLCP.obj : error LNK2001: unresolved external symbol "void * __cdecl btAlignedAllocInternal(unsigned __int64,int)" (?btAlignedAllocInternal@@YAPEAX_KH@Z)
+     1>btMLCPSolver.obj : error LNK2001: unresolved external symbol "void * __cdecl btAlignedAllocInternal(unsigned __int64,int)" (?btAlignedAllocInternal@@YAPEAX_KH@Z)
+     1>btLemkeAlgorithm.obj : error LNK2001: unresolved external symbol "void * __cdecl btAlignedAllocInternal(unsigned __int64,int)" (?btAlignedAllocInternal@@YAPEAX_KH@Z)
+     1>btMultiBodyDynamicsWorld.obj : error LNK2001: unresolved external symbol "void * __cdecl btAlignedAllocInternal(unsigned __int64,int)" (?btAlignedAllocInternal@@YAPEAX_KH@Z)
+     1>btMultiBodyJointLimitConstraint.obj : error LNK2001: unresolved external symbol "void * __cdecl btAlignedAllocInternal(unsigned __int64,int)" (?btAlignedAllocInternal@@YAPEAX_KH@Z)
+     1>btMultiBodyConstraint.obj : error LNK2001: unresolved external symbol "void * __cdecl btAlignedAllocInternal(unsigned __int64,int)" (?btAlignedAllocInternal@@YAPEAX_KH@Z)
+     1>btMultiBodyPoint2Point.obj : error LNK2001: unresolved external symbol "void * __cdecl btAlignedAllocInternal(unsigned __int64,int)" (?btAlignedAllocInternal@@YAPEAX_KH@Z)
+     1>btRigidBody.obj : error LNK2001: unresolved external symbol "void * __cdecl btAlignedAllocInternal(unsigned __int64,int)" (?btAlignedAllocInternal@@YAPEAX_KH@Z)
+     1>btRaycastVehicle.obj : error LNK2001: unresolved external symbol "void * __cdecl btAlignedAllocInternal(unsigned __int64,int)" (?btAlignedAllocInternal@@YAPEAX_KH@Z)
+     1>btMultiBody.obj : error LNK2001: unresolved external symbol "void * __cdecl btAlignedAllocInternal(unsigned __int64,int)" (?btAlignedAllocInternal@@YAPEAX_KH@Z)
+     1>btMultiBodyConstraintSolver.obj : error LNK2001: unresolved external symbol "void * __cdecl btAlignedAllocInternal(unsigned __int64,int)" (?btAlignedAllocInternal@@YAPEAX_KH@Z)
+     1>btKinematicCharacterController.obj : error LNK2001: unresolved external symbol "void * __cdecl btAlignedAllocInternal(unsigned __int64,int)" (?btAlignedAllocInternal@@YAPEAX_KH@Z)
+     1>btSequentialImpulseConstraintSolver.obj : error LNK2001: unresolved external symbol "void * __cdecl btAlignedAllocInternal(unsigned __int64,int)" (?btAlignedAllocInternal@@YAPEAX_KH@Z)
+     1>btNNCGConstraintSolver.obj : error LNK2001: unresolved external symbol "void * __cdecl btAlignedAllocInternal(unsigned __int64,int)" (?btAlignedAllocInternal@@YAPEAX_KH@Z)
+     1>btDiscreteDynamicsWorld.obj : error LNK2001: unresolved external symbol "void * __cdecl btAlignedAllocInternal(unsigned __int64,int)" (?btAlignedAllocInternal@@YAPEAX_KH@Z)
+     1>btMLCPSolver.obj : error LNK2001: unresolved external symbol "void __cdecl btAlignedFreeInternal(void *)" (?btAlignedFreeInternal@@YAXPEAX@Z)
+     1>btLemkeAlgorithm.obj : error LNK2001: unresolved external symbol "void __cdecl btAlignedFreeInternal(void *)" (?btAlignedFreeInternal@@YAXPEAX@Z)
+     1>btMultiBodyConstraint.obj : error LNK2001: unresolved external symbol "void __cdecl btAlignedFreeInternal(void *)" (?btAlignedFreeInternal@@YAXPEAX@Z)
+     1>btMultiBodyPoint2Point.obj : error LNK2001: unresolved external symbol "void __cdecl btAlignedFreeInternal(void *)" (?btAlignedFreeInternal@@YAXPEAX@Z)
+     1>btMultiBodyJointMotor.obj : error LNK2001: unresolved external symbol "void __cdecl btAlignedFreeInternal(void *)" (?btAlignedFreeInternal@@YAXPEAX@Z)
+     1>btDantzigLCP.obj : error LNK2001: unresolved external symbol "void __cdecl btAlignedFreeInternal(void *)" (?btAlignedFreeInternal@@YAXPEAX@Z)
+     1>btMultiBody.obj : error LNK2001: unresolved external symbol "void __cdecl btAlignedFreeInternal(void *)" (?btAlignedFreeInternal@@YAXPEAX@Z)
+     1>btMultiBodyConstraintSolver.obj : error LNK2001: unresolved external symbol "void __cdecl btAlignedFreeInternal(void *)" (?btAlignedFreeInternal@@YAXPEAX@Z)
+     1>btMultiBodyDynamicsWorld.obj : error LNK2001: unresolved external symbol "void __cdecl btAlignedFreeInternal(void *)" (?btAlignedFreeInternal@@YAXPEAX@Z)
+     1>btMultiBodyJointLimitConstraint.obj : error LNK2001: unresolved external symbol "void __cdecl btAlignedFreeInternal(void *)" (?btAlignedFreeInternal@@YAXPEAX@Z)
+     1>btDiscreteDynamicsWorld.obj : error LNK2001: unresolved external symbol "void __cdecl btAlignedFreeInternal(void *)" (?btAlignedFreeInternal@@YAXPEAX@Z)
+     1>btRigidBody.obj : error LNK2001: unresolved external symbol "void __cdecl btAlignedFreeInternal(void *)" (?btAlignedFreeInternal@@YAXPEAX@Z)
+     1>btSimpleDynamicsWorld.obj : error LNK2001: unresolved external symbol "void __cdecl btAlignedFreeInternal(void *)" (?btAlignedFreeInternal@@YAXPEAX@Z)
+     1>btRaycastVehicle.obj : error LNK2001: unresolved external symbol "void __cdecl btAlignedFreeInternal(void *)" (?btAlignedFreeInternal@@YAXPEAX@Z)
+     1>btNNCGConstraintSolver.obj : error LNK2001: unresolved external symbol "void __cdecl btAlignedFreeInternal(void *)" (?btAlignedFreeInternal@@YAXPEAX@Z)
+     1>btSliderConstraint.obj : error LNK2001: unresolved external symbol "void __cdecl btAlignedFreeInternal(void *)" (?btAlignedFreeInternal@@YAXPEAX@Z)
+     1>btTypedConstraint.obj : error LNK2001: unresolved external symbol "void __cdecl btAlignedFreeInternal(void *)" (?btAlignedFreeInternal@@YAXPEAX@Z)
+     1>btUniversalConstraint.obj : error LNK2001: unresolved external symbol "void __cdecl btAlignedFreeInternal(void *)" (?btAlignedFreeInternal@@YAXPEAX@Z)
+     1>btHinge2Constraint.obj : error LNK2001: unresolved external symbol "void __cdecl btAlignedFreeInternal(void *)" (?btAlignedFreeInternal@@YAXPEAX@Z)
+     1>btHingeConstraint.obj : error LNK2001: unresolved external symbol "void __cdecl btAlignedFreeInternal(void *)" (?btAlignedFreeInternal@@YAXPEAX@Z)
+     1>btPoint2PointConstraint.obj : error LNK2001: unresolved external symbol "void __cdecl btAlignedFreeInternal(void *)" (?btAlignedFreeInternal@@YAXPEAX@Z)
+     1>btSequentialImpulseConstraintSolver.obj : error LNK2001: unresolved external symbol "void __cdecl btAlignedFreeInternal(void *)" (?btAlignedFreeInternal@@YAXPEAX@Z)
+     1>btGearConstraint.obj : error LNK2001: unresolved external symbol "void __cdecl btAlignedFreeInternal(void *)" (?btAlignedFreeInternal@@YAXPEAX@Z)
+     1>btGeneric6DofConstraint.obj : error LNK2001: unresolved external symbol "void __cdecl btAlignedFreeInternal(void *)" (?btAlignedFreeInternal@@YAXPEAX@Z)
+     1>btGeneric6DofSpringConstraint.obj : error LNK2001: unresolved external symbol "void __cdecl btAlignedFreeInternal(void *)" (?btAlignedFreeInternal@@YAXPEAX@Z)
+     1>btGeneric6DofSpring2Constraint.obj : error LNK2001: unresolved external symbol "void __cdecl btAlignedFreeInternal(void *)" (?btAlignedFreeInternal@@YAXPEAX@Z)
+     1>btKinematicCharacterController.obj : error LNK2001: unresolved external symbol "void __cdecl btAlignedFreeInternal(void *)" (?btAlignedFreeInternal@@YAXPEAX@Z)
+     1>btConeTwistConstraint.obj : error LNK2001: unresolved external symbol "void __cdecl btAlignedFreeInternal(void *)" (?btAlignedFreeInternal@@YAXPEAX@Z)
+     1>btContactConstraint.obj : error LNK2001: unresolved external symbol "void __cdecl btAlignedFreeInternal(void *)" (?btAlignedFreeInternal@@YAXPEAX@Z)
+     1>btFixedConstraint.obj : error LNK2001: unresolved external symbol "void __cdecl btAlignedFreeInternal(void *)" (?btAlignedFreeInternal@@YAXPEAX@Z)
+     1>btKinematicCharacterController.obj : error LNK2019: unresolved external symbol "public: void __cdecl btCollisionWorld::convexSweepTest(class btConvexShape const *,class btTransform const &,class btTransform const &,struct btCollisionWorld::ConvexResultCallback &,float)const " (?convexSweepTest@btCollisionWorld@@QEBAXPEBVbtConvexShape@@AEBVbtTransform@@1AEAUConvexResultCallback@1@M@Z) referenced in function "protected: void __cdecl btKinematicCharacterController::stepUp(class btCollisionWorld *)" (?stepUp@btKinematicCharacterController@@IEAAXPEAVbtCollisionWorld@@@Z)
+     1>btDiscreteDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: void __cdecl btCollisionWorld::convexSweepTest(class btConvexShape const *,class btTransform const &,class btTransform const &,struct btCollisionWorld::ConvexResultCallback &,float)const " (?convexSweepTest@btCollisionWorld@@QEBAXPEBVbtConvexShape@@AEBVbtTransform@@1AEAUConvexResultCallback@1@M@Z)
+     1>btKinematicCharacterController.obj : error LNK2019: unresolved external symbol "public: void __cdecl btGhostObject::convexSweepTest(class btConvexShape const *,class btTransform const &,class btTransform const &,struct btCollisionWorld::ConvexResultCallback &,float)const " (?convexSweepTest@btGhostObject@@QEBAXPEBVbtConvexShape@@AEBVbtTransform@@1AEAUConvexResultCallback@btCollisionWorld@@M@Z) referenced in function "protected: void __cdecl btKinematicCharacterController::stepUp(class btCollisionWorld *)" (?stepUp@btKinematicCharacterController@@IEAAXPEAVbtCollisionWorld@@@Z)
+     1>btMLCPSolver.obj : error LNK2001: unresolved external symbol "public: static void __cdecl CProfileManager::Start_Profile(char const *)" (?Start_Profile@CProfileManager@@SAXPEBD@Z)
+     1>btLemkeAlgorithm.obj : error LNK2001: unresolved external symbol "public: static void __cdecl CProfileManager::Start_Profile(char const *)" (?Start_Profile@CProfileManager@@SAXPEBD@Z)
+     1>btSequentialImpulseConstraintSolver.obj : error LNK2001: unresolved external symbol "public: static void __cdecl CProfileManager::Start_Profile(char const *)" (?Start_Profile@CProfileManager@@SAXPEBD@Z)
+     1>btDiscreteDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: static void __cdecl CProfileManager::Start_Profile(char const *)" (?Start_Profile@CProfileManager@@SAXPEBD@Z)
+     1>btMultiBodyConstraintSolver.obj : error LNK2001: unresolved external symbol "public: static void __cdecl CProfileManager::Start_Profile(char const *)" (?Start_Profile@CProfileManager@@SAXPEBD@Z)
+     1>btMultiBodyDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: static void __cdecl CProfileManager::Start_Profile(char const *)" (?Start_Profile@CProfileManager@@SAXPEBD@Z)
+     1>btMLCPSolver.obj : error LNK2001: unresolved external symbol "public: static void __cdecl CProfileManager::Stop_Profile(void)" (?Stop_Profile@CProfileManager@@SAXXZ)
+     1>btLemkeAlgorithm.obj : error LNK2001: unresolved external symbol "public: static void __cdecl CProfileManager::Stop_Profile(void)" (?Stop_Profile@CProfileManager@@SAXXZ)
+     1>btSequentialImpulseConstraintSolver.obj : error LNK2001: unresolved external symbol "public: static void __cdecl CProfileManager::Stop_Profile(void)" (?Stop_Profile@CProfileManager@@SAXXZ)
+     1>btDiscreteDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: static void __cdecl CProfileManager::Stop_Profile(void)" (?Stop_Profile@CProfileManager@@SAXXZ)
+     1>btMultiBodyConstraintSolver.obj : error LNK2001: unresolved external symbol "public: static void __cdecl CProfileManager::Stop_Profile(void)" (?Stop_Profile@CProfileManager@@SAXXZ)
+     1>btMultiBodyDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: static void __cdecl CProfileManager::Stop_Profile(void)" (?Stop_Profile@CProfileManager@@SAXXZ)
+     1>btTypedConstraint.obj : error LNK2019: unresolved external symbol "public: virtual __cdecl btCollisionObject::~btCollisionObject(void)" (??1btCollisionObject@@UEAA@XZ) referenced in function "public: virtual __cdecl btRigidBody::~btRigidBody(void)" (??1btRigidBody@@UEAA@XZ)
+     1>btRigidBody.obj : error LNK2001: unresolved external symbol "public: virtual __cdecl btCollisionObject::~btCollisionObject(void)" (??1btCollisionObject@@UEAA@XZ)
+     1>btRaycastVehicle.obj : error LNK2001: unresolved external symbol "public: virtual __cdecl btCollisionObject::~btCollisionObject(void)" (??1btCollisionObject@@UEAA@XZ)
+     1>btDiscreteDynamicsWorld.obj : error LNK2019: unresolved external symbol "public: void __cdecl btCollisionObject::setActivationState(int)const " (?setActivationState@btCollisionObject@@QEBAXH@Z) referenced in function "protected: virtual void __cdecl btDiscreteDynamicsWorld::updateActivationState(float)" (?updateActivationState@btDiscreteDynamicsWorld@@MEAAXM@Z)
+     1>btMultiBodyDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: void __cdecl btCollisionObject::setActivationState(int)const " (?setActivationState@btCollisionObject@@QEBAXH@Z)
+     1>btDiscreteDynamicsWorld.obj : error LNK2019: unresolved external symbol "public: int __cdecl btPersistentManifold::addManifoldPoint(class btManifoldPoint const &,bool)" (?addManifoldPoint@btPersistentManifold@@QEAAHAEBVbtManifoldPoint@@_N@Z) referenced in function "protected: void __cdecl btDiscreteDynamicsWorld::createPredictiveContacts(float)" (?createPredictiveContacts@btDiscreteDynamicsWorld@@IEAAXM@Z)
+     1>btDiscreteDynamicsWorld.obj : error LNK2019: unresolved external symbol "public: static float __cdecl btManifoldResult::calculateCombinedRestitution(class btCollisionObject const *,class btCollisionObject const *)" (?calculateCombinedRestitution@btManifoldResult@@SAMPEBVbtCollisionObject@@0@Z) referenced in function "protected: virtual void __cdecl btDiscreteDynamicsWorld::integrateTransforms(float)" (?integrateTransforms@btDiscreteDynamicsWorld@@MEAAXM@Z)
+     1>btDiscreteDynamicsWorld.obj : error LNK2019: unresolved external symbol "public: static float __cdecl btManifoldResult::calculateCombinedFriction(class btCollisionObject const *,class btCollisionObject const *)" (?calculateCombinedFriction@btManifoldResult@@SAMPEBVbtCollisionObject@@0@Z) referenced in function "protected: void __cdecl btDiscreteDynamicsWorld::createPredictiveContacts(float)" (?createPredictiveContacts@btDiscreteDynamicsWorld@@IEAAXM@Z)
+     1>btDiscreteDynamicsWorld.obj : error LNK2019: unresolved external symbol "protected: void __cdecl btCollisionWorld::serializeCollisionObjects(class btSerializer *)" (?serializeCollisionObjects@btCollisionWorld@@IEAAXPEAVbtSerializer@@@Z) referenced in function "public: virtual void __cdecl btDiscreteDynamicsWorld::serialize(class btSerializer *)" (?serialize@btDiscreteDynamicsWorld@@UEAAXPEAVbtSerializer@@@Z)
+     1>btMultiBodyDynamicsWorld.obj : error LNK2001: unresolved external symbol "protected: void __cdecl btCollisionWorld::serializeCollisionObjects(class btSerializer *)" (?serializeCollisionObjects@btCollisionWorld@@IEAAXPEAVbtSerializer@@@Z)
+     1>btDiscreteDynamicsWorld.obj : error LNK2019: unresolved external symbol "public: __cdecl btCollisionWorld::btCollisionWorld(class btDispatcher *,class btBroadphaseInterface *,class btCollisionConfiguration *)" (??0btCollisionWorld@@QEAA@PEAVbtDispatcher@@PEAVbtBroadphaseInterface@@PEAVbtCollisionConfiguration@@@Z) referenced in function "public: __cdecl btDynamicsWorld::btDynamicsWorld(class btDispatcher *,class btBroadphaseInterface *,class btCollisionConfiguration *)" (??0btDynamicsWorld@@QEAA@PEAVbtDispatcher@@PEAVbtBroadphaseInterface@@PEAVbtCollisionConfiguration@@@Z)
+     1>btSimpleDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: __cdecl btCollisionWorld::btCollisionWorld(class btDispatcher *,class btBroadphaseInterface *,class btCollisionConfiguration *)" (??0btCollisionWorld@@QEAA@PEAVbtDispatcher@@PEAVbtBroadphaseInterface@@PEAVbtCollisionConfiguration@@@Z)
+     1>btDiscreteDynamicsWorld.obj : error LNK2019: unresolved external symbol "public: virtual __cdecl btCollisionWorld::~btCollisionWorld(void)" (??1btCollisionWorld@@UEAA@XZ) referenced in function "int `public: __cdecl btDynamicsWorld::btDynamicsWorld(class btDispatcher *,class btBroadphaseInterface *,class btCollisionConfiguration *)'::`1'::dtor$0" (?dtor$0@?0???0btDynamicsWorld@@QEAA@PEAVbtDispatcher@@PEAVbtBroadphaseInterface@@PEAVbtCollisionConfiguration@@@Z@4HA)
+     1>btSimpleDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: virtual __cdecl btCollisionWorld::~btCollisionWorld(void)" (??1btCollisionWorld@@UEAA@XZ)
+     1>btDiscreteDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl btCollisionWorld::updateAabbs(void)" (?updateAabbs@btCollisionWorld@@UEAAXXZ)
+     1>btSimpleDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl btCollisionWorld::updateAabbs(void)" (?updateAabbs@btCollisionWorld@@UEAAXXZ)
+     1>btMultiBodyDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl btCollisionWorld::updateAabbs(void)" (?updateAabbs@btCollisionWorld@@UEAAXXZ)
+     1>btDiscreteDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl btCollisionWorld::computeOverlappingPairs(void)" (?computeOverlappingPairs@btCollisionWorld@@UEAAXXZ)
+     1>btSimpleDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl btCollisionWorld::computeOverlappingPairs(void)" (?computeOverlappingPairs@btCollisionWorld@@UEAAXXZ)
+     1>btMultiBodyDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl btCollisionWorld::computeOverlappingPairs(void)" (?computeOverlappingPairs@btCollisionWorld@@UEAAXXZ)
+     1>btDiscreteDynamicsWorld.obj : error LNK2019: unresolved external symbol "public: virtual void __cdecl btCollisionWorld::debugDrawWorld(void)" (?debugDrawWorld@btCollisionWorld@@UEAAXXZ) referenced in function "public: virtual void __cdecl btDiscreteDynamicsWorld::debugDrawWorld(void)" (?debugDrawWorld@btDiscreteDynamicsWorld@@UEAAXXZ)
+     1>btDiscreteDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl btCollisionWorld::debugDrawObject(class btTransform const &,class btCollisionShape const *,class btVector3 const &)" (?debugDrawObject@btCollisionWorld@@UEAAXAEBVbtTransform@@PEBVbtCollisionShape@@AEBVbtVector3@@@Z)
+     1>btSimpleDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl btCollisionWorld::debugDrawObject(class btTransform const &,class btCollisionShape const *,class btVector3 const &)" (?debugDrawObject@btCollisionWorld@@UEAAXAEBVbtTransform@@PEBVbtCollisionShape@@AEBVbtVector3@@@Z)
+     1>btMultiBodyDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl btCollisionWorld::debugDrawObject(class btTransform const &,class btCollisionShape const *,class btVector3 const &)" (?debugDrawObject@btCollisionWorld@@UEAAXAEBVbtTransform@@PEBVbtCollisionShape@@AEBVbtVector3@@@Z)
+     1>btDiscreteDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl btCollisionWorld::rayTest(class btVector3 const &,class btVector3 const &,struct btCollisionWorld::RayResultCallback &)const " (?rayTest@btCollisionWorld@@UEBAXAEBVbtVector3@@0AEAURayResultCallback@1@@Z)
+     1>btSimpleDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl btCollisionWorld::rayTest(class btVector3 const &,class btVector3 const &,struct btCollisionWorld::RayResultCallback &)const " (?rayTest@btCollisionWorld@@UEBAXAEBVbtVector3@@0AEAURayResultCallback@1@@Z)
+     1>btMultiBodyDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl btCollisionWorld::rayTest(class btVector3 const &,class btVector3 const &,struct btCollisionWorld::RayResultCallback &)const " (?rayTest@btCollisionWorld@@UEBAXAEBVbtVector3@@0AEAURayResultCallback@1@@Z)
+     1>btDiscreteDynamicsWorld.obj : error LNK2019: unresolved external symbol "public: virtual void __cdecl btCollisionWorld::addCollisionObject(class btCollisionObject *,short,short)" (?addCollisionObject@btCollisionWorld@@UEAAXPEAVbtCollisionObject@@FF@Z) referenced in function "public: virtual void __cdecl btDiscreteDynamicsWorld::addCollisionObject(class btCollisionObject *,short,short)" (?addCollisionObject@btDiscreteDynamicsWorld@@UEAAXPEAVbtCollisionObject@@FF@Z)
+     1>btSimpleDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl btCollisionWorld::addCollisionObject(class btCollisionObject *,short,short)" (?addCollisionObject@btCollisionWorld@@UEAAXPEAVbtCollisionObject@@FF@Z)
+     1>btDiscreteDynamicsWorld.obj : error LNK2019: unresolved external symbol "public: virtual void __cdecl btCollisionWorld::removeCollisionObject(class btCollisionObject *)" (?removeCollisionObject@btCollisionWorld@@UEAAXPEAVbtCollisionObject@@@Z) referenced in function "public: virtual void __cdecl btDiscreteDynamicsWorld::removeRigidBody(class btRigidBody *)" (?removeRigidBody@btDiscreteDynamicsWorld@@UEAAXPEAVbtRigidBody@@@Z)
+     1>btSimpleDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl btCollisionWorld::removeCollisionObject(class btCollisionObject *)" (?removeCollisionObject@btCollisionWorld@@UEAAXPEAVbtCollisionObject@@@Z)
+     1>btDiscreteDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl btCollisionWorld::performDiscreteCollisionDetection(void)" (?performDiscreteCollisionDetection@btCollisionWorld@@UEAAXXZ)
+     1>btSimpleDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl btCollisionWorld::performDiscreteCollisionDetection(void)" (?performDiscreteCollisionDetection@btCollisionWorld@@UEAAXXZ)
+     1>btMultiBodyDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl btCollisionWorld::performDiscreteCollisionDetection(void)" (?performDiscreteCollisionDetection@btCollisionWorld@@UEAAXXZ)
+     1>btDiscreteDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl btCollisionWorld::serialize(class btSerializer *)" (?serialize@btCollisionWorld@@UEAAXPEAVbtSerializer@@@Z)
+     1>btSimpleDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl btCollisionWorld::serialize(class btSerializer *)" (?serialize@btCollisionWorld@@UEAAXPEAVbtSerializer@@@Z)
+     1>btDiscreteDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl btCollisionShape::getBoundingSphere(class btVector3 &,float &)const " (?getBoundingSphere@btCollisionShape@@UEBAXAEAVbtVector3@@AEAM@Z)
+     1>btDiscreteDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: virtual float __cdecl btCollisionShape::getAngularMotionDisc(void)const " (?getAngularMotionDisc@btCollisionShape@@UEBAMXZ)
+     1>btDiscreteDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: virtual float __cdecl btCollisionShape::getContactBreakingThreshold(float)const " (?getContactBreakingThreshold@btCollisionShape@@UEBAMM@Z)
+     1>btDiscreteDynamicsWorld.obj : error LNK2019: unresolved external symbol "public: virtual char const * __cdecl btCollisionShape::serialize(void *,class btSerializer *)const " (?serialize@btCollisionShape@@UEBAPEBDPEAXPEAVbtSerializer@@@Z) referenced in function "public: virtual char const * __cdecl btConvexInternalShape::serialize(void *,class btSerializer *)const " (?serialize@btConvexInternalShape@@UEBAPEBDPEAXPEAVbtSerializer@@@Z)
+     1>btDiscreteDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl btCollisionShape::serializeSingleShape(class btSerializer *)const " (?serializeSingleShape@btCollisionShape@@UEBAXPEAVbtSerializer@@@Z)
+     1>btDiscreteDynamicsWorld.obj : error LNK2019: unresolved external symbol "public: __cdecl btSimulationIslandManager::btSimulationIslandManager(void)" (??0btSimulationIslandManager@@QEAA@XZ) referenced in function "public: __cdecl btDiscreteDynamicsWorld::btDiscreteDynamicsWorld(class btDispatcher *,class btBroadphaseInterface *,class btConstraintSolver *,class btCollisionConfiguration *)" (??0btDiscreteDynamicsWorld@@QEAA@PEAVbtDispatcher@@PEAVbtBroadphaseInterface@@PEAVbtConstraintSolver@@PEAVbtCollisionConfiguration@@@Z)
+     1>btDiscreteDynamicsWorld.obj : error LNK2019: unresolved external symbol "public: void __cdecl btSimulationIslandManager::buildAndProcessIslands(class btDispatcher *,class btCollisionWorld *,struct btSimulationIslandManager::IslandCallback *)" (?buildAndProcessIslands@btSimulationIslandManager@@QEAAXPEAVbtDispatcher@@PEAVbtCollisionWorld@@PEAUIslandCallback@1@@Z) referenced in function "protected: virtual void __cdecl btDiscreteDynamicsWorld::solveConstraints(struct btContactSolverInfo &)" (?solveConstraints@btDiscreteDynamicsWorld@@MEAAXAEAUbtContactSolverInfo@@@Z)
+     1>btMultiBodyDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: void __cdecl btSimulationIslandManager::buildAndProcessIslands(class btDispatcher *,class btCollisionWorld *,struct btSimulationIslandManager::IslandCallback *)" (?buildAndProcessIslands@btSimulationIslandManager@@QEAAXPEAVbtDispatcher@@PEAVbtCollisionWorld@@PEAUIslandCallback@1@@Z)
+     1>btDiscreteDynamicsWorld.obj : error LNK2019: unresolved external symbol "public: static void __cdecl CProfileManager::Reset(void)" (?Reset@CProfileManager@@SAXXZ) referenced in function "protected: void __cdecl btDiscreteDynamicsWorld::startProfiling(float)" (?startProfiling@btDiscreteDynamicsWorld@@IEAAXM@Z)
+     1>btDiscreteDynamicsWorld.obj : error LNK2019: unresolved external symbol "public: static void __cdecl CProfileManager::Increment_Frame_Counter(void)" (?Increment_Frame_Counter@CProfileManager@@SAXXZ) referenced in function "public: virtual int __cdecl btDiscreteDynamicsWorld::stepSimulation(float,int,float)" (?stepSimulation@btDiscreteDynamicsWorld@@UEAAHMHM@Z)
+     1>btDiscreteDynamicsWorld.obj : error LNK2019: unresolved external symbol "public: virtual __cdecl btConvexShape::~btConvexShape(void)" (??1btConvexShape@@UEAA@XZ) referenced in function "public: virtual __cdecl btConvexInternalShape::~btConvexInternalShape(void)" (??1btConvexInternalShape@@UEAA@XZ)
+     1>btDiscreteDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl btConvexShape::project(class btTransform const &,class btVector3 const &,float &,float &,class btVector3 &,class btVector3 &)const " (?project@btConvexShape@@UEBAXAEBVbtTransform@@AEBVbtVector3@@AEAM2AEAV3@3@Z)
+     1>btDiscreteDynamicsWorld.obj : error LNK2019: unresolved external symbol "protected: __cdecl btConvexInternalShape::btConvexInternalShape(void)" (??0btConvexInternalShape@@IEAA@XZ) referenced in function "public: __cdecl btSphereShape::btSphereShape(float)" (??0btSphereShape@@QEAA@M@Z)
+     1>btDiscreteDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: virtual class btVector3 __cdecl btConvexInternalShape::localGetSupportingVertex(class btVector3 const &)const " (?localGetSupportingVertex@btConvexInternalShape@@UEBA?AVbtVector3@@AEBV2@@Z)
+     1>btDiscreteDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl btConvexInternalShape::getAabbSlow(class btTransform const &,class btVector3 &,class btVector3 &)const " (?getAabbSlow@btConvexInternalShape@@UEBAXAEBVbtTransform@@AEAVbtVector3@@1@Z)
+     1>btDiscreteDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl btConvexInternalShape::setLocalScaling(class btVector3 const &)" (?setLocalScaling@btConvexInternalShape@@UEAAXAEBVbtVector3@@@Z)
+     1>btDiscreteDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: virtual class btVector3 __cdecl btSphereShape::localGetSupportingVertex(class btVector3 const &)const " (?localGetSupportingVertex@btSphereShape@@UEBA?AVbtVector3@@AEBV2@@Z)
+     1>btDiscreteDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: virtual class btVector3 __cdecl btSphereShape::localGetSupportingVertexWithoutMargin(class btVector3 const &)const " (?localGetSupportingVertexWithoutMargin@btSphereShape@@UEBA?AVbtVector3@@AEBV2@@Z)
+     1>btDiscreteDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl btSphereShape::batchedUnitVectorGetSupportingVertexWithoutMargin(class btVector3 const *,class btVector3 *,int)const " (?batchedUnitVectorGetSupportingVertexWithoutMargin@btSphereShape@@UEBAXPEBVbtVector3@@PEAV2@H@Z)
+     1>btDiscreteDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl btSphereShape::calculateLocalInertia(float,class btVector3 &)const " (?calculateLocalInertia@btSphereShape@@UEBAXMAEAVbtVector3@@@Z)
+     1>btDiscreteDynamicsWorld.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl btSphereShape::getAabb(class btTransform const &,class btVector3 &,class btVector3 &)const " (?getAabb@btSphereShape@@UEBAXAEBVbtTransform@@AEAVbtVector3@@1@Z)
+     1>btRigidBody.obj : error LNK2019: unresolved external symbol "public: __cdecl btCollisionObject::btCollisionObject(void)" (??0btCollisionObject@@QEAA@XZ) referenced in function "public: __cdecl btRigidBody::btRigidBody(struct btRigidBody::btRigidBodyConstructionInfo const &)" (??0btRigidBody@@QEAA@AEBUbtRigidBodyConstructionInfo@0@@Z)
+     1>btRigidBody.obj : error LNK2019: unresolved external symbol "public: virtual char const * __cdecl btCollisionObject::serialize(void *,class btSerializer *)const " (?serialize@btCollisionObject@@UEBAPEBDPEAXPEAVbtSerializer@@@Z) referenced in function "public: virtual char const * __cdecl btRigidBody::serialize(void *,class btSerializer *)const " (?serialize@btRigidBody@@UEBAPEBDPEAXPEAVbtSerializer@@@Z)
+     1>D:\Users\mpg7287\bullet3-2.83.6\x64\Debug\BulletDynamics_Debug.lib : fatal error LNK1120: 45 unresolved externals
+     1>Done Building Project "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\BulletDynamics.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:01.25

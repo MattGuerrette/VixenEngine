@@ -1,0 +1,44 @@
+﻿Build started 11/7/2015 5:58:12 PM.
+     1>Project "D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Dynamics\Bullet3Dynamics.vcxproj" on node 4 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /I"D:\Users\mpg7287\bullet3-2.83.6\src" /Zi /nologo /W3 /WX- /Od /Ob0 /D WIN32 /D _DEBUG /D _DEBUG /D USE_GRAPHICAL_BENCHMARK /D _CRT_SECURE_NO_WARNINGS /D _CRT_SECURE_NO_DEPRECATE /D _SCL_SECURE_NO_WARNINGS /D "CMAKE_INTDIR=\"Debug\"" /D _WINDLL /D _MBCS /Gm- /EHsc /RTC1 /MTd /GS /arch:SSE /fp:fast /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"x64\Debug\\" /Fd"x64\Debug\vc140.pdb" /Gd /TP /errorReport:prompt "D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Dynamics\b3CpuRigidBodyPipeline.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Dynamics\ConstraintSolver\b3FixedConstraint.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Dynamics\ConstraintSolver\b3Generic6DofConstraint.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Dynamics\ConstraintSolver\b3PgsJacobiSolver.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Dynamics\ConstraintSolver\b3Point2PointConstraint.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Dynamics\ConstraintSolver\b3TypedConstraint.cpp"
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+         b3CpuRigidBodyPipeline.cpp
+         b3FixedConstraint.cpp
+         b3Generic6DofConstraint.cpp
+         b3PgsJacobiSolver.cpp
+         b3Point2PointConstraint.cpp
+         b3TypedConstraint.cpp
+         Generating Code...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Users\mpg7287\bullet3-2.83.6\x64\Debug\Bullet3Dynamics_Debug.lib" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Users\mpg7287\bullet3-2.83.6\x64\Debug\Bullet3Dynamics_Debug.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Users\mpg7287\bullet3-2.83.6\x64\Debug\Bullet3Dynamics_Debug.lib" /MACHINE:X64 /DLL x64\Debug\b3CpuRigidBodyPipeline.obj
+         x64\Debug\b3FixedConstraint.obj
+         x64\Debug\b3Generic6DofConstraint.obj
+         x64\Debug\b3PgsJacobiSolver.obj
+         x64\Debug\b3Point2PointConstraint.obj
+         x64\Debug\b3TypedConstraint.obj
+     1>b3Point2PointConstraint.obj : error LNK2001: unresolved external symbol b3OutputErrorMessageVarArgsInternal
+     1>b3CpuRigidBodyPipeline.obj : error LNK2001: unresolved external symbol b3OutputErrorMessageVarArgsInternal
+     1>b3FixedConstraint.obj : error LNK2001: unresolved external symbol b3OutputErrorMessageVarArgsInternal
+     1>b3Generic6DofConstraint.obj : error LNK2001: unresolved external symbol b3OutputErrorMessageVarArgsInternal
+     1>b3PgsJacobiSolver.obj : error LNK2001: unresolved external symbol b3OutputErrorMessageVarArgsInternal
+     1>b3CpuRigidBodyPipeline.obj : error LNK2019: unresolved external symbol "void * __cdecl b3AlignedAllocInternal(unsigned __int64,int)" (?b3AlignedAllocInternal@@YAPEAX_KH@Z) referenced in function "public: int * __cdecl b3AlignedAllocator<int,16>::allocate(int,int const * *)" (?allocate@?$b3AlignedAllocator@H$0BA@@@QEAAPEAHHPEAPEBH@Z)
+     1>b3PgsJacobiSolver.obj : error LNK2001: unresolved external symbol "void * __cdecl b3AlignedAllocInternal(unsigned __int64,int)" (?b3AlignedAllocInternal@@YAPEAX_KH@Z)
+     1>b3Point2PointConstraint.obj : error LNK2001: unresolved external symbol "void __cdecl b3AlignedFreeInternal(void *)" (?b3AlignedFreeInternal@@YAXPEAX@Z)
+     1>b3TypedConstraint.obj : error LNK2001: unresolved external symbol "void __cdecl b3AlignedFreeInternal(void *)" (?b3AlignedFreeInternal@@YAXPEAX@Z)
+     1>b3CpuRigidBodyPipeline.obj : error LNK2001: unresolved external symbol "void __cdecl b3AlignedFreeInternal(void *)" (?b3AlignedFreeInternal@@YAXPEAX@Z)
+     1>b3FixedConstraint.obj : error LNK2001: unresolved external symbol "void __cdecl b3AlignedFreeInternal(void *)" (?b3AlignedFreeInternal@@YAXPEAX@Z)
+     1>b3Generic6DofConstraint.obj : error LNK2001: unresolved external symbol "void __cdecl b3AlignedFreeInternal(void *)" (?b3AlignedFreeInternal@@YAXPEAX@Z)
+     1>b3PgsJacobiSolver.obj : error LNK2001: unresolved external symbol "void __cdecl b3AlignedFreeInternal(void *)" (?b3AlignedFreeInternal@@YAXPEAX@Z)
+     1>b3CpuRigidBodyPipeline.obj : error LNK2019: unresolved external symbol "public: struct b3BroadphaseProxy * __cdecl b3DynamicBvhBroadphase::createProxy(class b3Vector3 const &,class b3Vector3 const &,int,void *,short,short)" (?createProxy@b3DynamicBvhBroadphase@@QEAAPEAUb3BroadphaseProxy@@AEBVb3Vector3@@0HPEAXFF@Z) referenced in function "public: int __cdecl b3CpuRigidBodyPipeline::registerPhysicsInstance(float,float const *,float const *,int,int)" (?registerPhysicsInstance@b3CpuRigidBodyPipeline@@QEAAHMPEBM0HH@Z)
+     1>b3CpuRigidBodyPipeline.obj : error LNK2019: unresolved external symbol "public: class b3AlignedObjectArray<struct b3Contact4Data> const & __cdecl b3CpuNarrowPhase::getContacts(void)const " (?getContacts@b3CpuNarrowPhase@@QEBAAEBV?$b3AlignedObjectArray@Ub3Contact4Data@@@@XZ) referenced in function "public: virtual void __cdecl b3CpuRigidBodyPipeline::solveContactConstraints(void)" (?solveContactConstraints@b3CpuRigidBodyPipeline@@UEAAXXZ)
+     1>b3CpuRigidBodyPipeline.obj : error LNK2019: unresolved external symbol "public: struct b3Collidable & __cdecl b3CpuNarrowPhase::getCollidableCpu(int)" (?getCollidableCpu@b3CpuNarrowPhase@@QEAAAEAUb3Collidable@@H@Z) referenced in function "public: virtual void __cdecl b3CpuRigidBodyPipeline::updateAabbWorldSpace(void)" (?updateAabbWorldSpace@b3CpuRigidBodyPipeline@@UEAAXXZ)
+     1>b3CpuRigidBodyPipeline.obj : error LNK2019: unresolved external symbol "public: struct b3Aabb const & __cdecl b3CpuNarrowPhase::getLocalSpaceAabb(int)const " (?getLocalSpaceAabb@b3CpuNarrowPhase@@QEBAAEBUb3Aabb@@H@Z) referenced in function "public: virtual void __cdecl b3CpuRigidBodyPipeline::updateAabbWorldSpace(void)" (?updateAabbWorldSpace@b3CpuRigidBodyPipeline@@UEAAXXZ)
+     1>b3PgsJacobiSolver.obj : error LNK2019: unresolved external symbol b3EnterProfileZone referenced in function "public: __cdecl b3ProfileZone::b3ProfileZone(char const *)" (??0b3ProfileZone@@QEAA@PEBD@Z)
+     1>b3PgsJacobiSolver.obj : error LNK2019: unresolved external symbol b3LeaveProfileZone referenced in function "public: __cdecl b3ProfileZone::~b3ProfileZone(void)" (??1b3ProfileZone@@QEAA@XZ)
+     1>D:\Users\mpg7287\bullet3-2.83.6\x64\Debug\Bullet3Dynamics_Debug.lib : fatal error LNK1120: 9 unresolved externals
+     1>Done Building Project "D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Dynamics\Bullet3Dynamics.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:02.63
