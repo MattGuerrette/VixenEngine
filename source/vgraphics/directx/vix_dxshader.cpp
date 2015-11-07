@@ -22,10 +22,12 @@
 */
 
 #include <vix_dxshader.h>
+#include <vix_dxtexture.h>
 
 namespace Vixen {
 
     DXShader::DXShader(ID3D11Device* device, ID3D11DeviceContext* context, ShaderType type)
+        : Shader()
     {
         m_type = type;
         m_device = device;
@@ -236,7 +238,7 @@ namespace Vixen {
                                      cb->LocalDataBuffer, NULL, NULL);
     }
 
-    bool DXShader::SetData(std::string name, const void* data, size_t size)
+    bool DXShader::VSetData(std::string name, const void* data, size_t size)
     {
         //Grab variable by name
         ShaderVariable* var = FindVariable(name, size);
@@ -250,53 +252,62 @@ namespace Vixen {
         return true;
     }
 
-    bool DXShader::SetInt(std::string name, int data)
+    bool DXShader::VSetInt(std::string name, int data)
     {
-        return SetData(name, static_cast<void*>(&data), sizeof(int));
+        return VSetData(name, static_cast<void*>(&data), sizeof(int));
     }
 
-    bool DXShader::SetFloat(std::string name, float data)
+    bool DXShader::VSetFloat(std::string name, float data)
     {
-        return SetData(name, static_cast<void*>(&data), sizeof(float));
+        return VSetData(name, static_cast<void*>(&data), sizeof(float));
     }
 
-    bool DXShader::SetFloat2(std::string name, const float data[2])
+    bool DXShader::VSetFloat2(std::string name, const float data[2])
     {
-        return SetData(name, static_cast<void*>(&data), sizeof(float) * 2);
+        return VSetData(name, static_cast<void*>(&data), sizeof(float) * 2);
     }
     
     bool DXShader::SetFloat2(std::string name, const DirectX::XMFLOAT2 data)
     {
-        return SetData(name, &data, sizeof(float) * 2);
+        return VSetData(name, &data, sizeof(float) * 2);
     }
   
-    bool DXShader::SetFloat3(std::string name, const float data[3])
+    bool DXShader::VSetFloat3(std::string name, const float data[3])
     {
-        return SetData(name, static_cast<void*>(&data), sizeof(float) * 3);
+        return VSetData(name, static_cast<void*>(&data), sizeof(float) * 3);
     }
 
     bool DXShader::SetFloat3(std::string name, const DirectX::XMFLOAT3 data)
     {
-        return SetData(name, &data, sizeof(float) * 3);
+        return VSetData(name, &data, sizeof(float) * 3);
     }
 
-    bool DXShader::SetFloat4(std::string name, const float data[4])
+    bool DXShader::VSetFloat4(std::string name, const float data[4])
     {
-        return SetData(name, static_cast<void*>(&data), sizeof(float) * 4);
+        return VSetData(name, static_cast<void*>(&data), sizeof(float) * 4);
     }
 
     bool DXShader::SetFloat4(std::string name, const DirectX::XMFLOAT4 data)
     {
-        return SetData(name, &data, sizeof(float) * 4);
+        return VSetData(name, &data, sizeof(float) * 4);
     }
 
-    bool DXShader::SetMatrix4x4(std::string name, const float data[16])
+    bool DXShader::VSetMatrix4x4(std::string name, const float data[16])
     {
-        return SetData(name, static_cast<void*>(&data), sizeof(float) * 16);
+        return VSetData(name, static_cast<void*>(&data), sizeof(float) * 16);
     }
 
     bool DXShader::SetMatrix4x4(std::string name, const DirectX::XMFLOAT4X4 data)
     {
-        return SetData(name, &data, sizeof(float) * 16);
+        return VSetData(name, &data, sizeof(float) * 16);
     }
+
+	bool DXShader::VBindTexture(std::string name, Texture* texture)
+	{
+		bool success = true;
+		success = VSetSamplerState("samLinear", ((DXTexture*)texture)->SampleState());
+		success = VSetShaderResourceView(name, ((DXTexture*)texture)->ResourceView());
+
+		return success;
+	}
 }

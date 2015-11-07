@@ -30,13 +30,15 @@
 namespace Vixen {
 
     BMFont::BMFont()
+        : Font()
     {
 
     }
 
     BMFont::~BMFont()
     {
-        STLVEC_DELETE(m_textures);
+		for (auto& tex : m_textures)
+			ResourceManager::DecrementAssetRef(tex);
     }
 
     bool BMFont::VInitFromFile(File* file)
@@ -65,7 +67,7 @@ namespace Vixen {
 
         for (auto& page : m_fontFile.pages) {
             UString texturePath = page.file;
-            ITexture* texture = ResourceManager::OpenTexture(texturePath);
+            Texture* texture = ResourceManager::OpenTexture(texturePath);
             if (texture)
                 m_textures.push_back(texture);
         }
@@ -73,7 +75,7 @@ namespace Vixen {
         return true;
     }
 
-    ITexture* BMFont::VPageTexture(size_t index)
+    Texture* BMFont::VPageTexture(size_t index)
     {
         if (index > m_textures.size())
             return NULL;
@@ -83,7 +85,7 @@ namespace Vixen {
 
     bool BMFont::VFindChar(UChar c, FontChar& fontChar)
     {
-        IFont::CharMap::iterator it = m_charMap.find(c);
+        Font::CharMap::iterator it = m_charMap.find(c);
         if (it != m_charMap.end())
         {
             fontChar = it->second;

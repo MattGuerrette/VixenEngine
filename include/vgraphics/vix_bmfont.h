@@ -92,7 +92,7 @@ namespace Vixen {
         std::vector<BMFontKerning>  kernings;
     };
 
-    class VIX_API BMFont : public IFont
+    class VIX_API BMFont : public Font
     {
     public:
         BMFont();
@@ -100,7 +100,7 @@ namespace Vixen {
         ~BMFont();
 
         bool        VInitFromFile(File* file);
-        ITexture*   VPageTexture(size_t index);
+        Texture*    VPageTexture(size_t index);
         bool        VFindChar(UChar c, FontChar& fontChar);
 
         float       VLineHeight();
@@ -109,9 +109,9 @@ namespace Vixen {
       
 
     private:
-        IFont::CharMap          m_charMap;
+        Font::CharMap          m_charMap;
         BMFontFile              m_fontFile;
-        std::vector<ITexture*>  m_textures;
+        std::vector<Texture*>  m_textures;
 
     private:
         /*Static parse functions for reading the XML Font file*/

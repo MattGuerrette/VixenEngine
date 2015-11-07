@@ -40,6 +40,7 @@ namespace Vixen
         static UString AssetPath();
         static UString ScenePath();
         static UString ModelPath();
+		static UString MaterialPath();
         static UString ShaderPath();
         static UString ScriptPath();
 		static UString PrefabPath();
@@ -48,6 +49,7 @@ namespace Vixen
         static UString _AssetPath;
         static UString _ScenePath;
         static UString _ModelPath;
+		static UString _MaterialPath;
         static UString _ShaderPath;
         static UString _ScriptPath;
 		static UString _PrefabPath;

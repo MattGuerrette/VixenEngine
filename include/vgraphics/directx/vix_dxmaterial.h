@@ -28,43 +28,41 @@
 #include <vix_material.h>
 #include <vix_dxtexture.h>
 #include <vix_dxshader.h>
+#include <vix_shadervariable.h>
+#include <vix_dxvertexshader.h>
+#include <vix_dxpixelshader.h>
+#include <vix_tinyxml.h>
 
 namespace Vixen {
 
-    class VIX_API DXMaterial : public IMaterial
+	
+
+    class VIX_API DXMaterial : public Material
     {
+		typedef std::map<std::string, IShaderVariable*> VariableMap;
     public:
         DXMaterial();
 
         ~DXMaterial();
 
-        
-
         void VBind();
         void VUnbind();
 
-        ITexture* VGetTexture(TextureRole role);
-        IShader*  VGetShader(ShaderRole role);
+		DXVertexShader* GetVertexShader();
+		
 
-        DXTexture* GetTexture(TextureRole role);
-        DXShader*  GetShader(ShaderRole role);
+		bool VInitFromFile(File* file);
 
-        void VSetAmbientColor(Color color);
-        void VSetDiffuseColor(Color color);
-        void VSetSpecularColor(Color color);
-        void VSetSpecularWeight(float weight);
-        void VSetAlphaTransparency(float transparency);
-        void VSetTexture(TextureRole role, ITexture* texture);
-        void VSetShader(ShaderRole role, IShader* shader);
+		UString VFilePath();
 
     private:
-        Color                             m_ambientColor;
-        Color                             m_diffuseColor;
-        Color                             m_specularColor;
-        float                             m_specularWeight;
-        float                             m_transparency;
-        std::map<TextureRole, DXTexture*> m_textures;
-        std::map<ShaderRole, DXShader*>   m_shaders;
+		VariableMap								m_vsVariables;
+		VariableMap								m_psVariables;
+        std::map<ShaderRole,  DXShader*>		m_shaders;
+		UString									m_path;
+
+	private:
+		static bool ReadShaderChildren(tinyxml2::XMLElement* shaderElement, VariableMap& variableMap);
     };
 
 }

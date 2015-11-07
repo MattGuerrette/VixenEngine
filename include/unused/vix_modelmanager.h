@@ -37,8 +37,9 @@ namespace Vixen {
     public:
        
         
-        static bool    Initialize();
+        //static bool    Initialize();
         static void    DeInitialize();
+		static void	   RegisterModel(UString id, IModel* model);
         static IModel* AccessModel(UString id);
         static std::vector<IModel*> ActiveModels();
 

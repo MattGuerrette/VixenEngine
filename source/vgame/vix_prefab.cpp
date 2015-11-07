@@ -24,10 +24,11 @@
 #include <vix_prefab.h>
 #include <vix_stlutil.h>
 #include <vix_scenemanager.h>
-#include <vix_modelmanager.h>
 #include <vix_luascriptmanager.h>
 #include <vix_luascript.h>
 #include <vix_objectmanager.h>
+#include <vix_modelcomponent.h>
+#include <vix_resourcemanager.h>
 
 namespace Vixen {
 
@@ -38,6 +39,10 @@ namespace Vixen {
 
 	Prefab::~Prefab()
 	{
+		for (auto& c : m_components)
+			c->VOnDestroy();
+
+		STLVEC_DELETE(m_components);
 		STLVEC_DELETE(m_children);
 	}
 
@@ -99,8 +104,7 @@ namespace Vixen {
 		Vector3 _objectRot = prefab->GetTransform().GetRotation();
 		Vector3 _objectScale = prefab->GetTransform().GetScale();
 		Transform* _objectTransform = new Transform(_objectPos, _objectRot, _objectScale);
-		GameObject* _object = new GameObject(_objectTransform,
-			ModelManager::AccessModel(UStringFromCharArray(prefab->GetModelFile().c_str())));
+		GameObject* _object = new GameObject(_objectTransform);
 		_object->SetName(UStringFromCharArray(prefab->GetName().c_str()));
 		_object->SetEnabled(prefab->GetEnabled(), false);
 		ObjectManager::MapSceneObject(_object);
@@ -113,7 +117,8 @@ namespace Vixen {
 
 			if (component)
 			{
-				switch (component->VGetType())
+				Component::Type type = component->VGetType();
+				switch (type)
 				{
 					case Component::Type::LUA_SCRIPT:
 					{
@@ -125,6 +130,21 @@ namespace Vixen {
 
 					} break;
 
+					case Component::Type::MODEL:
+					{
+						ModelComponent* _modelComponent = (ModelComponent*)component;
+
+						ModelComponent* _newComponent = new ModelComponent;
+						_modelComponent->GetModel()->IncrementRefCount();
+						_modelComponent->GetMaterial()->IncrementRefCount();
+						_newComponent->SetModel(_modelComponent->GetModel());
+						_newComponent->SetMaterial(_modelComponent->GetMaterial());
+
+						_newComponent->VBindParent(_object);
+						_object->AddComponent(_newComponent);
+					} break;
+
+				
 					case Component::Type::UI_TEXT:
 					{
 
