@@ -52,6 +52,7 @@ namespace Vixen {
 
         Input::SetMouseState(Window::Mouse());
         Input::SetKeyboardState(Window::Keyboard());
+		Input::SetControllerState(Window::Controller());
 
         ResourceManager::Initialize();
         Renderer::InitializeSpriteBatch();

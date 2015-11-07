@@ -34,6 +34,8 @@ namespace Vixen {
         
         static IMouseState*     Mouse();
 
+		static SDLControllerState*     Controller();
+
         static uint32_t         Width();
 
         static uint32_t         Height();

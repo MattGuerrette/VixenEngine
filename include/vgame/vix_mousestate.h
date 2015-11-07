@@ -43,7 +43,7 @@ namespace Vixen {
 
         virtual bool VButtonRelease(IMBUTTON button) = 0;
         virtual bool VButtonPress(IMBUTTON button) = 0;
-        virtual bool VSingleButtonPress(IMBUTTON button) = 0;
+        virtual bool VButtonPressSingle(IMBUTTON button) = 0;
     };
 
 }
