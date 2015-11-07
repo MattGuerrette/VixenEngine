@@ -53,10 +53,6 @@ namespace Vixen {
 		virtual void VUpdate() = 0;
 		virtual void VOnDisable() = 0;
 		virtual void VOnDestroy() = 0;
-<<<<<<< HEAD
-        virtual void VBindParent(GameObject* parent) = 0;
-
-=======
 
 		virtual void VBindParent(GameObject* parent)
 		{
@@ -72,7 +68,6 @@ namespace Vixen {
 	protected:
 		GameObject* m_parent;
 		Type		m_type;
->>>>>>> 5d61730afc80281f2da012a8e50084e490f8a879
 	};
 
 }

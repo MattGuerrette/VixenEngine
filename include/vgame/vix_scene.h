@@ -40,15 +40,15 @@ namespace Vixen {
 		/*Adds Object with ID to Scene*/
 		void AddSceneObject(GameObject* object);
 		void RemoveSceneObject(GameObject* object);
-	
+
 		GameObject* QueryObject(std::string name);
 
 		void SetPaused(bool paused);
 		void SetHidden(bool hidden);
-		
+
 		bool IsPaused();
 		bool IsHidden();
-		
+
 
 		/*SETTER FUNCTIONS*/
 		void SetID(std::string id);
@@ -69,15 +69,6 @@ namespace Vixen {
         ICamera2D*                      m_uiCamera;
 
 	public:
-<<<<<<< HEAD
-		static Scene* Deserialize(File* file);
-		static GameObject* ParseGameObject(Scene* scene, const tinyxml2::XMLElement* element);
-		static Transform* ParseTransform(const tinyxml2::XMLElement * element);
-		static std::vector<IComponent*>	ParseComponents(Scene* scene, const tinyxml2::XMLElement* element);
-		static CameraComponent*	ParseCameraComponent(Scene* scene, const tinyxml2::XMLElement* element);
-		static LightComponent* ParseLightComponent(const tinyxml2::XMLElement* element);
-		//static LuaScript* ParseLuaScriptComponent(const tinyxml2::XMLElement* element);
-=======
 		static Scene*                   Deserialize(File* file);
 
     private:
@@ -88,7 +79,6 @@ namespace Vixen {
 		static Component*              ParseLightComponent(const tinyxml2::XMLElement* element);
 		static Component*              ParseLuaScriptComponent(const tinyxml2::XMLElement* element);
         static Component*              ParseUITextComponent(const tinyxml2::XMLElement* element);
->>>>>>> 5d61730afc80281f2da012a8e50084e490f8a879
 	};
 }
 #endif

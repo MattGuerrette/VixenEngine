@@ -43,6 +43,11 @@ namespace Vixen {
 		return true;
 	}
 
+	void GLRenderer::VInitializeSpriteBatch()
+	{
+		
+	}
+
 	void GLRenderer::VClearBuffer(ClearArgs args)
 	{
 		switch (args)

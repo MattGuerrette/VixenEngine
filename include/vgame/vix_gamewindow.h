@@ -63,11 +63,7 @@ namespace Vixen {
 		static const size_t DEF_WINDOW_HEIGHT = 600;
 
 	protected:
-<<<<<<< HEAD
-		Game*               m_parent;
-		IRenderer*          m_renderer;
-=======
->>>>>>> 5d61730afc80281f2da012a8e50084e490f8a879
+
 		UString				m_title;
 		Rect                m_clientRect;
         IKeyboardState*     m_keyboardState;

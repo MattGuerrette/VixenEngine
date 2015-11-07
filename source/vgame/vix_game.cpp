@@ -23,42 +23,37 @@
 #include <vix_renderer_singleton.h>
 #include <vix_objectmanager.h>
 #include <vix_scenemanager.h>
-#include <vix_luaengine.h>
-#include <vix_luascriptmanager.h>
 #include <vix_modelmanager.h>
 
 namespace Vixen {
-<<<<<<< HEAD
-	IKeyboardState* Game::s_keyboard = NULL;
-    IMouseState*    Game::s_mouse = NULL;
-=======
->>>>>>> 5d61730afc80281f2da012a8e50084e490f8a879
 
 	Game::Game()
 	{
-      
+
 	}
 
 	int Game::Run()
 	{
         FileManager::Initialize();
         PathManager::Initialize();
-        if(!Window::Initialize(GameConfig()))
-            return -1;
+		GameConfig* cfg = new GameConfig();
+        bool success = Window::Initialize(*cfg);
+        if(!success)
+			return -1;
+		delete cfg;
 
-        if (!Renderer::Initialize(Window::Handle()))
-            return -1;
+        success = Renderer::Initialize(Window::Handle());
+		if(!success)
+			return -1;
 
         Input::SetMouseState(Window::Mouse());
         Input::SetKeyboardState(Window::Keyboard());
 
         ResourceManager::Initialize();
         Renderer::InitializeSpriteBatch();
-        ObjectManager::Initialize();
-        LuaEngine::Initialize();
-        LuaScriptManager::Initialize();
-        ModelManager::Initialize();
-        SceneManager::Initialize();
+        //ObjectManager::Initialize();
+        //ModelManager::Initialize();
+        //SceneManager::Initialize();
 
         Renderer::SetClearColor(Colors::Black);
 
@@ -71,9 +66,9 @@ namespace Vixen {
 
             Renderer::ClearBuffer(ClearArgs::COLOR_DEPTH_STENCIL_BUFFER);
 
-            SceneManager::UpdateScenes();
+            //SceneManager::UpdateScenes();
 
-            SceneManager::RenderScenes();
+            //SceneManager::RenderScenes();
 
             Renderer::SwapBuffers();
 
@@ -84,10 +79,9 @@ namespace Vixen {
             Time::CalculateFPS();
         }
 
-        SceneManager::DeInitialize();
-        ModelManager::DeInitialize();
-        LuaEngine::DeInitialize();
-        ObjectManager::DeInitialize();
+        //SceneManager::DeInitialize();
+        //ModelManager::DeInitialize();
+        //ObjectManager::DeInitialize();
         ResourceManager::DeInitialize();
         Renderer::DeInitialize();
         Window::DeInitialize();

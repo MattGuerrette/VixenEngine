@@ -51,12 +51,9 @@ namespace Vixen {
         virtual ITexture* VPageTexture(size_t index) = 0;
         virtual bool      VFindChar(UChar c, FontChar& fontChar) = 0;
         virtual float     VLineHeight() = 0;
-<<<<<<< HEAD
 
-=======
 		virtual Rect       VBounds(UString text) = 0;
-      
->>>>>>> 5d61730afc80281f2da012a8e50084e490f8a879
+
     };
 
 }

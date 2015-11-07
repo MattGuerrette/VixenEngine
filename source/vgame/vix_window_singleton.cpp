@@ -7,8 +7,9 @@ namespace Vixen {
         Window& _window = Window::instance();
 
         _window.m_window = new SDLGameWindow(config.WindowArgs());
-        if (!_window.m_window->VInit())
-            return false;
+        bool success = _window.m_window->VInit();
+
+        return success;
     }
 
     void Window::DeInitialize()

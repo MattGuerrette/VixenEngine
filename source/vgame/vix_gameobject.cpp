@@ -157,8 +157,6 @@ namespace Vixen {
 			m_model->VBatchRender(m_transform->GetWorldMatrix());
 		}
 
-<<<<<<< HEAD
-=======
         for (int i = 0; i < m_components.size(); i++)
         {
             IRenderComponent2D* _renderComponent2D = dynamic_cast<IRenderComponent2D*>(m_components[i]);
@@ -166,8 +164,7 @@ namespace Vixen {
                 _renderComponent2D->VRender(NULL);
 
         }
-		
->>>>>>> 5d61730afc80281f2da012a8e50084e490f8a879
+
 		for (int i = 0; i < m_children.size(); i++)
 		{
 			GameObject* _child = m_children[i];
@@ -257,7 +254,7 @@ namespace Vixen {
 			current = current->m_parent;
 		}
 		//if the given object isn't a parent we can child it to this object
-		
+
 		//but first we have to remove it from the previous parent
 		//first case: there is no parent, attempt to remove from scene
 		if (!gameObject->m_parent)
@@ -273,7 +270,7 @@ namespace Vixen {
 
 		//now we can add it to this object
 		m_children.push_back(gameObject);
-		
+
 
 		gameObject->m_parent = this;
 		m_transform->AddChildTransform(gameObject->GetTransform());
@@ -329,10 +326,6 @@ namespace Vixen {
 		return UStringToStd(m_name);
 	}
 
-<<<<<<< HEAD
-}
-=======
-
     UIText* GameObject::GetTextComponent()
     {
         uint32_t numComponents = m_components.size();
@@ -347,4 +340,3 @@ namespace Vixen {
     }
 
 }
->>>>>>> 5d61730afc80281f2da012a8e50084e490f8a879

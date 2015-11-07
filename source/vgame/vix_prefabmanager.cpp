@@ -20,7 +20,6 @@
 #include <vix_filemanager.h>
 #include <vix_pathmanager.h>
 #include <vix_scenemanager.h>
-#include <vix_luascriptmanager.h>
 #include <vix_components.h>
 
 namespace Vixen {
@@ -130,7 +129,7 @@ namespace Vixen {
 		float scaleX = element->FloatAttribute("scaleX");
 		float scaleY = element->FloatAttribute("scaleY");
 		float scaleZ = element->FloatAttribute("scaleZ");
-		
+
 		prefab->SetTransform(Transform(posX, posY, posZ, rotX, rotY, rotZ, scaleX, scaleY, scaleZ));
 	}
 
@@ -148,7 +147,7 @@ namespace Vixen {
 				//PARSE SCRIPT
 				//prefab->AddScriptFile(ParseLuaScriptComponent(child));
 
-				_component = ParseLuaScriptComponent(child);
+				//_component = ParseLuaScriptComponent(child);
 			}
 			else if (name == "camera")
 			{
@@ -160,7 +159,7 @@ namespace Vixen {
 			else if (name == "light")
 			{
 				//PARSE LIGHT
-				
+
 
 				_component = ParseLightComponent(child);
 			}
@@ -236,10 +235,10 @@ namespace Vixen {
 		const char* scriptFile = element->Attribute("file");
 		UString scriptPath = UStringFromCharArray(scriptFile);
 
-		LuaScript* script = LuaScriptManager::LoadScript(scriptPath);
-		script->SetPath(scriptPath);
+		//LuaScript* script = LuaScriptManager::LoadScript(scriptPath);
+		//script->SetPath(scriptPath);
 
-		return script;
+		return NULL;
 	}
 
 	Prefab* PrefabManager::ParsePrefab(const tinyxml2::XMLElement* element)
@@ -254,48 +253,13 @@ namespace Vixen {
 
 		//PARSE PREFAB TRANSFORM
 		const XMLElement* transform = element->FirstChildElement("transform");
-<<<<<<< HEAD
-		float posX = transform->FloatAttribute("x");
-		float posY = transform->FloatAttribute("y");
-		float posZ = transform->FloatAttribute("z");
-		float rotX = transform->FloatAttribute("rotX");
-		float rotY = transform->FloatAttribute("rotY");
-		float rotZ = transform->FloatAttribute("rotZ");
-		float scaleX = transform->FloatAttribute("scaleX");
-		float scaleY = transform->FloatAttribute("scaleY");
-		float scaleZ = transform->FloatAttribute("scaleZ");
-		_newPrefab->SetTransform(Transform(posX, posY, posZ, rotX, rotY, rotZ, scaleX, scaleY, scaleZ));
 
-=======
 		ParseTransform(_newPrefab, transform);
-		
 
-		//PARSE PREFAB MODEL
->>>>>>> 5d61730afc80281f2da012a8e50084e490f8a879
-		const XMLElement* model = element->FirstChildElement("model");
-		if(model)
-			_newPrefab->SetModelFile(model->Attribute("file"));
-
-<<<<<<< HEAD
-		const XMLElement* scripts = element->FirstChildElement("scripts");
-		if (scripts)
-		{
-			const XMLElement* scriptNode = scripts->FirstChildElement("script");
-			while (scriptNode != NULL)
-			{
-				const char* scriptFile = scriptNode->Attribute("file");
-
-				_newPrefab->AddScriptFile(scriptFile);
-
-				scriptNode = scriptNode->NextSiblingElement("script");
-			}
-		}
-=======
 		//PARSE PREFAB COMPONENTS
 		const XMLElement* components = element->FirstChildElement("components");
 		if (components)
 			ParseComponents(_newPrefab, components);
->>>>>>> 5d61730afc80281f2da012a8e50084e490f8a879
 
 		//PARSE PREFAB CHILDREN
 		const XMLElement* children = element->FirstChildElement("children");

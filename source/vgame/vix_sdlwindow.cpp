@@ -120,16 +120,8 @@ namespace Vixen {
         m_mouseState = new SDLMouseState;
         m_keyboardState = new SDLKeyboardState;
 
-<<<<<<< HEAD
-		if (m_renderer){
-			if(!m_renderer->VInitialize()) {
-			  DebugPrintF(VTEXT("Renderer failed to initialize"));
-				return false;
-			}
-		}
-=======
+
         m_running = true;
->>>>>>> 5d61730afc80281f2da012a8e50084e490f8a879
 
 		return true;
 	}
@@ -168,87 +160,6 @@ namespace Vixen {
             }
         }
     }
-
-	//bool SDLGameWindow::VRun()
-	//{
-
-	//	/*try and initialize window*/
-	//	if (!VInit()) {
-	//	  DebugPrintF(VTEXT("SDLGameWindow failed to initialize"));
-	//		return false;
-	//	}
-
-	//	/*LOAD ONLY NECESSARY CONTENT FOR STARTUP*/
-	//	m_parent->VOnStartup();
-
-
- //       Time::Start();
-	//	//run application loop
-	//	m_running = true;
-	//	while (m_running)
-	//	{
-
-	//		Time::Tick();
-
-	//		SDL_Event event;
-	//		while (SDL_PollEvent(&event))
-	//		{
-	//			switch (event.type)
-	//			{
-	//			case SDL_QUIT:
-	//				VClose();
-	//				break;
-
-	//			case SDL_KEYDOWN:
-	//				((SDLKeyboardState*)Game::GetKeyboard())->KeyDown(event.key.keysym.scancode);
-	//				break;
-
-	//			case SDL_KEYUP:
-	//				((SDLKeyboardState*)Game::GetKeyboard())->KeyUp(event.key.keysym.scancode);
-	//				break;
-
-	//			case SDL_MOUSEBUTTONDOWN:
-	//			case SDL_MOUSEBUTTONUP:
-	//				((SDLMouseState*)Game::GetMouse())->MouseEvent(event.button);
-	//				break;
-
-	//			case SDL_MOUSEWHEEL:
-	//				((SDLMouseState*)Game::GetMouse())->MouseWheelEvent(event.wheel);
-	//				break;
-
-	//			case SDL_MOUSEMOTION:
- //                   ((SDLMouseState*)Game::GetMouse())->MouseMove(event.motion.x, event.motion.y);
-	//				break;
-	//			}
-	//		}
-
-	//		/*CLEAR BUFFERS*/
- //           if(m_renderer)
-	//		    m_renderer->VClearBuffer(ClearArgs::COLOR_DEPTH_STENCIL_BUFFER);
-
-
-	//		/*update*/
-	//		m_parent->VOnUpdate();
-
-	//		/*render*/
-	//		m_parent->VOnRender();
-
-
-	//		/*update keyboard state for next frame*/
-	//		((SDLKeyboardState*)Game::GetKeyboard())->UpdatePrev();
-	//		/*update mouse state for next frame*/
- //           ((SDLMouseState*)Game::GetMouse())->UpdatePrev();
-
-	//		/*swap buffers*/
-	//		VSwapBuffers();
-
-	//		Time::CalculateFPS();
-	//	}
-
-	//	m_parent->VOnShutdown();
-
-	//	return true;
-	//}
 
     IKeyboardState* SDLGameWindow::VKeyboardState()
     {

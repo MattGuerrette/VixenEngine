@@ -76,7 +76,7 @@ namespace Vixen {
 		GameObject* GetChild(int index);
 
 
-        
+
     public:
         UIText* GetTextComponent();
 
@@ -88,19 +88,12 @@ namespace Vixen {
 		UString                     m_name;
 		Transform*					m_transform;
 		IModel*						m_model;
-		std::vector<Component*>	m_components;
+		std::vector<Component*>	    m_components;
 
 		std::vector<GameObject*>    m_children;
 		GameObject*					m_parent;
 
 	};
-
-<<<<<<< HEAD
-=======
-
-    
-		
->>>>>>> 5d61730afc80281f2da012a8e50084e490f8a879
 }
 
 #endif

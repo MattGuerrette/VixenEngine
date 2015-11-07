@@ -121,7 +121,7 @@ namespace Vixen {
 			Scene* scene = Scene::Deserialize(sceneFile);
 			if (scene) {
 				scene->SetFileName(fileName);
-				
+
 				_manager.m_sceneFiles[scene->GetID()] = scene->GetFileName();
 				_manager.m_scenes[scene->GetID()] = scene;
 
@@ -160,7 +160,7 @@ namespace Vixen {
 			Scene* scene = it->second;
 			_manager.m_sceneList.push_back(scene);
 		}
-            
+
     }
 
     void SceneManager::UpdateScenes()
@@ -236,9 +236,6 @@ namespace Vixen {
 		return _manager.m_current;
 	}
 
-<<<<<<< HEAD
-}
-=======
 	void SceneManager::HideScene(std::string id)
 	{
 		SceneManager& _manager = SceneManager::instance();
@@ -265,7 +262,7 @@ namespace Vixen {
 	void SceneManager::ReloadScene(std::string sceneID)
 	{
 		SceneManager& _manager = SceneManager::instance();
-		
+
 		for (int32_t i = 0; i < _manager.m_sceneList.size(); i++)
 		{
 			Scene* _scene = _manager.m_sceneList[i];
@@ -286,4 +283,3 @@ namespace Vixen {
 		}
 	}
 }
->>>>>>> 5d61730afc80281f2da012a8e50084e490f8a879

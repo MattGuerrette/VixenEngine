@@ -53,16 +53,4 @@ namespace Vixen {
 	{
 
 	}
-<<<<<<< HEAD
-
-	void LightComponent::VBindParent(GameObject* parent)
-	{
-		m_parent = parent;
-		//m_parentTransform = parent->GetTransform();
-	}
-
-
 }
-=======
-}
->>>>>>> 5d61730afc80281f2da012a8e50084e490f8a879

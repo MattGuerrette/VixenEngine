@@ -30,6 +30,7 @@ namespace Vixen {
 	public:
 
 		bool    VInitialize();
+		void    VInitializeSpriteBatch();
         void    VDeInitialize();
 		void    VSetClearColor(const Color& c);
 		void    VClearBuffer(ClearArgs args);

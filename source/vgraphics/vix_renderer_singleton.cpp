@@ -3,7 +3,7 @@
 #ifdef VIX_SYS_WINDOWS
 #include <vix_dxrenderer.h>
 #else
-
+#include <vix_glrenderer.h>
 #endif
 
 namespace Vixen {
@@ -15,10 +15,14 @@ namespace Vixen {
 #ifdef VIX_SYS_WINDOWS
         _renderer.m_renderer = new DXRenderer;
         _renderer.m_renderer->VAttachNativeHandle(HWND);
+#else
+        _renderer.m_renderer = new GLRenderer;
 #endif
 
         if (!_renderer.m_renderer->VInitialize())
             return false;
+
+        return true;
     }
 
     void Renderer::InitializeSpriteBatch()

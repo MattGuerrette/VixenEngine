@@ -18,11 +18,9 @@
 #include <vix_scene.h>
 #include <vix_modelmanager.h>
 #include <vix_stlutil.h>
-//#include <vix_luascriptmanager.h>
 #include <vix_scenemanager.h>
 #include <vix_objectmanager.h>
 #include <vix_time.h>
-#include <vix_luaengine.h>
 #include <vix_resourcemanager.h>
 
 #include <vix_components.h>
@@ -39,7 +37,7 @@ namespace Vixen {
 	{
 		m_paused = false;
 		m_hidden = false;
-		
+
 		m_mainCamera = NULL;
 	}
 
@@ -109,7 +107,6 @@ namespace Vixen {
                 obj->Render(m_mainCamera);
         }
 
-		LuaEngine::ExecuteExpression(VTEXT("collectgarbage()"));
 	}
 
 	GameObject* Scene::QueryObject(std::string name)
@@ -174,7 +171,7 @@ namespace Vixen {
 		return m_hidden;
 	}
 
-	
+
 
 
 	///////////////////////////////////////////////////////////////////////
@@ -293,11 +290,8 @@ namespace Vixen {
 		const XMLElement* child = element->FirstChildElement();
 		while (child) {
 			std::string name(child->Name());
-<<<<<<< HEAD
-			IComponent* component = NULL;
-=======
-			Component* component;
->>>>>>> 5d61730afc80281f2da012a8e50084e490f8a879
+
+			Component* component = NULL;
 			if (name == "script")
 			{
 				//PARSE SCRIPT
@@ -374,25 +368,6 @@ namespace Vixen {
 		return component;
 	}
 
-<<<<<<< HEAD
-	/*LuaScript* Scene::ParseLuaScriptComponent(const tinyxml2::XMLElement * element)
-=======
-    Component* Scene::ParseLuaScriptComponent(const tinyxml2::XMLElement * element)
->>>>>>> 5d61730afc80281f2da012a8e50084e490f8a879
-	{
-		using namespace tinyxml2;
-
-		const char* scriptFile = element->Attribute("file");
-		UString scriptPath = UStringFromCharArray(scriptFile);
-
-		LuaScript* script = LuaScriptManager::LoadScript(scriptPath);
-		return script;
-<<<<<<< HEAD
-	}*/
-}
-=======
-	}
-
     Component* Scene::ParseUITextComponent(const tinyxml2::XMLElement* element)
     {
         using namespace tinyxml2;
@@ -403,8 +378,7 @@ namespace Vixen {
 
         IFont*  _font = ResourceManager::OpenFont(UStringFromCharArray(font));
         UIText* _text = new UIText(UStringFromCharArray(text), _font);
-        
+
         return _text;
     }
 }
->>>>>>> 5d61730afc80281f2da012a8e50084e490f8a879

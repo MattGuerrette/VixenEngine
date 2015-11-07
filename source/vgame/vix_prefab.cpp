@@ -19,8 +19,7 @@
 #include <vix_stlutil.h>
 #include <vix_scenemanager.h>
 #include <vix_modelmanager.h>
-//#include <vix_luascriptmanager.h>
-//#include <vix_luascript.h>
+#include <vix_component.h>
 #include <vix_objectmanager.h>
 
 namespace Vixen {
@@ -100,22 +99,12 @@ namespace Vixen {
 		ObjectManager::MapSceneObject(_object);
 
 
-<<<<<<< HEAD
-		/*size_t numScripts = prefab->ScriptCount();
-		for (size_t i = 0; i < numScripts; i++)
-=======
+
 		uint32_t numComponents = prefab->m_components.size();
 		for (uint32_t i = 0; i < numComponents; i++)
->>>>>>> 5d61730afc80281f2da012a8e50084e490f8a879
 		{
 			Component* component = prefab->m_components[i];
 
-<<<<<<< HEAD
-			LuaScript* _script = LuaScriptManager::LoadScript(UStringFromCharArray(scriptFile.c_str()));
-			_script->VBindParent(_object);
-			_object->AddComponent(_script);
-		}*/
-=======
 			if (component)
 			{
 				switch (component->VGetType())
@@ -124,9 +113,9 @@ namespace Vixen {
 					{
 
 						//Should be able to be created from copy construct not reloading.
-						LuaScript* _script = LuaScriptManager::LoadScript(((LuaScript*)component)->GetPath());
+						/*LuaScript* _script = LuaScriptManager::LoadScript(((LuaScript*)component)->GetPath());
 						_script->VBindParent(_object);
-						_object->AddComponent(_script);
+						_object->AddComponent(_script);*/
 
 					} break;
 
@@ -139,7 +128,6 @@ namespace Vixen {
 				}
 			}
 		}
->>>>>>> 5d61730afc80281f2da012a8e50084e490f8a879
 
 		//build children
 		size_t numChildren = prefab->ChildCount();
