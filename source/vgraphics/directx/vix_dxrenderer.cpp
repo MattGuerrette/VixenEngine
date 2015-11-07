@@ -329,6 +329,11 @@ namespace Vixen {
         m_spriteBatch->End();
     }
 
+	ICamera2D* DXRenderer::VCamera2D()
+	{
+		return m_camera2D;
+	}
+
     void DXRenderer::VRenderText2D(Font* font, UString text, const Vector2& position)
     {
         m_spriteBatch->Begin(BatchSortMode::IMMEDITATE);

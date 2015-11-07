@@ -71,4 +71,11 @@ namespace Vixen {
         return _renderer.m_renderer;
     }
 
+	ICamera2D* Renderer::Camera2D()
+	{
+		Renderer& _renderer = Renderer::instance();
+
+		return _renderer.m_renderer->VCamera2D();
+	}
+
 }

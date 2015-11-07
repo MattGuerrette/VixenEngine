@@ -32,6 +32,7 @@
 #include <vix_camera3d.h>
 #include <vix_vector2.h>
 #include <vix_font.h>
+#include <vix_camera2d.h>
 
 namespace Vixen {
 
@@ -70,6 +71,7 @@ namespace Vixen {
         virtual void    VInitializeSpriteBatch() = 0;
         virtual void    VRenderTexture2D(Texture* texture, const Vector2& pos, const Rect& source) = 0;
         virtual void    VRenderText2D(Font* font, UString text, const Vector2& pos) = 0;
+		virtual ICamera2D* VCamera2D() = 0;
 
 	};
 

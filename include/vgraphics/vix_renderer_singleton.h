@@ -26,6 +26,7 @@ namespace Vixen {
 
         static IRenderer*   Handle();
 
+		static ICamera2D*   Camera2D();
     private:
         IRenderer*  m_renderer;
     };

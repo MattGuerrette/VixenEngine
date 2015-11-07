@@ -75,8 +75,16 @@ namespace Vixen {
         m_parent->MarkForLateRender();
 	}
 
-    void UIText::VRender(ICamera2D* camera)
+    void UIText::VRender(ICamera2D* camera, Viewport v)
     {
+		OrthoRect rect;
+		rect.left = 0.0f;
+		rect.top = 0.0f;
+		rect.right = v.width;
+		rect.bottom = v.height;
+
+		camera->VSetOrthoLHOffCenter(rect, 0.0f, 1.0f);
+
         if(m_font && m_parent)
             Renderer::Render2DText(m_font, 
                                    m_text, 
