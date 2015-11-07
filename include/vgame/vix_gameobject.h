@@ -90,7 +90,6 @@ namespace Vixen {
 		uint32_t                    m_id;
 		UString                     m_name;
 		Transform*					m_transform;
-		IModel*						m_model;
 		std::vector<IComponent*>	m_components;
 
 		std::vector<GameObject*>    m_children;

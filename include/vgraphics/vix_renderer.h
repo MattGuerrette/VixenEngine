@@ -68,8 +68,8 @@ namespace Vixen {
         virtual void    VSwapBuffers() = 0;
         virtual void    VAttachNativeHandle(void* handle) = 0;
         virtual void    VInitializeSpriteBatch() = 0;
-        virtual void    VRenderTexture2D(ITexture* texture, const Vector2& pos, const Rect& source) = 0;
-        virtual void    VRenderText2D(IFont* font, UString text, const Vector2& pos) = 0;
+        virtual void    VRenderTexture2D(Texture* texture, const Vector2& pos, const Rect& source) = 0;
+        virtual void    VRenderText2D(Font* font, UString text, const Vector2& pos) = 0;
 
 	};
 

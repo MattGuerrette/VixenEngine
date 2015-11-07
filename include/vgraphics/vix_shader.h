@@ -29,6 +29,7 @@
 #include <vix_stringutil.h>
 #include <vix_file.h>
 #include <vix_texture.h>
+#include <vix_asset.h>
 
 namespace Vixen {
 
@@ -49,10 +50,12 @@ namespace Vixen {
 		UString    raw;        /*raw contents of shader*/
 	};
 
-	class VIX_API IShader
+	class VIX_API Shader : public Asset
 	{
 	public:
-		virtual ~IShader() { };
+		Shader();
+
+		virtual ~Shader() { };
 
 		virtual bool	VSetData(std::string name, const void* data, size_t size) = 0;
 		virtual bool	VSetInt(std::string name, int data) = 0;
@@ -62,7 +65,7 @@ namespace Vixen {
 		virtual bool	VSetFloat4(std::string name, const float data[4]) = 0;
 		virtual bool	VSetMatrix4x4(std::string name, const float data[16]) = 0;
 
-		virtual bool    VBindTexture(std::string name, ITexture* texture) = 0;
+		virtual bool    VBindTexture(std::string name, Texture* texture) = 0;
 
     protected:
         virtual void VBind() = 0;

@@ -13,7 +13,7 @@ namespace Vixen {
 	public:
 		virtual ~IShaderVariable() { };
 
-		virtual void VBind(std::string name, IShader* shader) = 0;
+		virtual void VBind(std::string name, Shader* shader) = 0;
 	};
 
 	class VIX_API FloatVariable : public IShaderVariable
@@ -23,7 +23,7 @@ namespace Vixen {
 
 		~FloatVariable();
 
-		void VBind(std::string name, IShader* shader);
+		void VBind(std::string name, Shader* shader);
 
 	private:
 		float m_val;
@@ -36,7 +36,7 @@ namespace Vixen {
 
 		~Float4Variable();
 
-		void VBind(std::string name, IShader* shader);
+		void VBind(std::string name, Shader* shader);
 
 	private:
 		float m_x;
@@ -52,7 +52,7 @@ namespace Vixen {
 
 		~IntVariable();
 
-		void VBind(std::string name, IShader* shader);
+		void VBind(std::string name, Shader* shader);
 		
 	private:
 		int m_val;
@@ -65,7 +65,7 @@ namespace Vixen {
 
 		~Matrix4FloatVariable();
 
-		void VBind(std::string name, IShader* shader);
+		void VBind(std::string name, Shader* shader);
 
 	private:
 		float m_val[16];
@@ -74,14 +74,14 @@ namespace Vixen {
 	class VIX_API TextureVariable : public IShaderVariable
 	{
 	public:
-		TextureVariable(ITexture* texture);
+		TextureVariable(Texture* texture);
 
 		~TextureVariable();
 
-		void VBind(std::string name, IShader* shader);
+		void VBind(std::string name, Shader* shader);
 
 	private:
-		ITexture* m_texture;
+		Texture* m_texture;
 	};
 
 }

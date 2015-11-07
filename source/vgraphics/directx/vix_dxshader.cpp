@@ -27,7 +27,7 @@
 namespace Vixen {
 
     DXShader::DXShader(ID3D11Device* device, ID3D11DeviceContext* context, ShaderType type)
-        : Asset()
+        : Shader()
     {
         m_type = type;
         m_device = device;
@@ -302,7 +302,7 @@ namespace Vixen {
         return VSetData(name, &data, sizeof(float) * 16);
     }
 
-	bool DXShader::VBindTexture(std::string name, ITexture* texture)
+	bool DXShader::VBindTexture(std::string name, Texture* texture)
 	{
 		bool success = true;
 		success = VSetSamplerState("samLinear", ((DXTexture*)texture)->SampleState());

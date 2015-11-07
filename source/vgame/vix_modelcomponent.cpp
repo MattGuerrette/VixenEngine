@@ -56,24 +56,24 @@ namespace Vixen {
 		return m_type;
 	}
 
-	void ModelComponent::SetModel(IModel* model)
+	void ModelComponent::SetModel(Model* model)
 	{
 		m_model = model;
 	}
 
-	void ModelComponent::SetMaterial(IMaterial* material)
+	void ModelComponent::SetMaterial(Material* material)
 	{
 		m_material = material;
 		if (m_model)
 			m_model->VSetMaterial(m_material);
 	}
 
-	IModel* ModelComponent::GetModel()
+	Model* ModelComponent::GetModel()
 	{
 		return m_model;
 	}
 
-	IMaterial* ModelComponent::GetMaterial()
+	Material* ModelComponent::GetMaterial()
 	{
 		return m_material;
 	}

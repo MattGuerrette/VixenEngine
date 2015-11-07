@@ -67,7 +67,6 @@ namespace Vixen {
 	{
 		m_id = 0;
 		m_enabled = false;
-		m_model = NULL;
 		m_parent = NULL;
 		m_transform = NULL;
 		m_markedForDestroy = false;

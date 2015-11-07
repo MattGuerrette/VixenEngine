@@ -68,7 +68,7 @@ namespace Vixen {
         m_beFlag = true;
     }
 
-    void DXSpriteBatcher::Render(ITexture* texture, BatchInfo info)
+    void DXSpriteBatcher::Render(Texture* texture, BatchInfo info)
     {
         if (!texture)
             return;

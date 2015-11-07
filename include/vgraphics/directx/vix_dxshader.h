@@ -36,7 +36,6 @@
 #include <vix_directx.h>
 #include <vix_containers.h>
 #include <vix_texture.h>
-#include <vix_asset.h>
 
 namespace Vixen {
 
@@ -54,7 +53,7 @@ namespace Vixen {
         size_t ConstantBufferIndex;
     };
 
-    class VIX_API DXShader : public IShader, public Asset
+    class VIX_API DXShader : public Shader
     {
         typedef std::unordered_map<std::string, ConstantBuffer*> CBTable;
         typedef std::unordered_map<std::string, ShaderVariable>  SVTable;
@@ -90,7 +89,7 @@ namespace Vixen {
 		bool SetFloat4(std::string name, const DirectX::XMFLOAT4 data);
 		bool SetMatrix4x4(std::string name, const DirectX::XMFLOAT4X4 data);
 
-		bool VBindTexture(std::string name, ITexture* texture);
+		bool VBindTexture(std::string name, Texture* texture);
 
         virtual bool VSetShaderResourceView(std::string name, ID3D11ShaderResourceView* rv) = 0;
         virtual bool VSetSamplerState(std::string name, ID3D11SamplerState* ss) = 0;

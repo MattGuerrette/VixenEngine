@@ -260,7 +260,7 @@ namespace Vixen {
 		const char* file = element->Attribute("file");
 		const char* materialFile = element->Attribute("material");
 
-		IModel* _model = (IModel*)ResourceManager::AccessAsset(UStringFromCharArray(file));
+		Model* _model = (Model*)ResourceManager::AccessAsset(UStringFromCharArray(file));
 		if (!_model) {
 			_model = ResourceManager::OpenModel(UStringFromCharArray(file));
 			if (!_model) {
@@ -269,7 +269,7 @@ namespace Vixen {
 			}
 		}
 		
-		IMaterial* _material = ResourceManager::OpenMaterial(UStringFromCharArray(materialFile));
+		Material* _material = ResourceManager::OpenMaterial(UStringFromCharArray(materialFile));
 		if (!_material) {
 			DebugPrintF(VTEXT("Failed to open material.\n"));
 			return NULL;

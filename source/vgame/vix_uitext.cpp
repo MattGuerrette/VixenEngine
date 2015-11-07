@@ -18,7 +18,7 @@ namespace Vixen {
 		m_parent = NULL;
     }
 
-    UIText::UIText(UString text, IFont* font)
+    UIText::UIText(UString text, Font* font)
     {
         m_text = text;
         m_font = font;
@@ -27,9 +27,7 @@ namespace Vixen {
 
     UIText::~UIText()
     {
-        Asset* _font = (Asset*)m_font;
-
-        ResourceManager::DecrementAssetRef(_font);
+        ResourceManager::DecrementAssetRef(m_font);
     }
 
     void UIText::SetText(std::string text)

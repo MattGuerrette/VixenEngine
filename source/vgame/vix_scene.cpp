@@ -102,7 +102,7 @@ namespace Vixen {
 
 		for (uint32_t i = 0; i < ResourceManager::NumLoadedModels(); i++)
 		{
-			IModel* model = ResourceManager::ModelAsset(i);
+			Model* model = ResourceManager::ModelAsset(i);
 			if (model)
 				model->VRender(Time::DeltaTime(), Time::TotalTime(), m_mainCamera);
 		}
@@ -390,7 +390,7 @@ namespace Vixen {
         const char* font = element->Attribute("font");
 
 
-        IFont*  _font = ResourceManager::OpenFont(UStringFromCharArray(font));
+        Font*  _font = ResourceManager::OpenFont(UStringFromCharArray(font));
         UIText* _text = new UIText(UStringFromCharArray(text), _font);
         
         return _text;
@@ -403,13 +403,13 @@ namespace Vixen {
 		const char* file = element->Attribute("file");
 		const char* materialFile = element->Attribute("material");
 
-		IModel* _model = ResourceManager::OpenModel(UStringFromCharArray(file));
+		Model* _model = ResourceManager::OpenModel(UStringFromCharArray(file));
 		if (!_model) {
 			DebugPrintF(VTEXT("Failed to open model.\n"));
 			return NULL;
 		}
 			
-		IMaterial* _material = ResourceManager::OpenMaterial(UStringFromCharArray(materialFile));
+		Material* _material = ResourceManager::OpenMaterial(UStringFromCharArray(materialFile));
 		if (!_material) {
 			DebugPrintF(VTEXT("Failed to open material.\n"));
 			return NULL;

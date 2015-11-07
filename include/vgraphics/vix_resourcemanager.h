@@ -68,18 +68,18 @@ namespace Vixen {
         static void DeInitialize();
 
         static void         AttachResourceLoader(IResourceLoader* loader);
-        static ITexture*    OpenTexture(UString filePath);
-        static IShader*     OpenShader(UString filePath, ShaderType type);
-        static IModel*      OpenModel(UString filePath);
-        static IFont*       OpenFont(UString filePath);
-        static IMaterial*   OpenMaterial(UString filePath);
+        static Texture*    OpenTexture(UString filePath);
+        static Shader*     OpenShader(UString filePath, ShaderType type);
+        static Model*      OpenModel(UString filePath);
+        static Font*       OpenFont(UString filePath);
+        static Material*   OpenMaterial(UString filePath);
 
 		static Asset*		AccessAsset(UString assetName);
 		static void			MapAsset(UString assetName, Asset* asset);
 		static void			ReleaseAsset(Asset* asset);
 
 		static uint32_t     NumLoadedModels();
-		static IModel*		ModelAsset(uint32_t index);
+		static Model*		ModelAsset(uint32_t index);
 
         static void         IncrementAssetRef(Asset* asset);
         static void         DecrementAssetRef(Asset* asset);
@@ -88,7 +88,7 @@ namespace Vixen {
         IResourceLoader* m_resourceLoader;
 
 		std::map<UString, Asset*> m_assetMap;
-		std::vector<IModel*>	  m_models;
+		std::vector<Model*>	  m_models;
     };
 
 

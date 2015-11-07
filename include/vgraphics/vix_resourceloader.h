@@ -39,11 +39,11 @@ namespace Vixen {
     public:
         virtual ~IResourceLoader() { }
 
-        virtual ITexture*   LoadTexture(File* file) = 0;
-        virtual IShader*    LoadShader(File* file, ShaderType type) = 0;
-        virtual IModel*     LoadModel(File* file) = 0;
-        virtual IFont*      LoadFont(File* file) = 0;
-		virtual IMaterial*  LoadMaterial(File* file) = 0;
+        virtual Texture*   LoadTexture(File* file) = 0;
+        virtual Shader*    LoadShader(File* file, ShaderType type) = 0;
+        virtual Model*     LoadModel(File* file) = 0;
+        virtual Font*      LoadFont(File* file) = 0;
+		virtual Material*  LoadMaterial(File* file) = 0;
       
 
     };

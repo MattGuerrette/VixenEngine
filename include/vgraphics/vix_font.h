@@ -47,14 +47,16 @@ namespace Vixen {
         int channel;
     };
 
-    class VIX_API IFont
+    class VIX_API Font : public Asset
     {
     public:
         typedef std::map<UChar, FontChar> CharMap;
 
-        virtual ~IFont() { };
+		Font();
 
-        virtual ITexture* VPageTexture(size_t index) = 0;
+        virtual ~Font() { };
+
+        virtual Texture* VPageTexture(size_t index) = 0;
         virtual bool      VFindChar(UChar c, FontChar& fontChar) = 0;
         virtual float     VLineHeight() = 0;
 		virtual Rect       VBounds(UString text) = 0;

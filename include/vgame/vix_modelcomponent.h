@@ -31,15 +31,15 @@ namespace Vixen {
 
 		void VRender(ICamera3D* camera);
 
-		void SetModel(IModel* model);
-		void SetMaterial(IMaterial* material);
+		void SetModel(Model* model);
+		void SetMaterial(Material* material);
 
-		IModel*		GetModel();
-		IMaterial*	GetMaterial();
+		Model*		GetModel();
+		Material*	GetMaterial();
 
 	private:
-		IModel*				m_model;
-		IMaterial*			m_material;
+		Model*				m_model;
+		Material*			m_material;
 		IComponent::Type	m_type;
 		GameObject*			m_parent;
 	};

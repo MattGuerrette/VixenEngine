@@ -296,7 +296,7 @@ namespace Vixen {
         return m_ImmediateContext;
     }
 
-    void DXRenderer::VRenderTexture2D(ITexture* texture, const Vector2& position, const Rect& source)
+    void DXRenderer::VRenderTexture2D(Texture* texture, const Vector2& position, const Rect& source)
     {
         BatchInfo info;
         info.x = position.x;
@@ -322,7 +322,7 @@ namespace Vixen {
         m_spriteBatch->End();
     }
 
-    void DXRenderer::VRenderText2D(IFont* font, UString text, const Vector2& position)
+    void DXRenderer::VRenderText2D(Font* font, UString text, const Vector2& position)
     {
         m_spriteBatch->Begin(BatchSortMode::IMMEDITATE);
 

@@ -31,7 +31,7 @@
 namespace Vixen {
 
     DXMaterial::DXMaterial()
-        : Asset()
+        : Material()
     {
 
     }
@@ -102,7 +102,7 @@ namespace Vixen {
 		}
 
 		UString shaderPath = UStringFromCharArray(vsElement->Attribute("file"));
-		IShader* vsShader = ResourceManager::OpenShader(shaderPath, ShaderType::VERTEX_SHADER);
+		Shader* vsShader = ResourceManager::OpenShader(shaderPath, ShaderType::VERTEX_SHADER);
 		if (!vsShader)
 			return false;
 		m_shaders[ShaderRole::Vertex] = (DXShader*)vsShader;
@@ -118,7 +118,7 @@ namespace Vixen {
 		}
 
 		shaderPath = UStringFromCharArray(psElement->Attribute("file"));
-		IShader* psShader = ResourceManager::OpenShader(shaderPath, ShaderType::PIXEL_SHADER);
+		Shader* psShader = ResourceManager::OpenShader(shaderPath, ShaderType::PIXEL_SHADER);
 		if (!psShader)
 			return false;
 		m_shaders[ShaderRole::Pixel] = (DXShader*)psShader;
@@ -144,7 +144,7 @@ namespace Vixen {
 				std::string key = shaderChild->Attribute("name");
 				std::string fileName = shaderChild->Attribute("file");
 
-				ITexture* texture = ResourceManager::OpenTexture(UStringFromCharArray(fileName.c_str()));
+				Texture* texture = ResourceManager::OpenTexture(UStringFromCharArray(fileName.c_str()));
 				if (!texture) {
 					return false;
 				}

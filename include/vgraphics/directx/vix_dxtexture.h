@@ -32,7 +32,7 @@
 
 namespace Vixen {
 
-    class VIX_API DXTexture : public ITexture, public Asset
+    class VIX_API DXTexture : public Texture
     {
     public:
         DXTexture(ID3D11Device* device, ID3D11DeviceContext* context);

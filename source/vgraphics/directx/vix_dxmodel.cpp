@@ -35,7 +35,7 @@ using namespace DirectX;
 namespace Vixen {
 
     DXModel::DXModel(ID3D11Device* device, ID3D11DeviceContext* context)
-        : Asset()
+        : Model()
     {
         m_device = device;
         m_context = context;
@@ -153,7 +153,7 @@ namespace Vixen {
         return true;
     }
 
-    void DXModel::VSetMaterial(IMaterial* material)
+    void DXModel::VSetMaterial(Material* material)
     {
         m_material = (DXMaterial*)material;
     }
