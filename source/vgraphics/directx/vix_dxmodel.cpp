@@ -163,6 +163,8 @@ namespace Vixen {
 		if (m_numInstances <= 0)
 			return;
 
+		m_context->RSSetViewports(1, &((DXCamera3D*)camera)->GetViewport());
+
 		m_material->GetVertexShader()->SetMatrix4x4("projection", ((DXCamera3D*)camera)->Projection());
 		m_material->GetVertexShader()->SetMatrix4x4("view", ((DXCamera3D*)camera)->View());
 		m_material->GetVertexShader()->VSetData("transforms", &m_instanceData[0] , (sizeof(float) * 16) * MAX_INSTANCE_PER_DRAW);

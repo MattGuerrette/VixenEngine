@@ -92,31 +92,44 @@ namespace Vixen {
 
 	void Scene::Render()
 	{
-		//render all scene object
-		for (int i = 0; i < m_topLevelObjects.size(); i++)
+		
+
+		//For each camera in the scene, we need to render all geometry and 
+		//ui elements, twice. One for each camera viewport
+
+		for (int i = 0; i < m_cameras.size(); i++)
 		{
-			GameObject* obj = m_topLevelObjects.at(i);
-			if (!obj->IsMarkedForDestroy() && !obj->IsMarkedForLateRender() && obj->GetEnabled())
-				obj->Render(m_mainCamera);
+
+			ICamera3D* camera = m_cameras[i];
+
+			//render all scene object
+			for (int i = 0; i < m_topLevelObjects.size(); i++)
+			{
+				GameObject* obj = m_topLevelObjects.at(i);
+				if (!obj->IsMarkedForDestroy() && !obj->IsMarkedForLateRender() && obj->GetEnabled())
+					obj->Render(camera);
+			}
+
+			for (uint32_t i = 0; i < ResourceManager::NumLoadedModels(); i++)
+			{
+				Model* model = ResourceManager::ModelAsset(i);
+				if (model)
+					model->VRender(Time::DeltaTime(), Time::TotalTime(), camera);
+			}
+
+			//render all late render (UI) scene objects
+			//NOTE: this is expensive, as we are iterating over the list of objects again...
+			//      what should happen is the list should be sorted once, leaving all late render objects
+			//      last to be drawn.
+			for (int i = 0; i < m_topLevelObjects.size(); i++)
+			{
+				GameObject* obj = m_topLevelObjects.at(i);
+				if (obj->IsMarkedForLateRender() && obj->GetEnabled())
+					obj->Render(camera);
+			}
 		}
 
-		for (uint32_t i = 0; i < ResourceManager::NumLoadedModels(); i++)
-		{
-			Model* model = ResourceManager::ModelAsset(i);
-			if (model)
-				model->VRender(Time::DeltaTime(), Time::TotalTime(), m_mainCamera);
-		}
-
-        //render all late render (UI) scene objects
-        //NOTE: this is expensive, as we are iterating over the list of objects again...
-        //      what should happen is the list should be sorted once, leaving all late render objects
-        //      last to be drawn.
-        for (int i = 0; i < m_topLevelObjects.size(); i++)
-        {
-            GameObject* obj = m_topLevelObjects.at(i);
-            if (obj->IsMarkedForLateRender() && obj->GetEnabled())
-                obj->Render(m_mainCamera);
-        }
+		
 
 		LuaEngine::ExecuteExpression(VTEXT("collectgarbage()"));
 	}
@@ -337,10 +350,35 @@ namespace Vixen {
 
 	Component* Scene::ParseCameraComponent(Scene* scene, const tinyxml2::XMLElement * element)
 	{
+		using namespace tinyxml2;
+		
 		bool isMainCamera = element->BoolAttribute("mainCamera");
 		Camera3DComponent* _camera = new Camera3DComponent;
 		if (isMainCamera)
 			scene->m_mainCamera = _camera->GetCamera();
+		scene->m_cameras.push_back(_camera->GetCamera());
+
+		const XMLElement* _viewportElement = element->FirstChildElement("viewport");
+		if (_viewportElement)
+		{
+			float x = _viewportElement->FloatAttribute("x");
+			float y = _viewportElement->FloatAttribute("y");
+			float width = _viewportElement->FloatAttribute("width");
+			float height = _viewportElement->FloatAttribute("height");
+			float minDepth = _viewportElement->FloatAttribute("min");
+			float maxDepth = _viewportElement->FloatAttribute("max");
+
+			Viewport v;
+			v.x = x;
+			v.y = y;
+			v.width = width;
+			v.height = height;
+			v.minDepth = minDepth;
+			v.maxDepth = maxDepth;
+
+			_camera->GetCamera()->VSetViewport(v);
+		}
+
 		return _camera;
 	}
 

@@ -29,11 +29,23 @@
 
 namespace Vixen {
 
+	struct Viewport
+	{
+		float x;
+		float y;
+		float width;
+		float height;
+		float minDepth;
+		float maxDepth;
+	};
+
     class VIX_API ICamera3D
     {
     public:
         virtual ~ICamera3D() { }
 
+		virtual Viewport VGetViewport() = 0;
+		virtual void VSetViewport(Viewport v) = 0;
         virtual void VSetPerspective(float aspect, float fov, float znear, float zfar) = 0;
         virtual void VSetView(const Vector3& eye, const Vector3& target, const Vector3& up) = 0;
         virtual void VUpdate() = 0;

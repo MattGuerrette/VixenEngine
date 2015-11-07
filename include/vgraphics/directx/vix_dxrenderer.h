@@ -61,6 +61,8 @@ namespace Vixen {
 
         void    VRenderText2D(Font* font, UString text, const Vector2& position) override;
 
+		ICamera2D* VCamera2D();
+
         ID3D11Device* Device();
 
         ID3D11DeviceContext* DeviceContext();

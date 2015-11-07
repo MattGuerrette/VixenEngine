@@ -30,6 +30,8 @@
 #include <vix_components.h>
 #include <vix_component.h>
 
+#include <vix_renderer_singleton.h>
+
 namespace Vixen {
 
     GameObject* GameObject::s_ActiveObject = NULL;
@@ -148,8 +150,10 @@ namespace Vixen {
         for (int i = 0; i < m_components.size(); i++)
         {
             IRenderComponent2D* _renderComponent2D = dynamic_cast<IRenderComponent2D*>(m_components[i]);
-            if (_renderComponent2D)
-                _renderComponent2D->VRender(NULL);
+			if (_renderComponent2D) {
+				_renderComponent2D->VRender(Renderer::Camera2D(), camera->VGetViewport());
+			}
+                
 
 			IRenderComponent* _renderComponent = dynamic_cast<IRenderComponent*>(m_components[i]);
 			if (_renderComponent)

@@ -35,12 +35,16 @@ namespace Vixen {
     public:
         DXCamera3D();
 
+		void VSetViewport(Viewport v);
         void VSetPerspective(float aspect, float fov, float znear, float zfar);
         void VSetView(const Vector3& eye, const Vector3& target, const Vector3& up);
         void VUpdate();
 
         DirectX::XMFLOAT4X4 Projection();
         DirectX::XMFLOAT4X4 View();
+
+		D3D11_VIEWPORT GetViewport();
+		Viewport VGetViewport();
 
     private:
         //DIRECTX MATH
@@ -51,6 +55,8 @@ namespace Vixen {
         DirectX::XMFLOAT3   m_look;
         DirectX::XMFLOAT3   m_right;
         DirectX::XMFLOAT3   m_up;
+
+		D3D11_VIEWPORT		m_viewport;
 
         float               m_aspect;
         float               m_znear;

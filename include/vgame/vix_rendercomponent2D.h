@@ -11,7 +11,7 @@ namespace Vixen {
 	public:
 		virtual ~IRenderComponent2D() { };
 
-		virtual void VRender(ICamera2D* camera) = 0;
+		virtual void VRender(ICamera2D* camera, Viewport v) = 0;
 	};
 
 }
