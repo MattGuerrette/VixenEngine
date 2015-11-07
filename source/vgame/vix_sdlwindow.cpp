@@ -39,6 +39,10 @@ namespace Vixen {
 		m_clientRect = Rect(0, 0, 0, 0);
         m_keyboardState = NULL;
         m_mouseState = NULL;
+		for (int i = 0; i < 4; i++)
+		{
+			m_controllerIndeces[i] = -1;
+		}
 	}
 
 	SDLGameWindow::~SDLGameWindow()
@@ -159,17 +163,33 @@ namespace Vixen {
 					((SDLMouseState*)m_mouseState)->MouseMove(event.motion.x, event.motion.y);
 					break;
 				case SDL_CONTROLLERDEVICEADDED:
-					SDL_GameControllerOpen(event.cdevice.which);
+					{
+						for (int i = 0; i < 4; i++)
+						{
+							if (m_controllerIndeces[i] == -1)
+							{
+								m_controllers[i] = SDL_GameControllerOpen(event.cdevice.which);
+								m_controllerIndeces[i] = SDL_JoystickInstanceID(SDL_GameControllerGetJoystick(m_controllers[i]));
+								break;
+							}
+						}
+					}
 					break;
-
+				case SDL_CONTROLLERDEVICEREMOVED:
+					{
+						int cont = GetPlayerFromControllerIndex(event.cdevice.which);
+						SDL_GameControllerClose(m_controllers[cont]);
+						m_controllerIndeces[cont] = -1;
+					}
+					break;
 				case SDL_CONTROLLERBUTTONDOWN:
-					m_controllerState->ButtonDown((SDL_GameControllerButton)event.cbutton.button, event.cbutton.which);
+					m_controllerState->ButtonDown((SDL_GameControllerButton)event.cbutton.button, GetPlayerFromControllerIndex(event.cdevice.which));
 					break;
 				case SDL_CONTROLLERBUTTONUP:
-					m_controllerState->ButtonUp((SDL_GameControllerButton)event.cbutton.button, event.cbutton.which);
+					m_controllerState->ButtonUp((SDL_GameControllerButton)event.cbutton.button, GetPlayerFromControllerIndex(event.cdevice.which));
 					break;
 				case SDL_CONTROLLERAXISMOTION:
-					m_controllerState->Axis((SDL_GameControllerAxis)event.caxis.axis, event.caxis.value, event.caxis.which);
+					m_controllerState->Axis((SDL_GameControllerAxis)event.caxis.axis, event.caxis.value, GetPlayerFromControllerIndex(event.cdevice.which));
 					break;
             }
         }
@@ -363,6 +383,13 @@ namespace Vixen {
 			SDL_DisplayMode mode;
 			SDL_GetDisplayMode(0, i, &mode);
 			DebugPrintF(VTEXT("DisplayMode[%i]: <W: %i, H: %i>\n"), i, mode.w, mode.h);
+		}
+	}
+
+	int SDLGameWindow::GetPlayerFromControllerIndex(int controllerIndex)
+	{
+		for (int i = 0; i < 4; i++) {
+			if (m_controllerIndeces[i] == controllerIndex) return i;
 		}
 	}
 
