@@ -1,18 +1,24 @@
 /*
-	Copyright (C) 2015  Matt Guerrette
+	The MIT License(MIT)
 
-	This program is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+	Copyright(c) 2015 Vixen Team, Matt Guerrette
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files(the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions :
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
 
-	You should have received a copy of the GNU General Public License
-	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
 */
 
 #ifndef VIX_SDLINPUT_H
@@ -54,7 +60,7 @@ namespace Vixen {
 
 		bool VButtonRelease(IMBUTTON button);
 		bool VButtonPress(IMBUTTON button);
-		bool VSingleButtonPress(IMBUTTON button);
+		bool VButtonPressSingle(IMBUTTON button);
 
 		/*State Methods*/
 		void MouseMove(int x, int y);
@@ -88,11 +94,38 @@ namespace Vixen {
 		bool VKeyPress(IKEY key);
 		bool VSingleKeyPress(IKEY key);
 		bool VKeyRelease(IKEY key);
+
 	private:
 		KeyState  m_current;
 		KeyState  m_previous;
 
 		SDL_Scancode convertFromIKEY(IKEY key);
+	};
+
+	class VIX_API SDLControllerState
+	{
+		typedef std::map<SDL_GameControllerButton, bool> ControllerState;
+		typedef std::map<SDL_GameControllerAxis, Sint16> AxisState;
+	public:
+		SDLControllerState();
+
+		void Axis(SDL_GameControllerAxis axis, Sint16 val, int controller);
+		void ButtonDown(SDL_GameControllerButton button, int controller);
+		void ButtonUp(SDL_GameControllerButton button, int controller);
+		void UpdatePrev();
+
+		float VAxis(IAXIS axis, int controller);
+		bool VButtonPress(IBUTTON button, int controller);
+		bool VButtonPressSingle(IBUTTON button, int controller);
+		bool VButtonRelease(IBUTTON button, int controller);
+
+	private:
+		ControllerState m_currentControllers[4];
+		ControllerState m_previousControllers[4];
+		AxisState m_currentAxis[4];
+
+		SDL_GameControllerButton convertFromIBUTTON(IBUTTON button);
+		SDL_GameControllerAxis convertFromIAXIS(IAXIS axis);
 	};
 
 }

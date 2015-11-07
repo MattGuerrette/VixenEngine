@@ -1,18 +1,24 @@
 /*
-	Copyright (C) 2015  Matt Guerrette
+	The MIT License(MIT)
 
-	This program is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+	Copyright(c) 2015 Vixen Team, Matt Guerrette
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files(the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions :
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
 
-	You should have received a copy of the GNU General Public License
-	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
 */
 
 #ifndef VIX_SCENE_H
@@ -20,7 +26,9 @@
 
 #include <vix_containers.h>
 #include <vix_gameobject.h>
+#include <vix_component.h>
 #include <vix_tinyxml.h>
+#include <vix_camera2d.h>
 
 namespace Vixen {
 	class VIX_API Scene
@@ -37,37 +45,48 @@ namespace Vixen {
 
 		/*Adds Object with ID to Scene*/
 		void AddSceneObject(GameObject* object);
-		void QueObjectSpawn(GameObject* object);
-		void QueObjectDestroy(GameObject* object);
+		void RemoveSceneObject(GameObject* object);
+	
 		GameObject* QueryObject(std::string name);
 
-		/*Removes Object with ID from Scene*/
-		void DestroyObjects();
-
 		void SetPaused(bool paused);
+		void SetHidden(bool hidden);
+		
+		bool IsPaused();
+		bool IsHidden();
+		
 
 		/*SETTER FUNCTIONS*/
-		void SetID(UString id);
+		void SetID(std::string id);
+		void SetFileName(std::string name);
+		void SetMainCamera(ICamera3D* camera);
 
 		/*GETTER FUNCTIONS*/
-		const UString& GetID();				//returns ID of scene
-
+		const std::string& GetID();				//returns ID of scene
+		const std::string& GetFileName();
 	private:
-		UString							m_id;				//scene ID
+		uint32_t						m_order;
+		std::string						m_id;				//scene ID
+		std::string						m_fileName;
 		bool							m_paused;
+		bool							m_hidden;
 		std::vector<GameObject*>		m_topLevelObjects;
-		std::vector<GameObject*>        m_objectsToAdd;
-		std::vector<GameObject*>        m_objectsToRemove;
 		ICamera3D*                      m_mainCamera;
+        ICamera2D*                      m_uiCamera;
 
 	public:
-		static Scene* Deserialize(File* file);
-		static GameObject* ParseGameObject(Scene* scene, const tinyxml2::XMLElement* element);
-		static Transform* ParseTransform(const tinyxml2::XMLElement * element);
-		static std::vector<IComponent*>	ParseComponents(Scene* scene, const tinyxml2::XMLElement* element);
-		static CameraComponent*	ParseCameraComponent(Scene* scene, const tinyxml2::XMLElement* element);
-		static LightComponent* ParseLightComponent(const tinyxml2::XMLElement* element);
-		//static LuaScript* ParseLuaScriptComponent(const tinyxml2::XMLElement* element);
+		static Scene*                   Deserialize(File* file);
+
+    private:
+		static GameObject*              ParseGameObject(Scene* scene, const tinyxml2::XMLElement* element);
+		static Transform*               ParseTransform(const tinyxml2::XMLElement * element);
+
+		static std::vector<Component*>	ParseComponents(Scene* scene, const tinyxml2::XMLElement* element);
+		static Component*	            ParseCameraComponent(Scene* scene, const tinyxml2::XMLElement* element);
+		static Component*				ParseLightComponent(const tinyxml2::XMLElement* element);
+		static Component*				ParseLuaScriptComponent(const tinyxml2::XMLElement* element);
+        static Component*				ParseUITextComponent(const tinyxml2::XMLElement* element);
+		static Component*				ParseModelComponent(const tinyxml2::XMLElement* element);
 	};
 }
 #endif

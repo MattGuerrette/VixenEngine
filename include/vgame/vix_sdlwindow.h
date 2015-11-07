@@ -1,18 +1,24 @@
 /*
-	Copyright (C) 2015  Matt Guerrette
+	The MIT License(MIT)
 
-	This program is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+	Copyright(c) 2015 Vixen Team, Matt Guerrette
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files(the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions :
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
 
-	You should have received a copy of the GNU General Public License
-	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
 */
 
 #ifndef VIX_SDLWINDOW_H
@@ -71,10 +77,7 @@ namespace Vixen {
 
 		~SDLGameWindow();
 
-		void                VSetParent(Game* game)                override;
-		void                VSetRenderer(IRenderer* renderer)      override;
 		bool                VInit()                                override;
-		bool                VRun()                                 override;
 		void                VSetVisible(bool flag)                 override;
 		void                VSetFullscreen(bool flag)              override;
 		void                VSwapBuffers()                         override;
@@ -87,15 +90,24 @@ namespace Vixen {
 		void                VToggleCursor()                        override;
 		void                VTogglePaused()                        override;
 		void				VTrapCursorCenter()                    override;
+        void                VSetTitle(std::string title)           override;
         void*               VNativeHandle()                        override;
+
+        bool                VRunning()                             override;
+
+        void                VPollEvents()                          override;
+        void                VPollNextFrame()                       override;
+
+        IKeyboardState*     VKeyboardState()                       override;
+        IMouseState*        VMouseState()                          override;
+		SDLControllerState* VControllerState();
 
 		void                OutputDisplayModes();
 
 	private:
 		SDL_Window*			m_windowHandle;
 		SDL_GLContext		m_context;
-		SDL_GW_Params		m_params;
-		SDLKeyboardState    m_kbState;
+        SDL_GW_Params		m_params;
         void*               m_nativeHandle;
 	};
 

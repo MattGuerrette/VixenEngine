@@ -7,8 +7,8 @@
 #include <vix_gameobject.h>
 #include <vix_scenemanager.h>
 #include <vix_modelmanager.h>
-//#include <vix_luaengine.h>
-//#include <vix_luascriptmanager.h>
+#include <vix_luaengine.h>
+#include <vix_luascriptmanager.h>
 #include <vix_objectmanager.h>
 
 using namespace Vixen;
@@ -20,8 +20,8 @@ public:
 
     void VOnStartup();
     void VOnShutdown();
-    void VOnUpdate();
-    void VOnRender();
+    void VOnUpdate(float dt);
+    void VOnRender(float dt);
 
 private:
     IFont*      m_font;
@@ -38,8 +38,8 @@ TestGame::TestGame()
 void TestGame::VOnStartup()
 {
     ObjectManager::Initialize();
-   /* LuaEngine::Initialize();
-    LuaScriptManager::Initialize();*/
+    LuaEngine::Initialize();
+    LuaScriptManager::Initialize();
     ModelManager::Initialize();
     SceneManager::Initialize();
     SceneManager::OpenScene(VTEXT("scene1"));
@@ -48,17 +48,15 @@ void TestGame::VOnStartup()
 
     m_renderer->VSetClearColor(Vixen::Colors::Black);
 
-    m_font = ResourceManager::OpenFont(VTEXT("Consolas_14.fnt"));
+    m_font = ResourceManager::OpenFont(VTEXT("Consolas_24.fnt"));
 
-    fontTransform = Transform(Vector3(20.0f, 20.0f, 0.0f),
-                              Vector3(0.0f, 0.0f, 0.0f),
-                              Vector3(1.0f, 1.0f, 1.0f));
+    fontTransform = Transform(20.0f, 20.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f);
 
 
     m_window->VToggleCursor();
 }
 
-void TestGame::VOnUpdate()
+void TestGame::VOnUpdate(float dt)
 {
     if (Input::SingleKeyPress(IKEY::F2))
         m_window->VClose();
@@ -75,22 +73,22 @@ void TestGame::VOnUpdate()
     }
 
     
-    SceneManager::UpdateScene();
+    SceneManager::UpdateScene(dt);
 
 	if (!paused)
 	{
-        m_window->VTrapCursorCenter();
+        //m_window->VTrapCursorCenter();
     }
 }
 
-void TestGame::VOnRender()
+void TestGame::VOnRender(float dt)
 {
-    SceneManager::RenderScene();
+    SceneManager::RenderScene(dt);
 
 
     //ALL 2D UI IS DRAW AFTER SCENE IS DRAWN
     USStream ss;
-    ss << "FPS: " << Time::FPS();
+    ss << "FPS: " << m_window->VFPS();
     m_renderer->VRenderText2D(m_font, ss.str(), Vector2(20, 20));
 }
 
@@ -99,7 +97,7 @@ void TestGame::VOnShutdown()
     ModelManager::DeInitialize();
     ObjectManager::DeInitialize();
     SceneManager::DeInitialize();
-   /* LuaEngine::DeInitialize();*/
+    LuaEngine::DeInitialize();
     delete m_font;
 }
 

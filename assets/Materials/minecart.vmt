@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<material>
+  <vertex-shader file="Model_VS.hlsl">
+  </vertex-shader>
+  <pixel-shader file="Model_Textured_PS.hlsl">
+	  <texture name="txDiffuse" file="minecart.png"/>
+  </pixel-shader>
+</material>

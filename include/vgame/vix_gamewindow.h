@@ -1,18 +1,24 @@
 /*
-	Copyright (C) 2015  Matt Guerrette
+	The MIT License(MIT)
 
-	This program is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+	Copyright(c) 2015 Vixen Team, Matt Guerrette
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files(the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions :
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
 
-	You should have received a copy of the GNU General Public License
-	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
 */
 
 #ifndef VIX_GAMEWINDOW_H
@@ -23,10 +29,14 @@
 #include <vix_stringutil.h>
 #include <vix_rectangle.h>
 #include <vix_renderer.h>
+#include <vix_keyboardstate.h>
+#include <vix_mousestate.h>
 
 namespace Vixen {
 
 	class Game;
+
+	class SDLControllerState;
 
 	class VIX_API GameWindow : INonCopy
 	{
@@ -34,10 +44,7 @@ namespace Vixen {
 	public:
 		virtual ~GameWindow() { }
 
-		virtual void               VSetParent(Game* game) = 0;
-		virtual void               VSetRenderer(IRenderer* renderer) = 0;
 		virtual bool               VInit() = 0;
-		virtual bool               VRun() = 0;
 		virtual void               VSetFullscreen(bool flag) = 0;
 		virtual void               VSetVisible(bool flag) = 0;
 		virtual void               VTogglePaused() = 0;
@@ -50,16 +57,26 @@ namespace Vixen {
 		virtual void               VClose() = 0;
 		virtual void               VToggleCursor() = 0;
 		virtual void               VTrapCursorCenter() = 0;
+        virtual void               VSetTitle(std::string title) = 0;
         virtual void*              VNativeHandle() = 0;
+        virtual void               VPollEvents() = 0;
+        virtual void               VPollNextFrame() = 0;
+
+        virtual bool               VRunning() = 0;
+
+        virtual IKeyboardState*    VKeyboardState() = 0;
+        virtual IMouseState*       VMouseState() = 0;
+		virtual SDLControllerState* VControllerState() = 0;
 
 		static const size_t DEF_WINDOW_WIDTH = 800;
 		static const size_t DEF_WINDOW_HEIGHT = 600;
 
 	protected:
-		Game*               m_parent;
-		IRenderer*          m_renderer;
 		UString				m_title;
 		Rect                m_clientRect;
+        IKeyboardState*     m_keyboardState;
+        IMouseState*        m_mouseState;
+		SDLControllerState* m_controllerState;
 		bool				m_hidden;
 		bool				m_running;
 		bool				m_paused;

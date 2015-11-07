@@ -1,18 +1,24 @@
 /*
-	Copyright (C) 2015  Matt Guerrette
+	The MIT License(MIT)
 
-	This program is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+	Copyright(c) 2015 Vixen Team, Matt Guerrette
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files(the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions :
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
 
-	You should have received a copy of the GNU General Public License
-	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
 */
 
 #include <vix_sdlinput.h>
@@ -66,9 +72,9 @@ namespace Vixen {
 
 	int SDLMouseState::VMouseWheelY()
 	{
-
+		
 		return m_wy;
-
+		
 	}
 
 	int SDLMouseState::VDeltaX(int val)
@@ -109,7 +115,7 @@ namespace Vixen {
             return m_current[MOUSECS_MIDDLE].state == SDL_RELEASED && m_prev[MOUSECS_MIDDLE].state == SDL_PRESSED;
 	}
 
-	bool SDLMouseState::VSingleButtonPress(IMBUTTON button)
+	bool SDLMouseState::VButtonPressSingle(IMBUTTON button)
 	{
         if(button == IMBUTTON::LEFT)
             return m_current[MOUSECS_LEFT].state == SDL_PRESSED && m_prev[MOUSECS_LEFT].state == SDL_RELEASED;
@@ -312,10 +318,118 @@ namespace Vixen {
 			return SDL_SCANCODE_8;
 		case Vixen::IKEY::NUM9:
 			return SDL_SCANCODE_9;
+		case Vixen::IKEY::ESC:
+			return SDL_SCANCODE_ESCAPE;
 		default:
 			return SDL_SCANCODE_0;
 			break;
 		}
 	}
 
+
+	/*************************CONTROLLER***********************/
+
+	SDLControllerState::SDLControllerState()
+	{
+
+	}
+
+	void SDLControllerState::Axis(SDL_GameControllerAxis axis, Sint16 val, int controller)
+	{
+		m_currentAxis[controller][axis] = val;
+	}
+
+	void SDLControllerState::ButtonDown(SDL_GameControllerButton button, int controller)
+	{
+		m_currentControllers[controller][button] = true;
+	}
+
+	void SDLControllerState::ButtonUp(SDL_GameControllerButton button, int controller)
+	{
+		m_currentControllers[controller][button] = false;
+	}
+
+	void SDLControllerState::UpdatePrev()
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			m_previousControllers[i] = m_currentControllers[i];
+		}
+	}
+
+	float SDLControllerState::VAxis(IAXIS axis, int controller)
+	{
+		SDL_GameControllerAxis code = convertFromIAXIS(axis);
+		return (float)m_currentAxis[controller][code] / (float)INT16_MAX;
+	}
+
+	bool SDLControllerState::VButtonPress(IBUTTON button, int controller)
+	{
+		SDL_GameControllerButton code = convertFromIBUTTON(button);
+		return m_currentControllers[controller][code];
+	}
+
+	bool SDLControllerState::VButtonPressSingle(IBUTTON button, int controller)
+	{
+		SDL_GameControllerButton code = convertFromIBUTTON(button);
+		return m_currentControllers[controller][code] && !m_previousControllers[controller][code];
+	}
+
+	bool SDLControllerState::VButtonRelease(IBUTTON button, int controller)
+	{
+		SDL_GameControllerButton code = convertFromIBUTTON(button);
+		return !m_currentControllers[controller][code] && m_previousControllers[controller][code];
+	}
+
+	SDL_GameControllerButton SDLControllerState::convertFromIBUTTON(IBUTTON button)
+	{
+		switch (button)
+		{
+		case Vixen::IBUTTON::UP:
+			return SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_DPAD_UP;
+		case Vixen::IBUTTON::LEFT:
+			return SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_DPAD_LEFT;
+		case Vixen::IBUTTON::DOWN:
+			return SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_DPAD_DOWN;
+		case Vixen::IBUTTON::RIGHT:
+			return SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_DPAD_RIGHT;
+		case Vixen::IBUTTON::A:
+			return SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_A;
+		case Vixen::IBUTTON::B:
+			return SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_B;
+		case Vixen::IBUTTON::X:
+			return SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_X;
+		case Vixen::IBUTTON::Y:
+			return SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_Y;
+		case Vixen::IBUTTON::LEFTBUMPER:
+			return SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_LEFTSHOULDER;
+		case Vixen::IBUTTON::RIGHTBUMPER:
+			return SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_RIGHTSHOULDER;
+		case Vixen::IBUTTON::START:
+			return SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_START;
+		default:
+			return SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_INVALID;
+		}
+	}
+
+	SDL_GameControllerAxis SDLControllerState::convertFromIAXIS(IAXIS axis)
+	{
+		switch (axis)
+		{
+		case Vixen::IAXIS::LEFTX:
+			return SDL_GameControllerAxis::SDL_CONTROLLER_AXIS_LEFTX;
+		case Vixen::IAXIS::LEFTY:
+			return SDL_GameControllerAxis::SDL_CONTROLLER_AXIS_LEFTY;
+		case Vixen::IAXIS::RIGHTX:
+			return SDL_GameControllerAxis::SDL_CONTROLLER_AXIS_RIGHTX;
+		case Vixen::IAXIS::RIGHTY:
+			return SDL_GameControllerAxis::SDL_CONTROLLER_AXIS_RIGHTY;
+		case Vixen::IAXIS::LEFTTRIGGER:
+			return SDL_GameControllerAxis::SDL_CONTROLLER_AXIS_TRIGGERLEFT;
+		case Vixen::IAXIS::RIGHTTRIGGER:
+			return SDL_GameControllerAxis::SDL_CONTROLLER_AXIS_TRIGGERRIGHT;
+		default:
+			return SDL_GameControllerAxis::SDL_CONTROLLER_AXIS_INVALID;
+		}
+	}
 }

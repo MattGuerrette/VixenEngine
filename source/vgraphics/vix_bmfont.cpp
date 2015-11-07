@@ -1,35 +1,44 @@
 /*
-	Copyright (C) 2015  Matt Guerrette
+	The MIT License(MIT)
 
-	This program is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+	Copyright(c) 2015 Vixen Team, Matt Guerrette
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files(the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions :
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
 
-	You should have received a copy of the GNU General Public License
-	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
 */
 
 #include <vix_bmfont.h>
 #include <vix_tinyxml.h>
 #include <vix_debugutil.h>
 #include <vix_resourcemanager.h>
+#include <vix_rectangle.h>
 
 namespace Vixen {
 
     BMFont::BMFont()
+        : Font()
     {
 
     }
 
     BMFont::~BMFont()
     {
-        STLVEC_DELETE(m_textures);
+		for (auto& tex : m_textures)
+			ResourceManager::DecrementAssetRef(tex);
     }
 
     bool BMFont::VInitFromFile(File* file)
@@ -58,7 +67,7 @@ namespace Vixen {
 
         for (auto& page : m_fontFile.pages) {
             UString texturePath = page.file;
-            ITexture* texture = ResourceManager::OpenTexture(texturePath);
+            Texture* texture = ResourceManager::OpenTexture(texturePath);
             if (texture)
                 m_textures.push_back(texture);
         }
@@ -66,7 +75,7 @@ namespace Vixen {
         return true;
     }
 
-    ITexture* BMFont::VPageTexture(size_t index)
+    Texture* BMFont::VPageTexture(size_t index)
     {
         if (index > m_textures.size())
             return NULL;
@@ -76,7 +85,7 @@ namespace Vixen {
 
     bool BMFont::VFindChar(UChar c, FontChar& fontChar)
     {
-        IFont::CharMap::iterator it = m_charMap.find(c);
+        Font::CharMap::iterator it = m_charMap.find(c);
         if (it != m_charMap.end())
         {
             fontChar = it->second;
@@ -90,6 +99,37 @@ namespace Vixen {
     {
         return m_fontFile.common.lineHeight;
     }
+
+
+	Rect BMFont::VBounds(UString text)
+	{
+		Rect bounds;
+		int dx = 0;
+		int lineH = m_fontFile.common.lineHeight;
+		int dy = lineH;
+		/*Iterate over characters in text*/
+		for (const UChar& c : text)
+		{
+			if (c == '\n') {
+				dx = 0;
+				dy += lineH;
+			}
+
+			//Find the font character and advance the
+			//pixel units based on the xAdvance value
+			FontChar fc;
+			if (VFindChar(c, fc)) {
+				dx += fc.xAdvance;
+			}
+		}
+
+		bounds.x = 0;
+		bounds.y = 0;
+		bounds.w = dx;
+		bounds.h = dy;
+
+		return bounds;
+	}
 
 
     void BMFont::ReadFontInfo(XMLDOC& doc, BMFontFile& file)

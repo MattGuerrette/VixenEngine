@@ -1,22 +1,29 @@
 /*
-	Copyright (C) 2015  Matt Guerrette
+	The MIT License(MIT)
 
-	This program is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+	Copyright(c) 2015 Vixen Team, Matt Guerrette
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files(the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions :
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
 
-	You should have received a copy of the GNU General Public License
-	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
 */
 
 #include <vix_dxrenderer.h>
 #include <vix_dxprimitivecube.h>
+#include <vix_dxvertexshader.h>
 #include <vix_dxquad.h>
 #include <vix_freeimage.h>
 #include <vix_filemanager.h>
@@ -32,14 +39,14 @@ namespace Vixen {
 
     DXRenderer::~DXRenderer()
     {
-
+        
     }
 
     void DXRenderer::VDeInitialize()
     {
         if(m_ImmediateContext)
             m_ImmediateContext->ClearState();
-
+    
         ReleaseCOM(m_RenderTargetView);
         ReleaseCOM(m_DepthStencView);
         ReleaseCOM(m_SwapChain);
@@ -85,14 +92,14 @@ namespace Vixen {
 
             hr = D3D11CreateDevice(NULL, drivers[i], NULL, createDeviceFlags,
                 featureLevels, numLevels, D3D11_SDK_VERSION, &m_Device, &m_FeatureLevel, &m_ImmediateContext);
-
+       
             if (SUCCEEDED(hr))
                 break;
         }
         if (FAILED(hr))
             return false;
 
-
+        
 
         //Check multisampling support.
         //NOTE:
@@ -153,7 +160,7 @@ namespace Vixen {
         ReleaseCOM(dxgiDevice);
         ReleaseCOM(dxgiAdapter);
         ReleaseCOM(dxgiFactory);
-
+        
         //CREATE RENDER TARGET VIEW
         ID3D11Texture2D* backBuffer;
         hr = m_SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D),
@@ -165,7 +172,7 @@ namespace Vixen {
             return false;
         ReleaseCOM(backBuffer);
 
-
+        
         //CREATE DEPTH/STENCIL VIEW
         D3D11_TEXTURE2D_DESC dsd;
         dsd.Width = width;
@@ -201,7 +208,7 @@ namespace Vixen {
 
         m_ImmediateContext->OMSetRenderTargets(1, &m_RenderTargetView, m_DepthStencView);
 
-
+       
         D3D11_VIEWPORT vp;
         vp.TopLeftX = 0.0f;
         vp.TopLeftY = 0.0f;
@@ -212,9 +219,6 @@ namespace Vixen {
 
         m_ImmediateContext->RSSetViewports(1, &vp);
 
-        m_spriteBatch = new DXSpriteBatcher(m_Device, m_ImmediateContext);
-        m_spriteBatch->SetVertexShader((DXVertexShader*)ResourceManager::OpenShader(VTEXT("SpriteBatch_VS.hlsl"), ShaderType::VERTEX_SHADER));
-        m_spriteBatch->SetPixelShader((DXPixelShader*)ResourceManager::OpenShader(VTEXT("SpriteBatch_PS.hlsl"), ShaderType::PIXEL_SHADER));
 
         OrthoRect _ortho;
         _ortho.left = 0.0f;
@@ -222,12 +226,7 @@ namespace Vixen {
         _ortho.top = 0.0f;
         _ortho.bottom = static_cast<float>(height);
         m_camera2D->VSetOrthoRHOffCenter(_ortho, 0.0f, 1.0f);
-
-        //m_camera3D->VSetPerspective(static_cast<float>(width) / static_cast<float>(height),
-           // DirectX::XMConvertToRadians(45.0f), 0.01f, 1000.0f);
-        //m_camera3D->VSetView(Vector3(0.0f, 10.0f, 0.0f), Vector3(0.0f, 0.0f, 1.0f), Vector3(0.0f, 1.0f, 0.0f));
-
-        m_spriteBatch->SetCamera(m_camera2D);
+  
 
 
         D3D11_BLEND_DESC blendDesc;
@@ -239,8 +238,8 @@ namespace Vixen {
         blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
         blendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
 
-        blendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_SRC_ALPHA;
-        blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_DEST_ALPHA;
+        blendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_SRC_ALPHA;        
+        blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_DEST_ALPHA; 
         blendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
         blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
@@ -250,10 +249,25 @@ namespace Vixen {
 
         ReleaseCOM(state);
 
-
-
+        
+        
 
         return true;
+    }
+
+    void DXRenderer::VInitializeSpriteBatch()
+    {
+        m_spriteBatch = new DXSpriteBatcher(m_Device, m_ImmediateContext);
+
+		DXVertexShader* _vShader = (DXVertexShader*)ResourceManager::OpenShader(VTEXT("SpriteBatch_VS.hlsl"), ShaderType::VERTEX_SHADER);
+		_vShader->IncrementRefCount();
+        m_spriteBatch->SetVertexShader(_vShader);
+
+		DXPixelShader* _pShader = (DXPixelShader*)ResourceManager::OpenShader(VTEXT("SpriteBatch_PS.hlsl"), ShaderType::PIXEL_SHADER);
+		_pShader->IncrementRefCount();
+        m_spriteBatch->SetPixelShader(_pShader);
+
+        m_spriteBatch->SetCamera(m_camera2D);
     }
 
     void DXRenderer::VSetClearColor(const Color& c)
@@ -289,7 +303,7 @@ namespace Vixen {
         return m_ImmediateContext;
     }
 
-    void DXRenderer::VRenderTexture2D(ITexture* texture, const Vector2& position, const Rect& source)
+    void DXRenderer::VRenderTexture2D(Texture* texture, const Vector2& position, const Rect& source)
     {
         BatchInfo info;
         info.x = position.x;
@@ -315,17 +329,28 @@ namespace Vixen {
         m_spriteBatch->End();
     }
 
-    void DXRenderer::VRenderText2D(IFont* font, UString text, const Vector2& position)
+    void DXRenderer::VRenderText2D(Font* font, UString text, const Vector2& position)
     {
         m_spriteBatch->Begin(BatchSortMode::IMMEDITATE);
 
-        float dx = position.x;
-        float dy = position.y;
+		float x = position.x;
+		if (position.x == -1) {
+			float midX = static_cast<float>((1280 - font->VBounds(text).w) / 2);
+			x = midX;
+		}
+		float y = position.y;
+		if (position.y == -1) {
+			float midY = static_cast<float>((720 - font->VBounds(text).h) / 2);
+			y = midY;
+		}
+
+		float dx = x;
+		float dy = y;
         for (UChar &c : text)
         {
             if (c == '\n')
             {
-                dx = position.x;
+                dx = x;
                 dy += font->VLineHeight();
                 continue;
             }

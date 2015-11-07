@@ -1,31 +1,38 @@
 /*
-	Copyright (C) 2015  Matt Guerrette
+	The MIT License(MIT)
 
-	This program is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+	Copyright(c) 2015 Vixen Team, Matt Guerrette
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files(the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions :
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
 
-	You should have received a copy of the GNU General Public License
-	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
 */
 
-
 #include <vix_dxshader.h>
+#include <vix_dxtexture.h>
 
 namespace Vixen {
 
     DXShader::DXShader(ID3D11Device* device, ID3D11DeviceContext* context, ShaderType type)
+        : Shader()
     {
         m_type = type;
         m_device = device;
         m_context = context;
-        m_shaderReflection = NULL;
+		m_shaderReflection = NULL;
     }
 
     DXShader::~DXShader()
@@ -82,16 +89,16 @@ namespace Vixen {
         SampleTable::iterator it = m_sampTable.find(name);
         if (it == m_sampTable.end())
             return -1;
-
+        
         return it->second;
     }
 
     bool DXShader::VInitFromFile(File* file)
     {
-
+        
         if (!this->VInitShader(file))
             return false;
-
+            
         if (!m_shaderReflection)
         {
             //Reflect shader info
@@ -149,7 +156,7 @@ namespace Vixen {
             //set up buffer and put its pointer into the table
             m_cbArray[i].BindIndex = bindDesc.BindPoint;
             m_cbTable.insert(std::pair<std::string, ConstantBuffer*>(bufferDesc.Name, &m_cbArray[i]));
-
+        
             //Create this constant buffer
             D3D11_BUFFER_DESC _newBufferDesc;
             _newBufferDesc.Usage = D3D11_USAGE_DEFAULT;
@@ -159,7 +166,7 @@ namespace Vixen {
             _newBufferDesc.MiscFlags = 0;
             _newBufferDesc.StructureByteStride = 0;
             m_device->CreateBuffer(&_newBufferDesc, 0, &m_cbArray[i].Buffer);
-
+        
             //setup the data buffer for the cb
             m_cbArray[i].LocalDataBuffer = new BYTE[bufferDesc.Size];
             ZeroMemory(m_cbArray[i].LocalDataBuffer, bufferDesc.Size);
@@ -180,7 +187,7 @@ namespace Vixen {
                 variable.ConstantBufferIndex = i;
                 variable.ByteOffset = varDesc.StartOffset;
                 variable.Size = varDesc.Size;
-
+                
                 //Get a string representation
                 std::string varName = varDesc.Name;
 
@@ -231,7 +238,7 @@ namespace Vixen {
                                      cb->LocalDataBuffer, NULL, NULL);
     }
 
-    bool DXShader::SetData(std::string name, const void* data, size_t size)
+    bool DXShader::VSetData(std::string name, const void* data, size_t size)
     {
         //Grab variable by name
         ShaderVariable* var = FindVariable(name, size);
@@ -245,53 +252,62 @@ namespace Vixen {
         return true;
     }
 
-    bool DXShader::SetInt(std::string name, int data)
+    bool DXShader::VSetInt(std::string name, int data)
     {
-        return SetData(name, static_cast<void*>(&data), sizeof(int));
+        return VSetData(name, static_cast<void*>(&data), sizeof(int));
     }
 
-    bool DXShader::SetFloat(std::string name, float data)
+    bool DXShader::VSetFloat(std::string name, float data)
     {
-        return SetData(name, static_cast<void*>(&data), sizeof(float));
+        return VSetData(name, static_cast<void*>(&data), sizeof(float));
     }
 
-    bool DXShader::SetFloat2(std::string name, const float data[2])
+    bool DXShader::VSetFloat2(std::string name, const float data[2])
     {
-        return SetData(name, static_cast<void*>(&data), sizeof(float) * 2);
+        return VSetData(name, static_cast<void*>(&data), sizeof(float) * 2);
     }
-
+    
     bool DXShader::SetFloat2(std::string name, const DirectX::XMFLOAT2 data)
     {
-        return SetData(name, &data, sizeof(float) * 2);
+        return VSetData(name, &data, sizeof(float) * 2);
     }
-
-    bool DXShader::SetFloat3(std::string name, const float data[3])
+  
+    bool DXShader::VSetFloat3(std::string name, const float data[3])
     {
-        return SetData(name, static_cast<void*>(&data), sizeof(float) * 3);
+        return VSetData(name, static_cast<void*>(&data), sizeof(float) * 3);
     }
 
     bool DXShader::SetFloat3(std::string name, const DirectX::XMFLOAT3 data)
     {
-        return SetData(name, &data, sizeof(float) * 3);
+        return VSetData(name, &data, sizeof(float) * 3);
     }
 
-    bool DXShader::SetFloat4(std::string name, const float data[4])
+    bool DXShader::VSetFloat4(std::string name, const float data[4])
     {
-        return SetData(name, static_cast<void*>(&data), sizeof(float) * 4);
+        return VSetData(name, static_cast<void*>(&data), sizeof(float) * 4);
     }
 
     bool DXShader::SetFloat4(std::string name, const DirectX::XMFLOAT4 data)
     {
-        return SetData(name, &data, sizeof(float) * 4);
+        return VSetData(name, &data, sizeof(float) * 4);
     }
 
-    bool DXShader::SetMatrix4x4(std::string name, const float data[16])
+    bool DXShader::VSetMatrix4x4(std::string name, const float data[16])
     {
-        return SetData(name, static_cast<void*>(&data), sizeof(float) * 16);
+        return VSetData(name, static_cast<void*>(&data), sizeof(float) * 16);
     }
 
     bool DXShader::SetMatrix4x4(std::string name, const DirectX::XMFLOAT4X4 data)
     {
-        return SetData(name, &data, sizeof(float) * 16);
+        return VSetData(name, &data, sizeof(float) * 16);
     }
+
+	bool DXShader::VBindTexture(std::string name, Texture* texture)
+	{
+		bool success = true;
+		success = VSetSamplerState("samLinear", ((DXTexture*)texture)->SampleState());
+		success = VSetShaderResourceView(name, ((DXTexture*)texture)->ResourceView());
+
+		return success;
+	}
 }

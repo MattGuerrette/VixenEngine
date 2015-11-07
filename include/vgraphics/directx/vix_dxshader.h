@@ -1,18 +1,24 @@
 /*
-	Copyright (C) 2015  Matt Guerrette
+	The MIT License(MIT)
 
-	This program is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+	Copyright(c) 2015 Vixen Team, Matt Guerrette
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files(the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions :
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
 
-	You should have received a copy of the GNU General Public License
-	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
 */
 
 
@@ -29,6 +35,7 @@
 #include <vix_shader.h>
 #include <vix_directx.h>
 #include <vix_containers.h>
+#include <vix_texture.h>
 
 namespace Vixen {
 
@@ -46,7 +53,7 @@ namespace Vixen {
         size_t ConstantBufferIndex;
     };
 
-    class VIX_API DXShader : public IShader
+    class VIX_API DXShader : public Shader
     {
         typedef std::unordered_map<std::string, ConstantBuffer*> CBTable;
         typedef std::unordered_map<std::string, ShaderVariable>  SVTable;
@@ -69,17 +76,20 @@ namespace Vixen {
         void UpdateBuffer(std::string name);
 
         //Set Shader Data
-        bool SetData(std::string name, const void* data, size_t size);
-        bool SetInt(std::string name, int data);
-        bool SetFloat(std::string name, float data);
-        bool SetFloat2(std::string name, const float data[2]);
-        bool SetFloat2(std::string name, const DirectX::XMFLOAT2 data);
-        bool SetFloat3(std::string name, const float data[3]);
-        bool SetFloat3(std::string name, const DirectX::XMFLOAT3 data);
-        bool SetFloat4(std::string name, const float data[4]);
-        bool SetFloat4(std::string name, const DirectX::XMFLOAT4 data);
-        bool SetMatrix4x4(std::string name, const float data[16]);
-        bool SetMatrix4x4(std::string name, const DirectX::XMFLOAT4X4 data);
+        bool VSetData(std::string name, const void* data, size_t size);
+        bool VSetInt(std::string name, int data);
+        bool VSetFloat(std::string name, float data);
+        bool VSetFloat2(std::string name, const float data[2]);
+        bool VSetFloat3(std::string name, const float data[3]);
+        bool VSetFloat4(std::string name, const float data[4]);
+        bool VSetMatrix4x4(std::string name, const float data[16]);
+
+		bool SetFloat2(std::string name, const DirectX::XMFLOAT2 data);
+		bool SetFloat3(std::string name, const DirectX::XMFLOAT3 data);
+		bool SetFloat4(std::string name, const DirectX::XMFLOAT4 data);
+		bool SetMatrix4x4(std::string name, const DirectX::XMFLOAT4X4 data);
+
+		bool VBindTexture(std::string name, Texture* texture);
 
         virtual bool VSetShaderResourceView(std::string name, ID3D11ShaderResourceView* rv) = 0;
         virtual bool VSetSamplerState(std::string name, ID3D11SamplerState* ss) = 0;
@@ -106,7 +116,7 @@ namespace Vixen {
         ID3DBlob*               m_shaderBlob;
         ID3D11ShaderReflection* m_shaderReflection;
 
-
+        
     };
 
 }

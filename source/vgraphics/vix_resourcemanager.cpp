@@ -1,28 +1,59 @@
 /*
-	Copyright (C) 2015  Matt Guerrette
+    The MIT License(MIT)
 
-	This program is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+    Copyright(c) 2015 Matt Guerrette
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files(the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions :
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
 
-	You should have received a copy of the GNU General Public License
-	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
 */
 
 #include <vix_resourcemanager.h>
 #include <vix_pathmanager.h>
+#include <vix_renderer_singleton.h>
+
+#ifdef VIX_SYS_WINDOWS
+#include <vix_dxresourceloader.h>
+#endif
+
+#include <vix_fileutil.h>
 
 namespace Vixen {
 
     ResourceManager::~ResourceManager()
     {
 
+    }
+
+    bool ResourceManager::Initialize()
+    {
+        ResourceManager& _manager = ResourceManager::instance();
+
+#ifdef VIX_SYS_WINDOWS
+        _manager.m_resourceLoader = new DXResourceLoader((DXRenderer*)Renderer::Handle());
+#endif
+
+        return true;
+    }
+
+    void ResourceManager::DeInitialize()
+    {
+        ResourceManager& _manager = ResourceManager::instance();
+
+        delete _manager.m_resourceLoader;
     }
 
     void ResourceManager::AttachResourceLoader(IResourceLoader* loader)
@@ -32,34 +63,51 @@ namespace Vixen {
         _RM.m_resourceLoader = loader;
     }
 
-    ITexture* ResourceManager::OpenTexture(UString filePath)
+    Texture* ResourceManager::OpenTexture(UString filePath)
     {
         UString assetPath = PathManager::AssetPath() + VTEXT("Textures/");
 
         assetPath += filePath;
         assetPath = os_path(assetPath);
 
+		Texture* _texture = NULL;
+
         File* file = FileManager::OpenFile(assetPath);
         if (file)
         {
             //Create Renderer Specific texture type
             ResourceManager& _RM = ResourceManager::instance();
 
-            if(_RM.m_resourceLoader)
-                return _RM.m_resourceLoader->LoadTexture(file);
+			if (_RM.m_resourceLoader)
+			{
+				_texture = (Texture*)ResourceManager::AccessAsset(file->FileName());
 
+				if (!_texture)
+				{
+					_texture = _RM.m_resourceLoader->LoadTexture(file);
+
+					ResourceManager::MapAsset(file->FileName(), (Asset*)_texture);
+
+				}
+				
+				FileManager::CloseFile(file);
+			}
+               
+            
         }
 
-        return NULL;
+		return _texture;
     }
 
-    IShader* ResourceManager::OpenShader(UString filePath, ShaderType type)
+    Shader* ResourceManager::OpenShader(UString filePath, ShaderType type)
     {
         UString assetPath = PathManager::ShaderPath();
 
         assetPath += filePath;
         assetPath = os_path(assetPath);
 
+		Shader* _shader = NULL;
+
         File* file = FileManager::OpenFile(assetPath);
         if (file)
         {
@@ -68,24 +116,31 @@ namespace Vixen {
 
             if (_RM.m_resourceLoader)
             {
-               IShader* _shader = _RM.m_resourceLoader->LoadShader(file, type);
+				_shader = (Shader*)ResourceManager::AccessAsset(file->FileName());
+
+				if (!_shader)
+				{
+					_shader = _RM.m_resourceLoader->LoadShader(file, type);
+
+					ResourceManager::MapAsset(file->FileName(), _shader);
+				}
+              
                FileManager::CloseFile(assetPath);
-               return _shader;
             }
-
-
         }
 
-        return NULL;
+        return _shader;
     }
 
-    IModel* ResourceManager::OpenModel(UString filePath)
+    Model* ResourceManager::OpenModel(UString filePath)
     {
         UString assetPath = PathManager::ModelPath();
 
         assetPath += filePath;
         assetPath = os_path(assetPath);
 
+		Model* _model = NULL;
+
         File* file = FileManager::OpenFile(assetPath);
         if (file)
         {
@@ -94,23 +149,34 @@ namespace Vixen {
 
             if (_RM.m_resourceLoader)
             {
-                //Need to load a model object into memory
-                IModel* _model = _RM.m_resourceLoader->LoadModel(file);
-                FileManager::CloseFile(assetPath);
-                return _model;
+				_model = (Model*)ResourceManager::AccessAsset(file->FileName());
+
+				if (!_model)
+				{
+					//Need to load a model object into memory
+					_model = _RM.m_resourceLoader->LoadModel(file);
+
+					_RM.m_modelMap[file->FileName()] = _model;
+
+					ResourceManager::MapAsset(file->FileName(), _model);
+				}
+
+				FileManager::CloseFile(file);
             }
         }
 
-        return NULL;
+        return _model;
     }
 
-    IFont* ResourceManager::OpenFont(UString filePath)
+    Font* ResourceManager::OpenFont(UString filePath)
     {
         UString assetPath = PathManager::AssetPath() + VTEXT("Fonts/");
 
         assetPath += filePath;
         assetPath = os_path(assetPath);
 
+		Font* _font = NULL;
+
         File* file = FileManager::OpenFile(assetPath);
         if (file)
         {
@@ -119,14 +185,134 @@ namespace Vixen {
 
             if (_RM.m_resourceLoader)
             {
-                //Need to load a model object into memory
-                IFont* _font = _RM.m_resourceLoader->LoadFont(file);
+				_font = (Font*)ResourceManager::AccessAsset(file->FileName());
+
+				if (!_font)
+				{
+					//Need to load a font object into memory
+					_font = _RM.m_resourceLoader->LoadFont(file);
+				
+					ResourceManager::MapAsset(file->FileName(), _font);
+				}
+
                 FileManager::CloseFile(file);
-                return _font;
             }
         }
 
-        return NULL;
+        return _font;
     }
 
+	Material* ResourceManager::OpenMaterial(UString filePath)
+	{
+		UString assetPath = PathManager::MaterialPath();
+
+		assetPath += filePath;
+		assetPath = os_path(assetPath);
+
+		Material* _material = NULL;
+
+		File* file = FileManager::OpenFile(assetPath);
+		if (file)
+		{
+			//Create Renderer Specific model type
+			ResourceManager& _RM = ResourceManager::instance();
+
+			if (_RM.m_resourceLoader)
+			{
+				_material = (Material*)ResourceManager::AccessAsset(file->FileName());
+
+				if (!_material)
+				{
+					//Need to load a material object into memory
+					_material = _RM.m_resourceLoader->LoadMaterial(file);
+
+					
+					ResourceManager::MapAsset(file->FileName(), _material);
+				}
+				
+				FileManager::CloseFile(file);
+			}
+		}
+
+		return _material;
+	}
+
+	Asset* ResourceManager::AccessAsset(UString assetName)
+	{
+		ResourceManager& _RM = ResourceManager::instance();
+		
+		std::map<UString, Asset*>::iterator it;
+
+		it = _RM.m_assetMap.find(assetName);
+		if (it != _RM.m_assetMap.end())
+			return it->second;
+		else
+			return NULL;
+	}
+
+	void ResourceManager::MapAsset(UString assetName, Asset* asset)
+	{
+		ResourceManager& _RM = ResourceManager::instance();
+
+		asset->SetFileName(assetName);
+		_RM.m_assetMap[assetName] = asset;
+	}
+
+	void ResourceManager::ReleaseAsset(Asset* asset)
+	{
+		if (!asset)
+			return;
+
+		if (asset->RefCount() <= 0)
+			delete asset;
+		else
+			asset->DecrementRefCount();
+	}
+
+	std::map<UString, Model*>& ResourceManager::ModelMap()
+	{
+		return ResourceManager::instance().m_modelMap;
+	}
+
+    void ResourceManager::IncrementAssetRef(Asset* asset)
+    {
+        if (asset)
+            asset->IncrementRefCount();
+    }
+
+    void ResourceManager::DecrementAssetRef(Asset* asset)
+    {
+		ResourceManager& _RM = ResourceManager::instance();
+
+		if (asset->RefCount() <= 1) {
+
+			UString fileName = asset->FileName();
+
+			delete asset;
+			asset = nullptr;
+
+			if (Vixen::getFileExtension(fileName, false) == VTEXT(".obj"))
+				_RM.m_modelMap[fileName] = nullptr;
+
+			_RM.m_assetMap[fileName] = nullptr;
+		}
+			
+
+        if (asset)
+            asset->DecrementRefCount();
+    }
+
+	void ResourceManager::PrintLoaded()
+	{
+		ResourceManager& _RM = ResourceManager::instance();
+
+		for (auto& asset : _RM.m_assetMap)
+		{
+			Asset* _asset = asset.second;
+			if (_asset) {
+				DebugPrintF(VTEXT("File: %s\n"), _asset->FileName().c_str());
+				DebugPrintF(VTEXT("RefCount: %d\n"), _asset->RefCount());
+			}
+		}
+	}
 }

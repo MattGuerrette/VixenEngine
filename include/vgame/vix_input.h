@@ -1,25 +1,31 @@
 /*
-	Copyright (C) 2015  Matt Guerrette
+	The MIT License(MIT)
 
-	This program is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+	Copyright(c) 2015 Vixen Team, Matt Guerrette
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files(the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions :
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
 
-	You should have received a copy of the GNU General Public License
-	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
 */
 
 #ifndef VIX_INPUT_H
 #define VIX_INPUT_H
 
 #include <vix_platform.h>
-
+#include <cstdint>
 
 namespace Vixen {
 
@@ -85,34 +91,67 @@ namespace Vixen {
 		NUM8,
 		NUM9,
 		NUM0,
+		ESC
+	};
+
+	enum class IBUTTON {
+		UP,
+		LEFT,
+		DOWN,
+		RIGHT,
+		A,
+		B,
+		X,
+		Y,
+		LEFTBUMPER,
+		RIGHTBUMPER,
+		START,
+		BACK
+	};
+
+	enum class IAXIS {
+		LEFTX,
+		LEFTY,
+		RIGHTX,
+		RIGHTY,
+		RIGHTTRIGGER,
+		LEFTTRIGGER
 	};
 
 	class IKeyboardState;
     class IMouseState;
+	class SDLControllerState;
 
 	class VIX_API Input
 	{
 	public:
-		static bool KeyPress(IKEY key);
-		static bool SingleKeyPress(IKEY key);
-		static bool KeyRelease(IKEY key);
 		static void SetKeyboardState(IKeyboardState* keyState);
-        static void SetMouseState(IMouseState* mouseState);
+		static bool KeyPress(IKEY key);
+		static bool KeyPressSingle(IKEY key);
+		static bool KeyRelease(IKEY key);
 
+
+        static void SetMouseState(IMouseState* mouseState);
         static int  MouseX();
         static int  MouseY();
 		static int  MouseWheelX();
 		static int  MouseWheelY();
         static int  DeltaX(int val);
         static int  DeltaY(int val);
+        static bool MouseButtonPress(IMBUTTON button);
+        static bool MouseButtonPressSingle(IMBUTTON button);
+		static bool MouseButtonRelease(IMBUTTON button);
 
-        static bool ButtonRelease(IMBUTTON button);
-        static bool ButtonPress(IMBUTTON button);
-        static bool SingleButtonPress(IMBUTTON button);
+		static void SetControllerState(SDLControllerState* controllerState);
+		static bool ControllerButtonPress(IBUTTON button, int controller);
+		static bool ControllerButtonPressSingle(IBUTTON button, int controller);
+		static bool ControllerButtonRelease(IBUTTON button, int controller);
+		static float ControllerAxis(IAXIS axis, int controller);
 
 	private:
-		static IKeyboardState* s_keyState;
-        static IMouseState*    s_mouseState;
+		static IKeyboardState*		s_keyState;
+        static IMouseState*			s_mouseState;
+		static SDLControllerState*  s_controllerState;
 	};
 
 }

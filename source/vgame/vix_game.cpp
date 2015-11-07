@@ -1,103 +1,115 @@
 /*
-	Copyright (C) 2015  Matt Guerrette
+	The MIT License(MIT)
 
-	This program is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+	Copyright(c) 2015 Vixen Team, Matt Guerrette
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files(the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions :
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
 
-	You should have received a copy of the GNU General Public License
-	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
 */
 
 #include <vix_game.h>
-#include <vix_sdlwindow.h>
 #include <vix_debugutil.h>
 #include <vix_resourcemanager.h>
 #include <vix_pathmanager.h>
-
-#ifdef VIX_DIRECTX_BUILD
-#include <vix_dxrenderer.h>
-#include <vix_dxresourceloader.h>
-#endif
-
-#ifdef VIX_OPENGL_BUILD
-#include <vix_glrenderer.h>
-#endif
+#include <vix_window_singleton.h>
+#include <vix_renderer_singleton.h>
+#include <vix_objectmanager.h>
+#include <vix_scenemanager.h>
+#include <vix_luaengine.h>
+#include <vix_luascriptmanager.h>
+#include <vix_prefabmanager.h>
 
 namespace Vixen {
-	IKeyboardState* Game::s_keyboard = NULL;
-    IMouseState*    Game::s_mouse = NULL;
 
 	Game::Game()
 	{
-        FileManager::Initialize();
-        PathManager::Initialize();
-
-	    m_config = new GameConfig;
-		m_window = new SDLGameWindow(m_config->WindowArgs());
-#ifdef VIX_DIRECTX_BUILD
-        m_renderer = new DXRenderer;
-        m_resourceLoader = new DXResourceLoader((DXRenderer*)m_renderer);
-#elif defined(VIX_OPENGL_BUILD)
-        m_renderer = new GLRenderer;
-#endif
-		s_keyboard = new SDLKeyboardState;
-		Input::SetKeyboardState(s_keyboard);
-		s_mouse = new SDLMouseState;
-        Input::SetMouseState(s_mouse);
-
-		m_window->VSetParent(this);
-		m_window->VSetRenderer(m_renderer);
-
-        ResourceManager::AttachResourceLoader(m_resourceLoader);
+      
 	}
 
 	int Game::Run()
 	{
-		/*if application window exists*/
-		if (m_window) {
-			if(!m_window->VRun()) {
-			  DebugPrintF(VTEXT("Application loop encountered error"));
-				return -1;
-			}
-		}
+        FileManager::Initialize();
+        PathManager::Initialize();
+        if(!Window::Initialize(GameConfig()))
+            return -1;
 
-        m_renderer->VDeInitialize();
+        if (!Renderer::Initialize(Window::Handle()))
+            return -1;
+
+        Input::SetMouseState(Window::Mouse());
+        Input::SetKeyboardState(Window::Keyboard());
+		Input::SetControllerState(Window::Controller());
+
+        ResourceManager::Initialize();
+        Renderer::InitializeSpriteBatch();
+        ObjectManager::Initialize();
+        LuaEngine::Initialize();
+        LuaScriptManager::Initialize();
+        SceneManager::Initialize();
+
+
+
+        Renderer::SetClearColor(Colors::Black);
+
+        Time::Start();
+        while (Window::IsRunning())
+        {
+            Time::Tick();
+
+            Window::PollInput();
+
+            Renderer::ClearBuffer(ClearArgs::COLOR_DEPTH_STENCIL_BUFFER);
+
+            SceneManager::UpdateScenes();
+
+            SceneManager::RenderScenes();
+
+            Renderer::SwapBuffers();
+
+            Window::SwapBuffers();
+
+            Window::PollInputNextFrame();
+
+            Time::CalculateFPS();
+        }
+
+		SceneManager::DeInitialize();
+		PrefabManager::Cleanup();
+
+		
+        
+        LuaEngine::DeInitialize();
+        ObjectManager::DeInitialize();
+        ResourceManager::DeInitialize();
+        Renderer::DeInitialize();
+		ResourceManager::PrintLoaded();
+
+        Window::DeInitialize();
+        PathManager::DeInitialize();
+        FileManager::DeInitialize();
+
 
 		return 0;
 	}
 
-	GameWindow* const Game::GetWindow() const
-	{
-		return m_window;
-	}
 
-	IRenderer* const Game::GetRenderer() const
-	{
-		return m_renderer;
-	}
-
-	GameConfig* const Game::GetConfig() const
-	{
-	    return m_config;
-	}
-
-	IKeyboardState* const Game::GetKeyboard()
-	{
-		return s_keyboard;
-	}
-
-	IMouseState* const Game::GetMouse()
-	{
-		return s_mouse;
-	}
-
-
+    void Game::Exit()
+    {
+        Window::Close();
+    }
 
 }

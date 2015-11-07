@@ -2,6 +2,34 @@
 <scene id="scene1">
   <object-list>
 
+    <gameobject name="game-manager" enabled="true">
+      <transform x="0.0" y="6.0" z="-5.0" rotX="15.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
+      <components>
+        <script file="game.lua"/>
+      </components>
+      <children>
+      </children>
+    </gameobject>
+
+    <gameobject name="ui-fps" enabled="true">
+      <transform x="20.0" y="20.0" z="0.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
+      <components>
+        <script file="fps.lua"/>
+        <ui-text text="FPS:" font="Consolas_14.fnt"/>
+      </components>
+      <children></children>
+    </gameobject>
+    
+    <!--
+    <gameobject name="ui-title" enabled="true">
+      <transform x="-1.0" y="60.0" z="0.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
+      <components>
+        <ui-text text="Mineshaft Mayhem" font="mineshaft_72.fnt"/>
+      </components>
+      <children></children>
+    </gameobject>
+    -->
+    
     <gameobject name="camera" enabled="true">
       <transform x="0.0" y="6.0" z="-5.0" rotX="15.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
       <components>
@@ -13,52 +41,42 @@
     </gameobject>
 
     <gameobject name="minecart1" enabled="true">
-      <transform x="0.0" y="0.0" z="8.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
-      <model file="minecart.mdl"/>
+      <transform x="0.0" y="0.7" z="8.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
       <components>
+        <model file="minecart.obj" material="minecart.vmt"/>
         <light kind="point" x="0.0" y="0.0" z="0.0" r="1.0" g="1.0" b="1.0" />
         <script file="player.lua"/>
       </components>
       <children>
+        <gameobject name="wheel" enabled="true">
+          <transform x="0.0" y="-0.3" z="1.2" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
+          <components>
+            <model file="Wheels.obj" material="white.vmt"/>
+          </components>
+          <children>
+          </children>
+        </gameobject>
+        <gameobject name="whee2" enabled="true">
+          <transform x="0.0" y="-0.3" z="-1.2" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
+          <components>
+            <model file="Wheels.obj" material="white.vmt"/>
+          </components>
+          <children>
+          </children>
+        </gameobject>        
       </children>
     </gameobject>
-
-
-    <!--<gameobject name="gemspawner" enabled="true">
-      <transform x="0.0" y="0.0" z="-1.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
-      <components>
-        <script file="gemspawner.lua"/>
-      </components>
-      <children>
-      </children>
-    </gameobject>-->
-
-
-    <gameobject name="floorspawner" enabled="true">
-      <transform x="0.0" y="0.0" z="-1.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
-      <components>
-        <script file="floorspawn.lua"/>
-      </components>
-      <children>
-      </children>
-    </gameobject>
-
+    
+    
     <gameobject name="railspawner" enabled="true">
-      <transform x="0.0" y="0.0" z="-1.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
+      <transform x="20.0" y="40.0" z="-1.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
       <components>
-        <script file="railspawn.lua"/>
+        <script file="MineShaft.lua"/>
+        <ui-text text="Score: " font="Consolas_14.fnt"/>
       </components>
       <children>
       </children>
     </gameobject>
-
-    <gameobject name="wallspawner" enabled="true">
-      <transform x="0.0" y="0.0" z="-1.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
-      <components>
-        <script file="wallspawn.lua"/>
-      </components>
-      <children>
-      </children>
-    </gameobject>
+    
   </object-list>
 </scene>
