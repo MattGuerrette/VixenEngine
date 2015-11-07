@@ -1,25 +1,33 @@
 /*
-	Copyright (C) 2015  Matt Guerrette
+	The MIT License(MIT)
 
-	This program is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+	Copyright(c) 2015 Vixen Team, Matt Guerrette
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files(the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions :
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
 
-	You should have received a copy of the GNU General Public License
-	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
 */
 
 #include <vix_scene.h>
 #include <vix_stlutil.h>
+#include <vix_luascriptmanager.h>
 #include <vix_scenemanager.h>
 #include <vix_objectmanager.h>
 #include <vix_time.h>
+#include <vix_luaengine.h>
 #include <vix_resourcemanager.h>
 
 #include <vix_components.h>
@@ -36,7 +44,7 @@ namespace Vixen {
 	{
 		m_paused = false;
 		m_hidden = false;
-
+		
 		m_mainCamera = NULL;
 	}
 
@@ -92,11 +100,11 @@ namespace Vixen {
 				obj->Render(m_mainCamera);
 		}
 
-		for (uint32_t i = 0; i < ResourceManager::NumLoadedModels(); i++)
+		for (auto& model : ResourceManager::ModelMap())
 		{
-			Model* model = ResourceManager::ModelAsset(i);
-			if (model)
-				model->VRender(Time::DeltaTime(), Time::TotalTime(), m_mainCamera);
+			Model* _model = model.second;
+			if (_model)
+				_model->VRender(Time::DeltaTime(), Time::TotalTime(), m_mainCamera);
 		}
 
         //render all late render (UI) scene objects
@@ -110,6 +118,7 @@ namespace Vixen {
                 obj->Render(m_mainCamera);
         }
 
+		LuaEngine::ExecuteExpression(VTEXT("collectgarbage()"));
 	}
 
 	GameObject* Scene::QueryObject(std::string name)
@@ -174,7 +183,7 @@ namespace Vixen {
 		return m_hidden;
 	}
 
-
+	
 
 
 	///////////////////////////////////////////////////////////////////////
@@ -292,12 +301,11 @@ namespace Vixen {
 		const XMLElement* child = element->FirstChildElement();
 		while (child) {
 			std::string name(child->Name());
-
-			Component* component = NULL;
+			Component* component;
 			if (name == "script")
 			{
 				//PARSE SCRIPT
-				//component = ParseLuaScriptComponent(child);
+				component = ParseLuaScriptComponent(child);
 			}
 			else if (name == "camera")
 			{
@@ -320,9 +328,7 @@ namespace Vixen {
 				component = ParseModelComponent(child);
 			}
 
-			if (component)
-				components.push_back(component);
-
+			components.push_back(component);
 			child = child->NextSiblingElement();
 		}
 
@@ -375,6 +381,17 @@ namespace Vixen {
 		return component;
 	}
 
+    Component* Scene::ParseLuaScriptComponent(const tinyxml2::XMLElement * element)
+	{
+		using namespace tinyxml2;
+
+		const char* scriptFile = element->Attribute("file");
+		UString scriptPath = UStringFromCharArray(scriptFile);
+
+		LuaScript* script = LuaScriptManager::LoadScript(scriptPath);
+		return script;
+	}
+
     Component* Scene::ParseUITextComponent(const tinyxml2::XMLElement* element)
     {
         using namespace tinyxml2;
@@ -387,7 +404,7 @@ namespace Vixen {
 		_font->IncrementRefCount();
 
         UIText* _text = new UIText(UStringFromCharArray(text), _font);
-
+		
         return _text;
     }
 
@@ -404,7 +421,7 @@ namespace Vixen {
 			return NULL;
 		}
 		_model->IncrementRefCount();
-
+			
 		Material* _material = ResourceManager::OpenMaterial(UStringFromCharArray(materialFile));
 		if (!_material) {
 			DebugPrintF(VTEXT("Failed to open material.\n"));
@@ -415,7 +432,7 @@ namespace Vixen {
 		ModelComponent* _modelComponent = new ModelComponent;
 		_modelComponent->SetModel(_model);
 		_modelComponent->SetMaterial(_material);
-
+			
 		return _modelComponent;
 	}
 }

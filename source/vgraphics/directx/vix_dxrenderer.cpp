@@ -1,18 +1,24 @@
 /*
-	Copyright (C) 2015  Matt Guerrette
+	The MIT License(MIT)
 
-	This program is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+	Copyright(c) 2015 Vixen Team, Matt Guerrette
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files(the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions :
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
 
-	You should have received a copy of the GNU General Public License
-	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
 */
 
 #include <vix_dxrenderer.h>
@@ -33,14 +39,14 @@ namespace Vixen {
 
     DXRenderer::~DXRenderer()
     {
-
+        
     }
 
     void DXRenderer::VDeInitialize()
     {
         if(m_ImmediateContext)
             m_ImmediateContext->ClearState();
-
+    
         ReleaseCOM(m_RenderTargetView);
         ReleaseCOM(m_DepthStencView);
         ReleaseCOM(m_SwapChain);
@@ -86,14 +92,14 @@ namespace Vixen {
 
             hr = D3D11CreateDevice(NULL, drivers[i], NULL, createDeviceFlags,
                 featureLevels, numLevels, D3D11_SDK_VERSION, &m_Device, &m_FeatureLevel, &m_ImmediateContext);
-
+       
             if (SUCCEEDED(hr))
                 break;
         }
         if (FAILED(hr))
             return false;
 
-
+        
 
         //Check multisampling support.
         //NOTE:
@@ -154,7 +160,7 @@ namespace Vixen {
         ReleaseCOM(dxgiDevice);
         ReleaseCOM(dxgiAdapter);
         ReleaseCOM(dxgiFactory);
-
+        
         //CREATE RENDER TARGET VIEW
         ID3D11Texture2D* backBuffer;
         hr = m_SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D),
@@ -166,7 +172,7 @@ namespace Vixen {
             return false;
         ReleaseCOM(backBuffer);
 
-
+        
         //CREATE DEPTH/STENCIL VIEW
         D3D11_TEXTURE2D_DESC dsd;
         dsd.Width = width;
@@ -202,7 +208,7 @@ namespace Vixen {
 
         m_ImmediateContext->OMSetRenderTargets(1, &m_RenderTargetView, m_DepthStencView);
 
-
+       
         D3D11_VIEWPORT vp;
         vp.TopLeftX = 0.0f;
         vp.TopLeftY = 0.0f;
@@ -232,8 +238,8 @@ namespace Vixen {
         blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
         blendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
 
-        blendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_SRC_ALPHA;
-        blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_DEST_ALPHA;
+        blendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_SRC_ALPHA;        
+        blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_DEST_ALPHA; 
         blendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
         blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
@@ -243,8 +249,8 @@ namespace Vixen {
 
         ReleaseCOM(state);
 
-
-
+        
+        
 
         return true;
     }

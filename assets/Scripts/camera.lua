@@ -11,6 +11,8 @@ function camera.OnEnable()
 
     this.position = this.GameObject:GetTransform().Position;
     this.rotation = this.GameObject:GetTransform().Rotation;
+
+    Window.ToggleCursor();
 end
 
 function camera.Update(dt)
@@ -21,8 +23,7 @@ function camera.Update(dt)
 
 	-- Handle Keyboard Controls
 
-    if Input.SingleKeyPress(IKEY.M) then
-
+    if Input.KeyPressSingle(IKEY.M) then
         if this.freeform then
             this.freeform = false;
             transform.Position = this.position;
@@ -60,13 +61,16 @@ function camera.Update(dt)
 
 	    --Handle Mouse Look Controls
 
-	    deltaX = Input.MouseDeltaX(1280/2);
-	    deltaY = Input.MouseDeltaY(720/2);
+	    --deltaX = Input.MouseDeltaX(Window.Width/2);
+	    --deltaY = Input.MouseDeltaY(Window.Height/2);
+        --controller input
+	    deltaX = Input.ControllerAxis(IAXIS.RIGHTX, 0);
+	    deltaY = Input.ControllerAxis(IAXIS.RIGHTY, 0);
 	    transform:RotateX(deltaY * this.mouseLook);
 	    transform:RotateY(deltaX * this.mouseLook);
-
     end
 
+    Window.TrapCursorCenter();
 end
 
 function camera.OnDisable()

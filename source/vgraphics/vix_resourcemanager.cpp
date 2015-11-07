@@ -1,18 +1,24 @@
 /*
-	Copyright (C) 2015  Matt Guerrette
+    The MIT License(MIT)
 
-	This program is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+    Copyright(c) 2015 Matt Guerrette
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files(the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions :
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
 
-	You should have received a copy of the GNU General Public License
-	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
 */
 
 #include <vix_resourcemanager.h>
@@ -22,6 +28,8 @@
 #ifdef VIX_SYS_WINDOWS
 #include <vix_dxresourceloader.h>
 #endif
+
+#include <vix_fileutil.h>
 
 namespace Vixen {
 
@@ -81,9 +89,11 @@ namespace Vixen {
 					ResourceManager::MapAsset(file->FileName(), (Asset*)_texture);
 
 				}
-
+				
 				FileManager::CloseFile(file);
 			}
+               
+            
         }
 
 		return _texture;
@@ -114,7 +124,7 @@ namespace Vixen {
 
 					ResourceManager::MapAsset(file->FileName(), _shader);
 				}
-
+              
                FileManager::CloseFile(assetPath);
             }
         }
@@ -146,7 +156,7 @@ namespace Vixen {
 					//Need to load a model object into memory
 					_model = _RM.m_resourceLoader->LoadModel(file);
 
-					_RM.m_models.push_back(_model);
+					_RM.m_modelMap[file->FileName()] = _model;
 
 					ResourceManager::MapAsset(file->FileName(), _model);
 				}
@@ -181,7 +191,7 @@ namespace Vixen {
 				{
 					//Need to load a font object into memory
 					_font = _RM.m_resourceLoader->LoadFont(file);
-
+				
 					ResourceManager::MapAsset(file->FileName(), _font);
 				}
 
@@ -216,10 +226,10 @@ namespace Vixen {
 					//Need to load a material object into memory
 					_material = _RM.m_resourceLoader->LoadMaterial(file);
 
-
+					
 					ResourceManager::MapAsset(file->FileName(), _material);
 				}
-
+				
 				FileManager::CloseFile(file);
 			}
 		}
@@ -230,7 +240,7 @@ namespace Vixen {
 	Asset* ResourceManager::AccessAsset(UString assetName)
 	{
 		ResourceManager& _RM = ResourceManager::instance();
-
+		
 		std::map<UString, Asset*>::iterator it;
 
 		it = _RM.m_assetMap.find(assetName);
@@ -259,21 +269,9 @@ namespace Vixen {
 			asset->DecrementRefCount();
 	}
 
-	uint32_t ResourceManager::NumLoadedModels()
+	std::map<UString, Model*>& ResourceManager::ModelMap()
 	{
-		ResourceManager& _RM = ResourceManager::instance();
-
-		return _RM.m_models.size();
-	}
-
-	Model* ResourceManager::ModelAsset(uint32_t index)
-	{
-		ResourceManager& _RM = ResourceManager::instance();
-
-		if (index <= _RM.m_models.size())
-			return _RM.m_models[index];
-		else
-			return NULL;
+		return ResourceManager::instance().m_modelMap;
 	}
 
     void ResourceManager::IncrementAssetRef(Asset* asset)
@@ -293,9 +291,12 @@ namespace Vixen {
 			delete asset;
 			asset = nullptr;
 
+			if (Vixen::getFileExtension(fileName, false) == VTEXT(".obj"))
+				_RM.m_modelMap[fileName] = nullptr;
+
 			_RM.m_assetMap[fileName] = nullptr;
 		}
-
+			
 
         if (asset)
             asset->DecrementRefCount();

@@ -47,7 +47,7 @@ VertexToPixel main(VertexShaderInput input, uint instanceID : SV_InstanceID)
 	float t = time * .0157 + depth;
 
 	float curvex = (sin(t*.03) + cos(t*.05) - sin(t*.07)) * 2.0;
-	float curvey = (cos(t*.03) + sin(t*.07) - cos(t*.13)) * 1.0;
+	float curvey = (cos(t*.03) + sin(t*.07) - cos(t*.13)) * 0.5;
 	float ddx = (.03*cos(time*.0157*.03) - .05*sin(time*.0157*.05) - .07*cos(time*.0157*.07)) * 2.0;
 	float ddz = 1;
 	float rot = -atan2(ddx, ddz);

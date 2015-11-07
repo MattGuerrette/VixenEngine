@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <prefab id="wall">
-  <gameobject defaultName="wall" enabled="true">
+  <gameobject name="wall" enabled="true">
     <transform x="0.0" y="0.0" z="0.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
     <model file="wall.mdl"/>
-    <scripts>
-    </scripts>
+    <components>
+    </components>
     <children>
-      <gameobject defaultName="brace" enabled="true">
+      <gameobject name="brace" enabled="true">
         <transform x="0.0" y="0.0" z="0.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
         <model file="brace.mdl"/>
-        <scripts>
-        </scripts>
+        <components>
+        </components>
         <children>
         </children>
-      </gameobject>
+    </gameobject>
     </children>
   </gameobject>
 </prefab>

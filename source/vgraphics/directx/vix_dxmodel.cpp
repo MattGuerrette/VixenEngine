@@ -1,18 +1,24 @@
 /*
-	Copyright (C) 2015  Matt Guerrette
+	The MIT License(MIT)
 
-	This program is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+	Copyright(c) 2015 Vixen Team, Matt Guerrette
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files(the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions :
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
 
-	You should have received a copy of the GNU General Public License
-	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
 */
 
 #include <vix_dxmodel.h>
@@ -52,7 +58,7 @@ namespace Vixen {
     bool DXModel::VInitFromFile(File* file)
     {
         using namespace tinyxml2;
-
+       
         Assimp::Importer _importer;
 		std::string _path = UStringToStd(file->FilePath());
         const aiScene* scene = _importer.ReadFile(_path.c_str(), aiProcess_CalcTangentSpace |
@@ -74,7 +80,7 @@ namespace Vixen {
         //a DXMesh object
 
         aiMesh* mesh = scene->mMeshes[0];
-
+      
         aiVector3D min, max, center;
         FindMeshCenter(mesh, center, min, max);
         m_min = Vector3(min.x, min.y, min.z);
@@ -116,14 +122,15 @@ namespace Vixen {
 				_vert.bitangent.y = bitangent.y;
 				_vert.bitangent.z = bitangent.z;
 			}
-
+           
+   
 			if (mesh->HasTextureCoords(0)) {
 				aiVector3D uvs = mesh->mTextureCoords[0][i];
 				_vert.u = uvs.x;
 				_vert.v = uvs.y;
 			}
-
-
+            
+            
             m_vertices.push_back(_vert);
         }
 
@@ -194,7 +201,7 @@ namespace Vixen {
     {
         return m_min;
     }
-
+    
     Vector3 DXModel::VMax()
     {
         return m_max;

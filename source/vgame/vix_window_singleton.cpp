@@ -7,9 +7,8 @@ namespace Vixen {
         Window& _window = Window::instance();
 
         _window.m_window = new SDLGameWindow(config.WindowArgs());
-        bool success = _window.m_window->VInit();
-
-        return success;
+        if (!_window.m_window->VInit())
+            return false;
     }
 
     void Window::DeInitialize()
@@ -103,7 +102,6 @@ namespace Vixen {
 
         return _window.m_window->VMouseState();
     }
-
 	SDLControllerState * Window::Controller()
 	{
 		Window& _window = Window::instance();

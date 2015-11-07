@@ -2,5 +2,5 @@
 <model>
   <file val="gem_red.obj"/>
   <vertex-shader val="Model_VS.hlsl"/>
-  <pixel-shader val="Model_Textured_PS.hlsl"/>
+  <pixel-shader val="Model_Rainbow_PS.hlsl"/>
 </model>
