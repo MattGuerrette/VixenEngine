@@ -29,8 +29,6 @@
 #include <vix_dxresourceloader.h>
 #endif
 
-#include <vix_fileutil.h>
-
 namespace Vixen {
 
     ResourceManager::~ResourceManager()
@@ -156,7 +154,7 @@ namespace Vixen {
 					//Need to load a model object into memory
 					_model = _RM.m_resourceLoader->LoadModel(file);
 
-					_RM.m_modelMap[file->FileName()] = _model;
+					_RM.m_models.push_back(_model);
 
 					ResourceManager::MapAsset(file->FileName(), _model);
 				}
@@ -269,9 +267,21 @@ namespace Vixen {
 			asset->DecrementRefCount();
 	}
 
-	std::map<UString, Model*>& ResourceManager::ModelMap()
+	uint32_t ResourceManager::NumLoadedModels()
 	{
-		return ResourceManager::instance().m_modelMap;
+		ResourceManager& _RM = ResourceManager::instance();
+
+		return _RM.m_models.size();
+	}
+
+	Model* ResourceManager::ModelAsset(uint32_t index)
+	{
+		ResourceManager& _RM = ResourceManager::instance();
+
+		if (index <= _RM.m_models.size())
+			return _RM.m_models[index];
+		else
+			return NULL;
 	}
 
     void ResourceManager::IncrementAssetRef(Asset* asset)
@@ -290,9 +300,6 @@ namespace Vixen {
 
 			delete asset;
 			asset = nullptr;
-
-			if (Vixen::getFileExtension(fileName, false) == VTEXT(".obj"))
-				_RM.m_modelMap[fileName] = nullptr;
 
 			_RM.m_assetMap[fileName] = nullptr;
 		}

@@ -71,7 +71,10 @@ namespace Vixen {
 		bool							m_paused;
 		bool							m_hidden;
 		std::vector<GameObject*>		m_topLevelObjects;
+		std::vector<ICamera3D*>			m_cameras;
+
 		ICamera3D*                      m_mainCamera;
+
         ICamera2D*                      m_uiCamera;
 
 	public:

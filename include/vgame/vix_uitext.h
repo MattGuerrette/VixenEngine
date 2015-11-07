@@ -23,7 +23,7 @@ namespace Vixen {
 		void VUpdate();
 		void VOnDisable();
 		void VOnDestroy();
-        void VRender(ICamera2D* camera);
+        void VRender(ICamera2D* camera, Viewport v);
 		void VBindParent(GameObject* parent);
 
         std::string GetText();
