@@ -17,6 +17,10 @@ namespace Vixen {
 
 		static void Step(float time);
 
+		static void AddRigidBody(btRigidBody* body);
+		
+		static void RemoveRigidBody(btRigidBody* body);
+
 	private:
 		btDynamicsWorld*						m_world;
 		btBroadphaseInterface*					m_broadPhase;

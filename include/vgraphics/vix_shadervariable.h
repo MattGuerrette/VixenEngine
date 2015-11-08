@@ -22,7 +22,7 @@ namespace Vixen {
 		FloatVariable(float val);
 
 		~FloatVariable();
-
+		
 		void VBind(std::string name, Shader* shader);
 
 	private:
