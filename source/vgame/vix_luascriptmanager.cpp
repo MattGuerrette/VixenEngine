@@ -260,6 +260,7 @@ namespace Vixen {
 			.addFunction("MouseWheelY", &Input::MouseWheelY)
 			.addFunction("MouseDeltaX", &Input::DeltaX)
 			.addFunction("MouseDeltaY", &Input::DeltaY)
+			.addFunction("ControllerConnected", &Input::ControllerConnected)
 			.addFunction("ControllerAxis", &Input::ControllerAxis)
 			.addFunction("ControllerButtonPress", &Input::ControllerButtonPress)
 			.addFunction("ControllerButtonPressSingle", &Input::ControllerButtonPressSingle)

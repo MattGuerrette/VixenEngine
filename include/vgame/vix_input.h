@@ -143,6 +143,7 @@ namespace Vixen {
 		static bool MouseButtonRelease(IMBUTTON button);
 
 		static void SetControllerState(SDLControllerState* controllerState);
+		static bool ControllerConnected(int controller);
 		static bool ControllerButtonPress(IBUTTON button, int controller);
 		static bool ControllerButtonPressSingle(IBUTTON button, int controller);
 		static bool ControllerButtonRelease(IBUTTON button, int controller);

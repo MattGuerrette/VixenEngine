@@ -334,6 +334,11 @@ namespace Vixen {
 
 	}
 
+	void SDLControllerState::Connected(bool status, int controller)
+	{
+		m_currentControllerStatus[controller] = status;
+	}
+
 	void SDLControllerState::Axis(SDL_GameControllerAxis axis, Sint16 val, int controller)
 	{
 		m_currentAxis[controller][axis] = val;
@@ -355,6 +360,11 @@ namespace Vixen {
 		{
 			m_previousControllers[i] = m_currentControllers[i];
 		}
+	}
+
+	bool SDLControllerState::VConnected(int controller)
+	{
+		return m_currentControllerStatus[controller];
 	}
 
 	float SDLControllerState::VAxis(IAXIS axis, int controller)

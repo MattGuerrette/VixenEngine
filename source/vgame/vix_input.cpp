@@ -40,9 +40,9 @@ namespace Vixen {
 	// INPUT
 	//////////////////////////////////////////
 
-	IKeyboardState*			Input::s_keyState = NULL;
-    IMouseState*			Input::s_mouseState = NULL;
-	SDLControllerState*		Input::s_controllerState = NULL;
+	IKeyboardState*			Input::s_keyState = nullptr;
+    IMouseState*			Input::s_mouseState = nullptr;
+	SDLControllerState*		Input::s_controllerState = nullptr;
 
 	bool Input::KeyPress(IKEY key)
 	{
@@ -121,6 +121,11 @@ namespace Vixen {
 	void Input::SetControllerState(SDLControllerState * controllerState)
 	{
 		s_controllerState = controllerState;
+	}
+
+	bool Input::ControllerConnected(int controller)
+	{
+		return s_controllerState->VConnected(controller);
 	}
 
 	bool Input::ControllerButtonPress(IBUTTON button, int controller)
