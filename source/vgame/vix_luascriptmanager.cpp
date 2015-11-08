@@ -201,6 +201,7 @@ namespace Vixen {
             .addFunction("GetID", &GameObject::GetID)
             .addFunction("Delete", &GameObject::Delete)
             .addFunction("GetTextComponent", &GameObject::GetTextComponent)
+			.addFunction("GetModelComponent", &GameObject::GetModelComponent)
             .addStaticFunction("TranslateZ", &GameObject::_TranslateZ, LUA_ARGS(float))
             .addStaticFunction("GetGameObject", &GameObject::_GetActiveObject)
             .addStaticFunction("GetTransform", &GameObject::_GetTransform)
@@ -220,6 +221,26 @@ namespace Vixen {
 			.addFunction("MarkDelete", &Prefab::DecRefCount)
 			.endClass();
 
+		////////////////////////////////////////////////////////////////////////////////////
+		/* Model                                                                          */
+		////////////////////////////////////////////////////////////////////////////////////
+
+		LuaBinding(LuaEngine::L())
+			.beginClass<ModelComponent>("Model")
+			.addFunction("GetMaterial", &ModelComponent::GetMaterial)
+			.endClass();
+
+		////////////////////////////////////////////////////////////////////////////////////
+		/* Material                                                                       */
+		////////////////////////////////////////////////////////////////////////////////////
+
+		LuaBinding(LuaEngine::L())
+			.beginClass<Material>("Material")
+			.addFunction("SetFloat", &Material::SetShaderVariableFloat, LUA_ARGS(Material::ShaderRole, std::string, float))
+			.addFunction("SetFloat4", &Material::SetShaderVariableFloat4, LUA_ARGS(Material::ShaderRole, std::string, float, float, float, float))
+			//.addFunction("SetMat4", &Material::SetShaderVariableMatrix4, LUA_ARGS(Material::ShaderRole, std::string, float[16]))
+			.addFunction("SetInt", &Material::SetShaderVariableInt, LUA_ARGS(Material::ShaderRole, std::string, int))
+			.endClass();
 
 		////////////////////////////////////////////////////////////////////////////////////
 		/* Input Bindings                                                                 */
@@ -378,6 +399,8 @@ namespace Vixen {
         LuaBinding(LuaEngine::L())
             .beginModule("Time")
             .addFunction("FPS", &Time::FPS)
+			.addFunction("DeltaTime", &Time::DeltaTime)
+			.addFunction("TotalTime", &Time::TotalTime)
             .endModule();
             
 	}

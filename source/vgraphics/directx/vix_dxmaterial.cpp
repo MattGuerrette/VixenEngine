@@ -22,9 +22,8 @@
 */
 
 #include <vix_dxmaterial.h>
-#include <vix_assimp.h>
 #include <vix_tinyxml.h>
-#include <vix_resourcemanager.h>
+#include <vix_assimp.h>
 #include <vix_pathmanager.h>
 #include <vix_shader.h>
 #include <vix_resourcemanager.h>
@@ -111,7 +110,7 @@ namespace Vixen {
 			return false;
 		m_shaders[ShaderRole::Vertex] = (DXShader*)vsShader;
 
-		if (!ReadShaderChildren(vsElement, m_vsVariables))
+		if (!Material::ReadShaderChildren(vsElement, m_vsVariables))
 			return false;
 
 		//PARSE PIXEL SHADER
@@ -134,44 +133,5 @@ namespace Vixen {
 		return true;
 	}
 
-	bool DXMaterial::ReadShaderChildren(tinyxml2::XMLElement* shaderElement, DXMaterial::VariableMap& variableMap)
-	{
-		using namespace tinyxml2;
-
-		XMLElement* shaderChild = shaderElement->FirstChildElement();
-		while (shaderChild)
-		{
-			//read all child data for pixel shader
-			std::string _name = shaderChild->Name();
-			if (_name == "texture") {
-				//read texture
-
-				std::string key = shaderChild->Attribute("name");
-				std::string fileName = shaderChild->Attribute("file");
-
-				Texture* texture = ResourceManager::OpenTexture(UStringFromCharArray(fileName.c_str()));
-				if (!texture) {
-					return false;
-				}
-
-				variableMap[key] = new TextureVariable(texture);
-			}
-
-			if (_name == "vec4") {
-				//read vec4
-
-				std::string key = shaderChild->Attribute("name");
-				float x = shaderChild->FloatAttribute("x");
-				float y = shaderChild->FloatAttribute("y");
-				float z = shaderChild->FloatAttribute("z");
-				float w = shaderChild->FloatAttribute("w");
-
-				variableMap[key] = new Float4Variable(x, y, z, w);
-			}
-
-			shaderChild = shaderChild->NextSiblingElement();
-		}
-
-		return true;
-	}
+	
 }

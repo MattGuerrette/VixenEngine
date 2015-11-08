@@ -33,6 +33,7 @@
 namespace Vixen {
 
     class UIText;
+	class ModelComponent;
 
 	class VIX_API GameObject
 	{
@@ -82,6 +83,8 @@ namespace Vixen {
         
     public:
         UIText* GetTextComponent();
+
+		ModelComponent * GetModelComponent();
 
 	private:
 		bool						m_enabled;

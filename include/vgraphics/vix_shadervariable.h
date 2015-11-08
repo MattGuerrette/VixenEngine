@@ -12,7 +12,6 @@ namespace Vixen {
 	{
 	public:
 		virtual ~IShaderVariable() { };
-
 		virtual void VBind(std::string name, Shader* shader) = 0;
 	};
 
@@ -23,6 +22,7 @@ namespace Vixen {
 
 		~FloatVariable();
 
+		void SetData(float val);
 		void VBind(std::string name, Shader* shader);
 
 	private:
@@ -36,6 +36,7 @@ namespace Vixen {
 
 		~Float4Variable();
 
+		void SetData(float x, float y, float z, float w);
 		void VBind(std::string name, Shader* shader);
 
 	private:
@@ -52,6 +53,7 @@ namespace Vixen {
 
 		~IntVariable();
 
+		void SetData(int val);
 		void VBind(std::string name, Shader* shader);
 		
 	private:
@@ -65,6 +67,7 @@ namespace Vixen {
 
 		~Matrix4FloatVariable();
 
+		void SetData(const float val[16]);
 		void VBind(std::string name, Shader* shader);
 
 	private:
@@ -78,6 +81,7 @@ namespace Vixen {
 
 		~TextureVariable();
 
+		void SetData(Texture* texture);
 		void VBind(std::string name, Shader* shader);
 
 	private:

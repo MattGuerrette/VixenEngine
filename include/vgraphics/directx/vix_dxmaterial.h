@@ -39,7 +39,6 @@ namespace Vixen {
 
     class VIX_API DXMaterial : public Material
     {
-		typedef std::map<std::string, IShaderVariable*> VariableMap;
     public:
         DXMaterial();
 
@@ -56,13 +55,10 @@ namespace Vixen {
 		UString VFilePath();
 
     private:
-		VariableMap								m_vsVariables;
-		VariableMap								m_psVariables;
         std::map<ShaderRole,  DXShader*>		m_shaders;
 		UString									m_path;
 
 	private:
-		static bool ReadShaderChildren(tinyxml2::XMLElement* shaderElement, VariableMap& variableMap);
     };
 
 }
