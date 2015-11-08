@@ -32,6 +32,7 @@
 #include <vix_luaengine.h>
 #include <vix_luascriptmanager.h>
 #include <vix_prefabmanager.h>
+#include <vix_bulletsimulator.h>
 
 namespace Vixen {
 
@@ -59,6 +60,7 @@ namespace Vixen {
         ObjectManager::Initialize();
         LuaEngine::Initialize();
         LuaScriptManager::Initialize();
+		BulletSimulator::Initialize(btVector3(0.0f, -10.0f, 0.0f));
         SceneManager::Initialize();
 
 
@@ -73,6 +75,8 @@ namespace Vixen {
             Window::PollInput();
 
             Renderer::ClearBuffer(ClearArgs::COLOR_DEPTH_STENCIL_BUFFER);
+
+			BulletSimulator::Step(Time::DeltaTime());
 
             SceneManager::UpdateScenes();
 
@@ -90,6 +94,7 @@ namespace Vixen {
 		SceneManager::DeInitialize();
 		PrefabManager::Cleanup();
 
+		BulletSimulator::DeInitialize();
 		
         
         LuaEngine::DeInitialize();
