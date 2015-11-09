@@ -64,6 +64,13 @@ namespace Vixen {
         _renderer.m_renderer->VRenderText2D(font, text, position);
     }
 
+    void Renderer::ResizeBuffers(uint32_t width, uint32_t height)
+    {
+        Renderer& _renderer = Renderer::instance();
+
+        _renderer.m_renderer->VResizeBuffers(width, height);
+    }
+
     IRenderer* Renderer::Handle()
     {
         Renderer& _renderer = Renderer::instance();

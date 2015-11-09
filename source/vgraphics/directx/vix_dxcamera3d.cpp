@@ -40,31 +40,31 @@ namespace Vixen {
 
 	void DXCamera3D::VSetViewport(Viewport v)
 	{
-		m_viewport.TopLeftX = v.x;
-		m_viewport.TopLeftY = v.y;
-		m_viewport.Width = v.width;
-		m_viewport.Height = v.height;
-		m_viewport.MinDepth = v.minDepth;
-		m_viewport.MaxDepth = v.maxDepth;
+        m_viewport = v;
 	}
+
+    void DXCamera3D::VUpdateViewport(Viewport v)
+    {
+        m_viewport = v;
+        VSetPerspective(m_viewport.width / m_viewport.height, m_fov, m_znear, m_zfar);
+    }
 
 	D3D11_VIEWPORT DXCamera3D::GetViewport()
 	{
-		VSetPerspective(m_viewport.Width / m_viewport.Height, m_fov, m_znear, m_zfar);
-		return m_viewport;
+        D3D11_VIEWPORT viewport;
+        viewport.TopLeftX = m_viewport.x;
+        viewport.TopLeftY = m_viewport.y;
+        viewport.Width = m_viewport.width;
+        viewport.Height = m_viewport.height;
+        viewport.MinDepth = m_viewport.minDepth;
+        viewport.MaxDepth = m_viewport.maxDepth;
+
+        return viewport;
 	}
 
 	Viewport DXCamera3D::VGetViewport()
 	{
-		Viewport v;
-		v.x = m_viewport.TopLeftX;
-		v.y = m_viewport.TopLeftY;
-		v.width = m_viewport.Width;
-		v.height = m_viewport.Height;
-		v.minDepth = m_viewport.MinDepth;
-		v.maxDepth = m_viewport.MaxDepth;
-
-		return v;
+		return m_viewport;
 	}
 
     void DXCamera3D::VSetPerspective(float aspect, float fov, float znear, float zfar)

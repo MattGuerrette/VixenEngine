@@ -77,6 +77,8 @@ namespace Vixen {
 
         ICamera2D*                      m_uiCamera;
 
+        friend class SceneManager;
+
 	public:
 		static Scene*                   Deserialize(File* file);
 
