@@ -46,8 +46,28 @@ namespace Vixen {
     void DXCamera3D::VUpdateViewport(Viewport v)
     {
         m_viewport = v;
-        VSetPerspective(m_viewport.width / m_viewport.height, m_fov, m_znear, m_zfar);
+       
     }
+
+	void DXCamera3D::VSetViewportVariables(float x, float y, float width, float height, float minDepth, float maxDepth)
+	{
+		m_viewport.xPercent = x;
+		m_viewport.yPercent = y;
+		m_viewport.wPercent = width;
+		m_viewport.hPercent = height;
+		m_viewport.minDepth = minDepth;
+		m_viewport.maxDepth = maxDepth;
+        m_viewport.x = x * m_viewport.sWidth;
+        m_viewport.y = y * m_viewport.sHeight;
+        m_viewport.width = width * m_viewport.sWidth;
+        m_viewport.height = height * m_viewport.sHeight;
+	}
+
+	void DXCamera3D::VSetFOV(float fov)
+	{
+		m_fov = fov;
+        VSetPerspective(m_aspect, m_fov, m_znear, m_zfar);
+	}
 
 	D3D11_VIEWPORT DXCamera3D::GetViewport()
 	{

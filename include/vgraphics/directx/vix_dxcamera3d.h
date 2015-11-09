@@ -36,6 +36,8 @@ namespace Vixen {
         DXCamera3D();
 
 		void VSetViewport(Viewport v);
+		void VSetViewportVariables(float x, float y, float width, float height, float minDepth, float maxDepth);
+		void VSetFOV(float fov);
         void VSetPerspective(float aspect, float fov, float znear, float zfar);
         void VSetView(const Vector3& eye, const Vector3& target, const Vector3& up);
         void VUpdate();

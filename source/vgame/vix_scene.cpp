@@ -168,6 +168,23 @@ namespace Vixen {
 		m_mainCamera = camera;
 	}
 
+	void Scene::AddCamera(ICamera3D * camera)
+	{
+		m_cameras.push_back(camera);
+	}
+
+	void Scene::RemoveCamera(ICamera3D * camera)
+	{
+		for (int i = 0; i < m_cameras.size(); i++)
+		{
+			if (m_cameras[i] == camera)
+			{
+				m_cameras.erase(m_cameras.begin() + i);
+				return;
+			}
+		}
+	}
+
 	void Scene::SetPaused(bool paused)
 	{
 		m_paused = paused;
@@ -363,7 +380,7 @@ namespace Vixen {
 		using namespace tinyxml2;
 		
 		bool isMainCamera = element->BoolAttribute("mainCamera");
-		Camera3DComponent* _camera = new Camera3DComponent;
+		Camera3DComponent* _camera = new Camera3DComponent();
 		if (isMainCamera)
 			scene->m_mainCamera = _camera->GetCamera();
 		scene->m_cameras.push_back(_camera->GetCamera());
@@ -389,6 +406,8 @@ namespace Vixen {
 			v.height = h * Window::Height();   //height as percentage of Screen Height
 			v.minDepth = minDepth;
 			v.maxDepth = maxDepth;
+            v.sWidth = Window::Width();
+            v.sHeight = Window::Height();
 
 			_camera->GetCamera()->VSetViewport(v);
 		}

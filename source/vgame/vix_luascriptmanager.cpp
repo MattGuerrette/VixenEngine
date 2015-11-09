@@ -202,6 +202,7 @@ namespace Vixen {
             .addFunction("Delete", &GameObject::Delete)
             .addFunction("GetTextComponent", &GameObject::GetComponent<UIText>)
 			.addFunction("GetModelComponent", &GameObject::GetComponent<ModelComponent>)
+			.addFunction("GetCameraComponent", &GameObject::GetComponent<Camera3DComponent>)
             .addStaticFunction("TranslateZ", &GameObject::_TranslateZ, LUA_ARGS(float))
             .addStaticFunction("GetGameObject", &GameObject::_GetActiveObject)
             .addStaticFunction("GetTransform", &GameObject::_GetTransform)
@@ -228,6 +229,22 @@ namespace Vixen {
 		LuaBinding(LuaEngine::L())
 			.beginClass<ModelComponent>("Model")
 			.addFunction("GetMaterial", &ModelComponent::GetMaterial)
+			.endClass();
+
+		////////////////////////////////////////////////////////////////////////////////////
+		/* Camera                                                                         */
+		////////////////////////////////////////////////////////////////////////////////////
+
+		LuaBinding(LuaEngine::L())
+			.beginClass<Camera3DComponent>("CameraComponent")
+			.addFunction("GetCamera", &Camera3DComponent::GetCamera)
+			.endClass();
+
+
+		LuaBinding(LuaEngine::L())
+			.beginClass<ICamera3D>("Camera")
+			.addFunction("SetViewPort", &ICamera3D::VSetViewportVariables)
+			.addFunction("SetFOV", &ICamera3D::VSetFOV)
 			.endClass();
 
 		////////////////////////////////////////////////////////////////////////////////////
@@ -260,6 +277,7 @@ namespace Vixen {
 			.addFunction("MouseWheelY", &Input::MouseWheelY)
 			.addFunction("MouseDeltaX", &Input::DeltaX)
 			.addFunction("MouseDeltaY", &Input::DeltaY)
+			.addFunction("ControllerConnected", &Input::ControllerConnected)
 			.addFunction("ControllerAxis", &Input::ControllerAxis)
 			.addFunction("ControllerButtonPress", &Input::ControllerButtonPress)
 			.addFunction("ControllerButtonPressSingle", &Input::ControllerButtonPressSingle)
@@ -364,6 +382,8 @@ namespace Vixen {
 			.addConstant("START", IBUTTON::START)
 			.addConstant("LEFTBUMPER", IBUTTON::LEFTBUMPER)
 			.addConstant("RIGHTTBUMPER", IBUTTON::RIGHTBUMPER)
+			.addConstant("LEFTSTICK", IBUTTON::LEFTSTICK)
+			.addConstant("RIGHTSTICK", IBUTTON::RIGHTSTICK)
 			.endModule();
 
 		LuaBinding(LuaEngine::L())

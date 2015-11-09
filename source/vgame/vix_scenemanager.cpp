@@ -133,6 +133,8 @@ namespace Vixen {
                     v.y = v.yPercent * height;
                     v.width = v.wPercent * width;
                     v.height = v.hPercent * height;
+                    v.sWidth = width;
+                    v.sHeight = height;
 
                     camera->VSetViewport(v);
                 }

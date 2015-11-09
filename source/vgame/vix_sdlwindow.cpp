@@ -171,6 +171,7 @@ namespace Vixen {
 							{
 								m_controllers[i] = SDL_GameControllerOpen(event.cdevice.which);
 								m_controllerIndeces[i] = SDL_JoystickInstanceID(SDL_GameControllerGetJoystick(m_controllers[i]));
+								m_controllerState->Connected(true, i);
 								break;
 							}
 						}
@@ -180,6 +181,7 @@ namespace Vixen {
 					{
 						int cont = GetPlayerFromControllerIndex(event.cdevice.which);
 						SDL_GameControllerClose(m_controllers[cont]);
+						m_controllerState->Connected(false, cont);
 						m_controllerIndeces[cont] = -1;
 					}
 					break;

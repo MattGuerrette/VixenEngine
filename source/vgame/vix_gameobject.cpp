@@ -321,4 +321,5 @@ namespace Vixen {
 	{
 		return UStringToStd(m_name);
 	}
+
 }

@@ -27,8 +27,8 @@
 #include <vix_luascriptmanager.h>
 #include <vix_luascript.h>
 #include <vix_objectmanager.h>
-#include <vix_modelcomponent.h>
 #include <vix_resourcemanager.h>
+#include <vix_components.h>
 
 namespace Vixen {
 
@@ -144,7 +144,22 @@ namespace Vixen {
 						_object->AddComponent(_newComponent);
 					} break;
 
-				
+					case Component::Type::CAMERA:
+					{
+						Camera3DComponent* _cameraComponent = (Camera3DComponent*)component;
+
+						Camera3DComponent* _newCamera = new Camera3DComponent();
+
+						//copy camera viewports
+						Viewport v = _cameraComponent->GetCamera()->VGetViewport();
+						_newCamera->GetCamera()->VSetViewport(v);
+
+
+						_newCamera->VBindParent(_object);
+						_object->AddComponent(_newCamera);
+
+					} break;
+
 					case Component::Type::UI_TEXT:
 					{
 

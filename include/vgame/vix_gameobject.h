@@ -27,6 +27,7 @@
 #include <vix_platform.h>
 #include <vix_containers.h>
 #include <vix_component.h>
+#include <vix_components.h>
 #include <vix_transform.h>
 #include <vix_components.h>
 
@@ -76,6 +77,9 @@ namespace Vixen {
 
 		GameObject* GetChild(int index);
 
+
+		Camera3DComponent* Get3DCameraComponent();
+
 	private:
 		bool						m_enabled;
 		bool						m_markedForDestroy;
@@ -123,6 +127,20 @@ namespace Vixen {
             ModelComponent* _model = dynamic_cast<ModelComponent*>(m_components[i]);
             if (_model)
                 return _model;
+        }
+
+        return NULL;
+    }
+
+    template <>
+    inline Camera3DComponent* GameObject::GetComponent()
+    {
+        uint32_t numComponents = m_components.size();
+        for (uint32_t i = 0; i < numComponents; i++)
+        {
+            Camera3DComponent* _camera = dynamic_cast<Camera3DComponent*>(m_components[i]);
+            if (_camera)
+                return _camera;
         }
 
         return NULL;
