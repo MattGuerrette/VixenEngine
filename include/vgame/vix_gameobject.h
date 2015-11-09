@@ -26,8 +26,7 @@
 
 #include <vix_platform.h>
 #include <vix_containers.h>
-#include <vix_component.h>
-#include <vix_model.h>
+#include <vix_components.h>
 #include <vix_transform.h>
 
 namespace Vixen {
@@ -84,7 +83,8 @@ namespace Vixen {
     public:
         UIText* GetTextComponent();
 
-		ModelComponent * GetModelComponent();
+		ModelComponent* GetModelComponent();
+		Camera3DComponent* Get3DCameraComponent();
 
 	private:
 		bool						m_enabled;

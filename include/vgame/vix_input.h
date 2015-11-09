@@ -105,6 +105,8 @@ namespace Vixen {
 		Y,
 		LEFTBUMPER,
 		RIGHTBUMPER,
+		LEFTSTICK,
+		RIGHTSTICK,
 		START,
 		BACK
 	};

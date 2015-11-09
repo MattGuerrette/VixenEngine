@@ -8,7 +8,7 @@
 
 namespace Vixen {
 
-    Camera2DComponent::Camera2DComponent() : Component(Type::UNUSED)
+    Camera2DComponent::Camera2DComponent() : Component(Type::CAMERA)
     {
         #ifdef VIX_SYS_WINDOWS
                 m_camera = new DXCamera2D;

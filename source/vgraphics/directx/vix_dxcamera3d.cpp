@@ -48,6 +48,24 @@ namespace Vixen {
 		m_viewport.MaxDepth = v.maxDepth;
 	}
 
+	void DXCamera3D::VSetViewportVariables(float x, float y, float width, float height, float minDepth, float maxDepth)
+	{
+		m_viewport.TopLeftX = x;
+		m_viewport.TopLeftY = y;
+		m_viewport.Width = width;
+		m_viewport.Height = height;
+		m_viewport.MinDepth = minDepth;
+		m_viewport.MaxDepth = maxDepth;
+	}
+
+	void DXCamera3D::VSetFOV(float fov)
+	{
+		m_fov = fov;
+		XMMATRIX P = DirectX::XMMatrixPerspectiveFovLH(m_fov,
+			m_aspect, m_znear, m_zfar);
+		XMStoreFloat4x4(&m_projection, XMMatrixTranspose(P));
+	}
+
 	D3D11_VIEWPORT DXCamera3D::GetViewport()
 	{
 		VSetPerspective(m_viewport.Width / m_viewport.Height, m_fov, m_znear, m_zfar);
