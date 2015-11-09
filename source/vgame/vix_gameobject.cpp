@@ -95,6 +95,7 @@ namespace Vixen {
 			Component* component = m_components[i];
 			if (component)
 			{
+                component->VOnDisable();
 				component->VOnDestroy();
                 delete component;
 			}

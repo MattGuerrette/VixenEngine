@@ -37,6 +37,7 @@ namespace Vixen {
 		m_paused = false;
 		m_fullscreen = false;
 		m_cursorHidden = false;
+        m_captureText = false;
 		m_clientRect = Rect(0, 0, 0, 0);
         m_keyboardState = NULL;
         m_mouseState = NULL;
@@ -144,8 +145,16 @@ namespace Vixen {
 					break;
 
 				case SDL_KEYDOWN:
-					((SDLKeyboardState*)m_keyboardState)->KeyDown(event.key.keysym.scancode);
-					break;
+                {
+                    ((SDLKeyboardState*)m_keyboardState)->KeyDown(event.key.keysym.scancode);
+
+                    if (m_captureText && event.key.keysym.scancode == SDL_SCANCODE_BACKSPACE)
+                    {
+                        if(m_inputBuffer.size() > 0)
+                            m_inputBuffer.pop_back();
+                    }
+
+                } break;
 
 				case SDL_KEYUP:
 					((SDLKeyboardState*)m_keyboardState)->KeyUp(event.key.keysym.scancode);
@@ -195,6 +204,10 @@ namespace Vixen {
 					m_controllerState->Axis((SDL_GameControllerAxis)event.caxis.axis, event.caxis.value, GetPlayerFromControllerIndex(event.cdevice.which));
 					break;
 
+                case SDL_TEXTINPUT:
+                    m_inputBuffer += event.text.text;
+                    break;
+
 
                 //HANDLE SDL WINDOW EVENTS
                 case SDL_WINDOWEVENT:
@@ -234,6 +247,24 @@ namespace Vixen {
                 } break;
             }
         }
+    }
+
+    void SDLGameWindow::VStartTextCapture()
+    {
+        m_captureText = true;
+        SDL_StartTextInput();
+    }
+
+    std::string SDLGameWindow::VInputBuffer()
+    {
+        return m_inputBuffer;
+    }
+
+    void SDLGameWindow::VStopTextCapture()
+    {
+        m_captureText = false;
+        SDL_StopTextInput();
+        m_inputBuffer.clear();
     }
 
     IKeyboardState* SDLGameWindow::VKeyboardState()

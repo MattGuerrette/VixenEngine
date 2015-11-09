@@ -40,6 +40,12 @@ namespace Vixen {
 
         static uint32_t         Height();
 
+        static void             StartTextCapture();
+
+        static std::string      InputBuffer();
+
+        static void             StopTextCapture();
+
     private:
         GameWindow*  m_window;
     };

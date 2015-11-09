@@ -320,6 +320,8 @@ namespace Vixen {
 			return SDL_SCANCODE_9;
 		case Vixen::IKEY::ESC:
 			return SDL_SCANCODE_ESCAPE;
+        case Vixen::IKEY::ENTER:
+            return SDL_SCANCODE_RETURN;
 		default:
 			return SDL_SCANCODE_0;
 			break;

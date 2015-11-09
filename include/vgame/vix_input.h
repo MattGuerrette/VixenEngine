@@ -91,7 +91,8 @@ namespace Vixen {
 		NUM8,
 		NUM9,
 		NUM0,
-		ESC
+		ESC,
+        ENTER
 	};
 
 	enum class IBUTTON {
