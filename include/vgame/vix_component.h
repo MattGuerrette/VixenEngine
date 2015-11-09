@@ -47,7 +47,8 @@ namespace Vixen {
 			UI_TEXTURE,
 			SPRITE,
 			MODEL,
-			CAMERA
+			CAMERA,
+			PHYSICS_RIGIDBODY
 		};
 
 		Component(Type type)

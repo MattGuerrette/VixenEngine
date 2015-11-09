@@ -62,7 +62,7 @@ namespace Vixen {
         virtual ~Material() { };
 
         virtual void VBind() = 0;
-        virtual void VUnbind() = 0;
+        virtual void VUnbind() = 0; 
 
 		virtual UString VFilePath() = 0;
 		

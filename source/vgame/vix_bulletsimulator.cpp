@@ -32,4 +32,20 @@ namespace Vixen {
 
 		_simulator.m_world->stepSimulation(time);
 	}
+
+	void BulletSimulator::AddRigidBody(btRigidBody* body)
+	{
+		BulletSimulator& _simulator = BulletSimulator::instance();
+
+		if (body)
+			_simulator.m_world->addRigidBody(body);
+	}
+
+	void BulletSimulator::RemoveRigidBody(btRigidBody* body)
+	{
+		BulletSimulator& _simulator = BulletSimulator::instance();
+	
+		if (body)
+			_simulator.m_world->removeRigidBody(body);
+	}
 }

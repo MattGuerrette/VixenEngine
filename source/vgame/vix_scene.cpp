@@ -29,8 +29,11 @@
 #include <vix_time.h>
 #include <vix_luaengine.h>
 #include <vix_resourcemanager.h>
-
 #include <vix_components.h>
+
+#include <vix_bullet_boxcollider.h>
+#include <vix_bullet_planecollider.h>
+#include <vix_bullet_spherecollider.h>
 
 namespace Vixen {
 
@@ -357,6 +360,11 @@ namespace Vixen {
 				//PARSE MODEL COMPONENT
 				component = ParseModelComponent(child);
 			}
+			else if (name == "rigidbody")
+			{
+				//PARSE RIGIDBODY COMPONENT
+				component = ParseRigidBodyComponent(child);
+			}
 
 			components.push_back(component);
 			child = child->NextSiblingElement();
@@ -489,5 +497,77 @@ namespace Vixen {
 		_modelComponent->SetMaterial(_material);
 			
 		return _modelComponent;
+	}
+
+	Component* Scene::ParseRigidBodyComponent(const tinyxml2::XMLElement* element)
+	{
+		using namespace tinyxml2;
+
+		RigidBodyComponent* _component = new RigidBodyComponent;
+
+		btScalar friction = element->FloatAttribute("friction");
+		btScalar mass = element->FloatAttribute("mass");
+		btScalar restitution = element->FloatAttribute("restitution");
+
+
+		const XMLElement* shape = element->FirstChildElement("shape");
+		if (shape)
+		{
+			std::string type = shape->Attribute("type");
+			if (type == "SPHERE")
+			{
+				//PARSE SPHERE COLLIDER
+				btScalar radius = shape->FloatAttribute("radius");
+
+				BulletSphereCollider* _sphere = new BulletSphereCollider;
+				_sphere->SetRadius(radius);
+
+				_component->SetColliderShape(_sphere);
+			}
+			else if (type == "PLANE")
+			{
+				//PARSE PLANE COLLIDER
+
+				btVector3 planeNormal;
+
+				planeNormal.setX(shape->FloatAttribute("normalX"));
+				planeNormal.setY(shape->FloatAttribute("normalY"));
+				planeNormal.setZ(shape->FloatAttribute("normalZ"));
+
+				btScalar planeConstant = shape->FloatAttribute("constant");
+
+				BulletPlaneCollider* _plane = new BulletPlaneCollider;
+				_plane->SetPlaneNormal(planeNormal);
+				_plane->SetPlaneContant(planeConstant);
+				
+				_component->SetColliderShape(_plane);
+			}
+			else if (type == "BOX")
+			{
+				//PARSE BOX COLLIDER
+
+				btVector3 extents;
+
+				extents.setX(shape->FloatAttribute("extentX"));
+				extents.setY(shape->FloatAttribute("extentY"));
+				extents.setZ(shape->FloatAttribute("extentZ"));
+
+				BulletBoxCollider* _box = new BulletBoxCollider;
+				_box->SetExtents(extents);
+
+				_component->SetColliderShape(_box);
+			}
+			else
+			{
+				DebugPrintF(VTEXT("Rigidbody is missing collider shape. ERROR\n"));
+				return NULL;
+			}
+		}
+
+		_component->SetFriction(friction);
+		_component->SetMass(mass);
+		_component->SetRestitution(restitution);
+
+		return _component;
 	}
 }
