@@ -104,25 +104,28 @@ namespace Vixen {
 
 	class VIX_API SDLControllerState
 	{
-		typedef std::map<SDL_GameControllerButton, bool> ControllerState;
+		typedef std::map<SDL_GameControllerButton, bool> ControllerButtonState;
 		typedef std::map<SDL_GameControllerAxis, Sint16> AxisState;
 	public:
 		SDLControllerState();
 
+		void Connected(bool status, int controller);
 		void Axis(SDL_GameControllerAxis axis, Sint16 val, int controller);
 		void ButtonDown(SDL_GameControllerButton button, int controller);
 		void ButtonUp(SDL_GameControllerButton button, int controller);
 		void UpdatePrev();
 
+		bool VConnected(int controller);
 		float VAxis(IAXIS axis, int controller);
 		bool VButtonPress(IBUTTON button, int controller);
 		bool VButtonPressSingle(IBUTTON button, int controller);
 		bool VButtonRelease(IBUTTON button, int controller);
 
 	private:
-		ControllerState m_currentControllers[4];
-		ControllerState m_previousControllers[4];
-		AxisState m_currentAxis[4];
+		bool					m_currentControllerStatus[4];
+		ControllerButtonState	m_currentControllers[4];
+		ControllerButtonState	m_previousControllers[4];
+		AxisState				m_currentAxis[4];
 
 		SDL_GameControllerButton convertFromIBUTTON(IBUTTON button);
 		SDL_GameControllerAxis convertFromIAXIS(IAXIS axis);

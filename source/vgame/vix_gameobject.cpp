@@ -348,4 +348,17 @@ namespace Vixen {
 
 		return NULL;
 	}
+
+	Camera3DComponent* GameObject::Get3DCameraComponent()
+	{
+		uint32_t numComponents = m_components.size();
+		for (uint32_t i = 0; i < numComponents; i++)
+		{
+			Camera3DComponent* _camera = dynamic_cast<Camera3DComponent*>(m_components[i]);
+			if (_camera)
+				return _camera;
+		}
+
+		return NULL;
+	}
 }

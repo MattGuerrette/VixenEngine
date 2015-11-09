@@ -60,6 +60,8 @@ namespace Vixen {
 		void SetID(std::string id);
 		void SetFileName(std::string name);
 		void SetMainCamera(ICamera3D* camera);
+		void AddCamera(ICamera3D* camera);
+		void RemoveCamera(ICamera3D* camera);
 
 		/*GETTER FUNCTIONS*/
 		const std::string& GetID();				//returns ID of scene

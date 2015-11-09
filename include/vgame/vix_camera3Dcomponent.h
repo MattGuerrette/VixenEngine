@@ -53,14 +53,10 @@ namespace Vixen {
 
         void VBindParent(GameObject* parent);
 
-		Component::Type VGetType();
-
-		void VSetType(Component::Type type);
-
         void SetPerspective(float aspect, float fov, float znear, float zfar);
 
         void SetView(const Vector3& eye, const Vector3& target, const Vector3& up);
-
+		
         ICamera3D* GetCamera();
 
         bool       IsMainCamera();
