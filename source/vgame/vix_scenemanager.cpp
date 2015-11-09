@@ -116,6 +116,32 @@ namespace Vixen {
 		}
 	}
 
+    void SceneManager::UpdateCameraViewports(uint32_t width, uint32_t height)
+    {
+        SceneManager& _manager = SceneManager::instance();
+
+        Scene* _scene = _manager.ActiveScene();
+        if (_scene)
+        {
+            for (uint32_t i = 0; i < _scene->m_cameras.size(); i++)
+            {
+                ICamera3D* camera = _scene->m_cameras[i];
+                if (camera)
+                {
+                    Viewport v = camera->VGetViewport();
+                    v.x = v.xPercent * width;
+                    v.y = v.yPercent * height;
+                    v.width = v.wPercent * width;
+                    v.height = v.hPercent * height;
+                    v.sWidth = width;
+                    v.sHeight = height;
+
+                    camera->VSetViewport(v);
+                }
+            }
+        }
+    }
+
 	Scene* SceneManager::LoadScene(std::string fileName, bool initial)
 	{
 		SceneManager& _manager = SceneManager::instance();

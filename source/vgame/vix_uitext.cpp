@@ -1,6 +1,7 @@
 #include <vix_uitext.h>
 #include <vix_renderer_singleton.h>
 #include <vix_resourcemanager.h>
+#include <vix_gameobject.h>>
 
 namespace Vixen {
 

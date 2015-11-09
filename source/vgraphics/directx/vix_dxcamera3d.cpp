@@ -40,49 +40,51 @@ namespace Vixen {
 
 	void DXCamera3D::VSetViewport(Viewport v)
 	{
-		m_viewport.TopLeftX = v.x;
-		m_viewport.TopLeftY = v.y;
-		m_viewport.Width = v.width;
-		m_viewport.Height = v.height;
-		m_viewport.MinDepth = v.minDepth;
-		m_viewport.MaxDepth = v.maxDepth;
+        m_viewport = v;
 	}
+
+    void DXCamera3D::VUpdateViewport(Viewport v)
+    {
+        m_viewport = v;
+       
+    }
 
 	void DXCamera3D::VSetViewportVariables(float x, float y, float width, float height, float minDepth, float maxDepth)
 	{
-		m_viewport.TopLeftX = x;
-		m_viewport.TopLeftY = y;
-		m_viewport.Width = width;
-		m_viewport.Height = height;
-		m_viewport.MinDepth = minDepth;
-		m_viewport.MaxDepth = maxDepth;
+		m_viewport.xPercent = x;
+		m_viewport.yPercent = y;
+		m_viewport.wPercent = width;
+		m_viewport.hPercent = height;
+		m_viewport.minDepth = minDepth;
+		m_viewport.maxDepth = maxDepth;
+        m_viewport.x = x * m_viewport.sWidth;
+        m_viewport.y = y * m_viewport.sHeight;
+        m_viewport.width = width * m_viewport.sWidth;
+        m_viewport.height = height * m_viewport.sHeight;
 	}
 
 	void DXCamera3D::VSetFOV(float fov)
 	{
 		m_fov = fov;
-		XMMATRIX P = DirectX::XMMatrixPerspectiveFovLH(m_fov,
-			m_aspect, m_znear, m_zfar);
-		XMStoreFloat4x4(&m_projection, XMMatrixTranspose(P));
+        VSetPerspective(m_aspect, m_fov, m_znear, m_zfar);
 	}
 
 	D3D11_VIEWPORT DXCamera3D::GetViewport()
 	{
-		VSetPerspective(m_viewport.Width / m_viewport.Height, m_fov, m_znear, m_zfar);
-		return m_viewport;
+        D3D11_VIEWPORT viewport;
+        viewport.TopLeftX = m_viewport.x;
+        viewport.TopLeftY = m_viewport.y;
+        viewport.Width = m_viewport.width;
+        viewport.Height = m_viewport.height;
+        viewport.MinDepth = m_viewport.minDepth;
+        viewport.MaxDepth = m_viewport.maxDepth;
+
+        return viewport;
 	}
 
 	Viewport DXCamera3D::VGetViewport()
 	{
-		Viewport v;
-		v.x = m_viewport.TopLeftX;
-		v.y = m_viewport.TopLeftY;
-		v.width = m_viewport.Width;
-		v.height = m_viewport.Height;
-		v.minDepth = m_viewport.MinDepth;
-		v.maxDepth = m_viewport.MaxDepth;
-
-		return v;
+		return m_viewport;
 	}
 
     void DXCamera3D::VSetPerspective(float aspect, float fov, float znear, float zfar)

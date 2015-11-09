@@ -61,6 +61,8 @@ namespace Vixen {
 
         void    VRenderText2D(Font* font, UString text, const Vector2& position) override;
 
+        void    VResizeBuffers(uint32_t width, uint32_t height) override;
+
 		ICamera2D* VCamera2D();
 
         ID3D11Device* Device();
@@ -69,6 +71,9 @@ namespace Vixen {
 
         DXSpriteBatcher* SpriteBatch();
 
+    private:
+        bool CreateBuffers(uint32_t width, uint32_t height);
+        void ReleaseBuffers();
        
 
     private:
@@ -78,6 +83,7 @@ namespace Vixen {
         ID3D11RenderTargetView* m_RenderTargetView;
         ID3D11DepthStencilView* m_DepthStencView;
         IDXGISwapChain*         m_SwapChain;
+        DXGI_SWAP_CHAIN_DESC    m_SwapChainDesc;
         D3D_FEATURE_LEVEL       m_FeatureLevel;
         HWND                    m_HWND;
 

@@ -46,6 +46,9 @@ namespace Vixen {
         DirectX::XMFLOAT4X4 View();
 
 		D3D11_VIEWPORT GetViewport();
+
+        void     VUpdateViewport(Viewport v);
+
 		Viewport VGetViewport();
 
     private:
@@ -58,7 +61,7 @@ namespace Vixen {
         DirectX::XMFLOAT3   m_right;
         DirectX::XMFLOAT3   m_up;
 
-		D3D11_VIEWPORT		m_viewport;
+        Viewport            m_viewport;
 
         float               m_aspect;
         float               m_znear;

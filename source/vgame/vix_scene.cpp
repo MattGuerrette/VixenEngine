@@ -35,6 +35,8 @@
 #include <vix_bullet_planecollider.h>
 #include <vix_bullet_spherecollider.h>
 
+#include <vix_window_singleton.h>
+
 namespace Vixen {
 
 
@@ -388,18 +390,24 @@ namespace Vixen {
 		{
 			float x = _viewportElement->FloatAttribute("x");
 			float y = _viewportElement->FloatAttribute("y");
-			float width = _viewportElement->FloatAttribute("width");
-			float height = _viewportElement->FloatAttribute("height");
+			float w = _viewportElement->FloatAttribute("width");
+			float h = _viewportElement->FloatAttribute("height");
 			float minDepth = _viewportElement->FloatAttribute("min");
 			float maxDepth = _viewportElement->FloatAttribute("max");
 
 			Viewport v;
-			v.x = x;
-			v.y = y;
-			v.width = width;
-			v.height = height;
+            v.xPercent = x;
+            v.yPercent = y;
+            v.wPercent = w;
+            v.hPercent = h;
+			v.x = x * Window::Width();         //x as percentage of Screen Width
+			v.y = y * Window::Height();        //y as percentage of Screen Height
+			v.width = w * Window::Width();     //width as percentage of Screen Width
+			v.height = h * Window::Height();   //height as percentage of Screen Height
 			v.minDepth = minDepth;
 			v.maxDepth = maxDepth;
+            v.sWidth = Window::Width();
+            v.sHeight = Window::Height();
 
 			_camera->GetCamera()->VSetViewport(v);
 		}
