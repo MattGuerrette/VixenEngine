@@ -4,10 +4,11 @@
 #include <vix_platform.h>
 #include <vix_component.h>
 #include <vix_rendercomponent2D.h>
-#include <vix_gameobject.h>
 #include <vix_stringutil.h>
 
 namespace Vixen {
+
+    class GameObject;
 
     class VIX_API UIText : public IRenderComponent2D, public Component
     {

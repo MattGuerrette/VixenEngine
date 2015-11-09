@@ -2,11 +2,14 @@
 #define VIX_MODELCOMPONENT_H
 
 #include <vix_platform.h>
+#include <vix_component.h>
 #include <vix_rendercomponent.h>
 #include <vix_model.h>
 #include <vix_material.h>
 
 namespace Vixen {
+
+    class GameObject;
 
 	class VIX_API ModelComponent : public IRenderComponent, public Component
 	{

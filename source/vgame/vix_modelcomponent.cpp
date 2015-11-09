@@ -1,5 +1,6 @@
 #include <vix_modelcomponent.h>
 #include <vix_resourcemanager.h>
+#include <vix_gameobject.h>
 
 namespace Vixen {
 

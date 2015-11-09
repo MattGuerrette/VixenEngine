@@ -35,6 +35,8 @@
 #include <vix_bullet_planecollider.h>
 #include <vix_bullet_spherecollider.h>
 
+#include <vix_window_singleton.h>
+
 namespace Vixen {
 
 
@@ -379,8 +381,8 @@ namespace Vixen {
 			Viewport v;
 			v.x = x;
 			v.y = y;
-			v.width = width;
-			v.height = height;
+			v.width = width * Window::Width();
+			v.height = height * Window::Height();
 			v.minDepth = minDepth;
 			v.maxDepth = maxDepth;
 
