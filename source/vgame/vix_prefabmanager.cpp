@@ -184,7 +184,18 @@ namespace Vixen {
 
 	Component* PrefabManager::ParseUITextComponent(const tinyxml2::XMLElement* element)
 	{
-		return NULL;
+        using namespace tinyxml2;
+
+        const char* text = element->Attribute("text");
+        const char* font = element->Attribute("font");
+
+
+        Font*  _font = ResourceManager::OpenFont(UStringFromCharArray(font));
+        _font->IncrementRefCount();
+
+        UIText* _text = new UIText(UStringFromCharArray(text), _font);
+
+        return _text;
 	}
 
 	Component* PrefabManager::ParseCameraComponent(const tinyxml2::XMLElement* element)

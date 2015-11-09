@@ -355,6 +355,7 @@ namespace Vixen {
 			.addConstant("RIGHT", IKEY::RIGHT)
 			.addConstant("SPACE", IKEY::SPACE)
             .addConstant("ESC", IKEY::ESC)
+            .addConstant("ENTER", IKEY::ENTER)
 			.endModule();
 
 
@@ -412,6 +413,9 @@ namespace Vixen {
             .beginModule("Window")
             .addFunction("ToggleCursor", &Window::ToggleCursor)
             .addFunction("TrapCursorCenter", &Window::TrapCursorCenter)
+            .addFunction("StartTextInput", &Window::StartTextCapture)
+            .addProperty("InputBuffer", &Window::InputBuffer)
+            .addFunction("StopTextInput", &Window::StopTextCapture)
             .addProperty("Width", &Window::Width)
             .addProperty("Height", &Window::Height)
             .endModule();

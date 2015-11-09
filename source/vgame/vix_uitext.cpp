@@ -45,6 +45,16 @@ namespace Vixen {
         return UStringToStd(m_text);
     }
 
+    UString UIText::GetTextW()
+    {
+        return m_text;
+    }
+
+    Font* UIText::GetFont()
+    {
+        return m_font;
+    }
+
 	void UIText::VOnInit()
 	{
 

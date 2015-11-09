@@ -98,6 +98,11 @@ namespace Vixen {
         void                VPollEvents()                          override;
         void                VPollNextFrame()                       override;
 
+
+        void                VStartTextCapture()                    override;
+        std::string         VInputBuffer()                         override;
+        void                VStopTextCapture()                     override;
+
         IKeyboardState*     VKeyboardState()                       override;
         IMouseState*        VMouseState()                          override;
 		SDLControllerState* VControllerState();

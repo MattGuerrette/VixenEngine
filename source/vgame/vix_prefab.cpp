@@ -162,8 +162,13 @@ namespace Vixen {
 
 					case Component::Type::UI_TEXT:
 					{
+                        UIText* _textComponent = (UIText*)component;
+                        _textComponent->GetFont()->IncrementRefCount();
 
+                        UIText* _newText = new UIText(_textComponent->GetTextW(), _textComponent->GetFont());
 
+                        _newText->VBindParent(_object);
+                        _object->AddComponent(_newText);
 
 					} break;
 				}

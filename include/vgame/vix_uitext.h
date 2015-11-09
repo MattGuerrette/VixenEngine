@@ -28,7 +28,10 @@ namespace Vixen {
 		void VBindParent(GameObject* parent);
 
         std::string GetText();
+        UString     GetTextW();
         void        SetText(std::string text);
+
+        Font*       GetFont();
 
     private:
         UString     m_text;

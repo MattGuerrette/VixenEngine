@@ -61,6 +61,9 @@ namespace Vixen {
         virtual void*              VNativeHandle() = 0;
         virtual void               VPollEvents() = 0;
         virtual void               VPollNextFrame() = 0;
+        virtual std::string        VInputBuffer() = 0;
+        virtual void               VStartTextCapture() = 0;
+        virtual void               VStopTextCapture() = 0;
 
         virtual bool               VRunning() = 0;
 
@@ -82,7 +85,8 @@ namespace Vixen {
 		bool				m_paused;
 		bool                m_fullscreen;
 		bool                m_cursorHidden;
-
+        bool                m_captureText;
+        std::string         m_inputBuffer;
 	};
 
 }
