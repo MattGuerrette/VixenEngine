@@ -60,6 +60,8 @@ namespace Vixen {
 		void SetID(std::string id);
 		void SetFileName(std::string name);
 		void SetMainCamera(ICamera3D* camera);
+		void AddCamera(ICamera3D* camera);
+		void RemoveCamera(ICamera3D* camera);
 
 		/*GETTER FUNCTIONS*/
 		const std::string& GetID();				//returns ID of scene
@@ -77,6 +79,8 @@ namespace Vixen {
 
         ICamera2D*                      m_uiCamera;
 
+        friend class SceneManager;
+
 	public:
 		static Scene*                   Deserialize(File* file);
 
@@ -90,6 +94,7 @@ namespace Vixen {
 		static Component*				ParseLuaScriptComponent(const tinyxml2::XMLElement* element);
         static Component*				ParseUITextComponent(const tinyxml2::XMLElement* element);
 		static Component*				ParseModelComponent(const tinyxml2::XMLElement* element);
+		static Component*				ParseRigidBodyComponent(const tinyxml2::XMLElement* element);
 	};
 }
 #endif

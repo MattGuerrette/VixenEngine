@@ -24,7 +24,8 @@
 #include <vix_game.h>
 #include <vix_sdlwindow.h>
 #include <vix_debugutil.h>
-
+#include <vix_renderer_singleton.h>
+#include <vix_scenemanager.h>
 
 namespace Vixen {
 
@@ -36,9 +37,14 @@ namespace Vixen {
 		m_paused = false;
 		m_fullscreen = false;
 		m_cursorHidden = false;
+        m_captureText = false;
 		m_clientRect = Rect(0, 0, 0, 0);
         m_keyboardState = NULL;
         m_mouseState = NULL;
+		for (int i = 0; i < 4; i++)
+		{
+			m_controllerIndeces[i] = -1;
+		}
 	}
 
 	SDLGameWindow::~SDLGameWindow()
@@ -91,7 +97,7 @@ namespace Vixen {
 											m_params.y <= 0 ? SDL_WINDOWPOS_CENTERED : m_params.y,
 											m_params.width,
 											m_params.height,
-											SDL_WINDOW_OPENGL);
+											SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_SHOWN);
 		if (!m_windowHandle) {
 			SDL_Quit();
 			DebugPrintF(VTEXT("Failed to created SDL_Window handle"));
@@ -139,8 +145,16 @@ namespace Vixen {
 					break;
 
 				case SDL_KEYDOWN:
-					((SDLKeyboardState*)m_keyboardState)->KeyDown(event.key.keysym.scancode);
-					break;
+                {
+                    ((SDLKeyboardState*)m_keyboardState)->KeyDown(event.key.keysym.scancode);
+
+                    if (m_captureText && event.key.keysym.scancode == SDL_SCANCODE_BACKSPACE)
+                    {
+                        if(m_inputBuffer.size() > 0)
+                            m_inputBuffer.pop_back();
+                    }
+
+                } break;
 
 				case SDL_KEYUP:
 					((SDLKeyboardState*)m_keyboardState)->KeyUp(event.key.keysym.scancode);
@@ -159,102 +173,99 @@ namespace Vixen {
 					((SDLMouseState*)m_mouseState)->MouseMove(event.motion.x, event.motion.y);
 					break;
 				case SDL_CONTROLLERDEVICEADDED:
-					SDL_GameControllerOpen(event.cdevice.which);
+					{
+						for (int i = 0; i < 4; i++)
+						{
+							if (m_controllerIndeces[i] == -1)
+							{
+								m_controllers[i] = SDL_GameControllerOpen(event.cdevice.which);
+								m_controllerIndeces[i] = SDL_JoystickInstanceID(SDL_GameControllerGetJoystick(m_controllers[i]));
+								m_controllerState->Connected(true, i);
+								break;
+							}
+						}
+					}
 					break;
-
+				case SDL_CONTROLLERDEVICEREMOVED:
+					{
+						int cont = GetPlayerFromControllerIndex(event.cdevice.which);
+						SDL_GameControllerClose(m_controllers[cont]);
+						m_controllerState->Connected(false, cont);
+						m_controllerIndeces[cont] = -1;
+					}
+					break;
 				case SDL_CONTROLLERBUTTONDOWN:
-					m_controllerState->ButtonDown((SDL_GameControllerButton)event.cbutton.button, event.cbutton.which);
+					m_controllerState->ButtonDown((SDL_GameControllerButton)event.cbutton.button, GetPlayerFromControllerIndex(event.cdevice.which));
 					break;
 				case SDL_CONTROLLERBUTTONUP:
-					m_controllerState->ButtonUp((SDL_GameControllerButton)event.cbutton.button, event.cbutton.which);
+					m_controllerState->ButtonUp((SDL_GameControllerButton)event.cbutton.button, GetPlayerFromControllerIndex(event.cdevice.which));
 					break;
 				case SDL_CONTROLLERAXISMOTION:
-					m_controllerState->Axis((SDL_GameControllerAxis)event.caxis.axis, event.caxis.value, event.caxis.which);
+					m_controllerState->Axis((SDL_GameControllerAxis)event.caxis.axis, event.caxis.value, GetPlayerFromControllerIndex(event.cdevice.which));
 					break;
+
+                case SDL_TEXTINPUT:
+                    m_inputBuffer += event.text.text;
+                    break;
+
+
+                //HANDLE SDL WINDOW EVENTS
+                case SDL_WINDOWEVENT:
+                {
+                    switch (event.window.event)
+                    {
+                    case SDL_WINDOWEVENT_SHOWN:
+
+                    case SDL_WINDOWEVENT_HIDDEN:
+                    case SDL_WINDOWEVENT_EXPOSED:
+                    case SDL_WINDOWEVENT_MOVED:
+                    case SDL_WINDOWEVENT_SIZE_CHANGED:
+                    case SDL_WINDOWEVENT_MINIMIZED:
+                    case SDL_WINDOWEVENT_MAXIMIZED:
+                    case SDL_WINDOWEVENT_RESTORED:
+                    case SDL_WINDOWEVENT_ENTER:
+                    case SDL_WINDOWEVENT_LEAVE:
+                    case SDL_WINDOWEVENT_FOCUS_GAINED:
+                    case SDL_WINDOWEVENT_FOCUS_LOST:
+                    case SDL_WINDOWEVENT_CLOSE:
+                        break;
+
+
+                    case SDL_WINDOWEVENT_RESIZED:
+                    {
+                        //HANDLE WINDOW RESIZE
+                        Renderer::ResizeBuffers(event.window.data1, event.window.data2);
+
+                        SceneManager::UpdateCameraViewports(event.window.data1, event.window.data2);
+                        
+                    } break;
+
+                    default:
+                        break;
+                    }
+
+                } break;
             }
         }
     }
 
-	//bool SDLGameWindow::VRun()
-	//{
+    void SDLGameWindow::VStartTextCapture()
+    {
+        m_captureText = true;
+        SDL_StartTextInput();
+    }
 
-	//	/*try and initialize window*/
-	//	if (!VInit()) {
-	//	  DebugPrintF(VTEXT("SDLGameWindow failed to initialize"));
-	//		return false;
-	//	}
+    std::string SDLGameWindow::VInputBuffer()
+    {
+        return m_inputBuffer;
+    }
 
-	//	/*LOAD ONLY NECESSARY CONTENT FOR STARTUP*/
-	//	m_parent->VOnStartup();
-
-
- //       Time::Start();
-	//	//run application loop
-	//	m_running = true;
-	//	while (m_running)
-	//	{
-
-	//		Time::Tick();
-
-	//		SDL_Event event;
-	//		while (SDL_PollEvent(&event))
-	//		{
-	//			switch (event.type)
-	//			{
-	//			case SDL_QUIT:
-	//				VClose();
-	//				break;
-
-	//			case SDL_KEYDOWN:
-	//				((SDLKeyboardState*)Game::GetKeyboard())->KeyDown(event.key.keysym.scancode);
-	//				break;
-
-	//			case SDL_KEYUP:
-	//				((SDLKeyboardState*)Game::GetKeyboard())->KeyUp(event.key.keysym.scancode);
-	//				break;
-
-	//			case SDL_MOUSEBUTTONDOWN:
-	//			case SDL_MOUSEBUTTONUP:
-	//				((SDLMouseState*)Game::GetMouse())->MouseEvent(event.button);
-	//				break;
-
-	//			case SDL_MOUSEWHEEL:
-	//				((SDLMouseState*)Game::GetMouse())->MouseWheelEvent(event.wheel);
-	//				break;
-
-	//			case SDL_MOUSEMOTION:
- //                   ((SDLMouseState*)Game::GetMouse())->MouseMove(event.motion.x, event.motion.y);
-	//				break;
-	//			}
-	//		}
-
-	//		/*CLEAR BUFFERS*/
- //           if(m_renderer)
-	//		    m_renderer->VClearBuffer(ClearArgs::COLOR_DEPTH_STENCIL_BUFFER);
-
-
-	//		/*update*/
-	//		m_parent->VOnUpdate();
-
-	//		/*render*/
-	//		m_parent->VOnRender();
-
-
-	//		/*update keyboard state for next frame*/
-	//		((SDLKeyboardState*)Game::GetKeyboard())->UpdatePrev();
-	//		/*update mouse state for next frame*/
- //           ((SDLMouseState*)Game::GetMouse())->UpdatePrev();
-
-	//		/*swap buffers*/
-	//		VSwapBuffers();
-
-	//		Time::CalculateFPS();
-	//	}
-
-	//	m_parent->VOnShutdown();
-
-	//	return true;
-	//}
+    void SDLGameWindow::VStopTextCapture()
+    {
+        m_captureText = false;
+        SDL_StopTextInput();
+        m_inputBuffer.clear();
+    }
 
     IKeyboardState* SDLGameWindow::VKeyboardState()
     {
@@ -363,6 +374,13 @@ namespace Vixen {
 			SDL_DisplayMode mode;
 			SDL_GetDisplayMode(0, i, &mode);
 			DebugPrintF(VTEXT("DisplayMode[%i]: <W: %i, H: %i>\n"), i, mode.w, mode.h);
+		}
+	}
+
+	int SDLGameWindow::GetPlayerFromControllerIndex(int controllerIndex)
+	{
+		for (int i = 0; i < 4; i++) {
+			if (m_controllerIndeces[i] == controllerIndex) return i;
 		}
 	}
 

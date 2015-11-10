@@ -1,0 +1,91 @@
+﻿Build started 11/7/2015 5:46:14 PM.
+     1>Project "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\BulletDynamics.vcxproj" on node 4 (Build target(s)).
+     1>CustomBuild:
+         Building Custom Rule D:/Users/mpg7287/bullet3-2.83.6/src/BulletDynamics/CMakeLists.txt
+         CMake does not need to re-run because D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\CMakeFiles\generate.stamp is up-to-date.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /I"D:\Users\mpg7287\bullet3-2.83.6\src" /nologo /W3 /WX- /O2 /Ob2 /D WIN32 /D NDEBUG /D USE_GRAPHICAL_BENCHMARK /D _CRT_SECURE_NO_WARNINGS /D _CRT_SECURE_NO_DEPRECATE /D _SCL_SECURE_NO_WARNINGS /D "CMAKE_INTDIR=\"Release\"" /D _MBCS /Gm- /EHsc /MT /GS /arch:SSE /fp:fast /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"x64\Release\\" /Fd"x64\Release\BulletDynamics.pdb" /Gd /TP /errorReport:prompt "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\Character\btKinematicCharacterController.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\ConstraintSolver\btConeTwistConstraint.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\ConstraintSolver\btContactConstraint.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\ConstraintSolver\btFixedConstraint.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\ConstraintSolver\btGearConstraint.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\ConstraintSolver\btGeneric6DofConstraint.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\ConstraintSolver\btGeneric6DofSpringConstraint.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\ConstraintSolver\btGeneric6DofSpring2Constraint.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\ConstraintSolver\btHinge2Constraint.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\ConstraintSolver\btHingeConstraint.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\ConstraintSolver\btPoint2PointConstraint.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\ConstraintSolver\btSequentialImpulseConstraintSolver.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\ConstraintSolver\btNNCGConstraintSolver.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\ConstraintSolver\btSliderConstraint.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\ConstraintSolver\btSolve2LinearConstraint.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\ConstraintSolver\btTypedConstraint.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\ConstraintSolver\btUniversalConstraint.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\Dynamics\btDiscreteDynamicsWorld.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\Dynamics\btRigidBody.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\Dynamics\btSimpleDynamicsWorld.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\Vehicle\btRaycastVehicle.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\Vehicle\btWheelInfo.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\Featherstone\btMultiBody.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\Featherstone\btMultiBodyConstraintSolver.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\Featherstone\btMultiBodyDynamicsWorld.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\Featherstone\btMultiBodyJointLimitConstraint.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\Featherstone\btMultiBodyConstraint.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\Featherstone\btMultiBodyPoint2Point.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\Featherstone\btMultiBodyJointMotor.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\MLCPSolvers\btDantzigLCP.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\MLCPSolvers\btMLCPSolver.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\MLCPSolvers\btLemkeAlgorithm.cpp"
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+         btKinematicCharacterController.cpp
+         btConeTwistConstraint.cpp
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\ConstraintSolver\btConeTwistConstraint.cpp(868): warning C4244: '=': conversion from 'double' to 'btScalar', possible loss of data
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\ConstraintSolver\btConeTwistConstraint.cpp(913): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\ConstraintSolver\btConeTwistConstraint.cpp(973): warning C4244: '=': conversion from 'double' to 'btScalar', possible loss of data
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\ConstraintSolver\btConeTwistConstraint.cpp(975): warning C4244: '=': conversion from 'double' to 'btScalar', possible loss of data
+         btContactConstraint.cpp
+     1>d:\users\mpg7287\bullet3-2.83.6\src\bulletdynamics\constraintsolver\btContactConstraint.h(25): warning C4359: 'btContactConstraint': Alignment specifier is less than actual alignment (128), and will be ignored.
+         btFixedConstraint.cpp
+         btGearConstraint.cpp
+         btGeneric6DofConstraint.cpp
+         btGeneric6DofSpringConstraint.cpp
+         btGeneric6DofSpring2Constraint.cpp
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\ConstraintSolver\btGeneric6DofSpring2Constraint.cpp(786): warning C4244: 'initializing': conversion from 'double' to 'btScalar', possible loss of data
+         btHinge2Constraint.cpp
+         btHingeConstraint.cpp
+         btPoint2PointConstraint.cpp
+         btSequentialImpulseConstraintSolver.cpp
+         btNNCGConstraintSolver.cpp
+         btSliderConstraint.cpp
+         btSolve2LinearConstraint.cpp
+         btTypedConstraint.cpp
+         btUniversalConstraint.cpp
+         btDiscreteDynamicsWorld.cpp
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics/ConstraintSolver/btContactConstraint.h(25): warning C4359: 'btContactConstraint': Alignment specifier is less than actual alignment (128), and will be ignored.
+         btRigidBody.cpp
+         btSimpleDynamicsWorld.cpp
+         Generating Code...
+         Compiling...
+         btRaycastVehicle.cpp
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics/ConstraintSolver/btContactConstraint.h(25): warning C4359: 'btContactConstraint': Alignment specifier is less than actual alignment (128), and will be ignored.
+         btWheelInfo.cpp
+         btMultiBody.cpp
+         btMultiBodyConstraintSolver.cpp
+         btMultiBodyDynamicsWorld.cpp
+         btMultiBodyJointLimitConstraint.cpp
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\Featherstone\btMultiBodyJointLimitConstraint.cpp(114): warning C4244: 'initializing': conversion from 'int' to 'btScalar', possible loss of data
+         btMultiBodyConstraint.cpp
+         btMultiBodyPoint2Point.cpp
+         btMultiBodyJointMotor.cpp
+         btDantzigLCP.cpp
+         btMLCPSolver.cpp
+         btLemkeAlgorithm.cpp
+         Generating Code...
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\Lib.exe /OUT:"D:\Users\mpg7287\bullet3-2.83.6\x64\Release\BulletDynamics.lib" /NOLOGO /MACHINE:X64 x64\Release\btKinematicCharacterController.obj
+         x64\Release\btConeTwistConstraint.obj
+         x64\Release\btContactConstraint.obj
+         x64\Release\btFixedConstraint.obj
+         x64\Release\btGearConstraint.obj
+         x64\Release\btGeneric6DofConstraint.obj
+         x64\Release\btGeneric6DofSpringConstraint.obj
+         x64\Release\btGeneric6DofSpring2Constraint.obj
+         x64\Release\btHinge2Constraint.obj
+         x64\Release\btHingeConstraint.obj
+         x64\Release\btPoint2PointConstraint.obj
+         x64\Release\btSequentialImpulseConstraintSolver.obj
+         x64\Release\btNNCGConstraintSolver.obj
+         x64\Release\btSliderConstraint.obj
+         x64\Release\btSolve2LinearConstraint.obj
+         x64\Release\btTypedConstraint.obj
+         x64\Release\btUniversalConstraint.obj
+         x64\Release\btDiscreteDynamicsWorld.obj
+         x64\Release\btRigidBody.obj
+         x64\Release\btSimpleDynamicsWorld.obj
+         x64\Release\btRaycastVehicle.obj
+         x64\Release\btWheelInfo.obj
+         x64\Release\btMultiBody.obj
+         x64\Release\btMultiBodyConstraintSolver.obj
+         x64\Release\btMultiBodyDynamicsWorld.obj
+         x64\Release\btMultiBodyJointLimitConstraint.obj
+         x64\Release\btMultiBodyConstraint.obj
+         x64\Release\btMultiBodyPoint2Point.obj
+         x64\Release\btMultiBodyJointMotor.obj
+         x64\Release\btDantzigLCP.obj
+         x64\Release\btMLCPSolver.obj
+         x64\Release\btLemkeAlgorithm.obj
+         BulletDynamics.vcxproj -> D:\Users\mpg7287\bullet3-2.83.6\x64\Release\BulletDynamics.lib
+     1>Done Building Project "D:\Users\mpg7287\bullet3-2.83.6\src\BulletDynamics\BulletDynamics.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:36.25

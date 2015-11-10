@@ -95,6 +95,7 @@ namespace Vixen {
 			Component* component = m_components[i];
 			if (component)
 			{
+                component->VOnDisable();
 				component->VOnDestroy();
                 delete component;
 			}
@@ -321,19 +322,5 @@ namespace Vixen {
 	{
 		return UStringToStd(m_name);
 	}
-
-
-    UIText* GameObject::GetTextComponent()
-    {
-        uint32_t numComponents = m_components.size();
-        for (uint32_t i = 0; i < numComponents; i++)
-        {
-            UIText* _text = dynamic_cast<UIText*>(m_components[i]);
-            if (_text)
-                return _text;
-        }
-
-        return NULL;
-    }
 
 }

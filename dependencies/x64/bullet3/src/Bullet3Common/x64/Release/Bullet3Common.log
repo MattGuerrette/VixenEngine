@@ -1,0 +1,28 @@
+﻿Build started 11/7/2015 5:46:14 PM.
+     1>Project "D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Common\Bullet3Common.vcxproj" on node 2 (Build target(s)).
+     1>CustomBuild:
+         Building Custom Rule D:/Users/mpg7287/bullet3-2.83.6/src/Bullet3Common/CMakeLists.txt
+         CMake does not need to re-run because D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Common\CMakeFiles\generate.stamp is up-to-date.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /I"D:\Users\mpg7287\bullet3-2.83.6\src" /nologo /W3 /WX- /O2 /Ob2 /D WIN32 /D NDEBUG /D USE_GRAPHICAL_BENCHMARK /D _CRT_SECURE_NO_WARNINGS /D _CRT_SECURE_NO_DEPRECATE /D _SCL_SECURE_NO_WARNINGS /D "CMAKE_INTDIR=\"Release\"" /D _MBCS /Gm- /EHsc /MT /GS /arch:SSE /fp:fast /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"x64\Release\\" /Fd"x64\Release\Bullet3Common.pdb" /Gd /TP /errorReport:prompt "D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Common\b3AlignedAllocator.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Common\b3Vector3.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Common\b3Logging.cpp"
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+         b3AlignedAllocator.cpp
+         b3Vector3.cpp
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Common\b3Vector3.cpp(170): warning C4267: '=': conversion from 'size_t' to 'long', possible loss of data
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Common\b3Vector3.cpp(175): warning C4267: '-=': conversion from 'size_t' to 'unsigned long', possible loss of data
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Common\b3Vector3.cpp(418): warning C4267: '=': conversion from 'size_t' to 'long', possible loss of data
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Common\b3Vector3.cpp(556): warning C4267: '=': conversion from 'size_t' to 'long', possible loss of data
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Common\b3Vector3.cpp(561): warning C4267: '-=': conversion from 'size_t' to 'unsigned long', possible loss of data
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Common\b3Vector3.cpp(807): warning C4267: '=': conversion from 'size_t' to 'long', possible loss of data
+         b3Logging.cpp
+         Generating Code...
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\Lib.exe /OUT:"D:\Users\mpg7287\bullet3-2.83.6\x64\Release\Bullet3Common.lib" /NOLOGO /MACHINE:X64 x64\Release\b3AlignedAllocator.obj
+         x64\Release\b3Vector3.obj
+         x64\Release\b3Logging.obj
+         Bullet3Common.vcxproj -> D:\Users\mpg7287\bullet3-2.83.6\x64\Release\Bullet3Common.lib
+     1>Done Building Project "D:\Users\mpg7287\bullet3-2.83.6\src\Bullet3Common\Bullet3Common.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:02.06

@@ -1,0 +1,3 @@
+#define VixenEngine_VERSION_MAJOR @VixenEngine_VERSION_MAJOR@
+#define VixenEngine_VERSION_MINOR @VixenEngine_VERSION_MINOR@
+#define VixenEngine_VERSION_BUILD @VixenEngine_VERSION_BUILD@

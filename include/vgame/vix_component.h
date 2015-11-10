@@ -46,7 +46,9 @@ namespace Vixen {
 			UI_BUTTON,
 			UI_TEXTURE,
 			SPRITE,
-			MODEL
+			MODEL,
+			CAMERA,
+			PHYSICS_RIGIDBODY
 		};
 
 		Component(Type type)

@@ -102,10 +102,32 @@ namespace Vixen {
 
         return _window.m_window->VMouseState();
     }
-	SDLControllerState * Window::Controller()
+	
+    SDLControllerState * Window::Controller()
 	{
 		Window& _window = Window::instance();
 
 		return _window.m_window->VControllerState();
 	}
+
+    void Window::StartTextCapture()
+    {
+        Window& _window = Window::instance();
+
+        _window.m_window->VStartTextCapture();
+    }
+
+    std::string Window::InputBuffer()
+    {
+        Window& _window = Window::instance();
+
+        return _window.m_window->VInputBuffer();
+    }
+
+    void Window::StopTextCapture()
+    {
+        Window& _window = Window::instance();
+
+        _window.m_window->VStopTextCapture();
+    }
 }

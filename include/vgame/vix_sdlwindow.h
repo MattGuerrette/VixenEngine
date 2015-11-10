@@ -98,6 +98,11 @@ namespace Vixen {
         void                VPollEvents()                          override;
         void                VPollNextFrame()                       override;
 
+
+        void                VStartTextCapture()                    override;
+        std::string         VInputBuffer()                         override;
+        void                VStopTextCapture()                     override;
+
         IKeyboardState*     VKeyboardState()                       override;
         IMouseState*        VMouseState()                          override;
 		SDLControllerState* VControllerState();
@@ -109,6 +114,9 @@ namespace Vixen {
 		SDL_GLContext		m_context;
         SDL_GW_Params		m_params;
         void*               m_nativeHandle;
+		int					m_controllerIndeces[4];
+		SDL_GameController* m_controllers[4];
+		int					GetPlayerFromControllerIndex(int controllerIndex);
 	};
 
 }

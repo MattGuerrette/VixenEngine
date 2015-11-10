@@ -1,0 +1,35 @@
+﻿Build started 11/7/2015 6:05:15 PM.
+     1>Project "D:\Users\mpg7287\bullet3-2.83.6\src\LinearMath\LinearMath.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /I"D:\Users\mpg7287\bullet3-2.83.6\src" /Zi /nologo /W3 /WX- /Od /Ob0 /D WIN32 /D _DEBUG /D _DEBUG /D USE_GRAPHICAL_BENCHMARK /D _CRT_SECURE_NO_WARNINGS /D _CRT_SECURE_NO_DEPRECATE /D _SCL_SECURE_NO_WARNINGS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MTd /GS /arch:SSE /fp:fast /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"x64\Debug\\" /Fd"x64\Debug\LinearMath.pdb" /Gd /TP /errorReport:prompt "D:\Users\mpg7287\bullet3-2.83.6\src\LinearMath\btAlignedAllocator.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\LinearMath\btConvexHull.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\LinearMath\btConvexHullComputer.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\LinearMath\btGeometryUtil.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\LinearMath\btPolarDecomposition.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\LinearMath\btQuickprof.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\LinearMath\btSerializer.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\LinearMath\btVector3.cpp"
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+         btAlignedAllocator.cpp
+         btConvexHull.cpp
+         btConvexHullComputer.cpp
+         btGeometryUtil.cpp
+         btPolarDecomposition.cpp
+         btQuickprof.cpp
+         btSerializer.cpp
+         btVector3.cpp
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\LinearMath\btVector3.cpp(179): warning C4267: '=': conversion from 'size_t' to 'long', possible loss of data
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\LinearMath\btVector3.cpp(184): warning C4267: '-=': conversion from 'size_t' to 'unsigned long', possible loss of data
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\LinearMath\btVector3.cpp(427): warning C4267: '=': conversion from 'size_t' to 'long', possible loss of data
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\LinearMath\btVector3.cpp(564): warning C4267: '=': conversion from 'size_t' to 'long', possible loss of data
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\LinearMath\btVector3.cpp(569): warning C4267: '-=': conversion from 'size_t' to 'unsigned long', possible loss of data
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\LinearMath\btVector3.cpp(815): warning C4267: '=': conversion from 'size_t' to 'long', possible loss of data
+         Generating Code...
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\Lib.exe /OUT:"D:\Users\mpg7287\bullet3-2.83.6\x64\Debug\LinearMath_Debug.lib" /NOLOGO /MACHINE:X64 x64\Debug\btAlignedAllocator.obj
+         x64\Debug\btConvexHull.obj
+         x64\Debug\btConvexHullComputer.obj
+         x64\Debug\btGeometryUtil.obj
+         x64\Debug\btPolarDecomposition.obj
+         x64\Debug\btQuickprof.obj
+         x64\Debug\btSerializer.obj
+         x64\Debug\btVector3.obj
+         LinearMath.vcxproj -> D:\Users\mpg7287\bullet3-2.83.6\x64\Debug\LinearMath_Debug.lib
+     1>Done Building Project "D:\Users\mpg7287\bullet3-2.83.6\src\LinearMath\LinearMath.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.53

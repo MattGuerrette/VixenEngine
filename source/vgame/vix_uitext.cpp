@@ -1,6 +1,7 @@
 #include <vix_uitext.h>
 #include <vix_renderer_singleton.h>
 #include <vix_resourcemanager.h>
+#include <vix_gameobject.h>>
 
 namespace Vixen {
 
@@ -42,6 +43,16 @@ namespace Vixen {
     std::string UIText::GetText()
     {
         return UStringToStd(m_text);
+    }
+
+    UString UIText::GetTextW()
+    {
+        return m_text;
+    }
+
+    Font* UIText::GetFont()
+    {
+        return m_font;
     }
 
 	void UIText::VOnInit()

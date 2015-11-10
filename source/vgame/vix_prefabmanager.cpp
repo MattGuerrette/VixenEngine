@@ -153,28 +153,21 @@ namespace Vixen {
 			if (name == "script")
 			{
 				//PARSE SCRIPT
-				//prefab->AddScriptFile(ParseLuaScriptComponent(child));
-
 				_component = ParseLuaScriptComponent(child);
 			}
 			else if (name == "camera")
 			{
 				//PARSE CAMERA
-				//component = ParseCameraComponent(child);
-
 				_component = ParseCameraComponent(child);
 			}
 			else if (name == "light")
 			{
 				//PARSE LIGHT
-				
-
 				_component = ParseLightComponent(child);
 			}
 			else if (name == "ui-text")
 			{
 				//PARSE UI TEXT
-
 				_component = ParseUITextComponent(child);
 			}
 			else if (name == "model")
@@ -191,15 +184,46 @@ namespace Vixen {
 
 	Component* PrefabManager::ParseUITextComponent(const tinyxml2::XMLElement* element)
 	{
-		return NULL;
+        using namespace tinyxml2;
+
+        const char* text = element->Attribute("text");
+        const char* font = element->Attribute("font");
+
+
+        Font*  _font = ResourceManager::OpenFont(UStringFromCharArray(font));
+        _font->IncrementRefCount();
+
+        UIText* _text = new UIText(UStringFromCharArray(text), _font);
+
+        return _text;
 	}
 
 	Component* PrefabManager::ParseCameraComponent(const tinyxml2::XMLElement* element)
 	{
-		bool isMainCamera = element->BoolAttribute("mainCamera");
-		Camera3DComponent* _camera = new Camera3DComponent;
-		if (isMainCamera)
-			SceneManager::ActiveScene()->SetMainCamera(_camera->GetCamera());
+		using namespace tinyxml2;
+
+		Camera3DComponent* _camera = new Camera3DComponent();
+		const XMLElement* _viewportElement = element->FirstChildElement("viewport");
+		if (_viewportElement)
+		{
+			float x = _viewportElement->FloatAttribute("x");
+			float y = _viewportElement->FloatAttribute("y");
+			float width = _viewportElement->FloatAttribute("width");
+			float height = _viewportElement->FloatAttribute("height");
+			float minDepth = _viewportElement->FloatAttribute("min");
+			float maxDepth = _viewportElement->FloatAttribute("max");
+
+			Viewport v;
+			v.x = x;
+			v.y = y;
+			v.width = width;
+			v.height = height;
+			v.minDepth = minDepth;
+			v.maxDepth = maxDepth;
+
+			_camera->GetCamera()->VSetViewport(v);
+		}
+
 		return _camera;
 	}
 

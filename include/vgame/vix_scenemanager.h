@@ -59,12 +59,15 @@ namespace Vixen {
 		static void				ShowScene(std::string sceneID);
 		static void				SetOrder(std::string sceneID, uint32_t order);
 
+        static void             UpdateCameraViewports(uint32_t width, uint32_t height);
+
     private:
 		SceneQueue m_sceneQueue;
         SceneMap   m_scenes;
 		SceneFileMap m_sceneFiles;
 		SceneList  m_sceneList;
         Scene*     m_current;
+
     };
 
 }

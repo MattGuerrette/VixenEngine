@@ -29,8 +29,13 @@
 #include <vix_time.h>
 #include <vix_luaengine.h>
 #include <vix_resourcemanager.h>
-
 #include <vix_components.h>
+
+#include <vix_bullet_boxcollider.h>
+#include <vix_bullet_planecollider.h>
+#include <vix_bullet_spherecollider.h>
+
+#include <vix_window_singleton.h>
 
 namespace Vixen {
 
@@ -161,6 +166,23 @@ namespace Vixen {
 	void Scene::SetMainCamera(ICamera3D * camera)
 	{
 		m_mainCamera = camera;
+	}
+
+	void Scene::AddCamera(ICamera3D * camera)
+	{
+		m_cameras.push_back(camera);
+	}
+
+	void Scene::RemoveCamera(ICamera3D * camera)
+	{
+		for (int i = 0; i < m_cameras.size(); i++)
+		{
+			if (m_cameras[i] == camera)
+			{
+				m_cameras.erase(m_cameras.begin() + i);
+				return;
+			}
+		}
 	}
 
 	void Scene::SetPaused(bool paused)
@@ -340,6 +362,11 @@ namespace Vixen {
 				//PARSE MODEL COMPONENT
 				component = ParseModelComponent(child);
 			}
+			else if (name == "rigidbody")
+			{
+				//PARSE RIGIDBODY COMPONENT
+				component = ParseRigidBodyComponent(child);
+			}
 
 			components.push_back(component);
 			child = child->NextSiblingElement();
@@ -353,7 +380,7 @@ namespace Vixen {
 		using namespace tinyxml2;
 		
 		bool isMainCamera = element->BoolAttribute("mainCamera");
-		Camera3DComponent* _camera = new Camera3DComponent;
+		Camera3DComponent* _camera = new Camera3DComponent();
 		if (isMainCamera)
 			scene->m_mainCamera = _camera->GetCamera();
 		scene->m_cameras.push_back(_camera->GetCamera());
@@ -363,18 +390,24 @@ namespace Vixen {
 		{
 			float x = _viewportElement->FloatAttribute("x");
 			float y = _viewportElement->FloatAttribute("y");
-			float width = _viewportElement->FloatAttribute("width");
-			float height = _viewportElement->FloatAttribute("height");
+			float w = _viewportElement->FloatAttribute("width");
+			float h = _viewportElement->FloatAttribute("height");
 			float minDepth = _viewportElement->FloatAttribute("min");
 			float maxDepth = _viewportElement->FloatAttribute("max");
 
 			Viewport v;
-			v.x = x;
-			v.y = y;
-			v.width = width;
-			v.height = height;
+            v.xPercent = x;
+            v.yPercent = y;
+            v.wPercent = w;
+            v.hPercent = h;
+			v.x = x * Window::Width();         //x as percentage of Screen Width
+			v.y = y * Window::Height();        //y as percentage of Screen Height
+			v.width = w * Window::Width();     //width as percentage of Screen Width
+			v.height = h * Window::Height();   //height as percentage of Screen Height
 			v.minDepth = minDepth;
 			v.maxDepth = maxDepth;
+            v.sWidth = Window::Width();
+            v.sHeight = Window::Height();
 
 			_camera->GetCamera()->VSetViewport(v);
 		}
@@ -472,5 +505,77 @@ namespace Vixen {
 		_modelComponent->SetMaterial(_material);
 			
 		return _modelComponent;
+	}
+
+	Component* Scene::ParseRigidBodyComponent(const tinyxml2::XMLElement* element)
+	{
+		using namespace tinyxml2;
+
+		RigidBodyComponent* _component = new RigidBodyComponent;
+
+		btScalar friction = element->FloatAttribute("friction");
+		btScalar mass = element->FloatAttribute("mass");
+		btScalar restitution = element->FloatAttribute("restitution");
+
+
+		const XMLElement* shape = element->FirstChildElement("shape");
+		if (shape)
+		{
+			std::string type = shape->Attribute("type");
+			if (type == "SPHERE")
+			{
+				//PARSE SPHERE COLLIDER
+				btScalar radius = shape->FloatAttribute("radius");
+
+				BulletSphereCollider* _sphere = new BulletSphereCollider;
+				_sphere->SetRadius(radius);
+
+				_component->SetColliderShape(_sphere);
+			}
+			else if (type == "PLANE")
+			{
+				//PARSE PLANE COLLIDER
+
+				btVector3 planeNormal;
+
+				planeNormal.setX(shape->FloatAttribute("normalX"));
+				planeNormal.setY(shape->FloatAttribute("normalY"));
+				planeNormal.setZ(shape->FloatAttribute("normalZ"));
+
+				btScalar planeConstant = shape->FloatAttribute("constant");
+
+				BulletPlaneCollider* _plane = new BulletPlaneCollider;
+				_plane->SetPlaneNormal(planeNormal);
+				_plane->SetPlaneContant(planeConstant);
+				
+				_component->SetColliderShape(_plane);
+			}
+			else if (type == "BOX")
+			{
+				//PARSE BOX COLLIDER
+
+				btVector3 extents;
+
+				extents.setX(shape->FloatAttribute("extentX"));
+				extents.setY(shape->FloatAttribute("extentY"));
+				extents.setZ(shape->FloatAttribute("extentZ"));
+
+				BulletBoxCollider* _box = new BulletBoxCollider;
+				_box->SetExtents(extents);
+
+				_component->SetColliderShape(_box);
+			}
+			else
+			{
+				DebugPrintF(VTEXT("Rigidbody is missing collider shape. ERROR\n"));
+				return NULL;
+			}
+		}
+
+		_component->SetFriction(friction);
+		_component->SetMass(mass);
+		_component->SetRestitution(restitution);
+
+		return _component;
 	}
 }

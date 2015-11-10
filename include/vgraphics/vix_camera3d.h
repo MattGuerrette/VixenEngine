@@ -31,12 +31,18 @@ namespace Vixen {
 
 	struct Viewport
 	{
+        float xPercent;
+        float yPercent;
+        float wPercent;
+        float hPercent;
 		float x;
 		float y;
 		float width;
 		float height;
 		float minDepth;
 		float maxDepth;
+        float sWidth;
+        float sHeight;
 	};
 
     class VIX_API ICamera3D
@@ -46,8 +52,11 @@ namespace Vixen {
 
 		virtual Viewport VGetViewport() = 0;
 		virtual void VSetViewport(Viewport v) = 0;
+		virtual void VSetViewportVariables(float x, float y, float width, float height, float minDepth, float maxDepth) = 0;
+		virtual void VSetFOV(float fov) = 0;
         virtual void VSetPerspective(float aspect, float fov, float znear, float zfar) = 0;
         virtual void VSetView(const Vector3& eye, const Vector3& target, const Vector3& up) = 0;
+        virtual void VUpdateViewport(Viewport v) = 0;
         virtual void VUpdate() = 0;
     };
 

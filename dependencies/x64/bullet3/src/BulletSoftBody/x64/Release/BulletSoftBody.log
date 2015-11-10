@@ -1,0 +1,39 @@
+﻿Build started 11/7/2015 5:46:14 PM.
+     1>Project "D:\Users\mpg7287\bullet3-2.83.6\src\BulletSoftBody\BulletSoftBody.vcxproj" on node 5 (Build target(s)).
+     1>CustomBuild:
+         Building Custom Rule D:/Users/mpg7287/bullet3-2.83.6/src/BulletSoftBody/CMakeLists.txt
+         CMake does not need to re-run because D:\Users\mpg7287\bullet3-2.83.6\src\BulletSoftBody\CMakeFiles\generate.stamp is up-to-date.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /I"D:\Users\mpg7287\bullet3-2.83.6\src" /nologo /W3 /WX- /O2 /Ob2 /D WIN32 /D NDEBUG /D USE_GRAPHICAL_BENCHMARK /D _CRT_SECURE_NO_WARNINGS /D _CRT_SECURE_NO_DEPRECATE /D _SCL_SECURE_NO_WARNINGS /D "CMAKE_INTDIR=\"Release\"" /D _MBCS /Gm- /EHsc /MT /GS /arch:SSE /fp:fast /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"x64\Release\\" /Fd"x64\Release\BulletSoftBody.pdb" /Gd /TP /errorReport:prompt "D:\Users\mpg7287\bullet3-2.83.6\src\BulletSoftBody\btSoftBody.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletSoftBody\btSoftBodyConcaveCollisionAlgorithm.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletSoftBody\btSoftBodyHelpers.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletSoftBody\btSoftBodyRigidBodyCollisionConfiguration.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletSoftBody\btSoftRigidCollisionAlgorithm.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletSoftBody\btSoftRigidDynamicsWorld.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletSoftBody\btSoftSoftCollisionAlgorithm.cpp" "D:\Users\mpg7287\bullet3-2.83.6\src\BulletSoftBody\btDefaultSoftBodySolver.cpp"
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+         btSoftBody.cpp
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\BulletSoftBody\btSoftBody.cpp(3340): warning C4244: '=': conversion from '__int64' to 'int', possible loss of data
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\BulletSoftBody\btSoftBody.cpp(3341): warning C4244: '=': conversion from '__int64' to 'int', possible loss of data
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\BulletSoftBody\btSoftBody.cpp(3365): warning C4244: '=': conversion from '__int64' to 'int', possible loss of data
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\BulletSoftBody\btSoftBody.cpp(3386): warning C4244: '=': conversion from '__int64' to 'int', possible loss of data
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\BulletSoftBody\btSoftBody.cpp(3410): warning C4244: '=': conversion from '__int64' to 'int', possible loss of data
+         btSoftBodyConcaveCollisionAlgorithm.cpp
+         btSoftBodyHelpers.cpp
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\BulletSoftBody\btSoftBodyHelpers.cpp(572): warning C4244: '=': conversion from '__int64' to 'int', possible loss of data
+     1>D:\Users\mpg7287\bullet3-2.83.6\src\BulletSoftBody\btSoftBodyHelpers.cpp(573): warning C4244: '=': conversion from '__int64' to 'int', possible loss of data
+         btSoftBodyRigidBodyCollisionConfiguration.cpp
+         btSoftRigidCollisionAlgorithm.cpp
+         btSoftRigidDynamicsWorld.cpp
+         btSoftSoftCollisionAlgorithm.cpp
+         btDefaultSoftBodySolver.cpp
+         Generating Code...
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\Lib.exe /OUT:"D:\Users\mpg7287\bullet3-2.83.6\x64\Release\BulletSoftBody.lib" /NOLOGO /MACHINE:X64 x64\Release\btSoftBody.obj
+         x64\Release\btSoftBodyConcaveCollisionAlgorithm.obj
+         x64\Release\btSoftBodyHelpers.obj
+         x64\Release\btSoftBodyRigidBodyCollisionConfiguration.obj
+         x64\Release\btSoftRigidCollisionAlgorithm.obj
+         x64\Release\btSoftRigidDynamicsWorld.obj
+         x64\Release\btSoftSoftCollisionAlgorithm.obj
+         x64\Release\btDefaultSoftBodySolver.obj
+         BulletSoftBody.vcxproj -> D:\Users\mpg7287\bullet3-2.83.6\x64\Release\BulletSoftBody.lib
+     1>Done Building Project "D:\Users\mpg7287\bullet3-2.83.6\src\BulletSoftBody\BulletSoftBody.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:30.22

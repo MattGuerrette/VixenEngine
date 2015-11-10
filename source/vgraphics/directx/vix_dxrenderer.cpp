@@ -35,6 +35,7 @@ namespace Vixen {
     {
         m_HWND = NULL;
         m_camera2D = new DXCamera2D;
+        m_spriteBatch = NULL;
     }
 
     DXRenderer::~DXRenderer()
@@ -47,8 +48,7 @@ namespace Vixen {
         if(m_ImmediateContext)
             m_ImmediateContext->ClearState();
     
-        ReleaseCOM(m_RenderTargetView);
-        ReleaseCOM(m_DepthStencView);
+        ReleaseBuffers();
         ReleaseCOM(m_SwapChain);
         ReleaseCOM(m_ImmediateContext);
         ReleaseCOM(m_Device);
@@ -92,14 +92,14 @@ namespace Vixen {
 
             hr = D3D11CreateDevice(NULL, drivers[i], NULL, createDeviceFlags,
                 featureLevels, numLevels, D3D11_SDK_VERSION, &m_Device, &m_FeatureLevel, &m_ImmediateContext);
-       
+
             if (SUCCEEDED(hr))
                 break;
         }
         if (FAILED(hr))
             return false;
 
-        
+
 
         //Check multisampling support.
         //NOTE:
@@ -108,125 +108,57 @@ namespace Vixen {
         UINT msaaQuality;
         hr = m_Device->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, 4, &msaaQuality);
 
-        //Need to grab the same IDXGIFactory object that was used to create
-        //the device
-
-        IDXGIDevice*  dxgiDevice = NULL;
-        hr = m_Device->QueryInterface(__uuidof(IDXGIDevice),
-            reinterpret_cast<void**>(&dxgiDevice));
-        if (FAILED(hr))
-            return false;
-
-        IDXGIAdapter* dxgiAdapter = NULL;
-        dxgiDevice->GetParent(__uuidof(IDXGIAdapter),
-            reinterpret_cast<void**>(&dxgiAdapter));
-        if (FAILED(hr))
-            return false;
-
-        IDXGIFactory* dxgiFactory = NULL;
-        dxgiAdapter->GetParent(__uuidof(IDXGIFactory),
-            reinterpret_cast<void**>(&dxgiFactory));
-        if (FAILED(hr))
-            return false;
-
         RECT r;
         GetClientRect(m_HWND, &r);
         UINT width = r.right - r.left;
         UINT height = r.bottom - r.top;
 
-        DXGI_SWAP_CHAIN_DESC sd;
-        ZeroMemory(&sd, sizeof(DXGI_SWAP_CHAIN_DESC));
-        sd.BufferDesc.Width = width;
-        sd.BufferDesc.Height = height;
-        sd.BufferDesc.RefreshRate.Numerator = 60;
-        sd.BufferDesc.RefreshRate.Denominator = 1;
-        sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-        sd.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
-        sd.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
-        //multisampling (why not? actually..lets not)
-        sd.SampleDesc.Count = 1;
-        sd.SampleDesc.Quality = 0; //msaaQuality - 1;
-        sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-        sd.BufferCount = 1;
-        sd.OutputWindow = m_HWND;
-        sd.Windowed = true;
-        sd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-        sd.Flags = 0;
+        IDXGIDevice*  dxgiDevice = NULL;
+        hr = m_Device->QueryInterface(__uuidof(IDXGIDevice),
+            reinterpret_cast<void**>(&dxgiDevice));
 
-        hr = dxgiFactory->CreateSwapChain(m_Device, &sd, &m_SwapChain);
-        if (FAILED(hr))
-            return false;
+        IDXGIAdapter* dxgiAdapter = NULL;
+        dxgiDevice->GetParent(__uuidof(IDXGIAdapter),
+            reinterpret_cast<void**>(&dxgiAdapter));
+
+        IDXGIFactory* dxgiFactory = NULL;
+        dxgiAdapter->GetParent(__uuidof(IDXGIFactory),
+            reinterpret_cast<void**>(&dxgiFactory));
+
+
+        ZeroMemory(&m_SwapChainDesc, sizeof(DXGI_SWAP_CHAIN_DESC));
+        m_SwapChainDesc.BufferDesc.Width = width;
+        m_SwapChainDesc.BufferDesc.Height = height;
+        m_SwapChainDesc.BufferDesc.RefreshRate.Numerator = 60;
+        m_SwapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
+        m_SwapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+        m_SwapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+        m_SwapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+        //multisampling (why not? actually..lets not)
+        m_SwapChainDesc.SampleDesc.Count = 1;
+        m_SwapChainDesc.SampleDesc.Quality = 0; //msaaQuality - 1;
+        m_SwapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+        m_SwapChainDesc.BufferCount = 1;
+        m_SwapChainDesc.OutputWindow = m_HWND;
+        m_SwapChainDesc.Windowed = true;
+        m_SwapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+        m_SwapChainDesc.Flags = 0;
+
+        hr = dxgiFactory->CreateSwapChain(m_Device, &m_SwapChainDesc, &m_SwapChain);
+
 
         ReleaseCOM(dxgiDevice);
         ReleaseCOM(dxgiAdapter);
         ReleaseCOM(dxgiFactory);
-        
-        //CREATE RENDER TARGET VIEW
-        ID3D11Texture2D* backBuffer;
-        hr = m_SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D),
-            reinterpret_cast<void**>(&backBuffer));
-        if (FAILED(hr))
-            return false;
-        hr = m_Device->CreateRenderTargetView(backBuffer, 0, &m_RenderTargetView);
-        if (FAILED(hr))
-            return false;
-        ReleaseCOM(backBuffer);
 
-        
-        //CREATE DEPTH/STENCIL VIEW
-        D3D11_TEXTURE2D_DESC dsd;
-        dsd.Width = width;
-        dsd.Height = height;
-        dsd.MipLevels = 1;
-        dsd.ArraySize = 1;
-        dsd.Format = DXGI_FORMAT_D24_UNORM_S8_UINT; //D24 S8
-
-        //MSAA (why not?)
-        dsd.SampleDesc.Count = 1; //4;
-        dsd.SampleDesc.Quality = 0; //msaaQuality - 1;
-        dsd.Usage = D3D11_USAGE_DEFAULT;
-        dsd.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-        dsd.CPUAccessFlags = 0;
-        dsd.MiscFlags = 0;
-
-        ID3D11Texture2D* depthStencilBuffer;
-        hr = m_Device->CreateTexture2D(&dsd, 0, &depthStencilBuffer);
-        if (FAILED(hr))
-            return false;
-
-        // Create the depth stencil view
-        D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
-        ZeroMemory(&descDSV, sizeof(descDSV));
-        descDSV.Format = dsd.Format;
-        descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-        descDSV.Texture2D.MipSlice = 0;
-        hr = m_Device->CreateDepthStencilView(depthStencilBuffer, &descDSV, &m_DepthStencView);
-        if (FAILED(hr))
-            return false;
-
-        ReleaseCOM(depthStencilBuffer);
-
-        m_ImmediateContext->OMSetRenderTargets(1, &m_RenderTargetView, m_DepthStencView);
-
+        CreateBuffers(width, height);
        
-        D3D11_VIEWPORT vp;
-        vp.TopLeftX = 0.0f;
-        vp.TopLeftY = 0.0f;
-        vp.Width = static_cast<float>(width);
-        vp.Height = static_cast<float>(height);
-        vp.MinDepth = 0;
-        vp.MaxDepth = 1;
-
-        m_ImmediateContext->RSSetViewports(1, &vp);
-
-
         OrthoRect _ortho;
         _ortho.left = 0.0f;
         _ortho.right = static_cast<float>(width);
         _ortho.top = 0.0f;
         _ortho.bottom = static_cast<float>(height);
         m_camera2D->VSetOrthoRHOffCenter(_ortho, 0.0f, 1.0f);
-  
 
 
         D3D11_BLEND_DESC blendDesc;
@@ -238,8 +170,8 @@ namespace Vixen {
         blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
         blendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
 
-        blendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_SRC_ALPHA;        
-        blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_DEST_ALPHA; 
+        blendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_SRC_ALPHA;
+        blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_DEST_ALPHA;
         blendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
         blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
@@ -249,8 +181,8 @@ namespace Vixen {
 
         ReleaseCOM(state);
 
-        
-        
+
+
 
         return true;
     }
@@ -301,6 +233,84 @@ namespace Vixen {
     ID3D11DeviceContext* DXRenderer::DeviceContext()
     {
         return m_ImmediateContext;
+    }
+
+    void DXRenderer::VResizeBuffers(uint32_t width, uint32_t height)
+    {
+        ReleaseBuffers();
+
+        m_SwapChain->ResizeBuffers(1, width, height, m_SwapChainDesc.BufferDesc.Format, 0);
+        m_SwapChain->GetDesc(&m_SwapChainDesc);
+
+        CreateBuffers(width, height);
+    }
+
+    bool DXRenderer::CreateBuffers(uint32_t width, uint32_t height)
+    {
+        HRESULT hr;
+
+        //CREATE RENDER TARGET VIEW
+        ID3D11Texture2D* backBuffer;
+        hr = m_SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D),
+            reinterpret_cast<void**>(&backBuffer));
+
+        hr = m_Device->CreateRenderTargetView(backBuffer, 0, &m_RenderTargetView);
+
+        ReleaseCOM(backBuffer);
+
+
+        //CREATE DEPTH/STENCIL VIEW
+        D3D11_TEXTURE2D_DESC dsd;
+        dsd.Width = width;
+        dsd.Height = height;
+        dsd.MipLevels = 1;
+        dsd.ArraySize = 1;
+        dsd.Format = DXGI_FORMAT_D24_UNORM_S8_UINT; //D24 S8
+
+                                                    //MSAA (why not?)
+        dsd.SampleDesc.Count = 1; //4;
+        dsd.SampleDesc.Quality = 0; //msaaQuality - 1;
+        dsd.Usage = D3D11_USAGE_DEFAULT;
+        dsd.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+        dsd.CPUAccessFlags = 0;
+        dsd.MiscFlags = 0;
+
+        ID3D11Texture2D* depthStencilBuffer;
+        hr = m_Device->CreateTexture2D(&dsd, 0, &depthStencilBuffer);
+
+
+        // Create the depth stencil view
+        D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
+        ZeroMemory(&descDSV, sizeof(descDSV));
+        descDSV.Format = dsd.Format;
+        descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+        descDSV.Texture2D.MipSlice = 0;
+        hr = m_Device->CreateDepthStencilView(depthStencilBuffer, &descDSV, &m_DepthStencView);
+
+
+        ReleaseCOM(depthStencilBuffer);
+
+        m_ImmediateContext->OMSetRenderTargets(1, &m_RenderTargetView, m_DepthStencView);
+
+
+        D3D11_VIEWPORT vp;
+        vp.TopLeftX = 0.0f;
+        vp.TopLeftY = 0.0f;
+        vp.Width = static_cast<float>(width);
+        vp.Height = static_cast<float>(height);
+        vp.MinDepth = 0;
+        vp.MaxDepth = 1;
+
+        m_ImmediateContext->RSSetViewports(1, &vp);
+
+        return true;
+    }
+
+    void DXRenderer::ReleaseBuffers()
+    {
+        //need to release existing buffers
+        ReleaseCOM(m_RenderTargetView);
+        ReleaseCOM(m_DepthStencView);
     }
 
     void DXRenderer::VRenderTexture2D(Texture* texture, const Vector2& position, const Rect& source)
