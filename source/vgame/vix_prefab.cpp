@@ -29,6 +29,7 @@
 #include <vix_objectmanager.h>
 #include <vix_resourcemanager.h>
 #include <vix_components.h>
+#include <vix_window_singleton.h>
 
 namespace Vixen {
 
@@ -152,6 +153,8 @@ namespace Vixen {
 
 						//copy camera viewports
 						Viewport v = _cameraComponent->GetCamera()->VGetViewport();
+						v.sWidth = Window::Width();
+						v.sHeight = Window::Height();
 						_newCamera->GetCamera()->VSetViewport(v);
 
 
