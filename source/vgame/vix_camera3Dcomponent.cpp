@@ -95,7 +95,6 @@ namespace Vixen {
 
     void Camera3DComponent::VOnEnable()
     {
-		SceneManager::ActiveScene()->AddCamera(m_camera);
 
 		if (m_camera)
 		{

@@ -64,7 +64,14 @@ namespace Vixen {
 
     void DXMaterial::VUnbind()
     {
+        for (auto& vsVariable : m_vsVariables)
+            vsVariable.second->VUnbind(vsVariable.first, m_shaders[ShaderRole::Vertex]);
+        for (auto& psVariable : m_psVariables)
+            psVariable.second->VUnbind(psVariable.first, m_shaders[ShaderRole::Pixel]);
 
+        //activate all shaders
+        m_shaders[ShaderRole::Vertex]->Deactivate();
+        m_shaders[ShaderRole::Pixel]->Deactivate();
     }
 
 	DXVertexShader* DXMaterial::GetVertexShader()

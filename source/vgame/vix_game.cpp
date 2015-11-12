@@ -33,6 +33,7 @@
 #include <vix_luascriptmanager.h>
 #include <vix_prefabmanager.h>
 #include <vix_bulletsimulator.h>
+#include <vix_curl_singleton.h>
 
 namespace Vixen {
 
@@ -55,6 +56,8 @@ namespace Vixen {
         Input::SetKeyboardState(Window::Keyboard());
 		Input::SetControllerState(Window::Controller());
 
+
+        Curl::Initialize();
         ResourceManager::Initialize();
         Renderer::InitializeSpriteBatch();
         ObjectManager::Initialize();
@@ -95,13 +98,13 @@ namespace Vixen {
 		PrefabManager::Cleanup();
 
 		BulletSimulator::DeInitialize();
-		
-        
+	
         LuaEngine::DeInitialize();
         ObjectManager::DeInitialize();
         ResourceManager::DeInitialize();
         Renderer::DeInitialize();
 		ResourceManager::PrintLoaded();
+        Curl::DeInitialize();
 
         Window::DeInitialize();
         PathManager::DeInitialize();

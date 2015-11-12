@@ -411,6 +411,8 @@ namespace Vixen {
             v.sHeight = Window::Height();
 
 			_camera->GetCamera()->VSetViewport(v);
+
+            scene->AddCamera(_camera->GetCamera());
 		}
 
 		return _camera;

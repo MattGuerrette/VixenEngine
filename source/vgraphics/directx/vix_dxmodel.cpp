@@ -175,6 +175,8 @@ namespace Vixen {
         m_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
         m_context->DrawIndexedInstanced(m_indices.size(), m_numInstances, 0, 0, 0);
 
+        m_material->VUnbind();
+
         ///m_instanceData.clear();
         m_numInstances = 0;
         m_numRenderCalls = 0;

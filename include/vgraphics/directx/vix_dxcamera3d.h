@@ -63,6 +63,8 @@ namespace Vixen {
 
         Viewport            m_viewport;
 
+        D3D11_VIEWPORT      m_d3dViewport;
+
         float               m_aspect;
         float               m_znear;
         float               m_zfar;

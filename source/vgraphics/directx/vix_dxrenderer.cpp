@@ -243,6 +243,13 @@ namespace Vixen {
         m_SwapChain->GetDesc(&m_SwapChainDesc);
 
         CreateBuffers(width, height);
+
+        OrthoRect _ortho;
+        _ortho.left = 0.0f;
+        _ortho.right = static_cast<float>(width);
+        _ortho.top = 0.0f;
+        _ortho.bottom = static_cast<float>(height);
+        m_camera2D->VSetOrthoRHOffCenter(_ortho, 0.0f, 1.0f);
     }
 
     bool DXRenderer::CreateBuffers(uint32_t width, uint32_t height)

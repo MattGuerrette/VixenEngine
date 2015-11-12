@@ -310,4 +310,13 @@ namespace Vixen {
 
 		return success;
 	}
+
+    bool DXShader::VUnbindTexture(std::string name, Texture* texture)
+    {
+        bool success = true;
+        success = VSetSamplerState("samLinear", nullptr);
+        success = VSetShaderResourceView(name, nullptr);
+
+        return success;
+    }
 }

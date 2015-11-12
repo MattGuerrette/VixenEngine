@@ -30,6 +30,11 @@ namespace Vixen {
 		shader->VSetFloat(name, m_val);
 	}
 
+    void FloatVariable::VUnbind(std::string name, Shader* shader)
+    {
+
+    }
+
 	/////////////////////////////////////////////////////////
 	// Float4 Variable
 	////////////////////////////////////////////////////////
@@ -65,6 +70,11 @@ namespace Vixen {
 		
 	}
 
+    void Float4Variable::VUnbind(std::string name, Shader* shader)
+    {
+
+    }
+
 	/////////////////////////////////////////////////////////
 	// Int Variable
 	////////////////////////////////////////////////////////
@@ -91,6 +101,11 @@ namespace Vixen {
 
 		shader->VSetInt(name, m_val);
 	}
+
+    void IntVariable::VUnbind(std::string name, Shader* shader)
+    {
+
+    }
 
 	/////////////////////////////////////////////////////////
 	// Matrix4 Float Variable
@@ -121,6 +136,12 @@ namespace Vixen {
 		shader->VSetMatrix4x4(name, m_val);
 	}
 
+    void Matrix4FloatVariable::VUnbind(std::string name, Shader* shader)
+    {
+
+    }
+
+
 	/////////////////////////////////////////////////////////
 	// Texture Variable
 	////////////////////////////////////////////////////////
@@ -149,4 +170,12 @@ namespace Vixen {
 
 		shader->VBindTexture(name, m_texture);
 	}
+
+    void TextureVariable::VUnbind(std::string name, Shader* shader)
+    {
+        if (!shader)
+            return;
+
+        shader->VUnbindTexture(name, m_texture);
+    }
 }
