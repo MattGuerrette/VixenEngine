@@ -154,7 +154,7 @@ namespace Vixen {
 					//Need to load a model object into memory
 					_model = _RM.m_resourceLoader->LoadModel(file);
 
-					_RM.m_models.push_back(_model);
+					_RM.m_models[file->FileName()] = _model;
 
 					ResourceManager::MapAsset(file->FileName(), _model);
 				}
@@ -267,14 +267,14 @@ namespace Vixen {
 			asset->DecrementRefCount();
 	}
 
-	uint32_t ResourceManager::NumLoadedModels()
+	std::map<UString, Model*>& ResourceManager::LoadedModels()
 	{
 		ResourceManager& _RM = ResourceManager::instance();
 
-		return _RM.m_models.size();
+		return _RM.m_models;
 	}
 
-	Model* ResourceManager::ModelAsset(uint32_t index)
+	/*Model* ResourceManager::ModelAsset(uint32_t index)
 	{
 		ResourceManager& _RM = ResourceManager::instance();
 
@@ -282,7 +282,7 @@ namespace Vixen {
 			return _RM.m_models[index];
 		else
 			return NULL;
-	}
+	}*/
 
     void ResourceManager::IncrementAssetRef(Asset* asset)
     {
@@ -298,10 +298,17 @@ namespace Vixen {
 
 			UString fileName = asset->FileName();
 
+
+			//THIS IS PERMABAD, DONT DO THIS
+			Model* _isModel = static_cast<Model*>(asset);
+			if (_isModel)
+				_RM.m_models[fileName] = nullptr;
+
 			delete asset;
 			asset = nullptr;
 
 			_RM.m_assetMap[fileName] = nullptr;
+			
 		}
 			
 

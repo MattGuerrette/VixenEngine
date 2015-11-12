@@ -115,11 +115,12 @@ namespace Vixen {
 					obj->Render(camera);
 			}
 
-			for (uint32_t i = 0; i < ResourceManager::NumLoadedModels(); i++)
+
+			std::map<UString, Model*>& models = ResourceManager::LoadedModels();
+			for (auto& model : models)
 			{
-				Model* model = ResourceManager::ModelAsset(i);
-				if (model)
-					model->VRender(Time::DeltaTime(), Time::TotalTime(), camera);
+				if (model.second)
+					model.second->VRender(Time::DeltaTime(), Time::TotalTime(), camera);
 			}
 
 			//render all late render (UI) scene objects
