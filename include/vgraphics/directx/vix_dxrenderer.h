@@ -32,6 +32,7 @@
 #include <vix_dxcamera2d.h>
 #include <vix_dxcamera3d.h>
 #include <vix_dxtexture.h>
+#include <vix_dxdefferedbuffers.h>
 #include <vix_dxspritebatcher.h>
 
 namespace Vixen {
@@ -89,6 +90,7 @@ namespace Vixen {
 
         DXCamera2D*             m_camera2D;
         DXSpriteBatcher*        m_spriteBatch;
+        DXDefferedBuffers*      m_DefferedBuffers;
     };
 
 }

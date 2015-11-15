@@ -77,6 +77,7 @@ namespace Vixen {
 
 	D3D11_VIEWPORT DXCamera3D::GetViewport()
 	{
+        VUpdateViewport(m_viewport);
         return m_d3dViewport;
 	}
 

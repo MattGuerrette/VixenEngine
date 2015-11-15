@@ -36,6 +36,7 @@ namespace Vixen {
         m_HWND = NULL;
         m_camera2D = new DXCamera2D;
         m_spriteBatch = NULL;
+        m_DefferedBuffers = new DXDefferedBuffers;
     }
 
     DXRenderer::~DXRenderer()
@@ -54,6 +55,7 @@ namespace Vixen {
         ReleaseCOM(m_Device);
 
         delete m_spriteBatch;
+        delete m_DefferedBuffers;
     }
 
     bool DXRenderer::VInitialize()
@@ -182,7 +184,8 @@ namespace Vixen {
         ReleaseCOM(state);
 
 
-
+        //Initialize deffered buffers
+        m_DefferedBuffers->Initialize(m_Device, width, height);
 
         return true;
     }
@@ -213,6 +216,9 @@ namespace Vixen {
     {
         m_ImmediateContext->ClearRenderTargetView(m_RenderTargetView, m_clearColor);
         m_ImmediateContext->ClearDepthStencilView(m_DepthStencView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+
+        //Clear deffered buffers
+        m_DefferedBuffers->ClearRenderTargets(m_ImmediateContext, m_clearColor);
     }
 
     void DXRenderer::VAttachNativeHandle(void* handle)
@@ -238,11 +244,13 @@ namespace Vixen {
     void DXRenderer::VResizeBuffers(uint32_t width, uint32_t height)
     {
         ReleaseBuffers();
+        m_DefferedBuffers->ReleaseBuffers();
 
         m_SwapChain->ResizeBuffers(1, width, height, m_SwapChainDesc.BufferDesc.Format, 0);
         m_SwapChain->GetDesc(&m_SwapChainDesc);
 
         CreateBuffers(width, height);
+        m_DefferedBuffers->Initialize(m_Device, width, height);
 
         OrthoRect _ortho;
         _ortho.left = 0.0f;
