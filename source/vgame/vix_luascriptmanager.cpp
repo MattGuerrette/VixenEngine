@@ -84,7 +84,7 @@ namespace Vixen {
 
         UString _assetPath = PathManager::ScriptPath() + name;
 
-        File* file = FileManager::OpenFile(_assetPath);
+        File* file = FileManager::OpenFile(_assetPath, FileMode::ReadBinary);
         if (file)
         {
             //std::string _fileName = UStringToStd(file->BaseName() + VTEXT(".Update"));

@@ -43,7 +43,7 @@ namespace Vixen {
         using namespace tinyxml2;
 
         //need to attempt to open scene list
-        File* file = FileManager::OpenFile(PathManager::ScenePath() + VTEXT("scenes.config"));
+        File* file = FileManager::OpenFile(PathManager::ScenePath() + VTEXT("scenes.config"), FileMode::ReadBinary);
         if (file) {
 
             //File is actually an XML file
@@ -146,7 +146,7 @@ namespace Vixen {
 	{
 		SceneManager& _manager = SceneManager::instance();
 
-		File* sceneFile = FileManager::OpenFile(PathManager::ScenePath() + UStringFromCharArray(fileName.c_str()));
+		File* sceneFile = FileManager::OpenFile(PathManager::ScenePath() + UStringFromCharArray(fileName.c_str()), FileMode::ReadBinary);
 		if (sceneFile)
 		{
 			Scene* scene = Scene::Deserialize(sceneFile);

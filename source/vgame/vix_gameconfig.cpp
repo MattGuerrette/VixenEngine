@@ -39,7 +39,7 @@ namespace Vixen {
 
 
         //Open Environment Config File
-        File* configFile = FileManager::OpenFile(os_exec_dir() + VTEXT("vixen.config"));
+        File* configFile = FileManager::OpenFile(os_exec_dir() + VTEXT("vixen.config"), FileMode::ReadBinary);
         if (!configFile)
             return false;
 

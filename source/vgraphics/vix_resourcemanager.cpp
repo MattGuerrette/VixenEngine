@@ -70,7 +70,7 @@ namespace Vixen {
 
 		Texture* _texture = NULL;
 
-        File* file = FileManager::OpenFile(assetPath);
+        File* file = FileManager::OpenFile(assetPath, FileMode::ReadBinary);
         if (file)
         {
             //Create Renderer Specific texture type
@@ -106,7 +106,7 @@ namespace Vixen {
 
 		Shader* _shader = NULL;
 
-        File* file = FileManager::OpenFile(assetPath);
+        File* file = FileManager::OpenFile(assetPath, FileMode::ReadBinary);
         if (file)
         {
             //Create Renderer Specific texture type
@@ -139,7 +139,7 @@ namespace Vixen {
 
 		Model* _model = NULL;
 
-        File* file = FileManager::OpenFile(assetPath);
+        File* file = FileManager::OpenFile(assetPath, FileMode::ReadBinary);
         if (file)
         {
             //Create Renderer Specific model type
@@ -175,7 +175,7 @@ namespace Vixen {
 
 		Font* _font = NULL;
 
-        File* file = FileManager::OpenFile(assetPath);
+        File* file = FileManager::OpenFile(assetPath, FileMode::ReadBinary);
         if (file)
         {
             //Create Renderer Specific model type
@@ -209,7 +209,7 @@ namespace Vixen {
 
 		Material* _material = NULL;
 
-		File* file = FileManager::OpenFile(assetPath);
+		File* file = FileManager::OpenFile(assetPath, FileMode::ReadBinary);
 		if (file)
 		{
 			//Create Renderer Specific model type

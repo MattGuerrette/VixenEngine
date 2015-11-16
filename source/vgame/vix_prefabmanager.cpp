@@ -90,7 +90,7 @@ namespace Vixen {
 
 		using namespace tinyxml2;
 
-		File* _prefabFile = FileManager::OpenFile(PathManager::PrefabPath() + file);
+		File* _prefabFile = FileManager::OpenFile(PathManager::PrefabPath() + file, FileMode::ReadBinary);
 		if (_prefabFile)
 		{
 			//File is actually an XML file

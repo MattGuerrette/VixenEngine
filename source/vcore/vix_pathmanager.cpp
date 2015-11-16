@@ -47,7 +47,7 @@ namespace Vixen
         using namespace tinyxml2;
 
         //Open Environment Config File
-        File* envFile = FileManager::OpenFile(os_exec_dir() + VTEXT("vixen.env"));
+        File* envFile = FileManager::OpenFile(os_exec_dir() + VTEXT("vixen.env"), FileMode::ReadBinary);
 
         XMLDOC document;
         XMLError err = document.LoadFile(envFile->Handle());

@@ -58,13 +58,13 @@ namespace Vixen {
         }
     }
 
-    File* FileManager::OpenFile(UString filePath)
+    File* FileManager::OpenFile(UString filePath, FileMode mode)
     {
 
         FileManager& manager = FileManager::instance();
 
         File* file = new File;
-        if(file->Open(filePath))
+        if(file->Open(filePath, mode))
         {
             //Add file to file manager
             manager.m_files[filePath] = file;
