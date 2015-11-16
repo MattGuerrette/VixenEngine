@@ -46,21 +46,74 @@ namespace Vixen {
 	}
 
 
-	bool File::Open(UString path)
+	bool File::Open(UString path, FileMode mode)
 	{
 		m_filePath = os_path(path);
 		m_fileName = getFileName(m_filePath);
 		m_baseName = getFileName(m_filePath, false);
 
+        switch (mode)
+        {
+            case FileMode::ReadBinary:
+            {
 #ifdef VIX_SYS_WINDOWS
-		_wfopen_s(&m_handle, m_filePath.c_str(), VTEXT("rb"));
+                _wfopen_s(&m_handle, m_filePath.c_str(), VTEXT("rb"));
 #else
-		m_handle = fopen(m_filePath.c_str(), "rb");
+                m_handle = fopen(m_filePath.c_str(), "rb");
 #endif
+            } break;
+
+            case FileMode::ReadText:
+            {
+#ifdef VIX_SYS_WINDOWS
+                _wfopen_s(&m_handle, m_filePath.c_str(), VTEXT("r"));
+#else
+                m_handle = fopen(m_filePath.c_str(), "r");
+#endif
+            } break;
+
+            case FileMode::WriteBinary:
+            {
+#ifdef VIX_SYS_WINDOWS
+                _wfopen_s(&m_handle, m_filePath.c_str(), VTEXT("wb"));
+#else
+                m_handle = fopen(m_filePath.c_str(), "wb");
+#endif
+            } break;
+
+            case FileMode::WriteText:
+            {
+#ifdef VIX_SYS_WINDOWS
+                _wfopen_s(&m_handle, m_filePath.c_str(), VTEXT("w"));
+#else
+                m_handle = fopen(m_filePath.c_str(), "w");
+#endif
+            } break;
+
+            case FileMode::AppendBinary:
+            {
+#ifdef VIX_SYS_WINDOWS
+                _wfopen_s(&m_handle, m_filePath.c_str(), VTEXT("ab"));
+#else
+                m_handle = fopen(m_filePath.c_str(), "ab");
+#endif
+            } break;
+
+            case FileMode::AppendText:
+            {
+#ifdef VIX_SYS_WINDOWS
+                _wfopen_s(&m_handle, m_filePath.c_str(), VTEXT("a"));
+#else
+                m_handle = fopen(m_filePath.c_str(), "a");
+#endif
+            } break;
+
+            default:
+                break;
+        }
 
 		if(!m_handle) {
 			m_error = FileError::Open;
-			DebugPrintF(VTEXT("File: %s"), m_filePath.c_str());
 			PError();
 			return false;
 		}
@@ -86,14 +139,23 @@ namespace Vixen {
 		return false;
 	}
 
-	int File::Read(BYTE* out, size_t len)
+	size_t File::Read(BYTE* out, size_t len)
 	{
-		int _len = 0;
+		size_t _len = 0;
 
 		_len = fread(out, sizeof(BYTE), len, m_handle);
 
 		return _len;
 	}
+
+    size_t File::Write(BYTE* in, size_t len)
+    {
+        size_t _len = 0;
+
+        _len = fwrite(in, sizeof(BYTE), len, m_handle);
+
+        return _len;
+    }
 
 	bool File::Seek(size_t pos, FileSeek mode)
 	{

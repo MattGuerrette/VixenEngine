@@ -39,7 +39,7 @@ namespace Vixen {
 
         static void     Initialize();
         static void     DeInitialize();
-        static File*    OpenFile(UString filePath);
+        static File*    OpenFile(UString filePath, FileMode mode);
         static void     CloseFile(File* file);
         static void     CloseFile(UString filePath);
         static File*    AccessFile(UString filePath);

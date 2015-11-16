@@ -57,6 +57,17 @@ namespace Vixen {
         Set
     };
 
+    //File mode
+    enum class FileMode
+    {
+        ReadText,
+        ReadBinary,
+        WriteText,
+        WriteBinary,
+        AppendText,
+        AppendBinary
+    };
+
     /**
     *
     *   IFIle interface
@@ -72,11 +83,12 @@ namespace Vixen {
         virtual UString   FileName() = 0;
         virtual UString   FilePath() = 0;
         virtual UString   BaseName() = 0;
-        virtual bool      Open(UString path) = 0;
+        virtual bool      Open(UString path, FileMode mode) = 0;
         virtual bool      Flush() = 0;
         virtual bool      Seek(size_t offset, FileSeek mode) = 0;
         virtual bool      Close() = 0;
-        virtual int       Read(BYTE* out, size_t len) = 0;
+        virtual size_t    Read(BYTE* out, size_t len) = 0;
+        virtual size_t    Write(BYTE* in, size_t len) = 0;
         virtual size_t    Tell() = 0;
         virtual size_t    SizeBytes() = 0;
         virtual size_t    SizeKBytes() = 0;

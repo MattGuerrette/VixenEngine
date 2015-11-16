@@ -20,7 +20,7 @@ namespace Vixen {
         void SetValue(std::string section, std::string name, T value);
 
     private:
-        std::map<std::string, std::string> _values;
+        std::map<std::string, std::vector<std::string> > _values;
     };
 
     template <>
