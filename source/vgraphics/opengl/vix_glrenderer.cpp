@@ -91,17 +91,17 @@ namespace Vixen {
 
 	}
 
-	void    VRenderTexture2D(ITexture* texture, const Vector2& pos, const Rect& source)
-	{
-
-	}
-	
-	void    VRenderText2D(IFont* font, UString text, const Vector2& pos)
+	void    GLRenderer::VRenderTexture2D(Texture* texture, const Vector2& pos, const Rect& source)
 	{
 
 	}
 
-	void    VRenderModel(IModel* model)
+	void    GLRenderer::VRenderText2D(Font* font, UString text, const Vector2& pos)
+	{
+
+	}
+
+	void    GLRenderer::VRenderModel(Model* model)
 	{
 
 	}

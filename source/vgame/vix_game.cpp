@@ -38,7 +38,7 @@ namespace Vixen {
 
 	Game::Game()
 	{
-      
+
 	}
 
 	int Game::Run()
@@ -55,6 +55,8 @@ namespace Vixen {
         Input::SetKeyboardState(Window::Keyboard());
 		Input::SetControllerState(Window::Controller());
 
+
+		/*
         ResourceManager::Initialize();
         Renderer::InitializeSpriteBatch();
         ObjectManager::Initialize();
@@ -64,7 +66,7 @@ namespace Vixen {
         SceneManager::Initialize();
 
 
-
+		*/
         Renderer::SetClearColor(Colors::Black);
 
         Time::Start();
@@ -76,11 +78,11 @@ namespace Vixen {
 
             Renderer::ClearBuffer(ClearArgs::COLOR_DEPTH_STENCIL_BUFFER);
 
-			BulletSimulator::Step(Time::DeltaTime());
+			//BulletSimulator::Step(Time::DeltaTime());
 
-            SceneManager::UpdateScenes();
+            //SceneManager::UpdateScenes();
 
-            SceneManager::RenderScenes();
+            //SceneManager::RenderScenes();
 
             Renderer::SwapBuffers();
 
@@ -91,18 +93,20 @@ namespace Vixen {
             Time::CalculateFPS();
         }
 
+		/*
 		SceneManager::DeInitialize();
 		PrefabManager::Cleanup();
 
 		BulletSimulator::DeInitialize();
-		
-        
+
+
         LuaEngine::DeInitialize();
         ObjectManager::DeInitialize();
         ResourceManager::DeInitialize();
-        Renderer::DeInitialize();
 		ResourceManager::PrintLoaded();
+		*/
 
+		Renderer::DeInitialize();
         Window::DeInitialize();
         PathManager::DeInitialize();
         FileManager::DeInitialize();

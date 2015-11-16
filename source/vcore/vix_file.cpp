@@ -60,6 +60,7 @@ namespace Vixen {
 
 		if(!m_handle) {
 			m_error = FileError::Open;
+			DebugPrintF(VTEXT("File: %s"), m_filePath.c_str());
 			PError();
 			return false;
 		}

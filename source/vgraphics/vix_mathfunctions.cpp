@@ -25,6 +25,8 @@
 
 #ifdef VIX_SYS_WINDOWS
 #include <vix_dxmathfunctions.h>
+#else
+#include <vix_glmathfunctions.h>
 #endif
 
 namespace Vixen {
@@ -40,6 +42,16 @@ namespace Vixen {
 	MATINVERSE  MathFunctions::s_MatrixInverse = reinterpret_cast<MATINVERSE>(DXMathFunctions::MatrixInverse);
 	VECTRANSFORMMATRIX MathFunctions::s_TransformVector = reinterpret_cast<VECTRANSFORMMATRIX>(DXMathFunctions::TransformVector);
 	VECTRANSFORMMATRIXROTSCALE MathFunctions::s_TransformVectorRotationScale = reinterpret_cast<VECTRANSFORMMATRIXROTSCALE>(DXMathFunctions::TransformVectorRotationScale);
+#else
+MATROTATION MathFunctions::s_MatrixRotation = reinterpret_cast<MATROTATION>(GLMathFunctions::MatrixRotation);
+MATROTX     MathFunctions::s_MatrixRotationX = reinterpret_cast<MATROTX>(GLMathFunctions::MatrixRotationX);
+MATROTY     MathFunctions::s_MatrixRotationY = reinterpret_cast<MATROTY>(GLMathFunctions::MatrixRotationY);
+MATROTZ     MathFunctions::s_MatrixRotationZ = reinterpret_cast<MATROTZ>(GLMathFunctions::MatrixRotationZ);
+MATTRANSLATION MathFunctions::s_MatrixTranslation = reinterpret_cast<MATTRANSLATION>(GLMathFunctions::MatrixTranslation);
+MATSCALING	MathFunctions::s_MatrixScaling = reinterpret_cast<MATSCALING>(GLMathFunctions::MatrixScaling);
+MATINVERSE  MathFunctions::s_MatrixInverse = reinterpret_cast<MATINVERSE>(GLMathFunctions::MatrixInverse);
+VECTRANSFORMMATRIX MathFunctions::s_TransformVector = reinterpret_cast<VECTRANSFORMMATRIX>(GLMathFunctions::TransformVector);
+VECTRANSFORMMATRIXROTSCALE MathFunctions::s_TransformVectorRotationScale = reinterpret_cast<VECTRANSFORMMATRIXROTSCALE>(GLMathFunctions::TransformVectorRotationScale);
 #endif
 
 	MATRIX MathFunctions::MatrixRotation(Vector3 rotation)

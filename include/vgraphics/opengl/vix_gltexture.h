@@ -33,7 +33,7 @@ namespace Vixen {
 	VIX_API GLenum vixFIBmpToInternalFormat(FIBITMAP* bmp);
 	VIX_API GLenum vixFIBmpToFormat(FIBITMAP* bmp);
 
-	class VIX_API GLTexture : public ITexture
+	class VIX_API GLTexture : public Texture
 	{
 		GLuint m_id;
 		GLenum m_target;
