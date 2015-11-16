@@ -23,8 +23,9 @@ int main(int argc, char* argv[])
     }
     FileManager::CloseFile(file);
 
-    DebugPrintF("Width: %d", _reader->GetValue<int>("TEST_SECTION", "iWidth", 50));
+    //DebugPrintF("Width: %d", _reader->GetValue<int>("TEST_SECTION", "iWidth", 50));
 
+    _reader->PrintValues();
 
     FileManager::DeInitialize();
 

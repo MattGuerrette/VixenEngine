@@ -23,6 +23,8 @@ namespace Vixen {
         template <typename T>
         T GetValue(std::string section, std::string name, T default_value);
 
+        void PrintValues();
+
     private:
         int                                _error;
         std::map<std::string, std::string> _values;
