@@ -33,11 +33,14 @@ include_directories("${PROJECT_SOURCE_DIR}/../include"
                     "${PROJECT_SOURCE_DIR}/../include/vgraphics"
                     "${PROJECT_SOURCE_DIR}/../include/vgraphics/opengl"
                     "${PROJECT_SOURCE_DIR}/../include/vgame"
+                    "${PROJECT_SOURCE_DIR}/../dependencies/x64/inih"
                     "${PROJECT_SOURCE_DIR}/../dependencies/x64/glm"
                     "${PROJECT_SOURCE_DIR}/../dependencies/x64/luaintf"
-                    "/usr/include/lua5.2")
+                    "/usr/include/lua5.2"
+                    "/usr/include/bullet"
+                    "/usr/local/include/glm")
 
-file(GLOB VCORE_SRC ../source/vcore/*.cpp)
+file(GLOB VCORE_SRC ../source/vcore/*.cpp ../dependencies/x64/inih/*.c)
 file(GLOB VGRAPHICS_SRC ../source/vgraphics/*.cpp)
 file(GLOB VGRAPHICS_GL_SRC ../source/vgraphics/opengl/*.cpp)
 file(GLOB VGAME_SRC ../source/vgame/*.cpp)
@@ -50,10 +53,10 @@ add_library(vgraphics SHARED ${VGRAPHICS_SRC} ${VGRAPHICS_GL_SRC})
 add_library(vgame SHARED ${VGAME_SRC})
 
 target_link_libraries(vgraphics vcore GLEW GL archive freeimage)
-target_link_libraries(vgame vcore vgraphics SDL2 lua5.2 tinyxml2 archive freeimage)
+target_link_libraries(vgame vcore vgraphics SDL2 lua5.2 tinyxml2 archive freeimage LinearMath BulletDynamics BulletSoftBody BulletCollision)
 
-add_executable(vtest ${PROJECT_SOURCE_DIR}/../source/vtest/cmaketest.cpp)
-target_link_libraries(vtest vcore vgraphics vgame SDL2 lua5.2 tinyxml2 archive freeimage)
+add_executable(vtest ${PROJECT_SOURCE_DIR}/../source/vtest/main.cpp)
+target_link_libraries(vtest vcore SDL2 lua5.2 tinyxml2 archive freeimage)
 
 #install
 
