@@ -247,11 +247,12 @@ namespace Vixen {
 
     void DXRenderer::VClearBuffer(ClearArgs args)
     {
+		//Clear deffered buffers
+		m_DefferedBuffers->ClearRenderTargets(m_ImmediateContext, m_clearColor);
+
         m_ImmediateContext->ClearRenderTargetView(m_RenderTargetView, m_clearColor);
         m_ImmediateContext->ClearDepthStencilView(m_DepthStencView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
-        //Clear deffered buffers
-        m_DefferedBuffers->ClearRenderTargets(m_ImmediateContext, m_clearColor);
     }
 
     void DXRenderer::VAttachNativeHandle(void* handle)
@@ -384,13 +385,13 @@ namespace Vixen {
 
 		//m_FinalQuad->Render(m_ImmediateContext);
 
-		/*UINT stride = sizeof(DXVertexPosTex);
+		UINT stride = sizeof(DXVertexPosTex);
 		UINT offset = 0;
 		ID3D11Buffer* nothing = NULL;
 		m_ImmediateContext->IASetVertexBuffers(0, 1, &nothing, &stride, &offset);
 		m_ImmediateContext->IASetIndexBuffer(NULL, DXGI_FORMAT_R32_UINT, 0);
 
-		m_ImmediateContext->Draw(3, 0);*/
+		m_ImmediateContext->Draw(3, 0);
 
 		m_FinalVS->Deactivate();
 		m_FinalPS->Deactivate();
