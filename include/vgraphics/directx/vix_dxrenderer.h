@@ -64,6 +64,10 @@ namespace Vixen {
 
         void    VResizeBuffers(uint32_t width, uint32_t height) override;
 
+		void	VRenderBackBuffer() override;
+
+		void	VBeginDeferred() override;
+
 		ICamera2D* VCamera2D();
 
         ID3D11Device* Device();
@@ -85,8 +89,14 @@ namespace Vixen {
         ID3D11DepthStencilView* m_DepthStencView;
         IDXGISwapChain*         m_SwapChain;
         DXGI_SWAP_CHAIN_DESC    m_SwapChainDesc;
+		ID3D11SamplerState*		m_samplerState;
         D3D_FEATURE_LEVEL       m_FeatureLevel;
         HWND                    m_HWND;
+
+		DXQuad*					m_FinalQuad;
+
+		DXVertexShader*         m_FinalVS;
+		DXPixelShader*			m_FinalPS;
 
         DXCamera2D*             m_camera2D;
         DXSpriteBatcher*        m_spriteBatch;

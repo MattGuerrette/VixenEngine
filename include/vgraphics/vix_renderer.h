@@ -72,6 +72,8 @@ namespace Vixen {
         virtual void    VRenderTexture2D(Texture* texture, const Vector2& pos, const Rect& source) = 0;
         virtual void    VRenderText2D(Font* font, UString text, const Vector2& pos) = 0;
         virtual void    VResizeBuffers(uint32_t width, uint32_t height) = 0;
+		virtual void	VRenderBackBuffer() = 0;
+		virtual void    VBeginDeferred() = 0;
 		virtual ICamera2D* VCamera2D() = 0;
 
 	};

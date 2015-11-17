@@ -36,6 +36,7 @@
 #include <vix_bullet_spherecollider.h>
 
 #include <vix_window_singleton.h>
+#include <vix_renderer_singleton.h>
 
 namespace Vixen {
 
@@ -115,6 +116,7 @@ namespace Vixen {
 					obj->Render(camera);
 			}
 
+			Renderer::RenderDeferred();
 
 			std::map<UString, Model*>& models = ResourceManager::LoadedModels();
 			for (auto& model : models)
@@ -122,6 +124,8 @@ namespace Vixen {
 				if (model.second)
 					model.second->VRender(Time::DeltaTime(), Time::TotalTime(), camera);
 			}
+
+			Renderer::RenderFinal();
 
 			//render all late render (UI) scene objects
 			//NOTE: this is expensive, as we are iterating over the list of objects again...

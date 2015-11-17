@@ -26,6 +26,10 @@ namespace Vixen {
 
         static void         ResizeBuffers(uint32_t width, uint32_t height);
 
+		static void			RenderFinal();
+
+		static void			RenderDeferred();
+
         static IRenderer*   Handle();
 
 		static ICamera2D*   Camera2D();

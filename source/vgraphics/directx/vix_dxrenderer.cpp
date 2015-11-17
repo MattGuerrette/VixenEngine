@@ -37,6 +37,7 @@ namespace Vixen {
         m_camera2D = new DXCamera2D;
         m_spriteBatch = NULL;
         m_DefferedBuffers = new DXDefferedBuffers;
+		m_FinalQuad = new DXQuad;
     }
 
     DXRenderer::~DXRenderer()
@@ -56,6 +57,7 @@ namespace Vixen {
 
         delete m_spriteBatch;
         delete m_DefferedBuffers;
+		delete m_FinalQuad;
     }
 
     bool DXRenderer::VInitialize()
@@ -154,6 +156,22 @@ namespace Vixen {
         ReleaseCOM(dxgiFactory);
 
         CreateBuffers(width, height);
+
+		//Initialize deffered buffers
+		m_DefferedBuffers->Initialize(m_Device, width, height);
+
+		//m_ImmediateContext->OMSetRenderTargets(1, &m_RenderTargetView, m_DepthStencView);
+		m_DefferedBuffers->BindRenderTargets(m_ImmediateContext);
+
+		D3D11_VIEWPORT vp;
+		vp.TopLeftX = 0.0f;
+		vp.TopLeftY = 0.0f;
+		vp.Width = static_cast<float>(width);
+		vp.Height = static_cast<float>(height);
+		vp.MinDepth = 0;
+		vp.MaxDepth = 1;
+
+		m_ImmediateContext->RSSetViewports(1, &vp);
        
         OrthoRect _ortho;
         _ortho.left = 0.0f;
@@ -183,9 +201,19 @@ namespace Vixen {
 
         ReleaseCOM(state);
 
-
-        //Initialize deffered buffers
-        m_DefferedBuffers->Initialize(m_Device, width, height);
+		m_FinalQuad->Initialize(m_Device);
+       
+		// Create the sample state
+		D3D11_SAMPLER_DESC sampDesc;
+		ZeroMemory(&sampDesc, sizeof(sampDesc));
+		sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+		sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+		sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+		sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+		sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+		sampDesc.MinLOD = 0;
+		sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
+		hr = m_Device->CreateSamplerState(&sampDesc, &m_samplerState);
 
         return true;
     }
@@ -203,7 +231,12 @@ namespace Vixen {
         m_spriteBatch->SetPixelShader(_pShader);
 
         m_spriteBatch->SetCamera(m_camera2D);
-    }
+
+		m_FinalVS = (DXVertexShader*)ResourceManager::OpenShader(VTEXT("BackBufferTarget_Deferred_VS.hlsl"), ShaderType::VERTEX_SHADER);
+		m_FinalVS->IncrementRefCount();
+		m_FinalPS = (DXPixelShader*)ResourceManager::OpenShader(VTEXT("BackBufferTarget_Deferred_PS.hlsl"), ShaderType::PIXEL_SHADER);
+		m_FinalPS->IncrementRefCount();
+	}
 
     void DXRenderer::VSetClearColor(const Color& c)
     {
@@ -251,6 +284,21 @@ namespace Vixen {
 
         CreateBuffers(width, height);
         m_DefferedBuffers->Initialize(m_Device, width, height);
+
+
+		//m_ImmediateContext->OMSetRenderTargets(1, &m_RenderTargetView, m_DepthStencView);
+		
+
+
+		D3D11_VIEWPORT vp;
+		vp.TopLeftX = 0.0f;
+		vp.TopLeftY = 0.0f;
+		vp.Width = static_cast<float>(width);
+		vp.Height = static_cast<float>(height);
+		vp.MinDepth = 0;
+		vp.MaxDepth = 1;
+
+		m_ImmediateContext->RSSetViewports(1, &vp);
 
         OrthoRect _ortho;
         _ortho.left = 0.0f;
@@ -305,18 +353,7 @@ namespace Vixen {
 
         ReleaseCOM(depthStencilBuffer);
 
-        m_ImmediateContext->OMSetRenderTargets(1, &m_RenderTargetView, m_DepthStencView);
-
-
-        D3D11_VIEWPORT vp;
-        vp.TopLeftX = 0.0f;
-        vp.TopLeftY = 0.0f;
-        vp.Width = static_cast<float>(width);
-        vp.Height = static_cast<float>(height);
-        vp.MinDepth = 0;
-        vp.MaxDepth = 1;
-
-        m_ImmediateContext->RSSetViewports(1, &vp);
+		
 
         return true;
     }
@@ -326,7 +363,38 @@ namespace Vixen {
         //need to release existing buffers
         ReleaseCOM(m_RenderTargetView);
         ReleaseCOM(m_DepthStencView);
+
     }
+
+	void DXRenderer::VBeginDeferred()
+	{
+		m_DefferedBuffers->BindRenderTargets(m_ImmediateContext);
+	}
+
+	void DXRenderer::VRenderBackBuffer()
+	{
+		m_ImmediateContext->OMSetRenderTargets(1, &m_RenderTargetView, m_DepthStencView);
+
+		m_FinalPS->VSetSamplerState("samLinear", m_samplerState);
+		m_FinalPS->VSetShaderResourceView("txDiffuse", m_DefferedBuffers->GetShaderResourceView(0));
+		m_FinalPS->VSetShaderResourceView("txNormal", m_DefferedBuffers->GetShaderResourceView(1));
+
+		m_FinalVS->Activate();
+		m_FinalPS->Activate();
+
+		//m_FinalQuad->Render(m_ImmediateContext);
+
+		/*UINT stride = sizeof(DXVertexPosTex);
+		UINT offset = 0;
+		ID3D11Buffer* nothing = NULL;
+		m_ImmediateContext->IASetVertexBuffers(0, 1, &nothing, &stride, &offset);
+		m_ImmediateContext->IASetIndexBuffer(NULL, DXGI_FORMAT_R32_UINT, 0);
+
+		m_ImmediateContext->Draw(3, 0);*/
+
+		m_FinalVS->Deactivate();
+		m_FinalPS->Deactivate();
+	}
 
     void DXRenderer::VRenderTexture2D(Texture* texture, const Vector2& position, const Rect& source)
     {

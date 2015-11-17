@@ -9,7 +9,7 @@ namespace Vixen {
 
     class VIX_API DXDefferedBuffers
     {
-        static const int BUFFER_COUNT = 4;
+        static const int BUFFER_COUNT = 2;
     public:
         DXDefferedBuffers();
 
