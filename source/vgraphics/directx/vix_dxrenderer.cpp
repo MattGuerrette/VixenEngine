@@ -37,7 +37,11 @@ namespace Vixen {
 		m_camera2D = new DXCamera2D;
 		m_spriteBatch = NULL;
 		m_DefferedBuffers = new DXDefferedBuffers;
-		m_FinalQuad = new DXQuad;
+
+
+        m_FinalPassVS = NULL;
+        m_FinalPassPS = NULL;
+        m_FinalPassSS = NULL;
 	}
 
 	DXRenderer::~DXRenderer()
@@ -54,10 +58,17 @@ namespace Vixen {
 		ReleaseCOM(m_SwapChain);
 		ReleaseCOM(m_ImmediateContext);
 		ReleaseCOM(m_Device);
-
+       
 		delete m_spriteBatch;
 		delete m_DefferedBuffers;
-		delete m_FinalQuad;
+
+        //////////////////////////////////////////
+        // Release Final Pass Variables
+        //////////////////////////////////////////
+        ResourceManager::DecrementAssetRef(m_FinalPassVS);
+        ResourceManager::DecrementAssetRef(m_FinalPassPS);
+        ReleaseCOM(m_FinalPassSS);
+
 	}
 
 	bool DXRenderer::VInitialize()
@@ -158,7 +169,7 @@ namespace Vixen {
 		CreateBuffers(width, height);
 
 		//Initialize deffered buffers
-		m_DefferedBuffers->Initialize(m_Device, width, height);
+	    m_DefferedBuffers->Initialize(m_Device, width, height);
 
 		//m_ImmediateContext->OMSetRenderTargets(1, &m_RenderTargetView, m_DepthStencView);
 		m_DefferedBuffers->BindRenderTargets(m_ImmediateContext);
@@ -201,8 +212,6 @@ namespace Vixen {
 
 		ReleaseCOM(state);
 
-		m_FinalQuad->Initialize(m_Device);
-
 		// Create the sample state
 		D3D11_SAMPLER_DESC sampDesc;
 		ZeroMemory(&sampDesc, sizeof(sampDesc));
@@ -213,7 +222,7 @@ namespace Vixen {
 		sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
 		sampDesc.MinLOD = 0;
 		sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
-		hr = m_Device->CreateSamplerState(&sampDesc, &m_samplerState);
+		hr = m_Device->CreateSamplerState(&sampDesc, &m_FinalPassSS);
 
 		return true;
 	}
@@ -232,10 +241,10 @@ namespace Vixen {
 
 		m_spriteBatch->SetCamera(m_camera2D);
 
-		m_FinalVS = (DXVertexShader*)ResourceManager::OpenShader(VTEXT("BackBufferTarget_Deferred_VS.hlsl"), ShaderType::VERTEX_SHADER);
-		m_FinalVS->IncrementRefCount();
-		m_FinalPS = (DXPixelShader*)ResourceManager::OpenShader(VTEXT("BackBufferTarget_Deferred_PS.hlsl"), ShaderType::PIXEL_SHADER);
-		m_FinalPS->IncrementRefCount();
+		m_FinalPassVS = (DXVertexShader*)ResourceManager::OpenShader(VTEXT("BackBufferTarget_Deferred_VS.hlsl"), ShaderType::VERTEX_SHADER);
+		m_FinalPassVS->IncrementRefCount();
+		m_FinalPassPS = (DXPixelShader*)ResourceManager::OpenShader(VTEXT("BackBufferTarget_Deferred_PS.hlsl"), ShaderType::PIXEL_SHADER);
+		m_FinalPassPS->IncrementRefCount();
 	}
 
 	void DXRenderer::VSetClearColor(const Color& c)
@@ -376,14 +385,12 @@ namespace Vixen {
 	{
 		m_ImmediateContext->OMSetRenderTargets(1, &m_RenderTargetView, m_DepthStencView);
 
-		m_FinalPS->VSetSamplerState("samLinear", m_samplerState);
-		m_FinalPS->VSetShaderResourceView("txDiffuse", m_DefferedBuffers->GetShaderResourceView(0));
-		m_FinalPS->VSetShaderResourceView("txNormal", m_DefferedBuffers->GetShaderResourceView(1));
+		m_FinalPassPS->VSetSamplerState("samLinear", m_FinalPassSS);
+        m_FinalPassPS->VSetShaderResourceView("txDiffuse", m_DefferedBuffers->GetShaderResourceView(0));
+        m_FinalPassPS->VSetShaderResourceView("txNormal", m_DefferedBuffers->GetShaderResourceView(1));
 
-		m_FinalVS->Activate();
-		m_FinalPS->Activate();
-
-		//m_FinalQuad->Render(m_ImmediateContext);
+		m_FinalPassVS->Activate();
+		m_FinalPassPS->Activate();
 
 		UINT stride = sizeof(DXVertexPosTex);
 		UINT offset = 0;
@@ -393,8 +400,8 @@ namespace Vixen {
 
 		m_ImmediateContext->Draw(3, 0);
 
-		m_FinalVS->Deactivate();
-		m_FinalPS->Deactivate();
+        m_FinalPassVS->Deactivate();
+        m_FinalPassPS->Deactivate();
 	}
 
 	void DXRenderer::VRenderTexture2D(Texture* texture, const Vector2& position, const Rect& source)

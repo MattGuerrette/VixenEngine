@@ -56,9 +56,9 @@ namespace Vixen {
         Input::SetKeyboardState(Window::Keyboard());
 		Input::SetControllerState(Window::Controller());
 
-
-        Curl::Initialize();
         ResourceManager::Initialize();
+        Curl::Initialize();
+        
         Renderer::InitializeSpriteBatch();
         ObjectManager::Initialize();
         LuaEngine::Initialize();
@@ -93,7 +93,7 @@ namespace Vixen {
 
             Time::CalculateFPS();
         }
-
+        
 		SceneManager::DeInitialize();
 		PrefabManager::Cleanup();
 
@@ -101,6 +101,7 @@ namespace Vixen {
 	
         LuaEngine::DeInitialize();
         ObjectManager::DeInitialize();
+        
         ResourceManager::DeInitialize();
         Renderer::DeInitialize();
 		ResourceManager::PrintLoaded();

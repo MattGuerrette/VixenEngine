@@ -89,18 +89,20 @@ namespace Vixen {
         ID3D11DepthStencilView* m_DepthStencView;
         IDXGISwapChain*         m_SwapChain;
         DXGI_SWAP_CHAIN_DESC    m_SwapChainDesc;
-		ID3D11SamplerState*		m_samplerState;
         D3D_FEATURE_LEVEL       m_FeatureLevel;
         HWND                    m_HWND;
-
-		DXQuad*					m_FinalQuad;
-
-		DXVertexShader*         m_FinalVS;
-		DXPixelShader*			m_FinalPS;
 
         DXCamera2D*             m_camera2D;
         DXSpriteBatcher*        m_spriteBatch;
         DXDefferedBuffers*      m_DefferedBuffers;
+
+
+        ////////////////////////////////////////
+        // Final Render Pass Variables
+        ////////////////////////////////////////
+        DXVertexShader*         m_FinalPassVS;
+        DXPixelShader*			m_FinalPassPS;
+        ID3D11SamplerState*     m_FinalPassSS;
     };
 
 }
