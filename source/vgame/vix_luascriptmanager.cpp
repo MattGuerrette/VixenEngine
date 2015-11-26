@@ -71,7 +71,7 @@ namespace Vixen {
 		if (LuaScriptManager::m_scriptStack.size() > 0)
 			LuaScriptManager::m_scriptStack.pop();
 	}
-	
+
 	void LuaScriptManager::PushScript(LuaScript* script)
 	{
 		LuaScriptManager::m_scriptStack.push(script);
@@ -84,24 +84,24 @@ namespace Vixen {
 
         UString _assetPath = PathManager::ScriptPath() + name;
 
-        File* file = FileManager::OpenFile(_assetPath);
+        File* file = FileManager::OpenFile(_assetPath, FileMode::ReadBinary);
         if (file)
         {
             //std::string _fileName = UStringToStd(file->BaseName() + VTEXT(".Update"));
 			std::string _filename = UStringToStd(file->BaseName());
 
             //now I want to load the actual script object
-            
+
 			LuaBinding(LuaEngine::L())
 				.beginModule(_filename.c_str())
 					.beginModule("hash")
 					.endModule()
 				.endModule();
-			
+
 
 		    LuaEngine::ExecuteFile(_assetPath);
 
-            
+
 			LuaIntf::LuaRef* onInit = new LuaRef(LuaEngine::L(), (_filename + ".OnInit").c_str());
 			LuaIntf::LuaRef* onEnable = new LuaRef(LuaEngine::L(), (_filename + ".OnEnable").c_str());
             LuaIntf::LuaRef* update = new LuaRef(LuaEngine::L(), (_filename + ".Update").c_str());
@@ -120,10 +120,10 @@ namespace Vixen {
 
             FileManager::CloseFile(file);
             return _script;
-            
+
         }
-       
-    
+
+
         return NULL;
     }
 
@@ -426,6 +426,6 @@ namespace Vixen {
 			.addFunction("DeltaTime", &Time::DeltaTime)
 			.addFunction("TotalTime", &Time::TotalTime)
             .endModule();
-            
+
 	}
 }

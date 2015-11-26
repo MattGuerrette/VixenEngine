@@ -90,7 +90,7 @@ namespace Vixen {
 
 		using namespace tinyxml2;
 
-		File* _prefabFile = FileManager::OpenFile(PathManager::PrefabPath() + file);
+		File* _prefabFile = FileManager::OpenFile(PathManager::PrefabPath() + file, FileMode::ReadBinary);
 		if (_prefabFile)
 		{
 			//File is actually an XML file
@@ -137,7 +137,7 @@ namespace Vixen {
 		float scaleX = element->FloatAttribute("scaleX");
 		float scaleY = element->FloatAttribute("scaleY");
 		float scaleZ = element->FloatAttribute("scaleZ");
-		
+
 		prefab->SetTransform(Transform(posX, posY, posZ, rotX, rotY, rotZ, scaleX, scaleY, scaleZ));
 	}
 
@@ -293,7 +293,7 @@ namespace Vixen {
 			}
 		}
 		_model->IncrementRefCount();
-		
+
 		Material* _material = ResourceManager::OpenMaterial(UStringFromCharArray(materialFile));
 		if (!_material) {
 			DebugPrintF(VTEXT("Failed to open material.\n"));
@@ -321,7 +321,7 @@ namespace Vixen {
 		//PARSE PREFAB TRANSFORM
 		const XMLElement* transform = element->FirstChildElement("transform");
 		ParseTransform(_newPrefab, transform);
-		
+
 
 		//PARSE PREFAB MODEL
 		const XMLElement* model = element->FirstChildElement("model");
@@ -343,11 +343,11 @@ namespace Vixen {
 				Prefab* _child = ParsePrefab(childElement);
 
 				_newPrefab->AddChild(_child);
-			    
+
 				childElement = childElement->NextSiblingElement("gameobject");
 			}
 		}
-		
+
 		return _newPrefab;
 	}
 }

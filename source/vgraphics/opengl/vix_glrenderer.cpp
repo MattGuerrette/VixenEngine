@@ -49,6 +49,21 @@ namespace Vixen {
 		return true;
 	}
 
+	void GLRenderer::VInitializeSpriteBatch()
+	{
+
+	}
+
+	void GLRenderer::VResizeBuffers(uint32_t width, uint32_t height)
+	{
+
+	}
+
+	ICamera2D* GLRenderer::VCamera2D()
+	{
+		return NULL;
+	}
+
 	void GLRenderer::VClearBuffer(ClearArgs args)
 	{
 		switch (args)

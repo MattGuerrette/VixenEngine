@@ -27,6 +27,7 @@
 #include <vix_platform.h>
 #include <vix_renderer.h>
 #include <vix_color.h>
+#include <vix_camera2d.h>
 
 namespace Vixen {
 
@@ -36,6 +37,9 @@ namespace Vixen {
 
 		bool    VInitialize();
         void    VDeInitialize();
+		void    VInitializeSpriteBatch();
+		void    VResizeBuffers(uint32_t width, uint32_t height);
+		ICamera2D* VCamera2D();
 		void    VSetClearColor(const Color& c);
 		void    VClearBuffer(ClearArgs args);
         void    VSwapBuffers();

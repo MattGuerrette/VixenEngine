@@ -5,11 +5,7 @@ namespace Vixen {
 
     INIWriter::INIWriter()
     {
-        _values["TEST_SECTION"].push_back("bFixed");
-        _values["TEST_SECTION"].push_back("iWidth");
-        _values["TEST_SECTION"].push_back("iHeight");
-        _values["TEST_SECTION"].push_back("fScale");
-        _values["TEST_SECTION"].push_back("fDepth");
+
     }
 
     void INIWriter::Write(std::string outname)
@@ -24,15 +20,24 @@ namespace Vixen {
 
                 file->Write((BYTE*)section.c_str(), section.size());
 
-                std::vector<std::string> _map = key.second;
-                for(int i = 0; i < _map.size(); i++)
+                ValuePairList _map = key.second;
+                for(uint32_t i = 0; i < _map.size(); i++)
                 {
-                    std::string name = _map[i];
-                    name += "\n";
+                    std::string name = _map[i].first;
+                    name += VTEXT("=") + _map[i].second;
                     file->Write((BYTE*)name.c_str(), name.size());
                 }
             }
         }
+    }
+
+    std::string INIWriter::MakeKey(std::string section)
+    {
+        std::string key = VTEXT("[") + section + VTEXT("]");
+
+        std::transform(key.begin(), key.end(), key.begin(), ::tolower);
+
+        return section;
     }
 
 }

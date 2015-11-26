@@ -43,7 +43,7 @@ namespace Vixen {
         using namespace tinyxml2;
 
         //need to attempt to open scene list
-        File* file = FileManager::OpenFile(PathManager::ScenePath() + VTEXT("scenes.config"));
+        File* file = FileManager::OpenFile(PathManager::ScenePath() + VTEXT("scenes.config"), FileMode::ReadBinary);
         if (file) {
 
             //File is actually an XML file
@@ -77,11 +77,11 @@ namespace Vixen {
             FileManager::CloseFile(file);
             return true;
         }
-        
+
         FileManager::CloseFile(file);
         return false;
     }
-	
+
 	void SceneManager::AddScene(Scene* scene)
 	{
 		SceneManager& _manager = SceneManager::instance();
@@ -146,13 +146,13 @@ namespace Vixen {
 	{
 		SceneManager& _manager = SceneManager::instance();
 
-		File* sceneFile = FileManager::OpenFile(PathManager::ScenePath() + UStringFromCharArray(fileName.c_str()));
+		File* sceneFile = FileManager::OpenFile(PathManager::ScenePath() + UStringFromCharArray(fileName.c_str()), FileMode::ReadBinary);
 		if (sceneFile)
 		{
 			Scene* scene = Scene::Deserialize(sceneFile);
 			if (scene) {
 				scene->SetFileName(fileName);
-				
+
 				_manager.m_sceneFiles[scene->GetID()] = scene->GetFileName();
 				_manager.m_scenes[scene->GetID()] = scene;
 
@@ -191,7 +191,7 @@ namespace Vixen {
 			Scene* scene = it->second;
 			_manager.m_sceneList.push_back(scene);
 		}
-            
+
     }
 
     void SceneManager::UpdateScenes()
@@ -207,7 +207,7 @@ namespace Vixen {
 		}
         //_manager.m_current->Update();
 
-		
+
 		PrefabManager::Cleanup();
     }
 
@@ -293,7 +293,7 @@ namespace Vixen {
 	void SceneManager::ReloadScene(std::string sceneID)
 	{
 		SceneManager& _manager = SceneManager::instance();
-		
+
 		for (int32_t i = 0; i < _manager.m_sceneList.size(); i++)
 		{
 			Scene* _scene = _manager.m_sceneList[i];
