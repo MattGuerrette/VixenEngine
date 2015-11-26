@@ -8,6 +8,7 @@
 #include <vix_inireader.h>
 #include <vix_iniwriter.h>
 #include <vix_debugutil.h>
+#include <vix_game.h>
 
 using namespace Vixen;
 
@@ -34,5 +35,8 @@ int main(int argc, char* argv[])
 
     FileManager::DeInitialize();
 
-    return 0;
+    Vixen::Game _game;
+
+
+    return _game.Run();
 }

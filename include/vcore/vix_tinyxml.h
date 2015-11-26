@@ -125,6 +125,14 @@ namespace Vixen {
 	  break;
 	case tinyxml2::XML_ERROR_FILE_NOT_FOUND:
 	  break;
+	case tinyxml2::XML_ERROR_FILE_READ_ERROR:
+	  break;
+	case tinyxml2::XML_CAN_NOT_CONVERT_TEXT:
+	  break;
+	case tinyxml2::XML_NO_TEXT_NODE:
+	  break;
+	case tinyxml2::XML_ERROR_COUNT:
+	  break;
 	case tinyxml2::XML_ERROR_FILE_COULD_NOT_BE_OPENED:
 	  break;
 	case tinyxml2::XML_ERROR_ELEMENT_MISMATCH:

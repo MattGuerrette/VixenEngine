@@ -6,11 +6,13 @@
 #include <map>
 #include <cstdlib>
 #include <algorithm>
+#include <utility>
 
 namespace Vixen {
 
     class VIX_API INIWriter
     {
+        typedef std::vector<std::pair<std::string, std::string> > ValuePairList;
     public:
         INIWriter();
 
@@ -20,7 +22,9 @@ namespace Vixen {
         void SetValue(std::string section, std::string name, T value);
 
     private:
-        std::map<std::string, std::vector<std::string> > _values;
+        std::map<std::string, ValuePairList> _values;
+
+        static std::string  MakeKey(std::string section);
     };
 
     template <>

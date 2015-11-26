@@ -43,7 +43,7 @@ namespace Vixen {
         using namespace tinyxml2;
 
         //need to attempt to open scene list
-        File* file = FileManager::OpenFile(PathManager::ScenePath() + VTEXT("scenes.config"));
+        File* file = FileManager::OpenFile(PathManager::ScenePath() + VTEXT("scenes.config"), FileMode::ReadBinary);
         if (file) {
 
             //File is actually an XML file
@@ -77,11 +77,11 @@ namespace Vixen {
             FileManager::CloseFile(file);
             return true;
         }
-        
+
         FileManager::CloseFile(file);
         return false;
     }
-	
+
 	void SceneManager::AddScene(Scene* scene)
 	{
 		SceneManager& _manager = SceneManager::instance();
@@ -105,7 +105,7 @@ namespace Vixen {
 		{
 			Scene* _scene = it->second;
 			if (_scene) {
-				for (int32_t i = 0; i < _manager.m_sceneList.size(); i++) {
+				for (uint32_t i = 0; i < _manager.m_sceneList.size(); i++) {
 					if (_scene == _manager.m_sceneList[i]) {
 						_manager.m_sceneList.erase(_manager.m_sceneList.begin() + i);
 						_manager.m_sceneList.insert(_manager.m_sceneList.begin() + order, _scene);
@@ -146,13 +146,13 @@ namespace Vixen {
 	{
 		SceneManager& _manager = SceneManager::instance();
 
-		File* sceneFile = FileManager::OpenFile(PathManager::ScenePath() + UStringFromCharArray(fileName.c_str()));
+		File* sceneFile = FileManager::OpenFile(PathManager::ScenePath() + UStringFromCharArray(fileName.c_str()), FileMode::ReadBinary);
 		if (sceneFile)
 		{
 			Scene* scene = Scene::Deserialize(sceneFile);
 			if (scene) {
 				scene->SetFileName(fileName);
-				
+
 				_manager.m_sceneFiles[scene->GetID()] = scene->GetFileName();
 				_manager.m_scenes[scene->GetID()] = scene;
 
@@ -191,14 +191,14 @@ namespace Vixen {
 			Scene* scene = it->second;
 			_manager.m_sceneList.push_back(scene);
 		}
-            
+
     }
 
     void SceneManager::UpdateScenes()
     {
         SceneManager& _manager = SceneManager::instance();
 
-		for (int32_t i = 0; i < _manager.m_sceneList.size(); i++)
+		for (uint32_t i = 0; i < _manager.m_sceneList.size(); i++)
 		{
 			Scene* _scene = _manager.m_sceneList[i];
 			_manager.m_current = _scene;
@@ -207,7 +207,7 @@ namespace Vixen {
 		}
         //_manager.m_current->Update();
 
-		
+
 		PrefabManager::Cleanup();
     }
 
@@ -216,7 +216,7 @@ namespace Vixen {
         SceneManager& _manager = SceneManager::instance();
 
 
-		for (int32_t i = 0; i < _manager.m_sceneList.size(); i++)
+		for (uint32_t i = 0; i < _manager.m_sceneList.size(); i++)
 		{
 			Scene* _scene = _manager.m_sceneList[i];
 			if (_scene && !_scene->IsHidden())
@@ -258,6 +258,8 @@ namespace Vixen {
         {
             return activeScene->QueryObject(id);
         }
+
+        return NULL;
     }
 
 	Scene* SceneManager::ActiveScene()
@@ -293,8 +295,8 @@ namespace Vixen {
 	void SceneManager::ReloadScene(std::string sceneID)
 	{
 		SceneManager& _manager = SceneManager::instance();
-		
-		for (int32_t i = 0; i < _manager.m_sceneList.size(); i++)
+
+		for (uint32_t i = 0; i < _manager.m_sceneList.size(); i++)
 		{
 			Scene* _scene = _manager.m_sceneList[i];
 			if (_scene)

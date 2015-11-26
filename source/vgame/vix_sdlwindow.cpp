@@ -237,7 +237,7 @@ namespace Vixen {
                         Renderer::ResizeBuffers(event.window.data1, event.window.data2);
 
                         SceneManager::UpdateCameraViewports(event.window.data1, event.window.data2);
-                        
+
                     } break;
 
                     default:
@@ -380,8 +380,11 @@ namespace Vixen {
 	int SDLGameWindow::GetPlayerFromControllerIndex(int controllerIndex)
 	{
 		for (int i = 0; i < 4; i++) {
-			if (m_controllerIndeces[i] == controllerIndex) return i;
+			if (m_controllerIndeces[i] == controllerIndex)
+			 	return i;
 		}
+
+		return 0;
 	}
 
 }

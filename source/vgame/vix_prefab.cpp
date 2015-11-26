@@ -121,6 +121,9 @@ namespace Vixen {
 				Component::Type type = component->VGetType();
 				switch (type)
 				{
+					case Component::Type::UNUSED:
+						break;
+
 					case Component::Type::LUA_SCRIPT:
 					{
 
@@ -174,6 +177,14 @@ namespace Vixen {
                         _object->AddComponent(_newText);
 
 					} break;
+
+					case Component::Type::UI_BUTTON:
+					case Component::Type::UI_TEXTURE:
+					case Component::Type::SPRITE:
+					case Component::Type::LIGHT:
+					case Component::Type::PHYSICS_RIGIDBODY:
+						break;
+
 				}
 			}
 		}
@@ -222,7 +233,7 @@ namespace Vixen {
 
 	Prefab* Prefab::GetChild(int index)
 	{
-		if (index > m_children.size())
+		if ((uint32_t)index > m_children.size())
 			return NULL;
 		else
 			return m_children[index];
@@ -230,7 +241,7 @@ namespace Vixen {
 
 	std::string Prefab::GetScriptFile(int index)
 	{
-		if (index > m_scriptFiles.size())
+		if ((uint32_t)index > m_scriptFiles.size())
 			return NULL;
 		else
 			return m_scriptFiles[index];

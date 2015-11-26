@@ -154,6 +154,42 @@ namespace Vixen {
 		case FIF_JPEG:
 			FREEIMAGE_LoadJPGHeader(&vix_bmp->header, vix_bmp->data);
 			break;
+
+			case FIF_UNKNOWN:
+			case FIF_BMP:
+			case FIF_ICO:
+			case FIF_JNG:
+			case FIF_KOALA:
+			case FIF_LBM:
+			case FIF_MNG:
+			case FIF_PBM:
+			case FIF_PBMRAW:
+			case FIF_PCD:
+			case FIF_PCX:
+			case FIF_PGM:
+			case FIF_PGMRAW:
+			case FIF_PPM:
+			case FIF_PPMRAW:
+			case FIF_XBM:
+			case FIF_RAS:
+			case FIF_TIFF:
+			case FIF_WBMP:
+			case FIF_PSD:
+			case FIF_CUT:
+			case FIF_XPM:
+			case FIF_DDS:
+			case FIF_GIF:
+			case FIF_HDR:
+			case FIF_FAXG3:
+			case FIF_SGI:
+			case FIF_EXR:
+			case FIF_J2K:
+			case FIF_JP2:
+			case FIF_PFM:
+			case FIF_PICT:
+			case FIF_RAW:
+				break;
+
 		}
 
 
@@ -210,7 +246,7 @@ namespace Vixen {
 		io.seek_proc = reinterpret_cast<FI_SeekProc>(&SeekFile);
 		io.tell_proc = reinterpret_cast<FI_TellProc>(&TellFile);
 
-		vix_bmp->bitmap = FreeImage_LoadFromHandle(vix_bmp->format, &io, (fi_handle)file->Handle(), NULL);
+		vix_bmp->bitmap = FreeImage_LoadFromHandle(vix_bmp->format, &io, (fi_handle)file->Handle(), 0);
 		if(!vix_bmp->bitmap)
 			DebugPrintF(VTEXT("Load bitmap failed\n"));
 
@@ -226,7 +262,7 @@ namespace Vixen {
             vix_bmp->bitmap = FreeImage_ConvertTo32Bits(vix_bmp->bitmap);
             vix_bmp->bpp = FreeImage_GetBPP(vix_bmp->bitmap);
         }
-			
+
 		//Flip image Y
 		FreeImage_FlipVertical(vix_bmp->bitmap);
 

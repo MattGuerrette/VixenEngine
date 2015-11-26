@@ -16,10 +16,11 @@ set (VixenEngine_VERSION_BUILD 1)
 include (CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
 if(COMPILER_SUPPORTS_CXX11)
-    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -w -g")
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -g")
 else()
     message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
 endif()
+
 
 #configure header file to pass
 #CMake settings to source code
@@ -36,9 +37,9 @@ include_directories("${PROJECT_SOURCE_DIR}/../include"
                     "${PROJECT_SOURCE_DIR}/../dependencies/x64/inih"
                     "${PROJECT_SOURCE_DIR}/../dependencies/x64/glm"
                     "${PROJECT_SOURCE_DIR}/../dependencies/x64/luaintf"
-                    "/usr/include/lua5.2"
-                    "/usr/include/bullet"
-                    "/usr/local/include/glm")
+                    SYSTEM "/usr/include/lua5.2"
+                    SYSTEM "/usr/include/bullet"
+                    SYSTEM "/usr/local/include/glm")
 
 file(GLOB VCORE_SRC ../source/vcore/*.cpp ../dependencies/x64/inih/*.c)
 file(GLOB VGRAPHICS_SRC ../source/vgraphics/*.cpp)
@@ -56,7 +57,7 @@ target_link_libraries(vgraphics vcore GLEW GL archive freeimage)
 target_link_libraries(vgame vcore vgraphics SDL2 lua5.2 tinyxml2 archive freeimage LinearMath BulletDynamics BulletSoftBody BulletCollision)
 
 add_executable(vtest ${PROJECT_SOURCE_DIR}/../source/vtest/main.cpp)
-target_link_libraries(vtest vcore SDL2 lua5.2 tinyxml2 archive freeimage)
+target_link_libraries(vtest vcore vgraphics vgame SDL2 lua5.2 tinyxml2 archive freeimage)
 
 #install
 

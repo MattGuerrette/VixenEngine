@@ -42,6 +42,8 @@ namespace Vixen {
 
 #ifdef VIX_SYS_WINDOWS
         _manager.m_resourceLoader = new DXResourceLoader((DXRenderer*)Renderer::Handle());
+#else
+        _manager.m_resourceLoader = NULL;
 #endif
 
         return true;
@@ -70,7 +72,7 @@ namespace Vixen {
 
 		Texture* _texture = NULL;
 
-        File* file = FileManager::OpenFile(assetPath);
+        File* file = FileManager::OpenFile(assetPath, FileMode::ReadBinary);
         if (file)
         {
             //Create Renderer Specific texture type
@@ -87,11 +89,11 @@ namespace Vixen {
 					ResourceManager::MapAsset(file->FileName(), (Asset*)_texture);
 
 				}
-				
+
 				FileManager::CloseFile(file);
 			}
-               
-            
+
+
         }
 
 		return _texture;
@@ -106,7 +108,7 @@ namespace Vixen {
 
 		Shader* _shader = NULL;
 
-        File* file = FileManager::OpenFile(assetPath);
+        File* file = FileManager::OpenFile(assetPath, FileMode::ReadBinary);
         if (file)
         {
             //Create Renderer Specific texture type
@@ -122,7 +124,7 @@ namespace Vixen {
 
 					ResourceManager::MapAsset(file->FileName(), _shader);
 				}
-              
+
                FileManager::CloseFile(assetPath);
             }
         }
@@ -139,7 +141,7 @@ namespace Vixen {
 
 		Model* _model = NULL;
 
-        File* file = FileManager::OpenFile(assetPath);
+        File* file = FileManager::OpenFile(assetPath, FileMode::ReadBinary);
         if (file)
         {
             //Create Renderer Specific model type
@@ -175,7 +177,7 @@ namespace Vixen {
 
 		Font* _font = NULL;
 
-        File* file = FileManager::OpenFile(assetPath);
+        File* file = FileManager::OpenFile(assetPath, FileMode::ReadBinary);
         if (file)
         {
             //Create Renderer Specific model type
@@ -189,7 +191,7 @@ namespace Vixen {
 				{
 					//Need to load a font object into memory
 					_font = _RM.m_resourceLoader->LoadFont(file);
-				
+
 					ResourceManager::MapAsset(file->FileName(), _font);
 				}
 
@@ -209,7 +211,7 @@ namespace Vixen {
 
 		Material* _material = NULL;
 
-		File* file = FileManager::OpenFile(assetPath);
+		File* file = FileManager::OpenFile(assetPath, FileMode::ReadBinary);
 		if (file)
 		{
 			//Create Renderer Specific model type
@@ -224,10 +226,10 @@ namespace Vixen {
 					//Need to load a material object into memory
 					_material = _RM.m_resourceLoader->LoadMaterial(file);
 
-					
+
 					ResourceManager::MapAsset(file->FileName(), _material);
 				}
-				
+
 				FileManager::CloseFile(file);
 			}
 		}
@@ -238,7 +240,7 @@ namespace Vixen {
 	Asset* ResourceManager::AccessAsset(UString assetName)
 	{
 		ResourceManager& _RM = ResourceManager::instance();
-		
+
 		std::map<UString, Asset*>::iterator it;
 
 		it = _RM.m_assetMap.find(assetName);
@@ -303,7 +305,7 @@ namespace Vixen {
 
 			_RM.m_assetMap[fileName] = nullptr;
 		}
-			
+
 
         if (asset)
             asset->DecrementRefCount();
