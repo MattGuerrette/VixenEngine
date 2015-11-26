@@ -105,7 +105,7 @@ namespace Vixen {
 		{
 			Scene* _scene = it->second;
 			if (_scene) {
-				for (int32_t i = 0; i < _manager.m_sceneList.size(); i++) {
+				for (uint32_t i = 0; i < _manager.m_sceneList.size(); i++) {
 					if (_scene == _manager.m_sceneList[i]) {
 						_manager.m_sceneList.erase(_manager.m_sceneList.begin() + i);
 						_manager.m_sceneList.insert(_manager.m_sceneList.begin() + order, _scene);
@@ -198,7 +198,7 @@ namespace Vixen {
     {
         SceneManager& _manager = SceneManager::instance();
 
-		for (int32_t i = 0; i < _manager.m_sceneList.size(); i++)
+		for (uint32_t i = 0; i < _manager.m_sceneList.size(); i++)
 		{
 			Scene* _scene = _manager.m_sceneList[i];
 			_manager.m_current = _scene;
@@ -216,7 +216,7 @@ namespace Vixen {
         SceneManager& _manager = SceneManager::instance();
 
 
-		for (int32_t i = 0; i < _manager.m_sceneList.size(); i++)
+		for (uint32_t i = 0; i < _manager.m_sceneList.size(); i++)
 		{
 			Scene* _scene = _manager.m_sceneList[i];
 			if (_scene && !_scene->IsHidden())
@@ -258,6 +258,8 @@ namespace Vixen {
         {
             return activeScene->QueryObject(id);
         }
+
+        return NULL;
     }
 
 	Scene* SceneManager::ActiveScene()
@@ -294,7 +296,7 @@ namespace Vixen {
 	{
 		SceneManager& _manager = SceneManager::instance();
 
-		for (int32_t i = 0; i < _manager.m_sceneList.size(); i++)
+		for (uint32_t i = 0; i < _manager.m_sceneList.size(); i++)
 		{
 			Scene* _scene = _manager.m_sceneList[i];
 			if (_scene)

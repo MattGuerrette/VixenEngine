@@ -33,7 +33,7 @@
 #include <SDL.h>
 #elif defined(VIX_SYS_LINUX)
 #include <SDL2/SDL.h>
-#endif#include <SDL.h>
+#endif
 #include <map>
 
 namespace Vixen {

@@ -49,7 +49,7 @@ namespace Vixen {
 	{
 		m_paused = false;
 		m_hidden = false;
-		
+
 		m_mainCamera = NULL;
 	}
 
@@ -66,7 +66,7 @@ namespace Vixen {
 
 	void Scene::RemoveSceneObject(GameObject* object)
 	{
-		for (int i = 0; i < m_topLevelObjects.size(); i++)
+		for (uint32_t i = 0; i < m_topLevelObjects.size(); i++)
 		{
 			if (m_topLevelObjects.at(i) == object)
 			{
@@ -80,7 +80,7 @@ namespace Vixen {
 	void Scene::Update()
 	{
 		//update all scene objects
-		for (int i = 0; i < m_topLevelObjects.size(); i++)
+		for (uint32_t i = 0; i < m_topLevelObjects.size(); i++)
 		{
 			GameObject* obj = m_topLevelObjects.at(i);
 			if(obj->IsMarkedForDestroy())
@@ -97,18 +97,18 @@ namespace Vixen {
 
 	void Scene::Render()
 	{
-		
 
-		//For each camera in the scene, we need to render all geometry and 
+
+		//For each camera in the scene, we need to render all geometry and
 		//ui elements, twice. One for each camera viewport
 
-		for (int i = 0; i < m_cameras.size(); i++)
+		for (uint32_t i = 0; i < m_cameras.size(); i++)
 		{
 
 			ICamera3D* camera = m_cameras[i];
 
 			//render all scene object
-			for (int i = 0; i < m_topLevelObjects.size(); i++)
+			for (uint32_t i = 0; i < m_topLevelObjects.size(); i++)
 			{
 				GameObject* obj = m_topLevelObjects.at(i);
 				if (!obj->IsMarkedForDestroy() && !obj->IsMarkedForLateRender() && obj->GetEnabled())
@@ -126,7 +126,7 @@ namespace Vixen {
 			//NOTE: this is expensive, as we are iterating over the list of objects again...
 			//      what should happen is the list should be sorted once, leaving all late render objects
 			//      last to be drawn.
-			for (int i = 0; i < m_topLevelObjects.size(); i++)
+			for (uint32_t i = 0; i < m_topLevelObjects.size(); i++)
 			{
 				GameObject* obj = m_topLevelObjects.at(i);
 				if (obj->IsMarkedForLateRender() && obj->GetEnabled())
@@ -134,14 +134,14 @@ namespace Vixen {
 			}
 		}
 
-		
+
 
 		LuaEngine::ExecuteExpression(VTEXT("collectgarbage()"));
 	}
 
 	GameObject* Scene::QueryObject(std::string name)
 	{
-		for (int i = 0; i < m_topLevelObjects.size(); i++)
+		for (uint32_t i = 0; i < m_topLevelObjects.size(); i++)
 		{
 			GameObject* _object = m_topLevelObjects[i];
 			if (_object->GetName() == name)
@@ -175,7 +175,7 @@ namespace Vixen {
 
 	void Scene::RemoveCamera(ICamera3D * camera)
 	{
-		for (int i = 0; i < m_cameras.size(); i++)
+		for (uint32_t i = 0; i < m_cameras.size(); i++)
 		{
 			if (m_cameras[i] == camera)
 			{
@@ -218,7 +218,7 @@ namespace Vixen {
 		return m_hidden;
 	}
 
-	
+
 
 
 	///////////////////////////////////////////////////////////////////////
@@ -378,7 +378,7 @@ namespace Vixen {
 	Component* Scene::ParseCameraComponent(Scene* scene, const tinyxml2::XMLElement * element)
 	{
 		using namespace tinyxml2;
-		
+
 		bool isMainCamera = element->BoolAttribute("mainCamera");
 		Camera3DComponent* _camera = new Camera3DComponent();
 		if (isMainCamera)
@@ -475,7 +475,7 @@ namespace Vixen {
 		_font->IncrementRefCount();
 
         UIText* _text = new UIText(UStringFromCharArray(text), _font);
-		
+
         return _text;
     }
 
@@ -492,7 +492,7 @@ namespace Vixen {
 			return NULL;
 		}
 		_model->IncrementRefCount();
-			
+
 		Material* _material = ResourceManager::OpenMaterial(UStringFromCharArray(materialFile));
 		if (!_material) {
 			DebugPrintF(VTEXT("Failed to open material.\n"));
@@ -503,7 +503,7 @@ namespace Vixen {
 		ModelComponent* _modelComponent = new ModelComponent;
 		_modelComponent->SetModel(_model);
 		_modelComponent->SetMaterial(_material);
-			
+
 		return _modelComponent;
 	}
 
@@ -547,7 +547,7 @@ namespace Vixen {
 				BulletPlaneCollider* _plane = new BulletPlaneCollider;
 				_plane->SetPlaneNormal(planeNormal);
 				_plane->SetPlaneContant(planeConstant);
-				
+
 				_component->SetColliderShape(_plane);
 			}
 			else if (type == "BOX")

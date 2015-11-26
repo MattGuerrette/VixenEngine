@@ -37,9 +37,9 @@ include_directories("${PROJECT_SOURCE_DIR}/../include"
                     "${PROJECT_SOURCE_DIR}/../dependencies/x64/inih"
                     "${PROJECT_SOURCE_DIR}/../dependencies/x64/glm"
                     "${PROJECT_SOURCE_DIR}/../dependencies/x64/luaintf"
-                    "/usr/include/lua5.2"
-                    "/usr/include/bullet"
-                    "/usr/local/include/glm")
+                    SYSTEM "/usr/include/lua5.2"
+                    SYSTEM "/usr/include/bullet"
+                    SYSTEM "/usr/local/include/glm")
 
 file(GLOB VCORE_SRC ../source/vcore/*.cpp ../dependencies/x64/inih/*.c)
 file(GLOB VGRAPHICS_SRC ../source/vgraphics/*.cpp)

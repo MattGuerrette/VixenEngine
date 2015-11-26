@@ -37,7 +37,7 @@ namespace Vixen {
 		m_up = Vector3(0.0f, 1.0f, 0.0f);
 		m_right = Vector3(1.0f, 0.0f, 0.0f);
 
-		
+
 
 		m_parent = NULL;
 		SetDirty();
@@ -55,7 +55,7 @@ namespace Vixen {
 		m_up = Vector3(0.0f, 1.0f, 0.0f);
 		m_right = Vector3(1.0f, 0.0f, 0.0f);
 
-	
+
 
 		m_parent = NULL;
 		SetDirty();
@@ -71,7 +71,7 @@ namespace Vixen {
 		m_up = Vector3(0.0f, 1.0f, 0.0f);
 		m_right = Vector3(1.0f, 0.0f, 0.0f);
 
-	
+
 
 		m_parent = NULL;
 		SetDirty();
@@ -82,7 +82,7 @@ namespace Vixen {
 		if (!m_worldDirty) {
 			m_worldDirty = true;
 
-			for (int i = 0; i < m_childTransforms.size(); i++)
+			for (uint32_t i = 0; i < m_childTransforms.size(); i++)
 			{
 				Transform* _transform = m_childTransforms[i];
 				_transform->SetDirty();
@@ -102,7 +102,7 @@ namespace Vixen {
 
 	void Transform::RemoveChildTransform(Transform * transform)
 	{
-		for (int i = 0; i < m_childTransforms.size(); i++)
+		for (uint32_t i = 0; i < m_childTransforms.size(); i++)
 		{
 			if (m_childTransforms.at(i) == transform)
 			{
@@ -281,7 +281,7 @@ namespace Vixen {
 
 	MATRIX* Transform::GetWorldMatrix()
 	{
-		
+
 		if (m_worldDirty) {
 			m_worldDirty = false;
 			if (m_parent)
@@ -301,7 +301,7 @@ namespace Vixen {
 
 			m_right = m_up.Cross(m_forward);
 
-			
+
 		}
 
 		return &m_world;

@@ -37,7 +37,7 @@
 
 #include <vix_gameobject.h>
 #include <vix_input.h>
-#include <vix_scenemanager.h>>
+#include <vix_scenemanager.h>
 
 namespace Vixen {
 
@@ -90,7 +90,7 @@ namespace Vixen {
 
     void Camera3DComponent::VOnInit()
     {
-		
+
     }
 
     void Camera3DComponent::VOnEnable()

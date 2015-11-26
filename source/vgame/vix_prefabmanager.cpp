@@ -70,7 +70,7 @@ namespace Vixen {
 		PrefabManager& _manager = PrefabManager::instance();
 
 		PrefabMap::iterator it = _manager.m_prefabs.begin();
-		for (it; it != _manager.m_prefabs.end();)
+		while(it != _manager.m_prefabs.end())
 		{
 			Prefab* _p = it->second;
 			if (_p && _p->RefCount() == 0)

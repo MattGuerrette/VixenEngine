@@ -90,7 +90,7 @@ namespace Vixen {
 	{
 		SetEnabled(false, false);
 
-		for (size_t i = 0; i < m_components.size(); i++)
+		for (uint32_t i = 0; i < m_components.size(); i++)
 		{
 			Component* component = m_components[i];
 			if (component)
@@ -101,7 +101,7 @@ namespace Vixen {
 			}
 		}
 
-		for (int i = 0; i < m_children.size(); i++)
+		for (uint32_t i = 0; i < m_children.size(); i++)
 		{
 			GameObject* _child = m_children[i];
 			if (_child)
@@ -125,14 +125,14 @@ namespace Vixen {
 
 	void GameObject::Update()
 	{
-		for (size_t i = 0; i < m_components.size(); i++)
+		for (uint32_t i = 0; i < m_components.size(); i++)
 		{
 			Component* component = m_components[i];
 			if (component)
 				component->VUpdate();
 		}
 
-		for (int i = 0; i < m_children.size(); i++)
+		for (uint32_t i = 0; i < m_children.size(); i++)
 		{
 			GameObject* _child = m_children[i];
 			if (_child->IsMarkedForDestroy())
@@ -148,21 +148,21 @@ namespace Vixen {
 
 	void GameObject::Render(ICamera3D * camera)
 	{
-        for (int i = 0; i < m_components.size(); i++)
+        for (uint32_t i = 0; i < m_components.size(); i++)
         {
             IRenderComponent2D* _renderComponent2D = dynamic_cast<IRenderComponent2D*>(m_components[i]);
 			if (_renderComponent2D) {
 				_renderComponent2D->VRender(Renderer::Camera2D(), camera->VGetViewport());
 			}
-                
+
 
 			IRenderComponent* _renderComponent = dynamic_cast<IRenderComponent*>(m_components[i]);
 			if (_renderComponent)
 				_renderComponent->VRender(camera);
 
         }
-		
-		for (int i = 0; i < m_children.size(); i++)
+
+		for (uint32_t i = 0; i < m_children.size(); i++)
 		{
 			GameObject* _child = m_children[i];
 
@@ -196,7 +196,7 @@ namespace Vixen {
 			//loop through components and enable them
 			if (m_enabled)
 			{
-				for (size_t i = 0; i < m_components.size(); i++)
+				for (uint32_t i = 0; i < m_components.size(); i++)
 				{
 					Component* component = m_components[i];
 					if (component)
@@ -206,7 +206,7 @@ namespace Vixen {
 			//loop through components and disable them
 			else
 			{
-				for (size_t i = 0; i < m_components.size(); i++)
+				for (uint32_t i = 0; i < m_components.size(); i++)
 				{
 					Component* component = m_components[i];
 					if (component)
@@ -216,7 +216,7 @@ namespace Vixen {
 		}
 		if(recursive)
 		{
-			for (int i = 0; i < m_children.size(); i++)
+			for (uint32_t i = 0; i < m_children.size(); i++)
 			{
 				GameObject* _child = m_children[i];
 
@@ -251,7 +251,7 @@ namespace Vixen {
 			current = current->m_parent;
 		}
 		//if the given object isn't a parent we can child it to this object
-		
+
 		//but first we have to remove it from the previous parent
 		//first case: there is no parent, attempt to remove from scene
 		if (!gameObject->m_parent)
@@ -267,7 +267,7 @@ namespace Vixen {
 
 		//now we can add it to this object
 		m_children.push_back(gameObject);
-		
+
 
 		gameObject->m_parent = this;
 		m_transform->AddChildTransform(gameObject->GetTransform());
@@ -275,7 +275,7 @@ namespace Vixen {
 
 	void GameObject::RemoveChild(GameObject * gameObject)
 	{
-		for (int i = 0; i < m_children.size(); i++)
+		for (uint32_t i = 0; i < m_children.size(); i++)
 		{
 			if (m_children.at(i) == gameObject)
 			{
@@ -297,7 +297,7 @@ namespace Vixen {
 
 	GameObject* GameObject::GetChild(int index)
 	{
-		if (index >= m_children.size())
+		if ((uint32_t)index >= m_children.size())
 			return NULL;
 
 		return m_children[index];
