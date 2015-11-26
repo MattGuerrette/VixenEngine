@@ -42,6 +42,8 @@ namespace Vixen {
 
 #ifdef VIX_SYS_WINDOWS
         _manager.m_resourceLoader = new DXResourceLoader((DXRenderer*)Renderer::Handle());
+#else
+        _manager.m_resourceLoader = NULL;
 #endif
 
         return true;

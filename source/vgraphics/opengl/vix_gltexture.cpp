@@ -101,7 +101,7 @@ namespace Vixen {
 
 	void GLTexture::Unbind()
 	{
-		glBindTexture(m_target, NULL);
+		glBindTexture(m_target, 0);
 	}
 
 

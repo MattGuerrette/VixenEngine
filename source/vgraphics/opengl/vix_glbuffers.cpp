@@ -29,11 +29,12 @@ namespace Vixen {
 					   size_t stride,
 					   size_t count,
 		               const GLvoid* data)
-					   : m_target(target),
-					     m_size(stride * count),
-						 m_count(count),
-						 m_stride(stride)
 	{
+		m_target = target;
+		m_stride = stride;
+		m_size = stride * count;
+		m_count = count;
+
 		glGenBuffers(1, &m_buffer);
 		bind();
 		glBufferData(m_target, m_size, data, GL_STATIC_DRAW);
@@ -62,6 +63,6 @@ namespace Vixen {
 	void GLBuffer::unbind()
 	{
 		/*unbind buffer from opengl*/
-		glBindBuffer(m_target, NULL);
+		glBindBuffer(m_target, 0);
 	}
 }
