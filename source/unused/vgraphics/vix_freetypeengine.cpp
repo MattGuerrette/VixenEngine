@@ -1,3 +1,17 @@
+/**
+**	Vixen Engine
+**	Copyright(c) 2015 Matt Guerrette
+**
+**	GNU Lesser General Public License
+**	This file may be used under the terms of the GNU Lesser
+**  General Public License version 3 as published by the Free
+**  Software Foundation and appearing in the file LICENSE.LGPLv3 included
+**  in the packaging of this file. Please review the following information
+**  to ensure the GNU Lesser General Public License requirements
+**  will be met: https://www.gnu.org/licenses/lgpl.html
+**
+**/
+
 #include <vix_freetypeengine.h>
 #include <vix_debugutil.h>
 #include <vix_freeimage.h>
@@ -55,7 +69,7 @@ namespace Vixen {
         matrix.xy = (FT_Fixed)(-sin(0) * 0x10000L);
         matrix.yx = (FT_Fixed)(sin(0) * 0x10000L);
         matrix.yy = (FT_Fixed)(cos(0) * 0x10000L);
-      
+
         const char* _text = "ABCDEFGH";
         int width_ = 0;
         int height_ = 0;
@@ -83,13 +97,13 @@ namespace Vixen {
 
             DrawStuff(&face->glyph->bitmap, x, y);
 
-           
+
             pen.x += face->glyph->advance.x;
             pen.y += face->glyph->advance.y;
         }
 
         ShowImage();
-      
+
         FT_Done_Face(face);
         FT_Done_FreeType(m_library);
 
@@ -116,7 +130,7 @@ namespace Vixen {
         }
     }
 
-    
+
     void FreeTypeEngine::ShowImage(void)
     {
         int  i, j;

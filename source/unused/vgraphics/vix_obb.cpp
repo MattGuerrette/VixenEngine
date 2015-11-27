@@ -1,3 +1,17 @@
+/**
+**	Vixen Engine
+**	Copyright(c) 2015 Matt Guerrette
+**
+**	GNU Lesser General Public License
+**	This file may be used under the terms of the GNU Lesser
+**  General Public License version 3 as published by the Free
+**  Software Foundation and appearing in the file LICENSE.LGPLv3 included
+**  in the packaging of this file. Please review the following information
+**  to ensure the GNU Lesser General Public License requirements
+**  will be met: https://www.gnu.org/licenses/lgpl.html
+**
+**/
+
 #include <vix_obb.h>
 #include <vix_model.h>
 
@@ -29,7 +43,7 @@ namespace Vixen {
 	{
 		return m_min;
 	}
-	
+
 	const Vec3& OBB::Centroid() const
 	{
 		return m_centroid;
@@ -44,7 +58,7 @@ namespace Vixen {
 	{
 		return m_size;
 	}
-	
+
 	const Mat4& OBB::World() const
 	{
 		return m_parent->GetWorldMatrix();
@@ -91,7 +105,7 @@ namespace Vixen {
 	{
 		m_position = m_parent->GetPosition();
 		UpdateTransformed();
-			
+
 		m_world = m_parent->GetWorldMatrix() *
 				  glm::translate(Mat4(1.0f), m_centroid) *
 				  glm::scale(Mat4(1.0f), m_size * .5f);
@@ -112,7 +126,7 @@ namespace Vixen {
 
 	bool OBB::CheckCollision(OBB* a, OBB* b)
 	{
-		
+
 		//SEPARATING AXIS THEOREM
 
 		a->SetHighlight(Colors::Purple);
@@ -159,7 +173,7 @@ namespace Vixen {
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 3; j++) {
 				AbsR[i][j] = glm::abs(R[i][j]) + FLT_EPSILON;
-			}	
+			}
 		}
 
 		float radiusA, radiusB;

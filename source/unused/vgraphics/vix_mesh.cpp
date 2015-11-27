@@ -1,3 +1,17 @@
+/**
+**	Vixen Engine
+**	Copyright(c) 2015 Matt Guerrette
+**
+**	GNU Lesser General Public License
+**	This file may be used under the terms of the GNU Lesser
+**  General Public License version 3 as published by the Free
+**  Software Foundation and appearing in the file LICENSE.LGPLv3 included
+**  in the packaging of this file. Please review the following information
+**  to ensure the GNU Lesser General Public License requirements
+**  will be met: https://www.gnu.org/licenses/lgpl.html
+**
+**/
+
 #include <vix_mesh.h>
 #include <vix_debugutil.h>
 #include <vix_model.h>
@@ -57,7 +71,7 @@ namespace Vixen {
 		m_indices.push_back(index01);
 		m_indices.push_back(index02);
 		m_indices.push_back(index03);
-		
+
 	}
 
 	void Mesh::applyTransform(GLCamera3D* camera)
@@ -76,7 +90,7 @@ namespace Vixen {
 		m_parent->GetShader()->GetUniformLoc("gBump", bumpLoc);
 
 		m_parent->GetWorldMatrix() =
-			glm::translate(Mat4(1.0f), m_parent->GetPosition()) * 
+			glm::translate(Mat4(1.0f), m_parent->GetPosition()) *
 			glm::rotate(Mat4(1.0f), m_parent->GetRotation().x, glm::vec3(1.0f, 0.0f, 0.0f)) *
 			glm::rotate(Mat4(1.0f), m_parent->GetRotation().y, glm::vec3(0.0f, 1.0f, 0.0f)) *
 			glm::rotate(Mat4(1.0f), m_parent->GetRotation().z, glm::vec3(0.0f, 0.0f, 1.0f)) *

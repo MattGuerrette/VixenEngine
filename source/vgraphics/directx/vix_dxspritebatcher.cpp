@@ -1,25 +1,16 @@
-/*
-	The MIT License(MIT)
-
-	Copyright(c) 2015 Vixen Team, Matt Guerrette
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files(the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions :
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
-*/
+/**
+**	Vixen Engine
+**	Copyright(c) 2015 Matt Guerrette
+**
+**	GNU Lesser General Public License
+**	This file may be used under the terms of the GNU Lesser
+**  General Public License version 3 as published by the Free
+**  Software Foundation and appearing in the file LICENSE.LGPLv3 included
+**  in the packaging of this file. Please review the following information
+**  to ensure the GNU Lesser General Public License requirements
+**  will be met: https://www.gnu.org/licenses/lgpl.html
+**
+**/
 
 #include <vix_dxspritebatcher.h>
 #include <vix_dxtexture.h>
@@ -39,7 +30,7 @@ namespace Vixen {
 
         m_vBuffer = new DXVPTBuffer(MAX_VERT_COUNT, m_device, m_context);
         m_iBuffer = new DXIndexBuffer(INDICES_PER_TEX * MAX_BATCH_SIZE, m_device, m_context);
-        
+
         //populate index buffer
         for (unsigned short i = 0, j = 0; i < MAX_BATCH_SIZE; i++, j += VERTS_PER_TEX)
         {
@@ -59,7 +50,7 @@ namespace Vixen {
     {
         ResourceManager::DecrementAssetRef(m_vShader);
 		ResourceManager::DecrementAssetRef(m_pShader);
-        
+
         delete m_vBuffer;
         delete m_iBuffer;
     }

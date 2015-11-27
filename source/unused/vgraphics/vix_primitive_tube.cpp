@@ -1,3 +1,17 @@
+/**
+**	Vixen Engine
+**	Copyright(c) 2015 Matt Guerrette
+**
+**	GNU Lesser General Public License
+**	This file may be used under the terms of the GNU Lesser
+**  General Public License version 3 as published by the Free
+**  Software Foundation and appearing in the file LICENSE.LGPLv3 included
+**  in the packaging of this file. Please review the following information
+**  to ensure the GNU Lesser General Public License requirements
+**  will be met: https://www.gnu.org/licenses/lgpl.html
+**
+**/
+
 #include <vix_primitive_tube.h>
 #include <vix_math.h>
 
@@ -88,7 +102,7 @@ namespace Vixen {
 
 		m_topVerts.push_back(PositionColor(ri, h, 0, 1.0f, 0.0f, 0.0f, 1.0f));
 		m_topVerts.push_back(PositionColor(ro, h, 0, 1.0f, 0.0f, 0.0f, 1.0f));
-		
+
 
 
 		//BOTTOM CAP VERTS
@@ -110,7 +124,7 @@ namespace Vixen {
 
 		m_inBodyVerts.push_back(PositionColor(ri, -h, 0, 1.0f, 0.0f, 0.0f, 1.0f));
 		m_inBodyVerts.push_back(PositionColor(ri, h, 0, 1.0f, 0.0f, 0.0f, 1.0f));
-	
+
 		for(float i = 0; i <= TWO_PI; i += a)
 		{
 			m_outBodyVerts.push_back(PositionColor(ro*cos(i), -h, ro*sin(i), 1.0f, 0.0f, 0.0f, 1.0f));
@@ -149,7 +163,7 @@ namespace Vixen {
 		GLuint projLoc;
 		GLuint worldLoc;
 		GLuint viewLoc;
-		
+
 
 		m_program->GetUniformLoc(SHADER_GLOBAL_PROJECTION, projLoc);
 		m_program->GetUniformLoc(SHADER_GLOBAL_VIEW, viewLoc);
@@ -182,7 +196,7 @@ namespace Vixen {
 		PositionColor::RenderArrays(m_topVerts.size(), GL_QUAD_STRIP);
 		PositionColor::Enable(false);
 		m_vBuffer->unbind();
-		
+
 
 		//RENDER BOTTOM
 		m_vBuffer->set(0, m_botVerts.size(), m_botVerts.data());

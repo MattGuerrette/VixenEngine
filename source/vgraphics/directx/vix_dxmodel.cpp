@@ -1,25 +1,16 @@
-/*
-	The MIT License(MIT)
-
-	Copyright(c) 2015 Vixen Team, Matt Guerrette
-
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files(the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions :
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
-*/
+/**
+**	Vixen Engine
+**	Copyright(c) 2015 Matt Guerrette
+**
+**	GNU Lesser General Public License
+**	This file may be used under the terms of the GNU Lesser
+**  General Public License version 3 as published by the Free
+**  Software Foundation and appearing in the file LICENSE.LGPLv3 included
+**  in the packaging of this file. Please review the following information
+**  to ensure the GNU Lesser General Public License requirements
+**  will be met: https://www.gnu.org/licenses/lgpl.html
+**
+**/
 
 #include <vix_dxmodel.h>
 #include <vix_assimp.h>
@@ -58,7 +49,7 @@ namespace Vixen {
     bool DXModel::VInitFromFile(File* file)
     {
         using namespace tinyxml2;
-       
+
         Assimp::Importer _importer;
 		std::string _path = UStringToStd(file->FilePath());
         const aiScene* scene = _importer.ReadFile(_path.c_str(), aiProcess_CalcTangentSpace |
@@ -80,7 +71,7 @@ namespace Vixen {
         //a DXMesh object
 
         aiMesh* mesh = scene->mMeshes[0];
-      
+
         aiVector3D min, max, center;
         FindMeshCenter(mesh, center, min, max);
         m_min = Vector3(min.x, min.y, min.z);
@@ -122,15 +113,15 @@ namespace Vixen {
 				_vert.bitangent.y = bitangent.y;
 				_vert.bitangent.z = bitangent.z;
 			}
-           
-   
+
+
 			if (mesh->HasTextureCoords(0)) {
 				aiVector3D uvs = mesh->mTextureCoords[0][i];
 				_vert.u = uvs.x;
 				_vert.v = uvs.y;
 			}
-            
-            
+
+
             m_vertices.push_back(_vert);
         }
 
@@ -203,7 +194,7 @@ namespace Vixen {
     {
         return m_min;
     }
-    
+
     Vector3 DXModel::VMax()
     {
         return m_max;

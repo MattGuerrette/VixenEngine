@@ -1,3 +1,17 @@
+/**
+**	Vixen Engine
+**	Copyright(c) 2015 Matt Guerrette
+**
+**	GNU Lesser General Public License
+**	This file may be used under the terms of the GNU Lesser
+**  General Public License version 3 as published by the Free
+**  Software Foundation and appearing in the file LICENSE.LGPLv3 included
+**  in the packaging of this file. Please review the following information
+**  to ensure the GNU Lesser General Public License requirements
+**  will be met: https://www.gnu.org/licenses/lgpl.html
+**
+**/
+
 #include <vix_fontutil.h>
 #include <vix_debugutil.h>
 
@@ -9,8 +23,8 @@ namespace Vixen {
         int far * aiFontCount = (int far *)aFontCount;
 
 
-        // Record the number of raster, TrueType, and vector  
-        // fonts in the font-count array.  
+        // Record the number of raster, TrueType, and vector
+        // fonts in the font-count array.
 
         if (FontType & RASTER_FONTTYPE)
             aiFontCount[0]++;
@@ -25,7 +39,7 @@ namespace Vixen {
         else
             return FALSE;
 
-       
+
 
         //UNREFERENCED_PARAMETER(lplf);
         UNREFERENCED_PARAMETER(lpntm);
@@ -42,7 +56,7 @@ namespace Vixen {
 
         EnumFontFamilies(GetDC(hwnd), (LPCTSTR)NULL,
             (FONTENUMPROC)EnumFamCallBack, (LPARAM)aFontCount);
-        
+
         DebugPrintF(VTEXT("Number true type: %d"), aFontCount[2]);
     }
 

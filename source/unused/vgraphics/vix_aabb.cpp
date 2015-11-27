@@ -1,3 +1,17 @@
+/**
+**	Vixen Engine
+**	Copyright(c) 2015 Matt Guerrette
+**
+**	GNU Lesser General Public License
+**	This file may be used under the terms of the GNU Lesser
+**  General Public License version 3 as published by the Free
+**  Software Foundation and appearing in the file LICENSE.LGPLv3 included
+**  in the packaging of this file. Please review the following information
+**  to ensure the GNU Lesser General Public License requirements
+**  will be met: https://www.gnu.org/licenses/lgpl.html
+**
+**/
+
 #include <vix_aabb.h>
 #include <vix_model.h>
 
@@ -12,7 +26,7 @@ namespace Vixen {
 		UpdateTransformed();
 		m_box = new PrimitiveCube;
 	}
-	
+
 	AABB::AABB(const Vec3& centroid, const Vec3& halfSize)
 	{
 		m_parent = NULL;
@@ -78,12 +92,12 @@ namespace Vixen {
 	{
 		return m_size;
 	}
-	
+
 	const Mat4& AABB::World() const
 	{
 		return m_parent->GetWorldMatrix();
 	}
-	
+
 	void AABB::UpdateTransformed()
 	{
 		//We need to recalculate the centroid and size and min and max,
@@ -123,7 +137,7 @@ namespace Vixen {
 				m_max.y = v3Vertex[nVertex].y;
 			else if(v3Vertex[nVertex].y < m_min.y)
 				m_min.y = v3Vertex[nVertex].y;
-		
+
 			if(v3Vertex[nVertex].z > m_max.z)
 				m_max.z = v3Vertex[nVertex].z;
 			else if(v3Vertex[nVertex].z < m_min.z)
@@ -140,20 +154,20 @@ namespace Vixen {
 			UpdateTransformed();
 
 			Vec3 centroidG = static_cast<Vec3>(m_parent->GetWorldMatrix() * Vec4(m_centroid, 1.0f));
-			m_world = 
+			m_world =
 			glm::translate(Mat4(1.0f), centroidG) *
 			glm::scale(Mat4(1.0f), m_size * .5f);
 			m_box->SetWorldMatrix(m_world);
 		}
 		else {
 			Vec3 centroidG = m_centroid; //assumed to be in world
-			m_world = 
+			m_world =
 				glm::translate(Mat4(1.0f), centroidG) *
 				glm::scale(Mat4(1.0f), m_size * .5f);
 			m_box->SetWorldMatrix(m_world);
 		}
-			
-		
+
+
 	}
 
 	void AABB::Render(GLCamera3D* camera)
@@ -175,7 +189,7 @@ namespace Vixen {
 		Vec3 aMax = a->Max();
 		Vec3 bMin = b->Min();
 		Vec3 bMax = b->Max();
-		
+
 		a->SetHighlight(Colors::LimeGreen);
 		b->SetHighlight(Colors::LimeGreen);
 		if(aMax.x < bMin.x || aMin.x > bMax.x)

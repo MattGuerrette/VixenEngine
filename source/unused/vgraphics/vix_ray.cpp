@@ -1,3 +1,17 @@
+/**
+**	Vixen Engine
+**	Copyright(c) 2015 Matt Guerrette
+**
+**	GNU Lesser General Public License
+**	This file may be used under the terms of the GNU Lesser
+**  General Public License version 3 as published by the Free
+**  Software Foundation and appearing in the file LICENSE.LGPLv3 included
+**  in the packaging of this file. Please review the following information
+**  to ensure the GNU Lesser General Public License requirements
+**  will be met: https://www.gnu.org/licenses/lgpl.html
+**
+**/
+
 #include <vix_ray.h>
 
 namespace Vixen {
@@ -93,7 +107,7 @@ namespace Vixen {
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(camera->Projection()));
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(camera->View()));
 		//glUniformMatrix4fv(worldLoc, 1, GL_FALSE, glm::value_ptr(world));
-		glUniform4f(colorLoc, m_color.r, m_color.g, m_color.b, m_color.a); 
+		glUniform4f(colorLoc, m_color.r, m_color.g, m_color.b, m_color.a);
 	}
 
 	void Ray::Render(GLCamera3D* camera)
