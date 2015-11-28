@@ -383,6 +383,7 @@ namespace Vixen {
 
 	void DXRenderer::VRenderBackBuffer()
 	{
+        //m_DefferedBuffers->UnbindRenderTargets(m_ImmediateContext);
 		m_ImmediateContext->OMSetRenderTargets(1, &m_RenderTargetView, m_DepthStencView);
 
 		m_FinalPassPS->VSetSamplerState("samLinear", m_FinalPassSS);
@@ -399,6 +400,9 @@ namespace Vixen {
 		m_ImmediateContext->IASetIndexBuffer(NULL, DXGI_FORMAT_R32_UINT, 0);
 
 		m_ImmediateContext->Draw(3, 0);
+
+        m_FinalPassPS->VSetShaderResourceView("txDiffuse", NULL);
+        m_FinalPassPS->VSetShaderResourceView("txNormal", NULL);
 
         m_FinalPassVS->Deactivate();
         m_FinalPassPS->Deactivate();

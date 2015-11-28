@@ -144,6 +144,11 @@ namespace Vixen {
         context->OMSetRenderTargets(BUFFER_COUNT, m_RenderTargetViews, m_DepthStencilView);
     }
 
+    void DXDefferedBuffers::UnbindRenderTargets(ID3D11DeviceContext* context)
+    {
+        context->OMSetRenderTargets(BUFFER_COUNT, NULL, NULL);
+    }
+
     void DXDefferedBuffers::ClearRenderTargets(ID3D11DeviceContext* context, DirectX::XMVECTORF32 clearColor)
     {
         for (int i = 0; i < BUFFER_COUNT; i++)

@@ -104,11 +104,12 @@ namespace Vixen {
 
             // Fill out input element desc
             D3D11_INPUT_ELEMENT_DESC elementDesc;
+            elementDesc.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+            elementDesc.InputSlot = 0;
             elementDesc.SemanticName = paramDesc.SemanticName;
             elementDesc.SemanticIndex = paramDesc.SemanticIndex;
-            elementDesc.InputSlot = 0;
+            
             elementDesc.AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
-            elementDesc.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
             elementDesc.InstanceDataStepRate = 0;
 
             // Determine DXGI format

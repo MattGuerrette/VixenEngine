@@ -29,6 +29,7 @@
 #include <vix_model.h>
 #include <vix_dxvertexbuffer.h>
 #include <vix_dxindexbuffer.h>
+#include <vix_dxinstancebuffer.h>
 #include <vix_dxshader.h>
 #include <vix_dxtexture.h>
 #include <vix_dxcamera3d.h>
@@ -63,6 +64,7 @@ namespace Vixen {
 
         IVertexBuffer*                      m_vBuffer;
         IIndexBuffer*                       m_iBuffer;
+        DXInstanceBuffer*                   m_instanceBuffer;
         std::vector<DXVertexPosTexNormal>   m_vertices;
         std::vector<unsigned short>         m_indices;
         DXMaterial*                         m_material;
@@ -74,8 +76,8 @@ namespace Vixen {
         Vector3                             m_center;
         Vector3                             m_size;
 
-        //std::vector<DirectX::XMFLOAT4X4>             m_instanceData;
-        DirectX::XMFLOAT4X4                          m_instanceData[MAX_INSTANCE_PER_DRAW];
+        std::vector<DXInstanceData>             m_instanceData;
+        //DirectX::XMFLOAT4X4                          m_instanceData[MAX_INSTANCE_PER_DRAW];
         size_t                                       m_numInstances;
         size_t                                       m_numRenderCalls;
     };

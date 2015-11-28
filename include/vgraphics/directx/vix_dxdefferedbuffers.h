@@ -20,6 +20,7 @@ namespace Vixen {
         void ReleaseBuffers();
 
         void BindRenderTargets(ID3D11DeviceContext* context);
+        void UnbindRenderTargets(ID3D11DeviceContext* context);
         void ClearRenderTargets(ID3D11DeviceContext* context, DirectX::XMVECTORF32 clearColor);
             
         ID3D11ShaderResourceView* GetShaderResourceView(int index);

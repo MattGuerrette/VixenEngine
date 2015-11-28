@@ -41,6 +41,7 @@ namespace Vixen {
         m_context = context;
         m_vBuffer = nullptr;
         m_iBuffer = nullptr;
+        m_instanceBuffer = nullptr;
 		m_material = nullptr;
 
 		m_world = new XMFLOAT4X4;
@@ -53,6 +54,7 @@ namespace Vixen {
     {
         delete m_vBuffer;
         delete m_iBuffer;
+        delete m_instanceBuffer;
     }
 
     bool DXModel::VInitFromFile(File* file)
@@ -150,6 +152,8 @@ namespace Vixen {
         m_iBuffer = new DXIndexBuffer(m_indices.size(), m_device, m_context);
         m_iBuffer->VUpdateSubData(0, sizeof(unsigned short), m_indices.size(), &m_indices[0]);
 
+        m_instanceBuffer = new DXInstanceBuffer(1000, m_device, m_context);
+
         return true;
     }
 
@@ -162,12 +166,15 @@ namespace Vixen {
 	{
 		if (m_numInstances <= 0)
 			return;
-
+ 
 		m_context->RSSetViewports(1, &((DXCamera3D*)camera)->GetViewport());
+
+        m_instanceBuffer->VUpdateSubData(0, sizeof(DXInstanceData), m_instanceData.size(), &m_instanceData[0]);
 
 		m_material->GetVertexShader()->SetMatrix4x4("projection", ((DXCamera3D*)camera)->Projection());
 		m_material->GetVertexShader()->SetMatrix4x4("view", ((DXCamera3D*)camera)->View());
-		m_material->GetVertexShader()->VSetData("transforms", &m_instanceData[0] , (sizeof(float) * 16) * MAX_INSTANCE_PER_DRAW);
+        m_material->GetVertexShader()->VSetShaderResourceView("InstanceBuffer", m_instanceBuffer->GetSRV());
+        
 		m_material->VBind();
 
         m_vBuffer->VBind();
@@ -177,7 +184,7 @@ namespace Vixen {
 
         m_material->VUnbind();
 
-        ///m_instanceData.clear();
+        m_instanceData.clear();
         m_numInstances = 0;
         m_numRenderCalls = 0;
     }
@@ -185,15 +192,14 @@ namespace Vixen {
     void DXModel::VSetWorld(MATRIX* world)
     {
 		XMStoreFloat4x4(m_world, XMMatrixTranspose(*world));
-        //m_instanceData.push_back(*m_world);
     }
 
     void DXModel::VBatchRender(MATRIX* world)
     {
-        XMFLOAT4X4 _transform;
-
-        XMStoreFloat4x4(&_transform, XMMatrixTranspose(*world));
-        m_instanceData[m_numInstances] = _transform;
+        DXInstanceData data;
+        XMStoreFloat4x4(&data.world, XMMatrixTranspose(*world));
+       
+        m_instanceData.push_back(data);
 
         m_numInstances++;
         if (m_numInstances > MAX_INSTANCE_PER_DRAW)
