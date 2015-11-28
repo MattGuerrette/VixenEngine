@@ -82,10 +82,9 @@ namespace Vixen {
 		if (!m_worldDirty) {
 			m_worldDirty = true;
 
-			for (int i = 0; i < m_childTransforms.size(); i++)
+			for (auto& transform : m_childTransforms)
 			{
-				Transform* _transform = m_childTransforms[i];
-				_transform->SetDirty();
+				transform->SetDirty();
 			}
 		}
 

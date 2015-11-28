@@ -231,13 +231,13 @@ namespace Vixen {
 	{
 		m_spriteBatch = new DXSpriteBatcher(m_Device, m_ImmediateContext);
 
-		DXVertexShader* _vShader = (DXVertexShader*)ResourceManager::OpenShader(VTEXT("SpriteBatch_VS.hlsl"), ShaderType::VERTEX_SHADER);
-		_vShader->IncrementRefCount();
-		m_spriteBatch->SetVertexShader(_vShader);
+		DXVertexShader* vShader = (DXVertexShader*)ResourceManager::OpenShader(VTEXT("SpriteBatch_VS.hlsl"), ShaderType::VERTEX_SHADER);
+		vShader->IncrementRefCount();
+		m_spriteBatch->SetVertexShader(vShader);
 
-		DXPixelShader* _pShader = (DXPixelShader*)ResourceManager::OpenShader(VTEXT("SpriteBatch_PS.hlsl"), ShaderType::PIXEL_SHADER);
-		_pShader->IncrementRefCount();
-		m_spriteBatch->SetPixelShader(_pShader);
+		DXPixelShader* pShader = (DXPixelShader*)ResourceManager::OpenShader(VTEXT("SpriteBatch_PS.hlsl"), ShaderType::PIXEL_SHADER);
+		pShader->IncrementRefCount();
+		m_spriteBatch->SetPixelShader(pShader);
 
 		m_spriteBatch->SetCamera(m_camera2D);
 
@@ -428,11 +428,11 @@ namespace Vixen {
 		info.a = 0.0f;
 		info.alpha = 1.0f;
 		info.depth = 0.0f;
-		/*
+		
 		m_spriteBatch->Begin(BatchSortMode::IMMEDITATE);
 		m_spriteBatch->Render(texture, info);
 		m_spriteBatch->End();
-		*/
+		
 	}
 
 	ICamera2D* DXRenderer::VCamera2D()
@@ -442,7 +442,7 @@ namespace Vixen {
 
 	void DXRenderer::VRenderText2D(Font* font, UString text, const Vector2& position)
 	{
-		/*
+		
 
 		m_spriteBatch->Begin(BatchSortMode::IMMEDITATE);
 
@@ -494,7 +494,7 @@ namespace Vixen {
 
 		m_spriteBatch->End();
 
-		*/
+		
 	}
 
 	DXSpriteBatcher* DXRenderer::SpriteBatch()

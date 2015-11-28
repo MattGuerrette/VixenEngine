@@ -39,7 +39,7 @@ namespace Vixen {
 
     class VIX_API DXModel : public Model
     {
-        static const int MAX_INSTANCE_PER_DRAW = 1000;
+        static const int MAX_INSTANCE_PER_DRAW = 10000;
     public:
         DXModel(ID3D11Device* device, ID3D11DeviceContext* context);
 

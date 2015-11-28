@@ -6,21 +6,26 @@
 
 namespace Vixen {
 
-    struct VIX_API ILight
+    struct Light
     {
-		Vector3 m_ambientColor;
+        Color color;
+        float diffuseIntensity;
+    };
+    
+    struct Attenuation
+    {
+        float range;
+        float constant;
+        float linear;
+        float quadratic;
     };
 
-	struct VIX_API PointLight : ILight
-	{
-		Vector3 m_position;
-		float m_radius;
-	};
+    struct PointLight : Light
+    {
+	    Vector3     position;
+        Attenuation attenuation;
+    };
 
-	struct VIX_API DirectionalLight : ILight
-	{
-		Vector3 m_direction;
-	};
 }
 
 #endif
