@@ -28,6 +28,7 @@
 #include <vix_freeimage.h>
 #include <vix_filemanager.h>
 #include <vix_resourcemanager.h>
+#include <iterator>
 
 namespace Vixen {
 
@@ -38,6 +39,7 @@ namespace Vixen {
 		m_spriteBatch = NULL;
 		m_DefferedBuffers = new DXDefferedBuffers;
 
+        m_lightBuffer = NULL;
 
         m_FinalPassVS = NULL;
         m_FinalPassPS = NULL;
@@ -61,6 +63,7 @@ namespace Vixen {
        
 		delete m_spriteBatch;
 		delete m_DefferedBuffers;
+        delete m_lightBuffer;
 
         //////////////////////////////////////////
         // Release Final Pass Variables
@@ -224,6 +227,9 @@ namespace Vixen {
 		sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
 		hr = m_Device->CreateSamplerState(&sampDesc, &m_FinalPassSS);
 
+
+        m_lightBuffer = new DXLightBuffer(256, m_Device, m_ImmediateContext);
+
 		return true;
 	}
 
@@ -370,7 +376,10 @@ namespace Vixen {
 
 	void DXRenderer::VLightPass(std::vector<Light*>& lights)
 	{
-		
+        std::vector<PointLight*> data;
+        std::transform(lights.begin(), lights.end(), std::back_inserter(data),
+            [](Light* light) { return static_cast<PointLight*>(light); });
+        m_lightBuffer->VUpdateSubData(0, sizeof(PointLight), data.size(), &data[0]);
 	}
 
 	void DXRenderer::ReleaseBuffers()

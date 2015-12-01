@@ -47,6 +47,7 @@ namespace Vixen {
 
     void PointLightComponent::SetAttenuationRange(float range)
     {
+        m_light.attenuation.range = range;
     }
 
     void PointLightComponent::SetAttenuationConstant(float constant)

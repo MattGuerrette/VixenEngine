@@ -34,6 +34,7 @@
 #include <vix_dxtexture.h>
 #include <vix_dxdefferedbuffers.h>
 #include <vix_dxspritebatcher.h>
+#include <vix_dxlightbuffer.h>
 
 namespace Vixen {
 
@@ -98,6 +99,8 @@ namespace Vixen {
         DXSpriteBatcher*        m_spriteBatch;
         DXDefferedBuffers*      m_DefferedBuffers;
 
+
+        DXLightBuffer*          m_lightBuffer;
 
         ////////////////////////////////////////
         // Final Render Pass Variables
