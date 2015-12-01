@@ -8,7 +8,7 @@
 
 namespace Vixen {
 
-    class VIX_API PointLightComponent : public Component, public IRenderComponent
+    class VIX_API PointLightComponent : public Component
     {
     public:
         PointLightComponent();
@@ -18,7 +18,6 @@ namespace Vixen {
         void VUpdate();
         void VOnDisable();
         void VOnDestroy();
-        void VRender(ICamera3D* camera);
 
         void SetColor(Color color);
         void SetRange(float range);

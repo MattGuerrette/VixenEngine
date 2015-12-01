@@ -66,6 +66,8 @@ namespace Vixen {
 
 		void	VRenderBackBuffer() override;
 
+		void    VLightPass(std::vector<Light*>& lights) override;
+
 		void	VBeginDeferred() override;
 
 		ICamera2D* VCamera2D();

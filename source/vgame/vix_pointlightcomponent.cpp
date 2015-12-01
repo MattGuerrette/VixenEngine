@@ -1,4 +1,5 @@
 #include <vix_pointlightcomponent.h>
+#include <vix_lightmanager.h>
 
 namespace Vixen {
 
@@ -14,6 +15,7 @@ namespace Vixen {
 
     void PointLightComponent::VOnEnable()
     {
+		LightManager::RegisterLight(&m_light);
     }
 
     void PointLightComponent::VUpdate()
@@ -26,11 +28,6 @@ namespace Vixen {
 
     void PointLightComponent::VOnDestroy()
     {
-    }
-
-    void PointLightComponent::VRender(ICamera3D* camera)
-    {
-
     }
 
     void PointLightComponent::SetColor(Color color)

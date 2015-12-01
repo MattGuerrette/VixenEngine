@@ -3,6 +3,7 @@
 
 #include <vix_platform.h>
 #include <vix_vector3.h>
+#include <vix_color.h>
 
 namespace Vixen {
 

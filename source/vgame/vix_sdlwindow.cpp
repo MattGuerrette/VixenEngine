@@ -135,6 +135,10 @@ namespace Vixen {
 
     void SDLGameWindow::VPollEvents()
     {
+		std::stringstream ss;
+		ss << "FPS: " << Time::FPS();
+		SDL_SetWindowTitle(m_windowHandle, ss.str().c_str());
+
         SDL_Event event;
         while (SDL_PollEvent(&event))
         {

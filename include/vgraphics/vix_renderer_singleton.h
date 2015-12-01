@@ -29,6 +29,8 @@ namespace Vixen {
 		static void			RenderFinal();
 
 		static void			RenderDeferred();
+		
+		static void			RenderLights(std::vector<Light*>& lights);
 
         static IRenderer*   Handle();
 

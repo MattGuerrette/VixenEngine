@@ -368,6 +368,11 @@ namespace Vixen {
 		return true;
 	}
 
+	void DXRenderer::VLightPass(std::vector<Light*>& lights)
+	{
+		
+	}
+
 	void DXRenderer::ReleaseBuffers()
 	{
 		//need to release existing buffers
@@ -442,7 +447,7 @@ namespace Vixen {
 
 	void DXRenderer::VRenderText2D(Font* font, UString text, const Vector2& position)
 	{
-		
+		/*
 
 		m_spriteBatch->Begin(BatchSortMode::IMMEDITATE);
 
@@ -494,7 +499,7 @@ namespace Vixen {
 
 		m_spriteBatch->End();
 
-		
+		*/
 	}
 
 	DXSpriteBatcher* DXRenderer::SpriteBatch()

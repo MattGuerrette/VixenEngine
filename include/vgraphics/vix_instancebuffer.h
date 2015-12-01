@@ -8,7 +8,6 @@ namespace Vixen {
     class VIX_API InstanceBuffer
     {
     public:
-    public:
         virtual ~InstanceBuffer() { }
 
         virtual void VSetData(const void* data) = 0;

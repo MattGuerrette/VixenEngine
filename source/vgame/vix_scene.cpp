@@ -29,6 +29,7 @@
 #include <vix_time.h>
 #include <vix_luaengine.h>
 #include <vix_resourcemanager.h>
+#include <vix_lightmanager.h>
 #include <vix_components.h>
 
 #include <vix_bullet_boxcollider.h>
@@ -124,6 +125,9 @@ namespace Vixen {
 				if (model.second)
 					model.second->VRender(Time::DeltaTime(), Time::TotalTime(), camera);
 			}
+
+			//Render all lights in scene
+			LightManager::RenderLights();
 
 			Renderer::RenderFinal();
 
