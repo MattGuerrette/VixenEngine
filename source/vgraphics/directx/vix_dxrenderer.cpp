@@ -25,9 +25,11 @@
 #include <vix_dxprimitivecube.h>
 #include <vix_dxvertexshader.h>
 #include <vix_dxquad.h>
+#include <vix_dxmodel.h>
 #include <vix_freeimage.h>
 #include <vix_filemanager.h>
 #include <vix_resourcemanager.h>
+#include <vix_mathfunctions.h>
 #include <iterator>
 
 namespace Vixen {
@@ -70,6 +72,9 @@ namespace Vixen {
         //////////////////////////////////////////
         ResourceManager::DecrementAssetRef(m_FinalPassVS);
         ResourceManager::DecrementAssetRef(m_FinalPassPS);
+
+		ResourceManager::DecrementAssetRef(m_lightPassGeoVS);
+		ResourceManager::DecrementAssetRef(m_lightPassGeoPS);
         ReleaseCOM(m_FinalPassSS);
 
 	}
@@ -247,6 +252,12 @@ namespace Vixen {
 
 		m_spriteBatch->SetCamera(m_camera2D);
 
+		m_lightPassGeoVS = (DXVertexShader*)ResourceManager::OpenShader(VTEXT("LightPass_VS.hlsl"), ShaderType::VERTEX_SHADER);
+		m_lightPassGeoVS->IncrementRefCount();
+
+		m_lightPassGeoPS = (DXPixelShader*)ResourceManager::OpenShader(VTEXT("LightPass_PS.hlsl"), ShaderType::PIXEL_SHADER);
+		m_lightPassGeoPS->IncrementRefCount();
+
 		m_FinalPassVS = (DXVertexShader*)ResourceManager::OpenShader(VTEXT("BackBufferTarget_Deferred_VS.hlsl"), ShaderType::VERTEX_SHADER);
 		m_FinalPassVS->IncrementRefCount();
 		m_FinalPassPS = (DXPixelShader*)ResourceManager::OpenShader(VTEXT("BackBufferTarget_Deferred_PS.hlsl"), ShaderType::PIXEL_SHADER);
@@ -374,12 +385,33 @@ namespace Vixen {
 		return true;
 	}
 
-	void DXRenderer::VLightPass(std::vector<Light*>& lights)
+	void DXRenderer::VLightPass(ICamera3D* camera, Model* model, std::vector<Light*>& lights)
 	{
+		m_ImmediateContext->OMSetRenderTargets(1, &m_RenderTargetView, m_DepthStencView);
+
+		DXModel* _model = (DXModel*)model;
+
         std::vector<PointLight*> data;
         std::transform(lights.begin(), lights.end(), std::back_inserter(data),
             [](Light* light) { return static_cast<PointLight*>(light); });
         m_lightBuffer->VUpdateSubData(0, sizeof(PointLight), data.size(), &data[0]);
+		_model->SetInstanceCount(data.size());
+
+		m_lightPassGeoVS->SetMatrix4x4("projection", ((DXCamera3D*)camera)->Projection());
+		m_lightPassGeoVS->SetMatrix4x4("view", ((DXCamera3D*)camera)->View());
+		DirectX::XMFLOAT4X4 world;
+		DirectX::XMStoreFloat4x4(&world, DirectX::XMMatrixTranspose(MathFunctions::MatrixTranslation(data[0]->position)));
+		m_lightPassGeoVS->SetMatrix4x4("world", world);
+		m_lightPassGeoVS->VSetShaderResourceView("LightBuffer", m_lightBuffer->GetSRV());
+
+		m_lightPassGeoVS->Activate();
+		m_lightPassGeoPS->Activate();
+
+		//Need to render using light pass shaders and render the light sphere model
+		_model->RenderAsLight(camera);
+
+		m_lightPassGeoVS->Deactivate();
+		m_lightPassGeoPS->Deactivate();
 	}
 
 	void DXRenderer::ReleaseBuffers()
@@ -400,7 +432,7 @@ namespace Vixen {
         //m_DefferedBuffers->UnbindRenderTargets(m_ImmediateContext);
 		m_ImmediateContext->OMSetRenderTargets(1, &m_RenderTargetView, m_DepthStencView);
 
-		m_FinalPassPS->VSetSamplerState("samLinear", m_FinalPassSS);
+		/*m_FinalPassPS->VSetSamplerState("samLinear", m_FinalPassSS);
         m_FinalPassPS->VSetShaderResourceView("txDiffuse", m_DefferedBuffers->GetShaderResourceView(0));
         m_FinalPassPS->VSetShaderResourceView("txNormal", m_DefferedBuffers->GetShaderResourceView(1));
 
@@ -419,7 +451,7 @@ namespace Vixen {
         m_FinalPassPS->VSetShaderResourceView("txNormal", NULL);
 
         m_FinalPassVS->Deactivate();
-        m_FinalPassPS->Deactivate();
+        m_FinalPassPS->Deactivate();*/
 	}
 
 	void DXRenderer::VRenderTexture2D(Texture* texture, const Vector2& position, const Rect& source)
@@ -456,7 +488,7 @@ namespace Vixen {
 
 	void DXRenderer::VRenderText2D(Font* font, UString text, const Vector2& position)
 	{
-		/*
+		
 
 		m_spriteBatch->Begin(BatchSortMode::IMMEDITATE);
 
@@ -508,7 +540,7 @@ namespace Vixen {
 
 		m_spriteBatch->End();
 
-		*/
+		
 	}
 
 	DXSpriteBatcher* DXRenderer::SpriteBatch()

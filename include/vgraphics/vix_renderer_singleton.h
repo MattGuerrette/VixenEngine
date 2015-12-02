@@ -30,7 +30,7 @@ namespace Vixen {
 
 		static void			RenderDeferred();
 		
-		static void			RenderLights(std::vector<Light*>& lights);
+		static void			RenderLights(ICamera3D* camera, Model* model, std::vector<Light*>& lights);
 
         static IRenderer*   Handle();
 

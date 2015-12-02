@@ -47,9 +47,11 @@ namespace Vixen {
 
         bool VInitFromFile(File* file)                  override;
         void VRender(float dt, float totalTime, ICamera3D* camera)                 override;
+		void RenderAsLight(ICamera3D* camera);
         void VSetWorld(MATRIX* matrix)					override;
         void VSetMaterial(Material* material)          override;
         void VBatchRender(MATRIX* world)                override;
+		void SetInstanceCount(uint32_t instances);
 
         Vector3 VMin()      override;
         Vector3 VMax()      override;

@@ -117,30 +117,34 @@ namespace Vixen {
 					obj->Render(camera);
 			}
 
-			Renderer::RenderDeferred();
+			/*Renderer::RenderDeferred();
 
 			std::map<UString, Model*>& models = ResourceManager::LoadedModels();
 			for (auto& model : models)
 			{
 				if (model.second)
 					model.second->VRender(Time::DeltaTime(), Time::TotalTime(), camera);
-			}
+			}*/
 
 			//Render all lights in scene
-			LightManager::RenderLights();
 
-			Renderer::RenderFinal();
+			
+
+			//Renderer::RenderFinal();
+
+
+			LightManager::RenderLights(camera);
 
 			//render all late render (UI) scene objects
 			//NOTE: this is expensive, as we are iterating over the list of objects again...
 			//      what should happen is the list should be sorted once, leaving all late render objects
 			//      last to be drawn.
-			for (int i = 0; i < m_topLevelObjects.size(); i++)
+			/*for (int i = 0; i < m_topLevelObjects.size(); i++)
 			{
 				GameObject* obj = m_topLevelObjects.at(i);
 				if (obj->IsMarkedForLateRender() && obj->GetEnabled())
 					obj->Render(camera);
-			}
+			}*/
 		}
 
 		

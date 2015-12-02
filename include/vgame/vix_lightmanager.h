@@ -4,6 +4,7 @@
 #include <vix_platform.h>
 #include <vix_singleton.h>
 #include <vix_light.h>
+#include <vix_model.h>
 
 namespace Vixen {
 
@@ -16,10 +17,12 @@ namespace Vixen {
 
 		static void RegisterLight(Light* light);
 
-		static void RenderLights();
+		static void RenderLights(ICamera3D* camera);
 
 	private:
 		std::vector<Light*> m_lights;
+		Model*				m_lightModel;
+		
 	};
 
 }

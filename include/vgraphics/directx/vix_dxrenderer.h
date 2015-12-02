@@ -67,7 +67,7 @@ namespace Vixen {
 
 		void	VRenderBackBuffer() override;
 
-		void    VLightPass(std::vector<Light*>& lights) override;
+		void    VLightPass(ICamera3D* camera, Model* model, std::vector<Light*>& lights) override;
 
 		void	VBeginDeferred() override;
 
@@ -100,7 +100,17 @@ namespace Vixen {
         DXDefferedBuffers*      m_DefferedBuffers;
 
 
-        DXLightBuffer*          m_lightBuffer;
+        
+
+		////////////////////////////////////////
+		// Light Render Pass Variables
+		////////////////////////////////////////
+		DXLightBuffer*          m_lightBuffer;
+		DXVertexShader*			m_lightPassGeoVS;
+		DXVertexShader*			m_lightPassShadeVS;
+		DXPixelShader*			m_lightPassGeoPS;
+		DXPixelShader*			m_lightPassShadePS;
+
 
         ////////////////////////////////////////
         // Final Render Pass Variables

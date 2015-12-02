@@ -9,8 +9,7 @@ namespace Vixen {
 
     struct Light
     {
-        Color color;
-        float diffuseIntensity;
+        
     };
     
     struct Attenuation
@@ -23,6 +22,8 @@ namespace Vixen {
 
     struct PointLight : Light
     {
+		Color		color;
+		float		diffuseIntensity;
 	    Vector3     position;
         Attenuation attenuation;
     };

@@ -164,7 +164,7 @@ namespace Vixen {
 
 	void DXModel::VRender(float dt, float totalTime, ICamera3D* camera)
 	{
-		if (m_numInstances <= 0)
+		if (m_numInstances <= 0 || m_instanceData.size() <= 0)
 			return;
  
 		m_context->RSSetViewports(1, &((DXCamera3D*)camera)->GetViewport());
@@ -189,10 +189,42 @@ namespace Vixen {
         m_numRenderCalls = 0;
     }
 
+	void DXModel::RenderAsLight(ICamera3D* camera)
+	{
+		if (m_numInstances <= 0)
+			return;
+
+		m_context->RSSetViewports(1, &((DXCamera3D*)camera)->GetViewport());
+
+		//m_instanceBuffer->VUpdateSubData(0, sizeof(DXInstanceData), m_instanceData.size(), &m_instanceData[0]);
+
+		/*m_vBuffer->VBind();
+		m_iBuffer->VBind();
+		m_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		m_context->DrawIndexedInstanced(m_indices.size(), m_numInstances, 0, 0, 0);*/
+
+		UINT stride = sizeof(DXVertexPosTexNormal);
+		UINT offset = 0;
+		ID3D11Buffer* nothing = NULL;
+		m_context->IASetVertexBuffers(0, 1, &nothing, &stride, &offset);
+		m_context->IASetIndexBuffer(NULL, DXGI_FORMAT_R32_UINT, 0);
+
+		m_context->Draw(3, 0);
+
+		m_instanceData.clear();
+		m_numInstances = 0;
+		m_numRenderCalls = 0;
+	}
+
     void DXModel::VSetWorld(MATRIX* world)
     {
 		XMStoreFloat4x4(m_world, XMMatrixTranspose(*world));
     }
+
+	void DXModel::SetInstanceCount(uint32_t instances)
+	{
+		m_numInstances = instances;
+	}
 
     void DXModel::VBatchRender(MATRIX* world)
     {

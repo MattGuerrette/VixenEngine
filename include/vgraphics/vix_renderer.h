@@ -75,7 +75,7 @@ namespace Vixen {
         virtual void    VResizeBuffers(uint32_t width, uint32_t height) = 0;
 		virtual void	VRenderBackBuffer() = 0;
 		virtual void    VBeginDeferred() = 0;
-		virtual void    VLightPass(std::vector<Light*>& lights) = 0;
+		virtual void    VLightPass(ICamera3D* camera, Model* model, std::vector<Light*>& lights) = 0;
 		virtual ICamera2D* VCamera2D() = 0;
 
 	};

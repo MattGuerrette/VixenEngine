@@ -1,5 +1,6 @@
 #include <vix_pointlightcomponent.h>
 #include <vix_lightmanager.h>
+#include <vix_gameobject.h>
 
 namespace Vixen {
 
@@ -11,6 +12,7 @@ namespace Vixen {
 
     void PointLightComponent::VOnInit()
     {
+
     }
 
     void PointLightComponent::VOnEnable()
@@ -20,14 +22,17 @@ namespace Vixen {
 
     void PointLightComponent::VUpdate()
     {
+		m_light.position = m_parent->GetTransform()->GetWorldPosition();
     }
 
     void PointLightComponent::VOnDisable()
     {
+		DebugPrintF(VTEXT("PointLight disabled\n"));
     }
 
     void PointLightComponent::VOnDestroy()
     {
+		DebugPrintF(VTEXT("PointLight destroyed\n"));
     }
 
     void PointLightComponent::SetColor(Color color)
