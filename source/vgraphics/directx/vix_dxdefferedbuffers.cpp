@@ -141,8 +141,16 @@ namespace Vixen {
     void DXDefferedBuffers::BindRenderTargets(ID3D11DeviceContext* context)
     {
         //Bind render target view array and depth stencil buffer
-        context->OMSetRenderTargets(BUFFER_COUNT, m_RenderTargetViews, m_DepthStencilView);
+        context->OMSetRenderTargets(3, m_RenderTargetViews, m_DepthStencilView);
     }
+
+	void DXDefferedBuffers::BindRenderTarget(uint32_t index, ID3D11DeviceContext* context)
+	{
+
+		ID3D11RenderTargetView* view = m_RenderTargetViews[3];
+		ID3D11RenderTargetView* views[4] = { nullptr, nullptr, nullptr, view };
+		context->OMSetRenderTargets(1, views, m_DepthStencilView);
+	}
 
     void DXDefferedBuffers::UnbindRenderTargets(ID3D11DeviceContext* context)
     {
@@ -156,4 +164,9 @@ namespace Vixen {
 
         context->ClearDepthStencilView(m_DepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
     }
+
+	void DXDefferedBuffers::ClearDepthStencil(ID3D11DeviceContext* context)
+	{
+		context->ClearDepthStencilView(m_DepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	}
 }

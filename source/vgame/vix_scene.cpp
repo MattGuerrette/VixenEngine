@@ -117,23 +117,23 @@ namespace Vixen {
 					obj->Render(camera);
 			}
 
-			/*Renderer::RenderDeferred();
+			Renderer::RenderDeferred();
 
 			std::map<UString, Model*>& models = ResourceManager::LoadedModels();
 			for (auto& model : models)
 			{
 				if (model.second)
 					model.second->VRender(Time::DeltaTime(), Time::TotalTime(), camera);
-			}*/
+			}
 
 			//Render all lights in scene
 
-			
-
-			//Renderer::RenderFinal();
-
-
 			LightManager::RenderLights(camera);
+			
+			Renderer::RenderFinal();
+
+
+			LightManager::ClearLights();
 
 			//render all late render (UI) scene objects
 			//NOTE: this is expensive, as we are iterating over the list of objects again...

@@ -58,6 +58,9 @@ namespace Vixen {
         Vector3 VCenter()   override;
         Vector3 VSize()     override;
 
+		ID3D11ShaderResourceView* InstanceView();
+		DXMaterial*				  GetMaterial();
+
     private:
         DirectX::XMFLOAT4X4*                         m_world;
  

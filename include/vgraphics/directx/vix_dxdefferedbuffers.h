@@ -9,7 +9,7 @@ namespace Vixen {
 
     class VIX_API DXDefferedBuffers
     {
-        static const int BUFFER_COUNT = 2;
+        static const int BUFFER_COUNT = 4;
     public:
         DXDefferedBuffers();
 
@@ -20,8 +20,10 @@ namespace Vixen {
         void ReleaseBuffers();
 
         void BindRenderTargets(ID3D11DeviceContext* context);
-        void UnbindRenderTargets(ID3D11DeviceContext* context);
+		void BindRenderTarget(uint32_t index, ID3D11DeviceContext* context);
+		void UnbindRenderTargets(ID3D11DeviceContext* context);
         void ClearRenderTargets(ID3D11DeviceContext* context, DirectX::XMVECTORF32 clearColor);
+		void ClearDepthStencil(ID3D11DeviceContext* context);
             
         ID3D11ShaderResourceView* GetShaderResourceView(int index);
 

@@ -387,31 +387,22 @@ namespace Vixen {
 
 	void DXRenderer::VLightPass(ICamera3D* camera, Model* model, std::vector<Light*>& lights)
 	{
-		m_ImmediateContext->OMSetRenderTargets(1, &m_RenderTargetView, m_DepthStencView);
+		using namespace DirectX;
+
+		m_DefferedBuffers->BindRenderTarget(3, m_ImmediateContext);
 
 		DXModel* _model = (DXModel*)model;
 
-        std::vector<PointLight*> data;
+        std::vector<PointLight> data;
         std::transform(lights.begin(), lights.end(), std::back_inserter(data),
-            [](Light* light) { return static_cast<PointLight*>(light); });
+            [](Light* light) { return *static_cast<PointLight*>(light); });
+		if (data.size() <= 0) return;
         m_lightBuffer->VUpdateSubData(0, sizeof(PointLight), data.size(), &data[0]);
-		_model->SetInstanceCount(data.size());
 
-		m_lightPassGeoVS->SetMatrix4x4("projection", ((DXCamera3D*)camera)->Projection());
-		m_lightPassGeoVS->SetMatrix4x4("view", ((DXCamera3D*)camera)->View());
-		DirectX::XMFLOAT4X4 world;
-		DirectX::XMStoreFloat4x4(&world, DirectX::XMMatrixTranspose(MathFunctions::MatrixTranslation(data[0]->position)));
-		m_lightPassGeoVS->SetMatrix4x4("world", world);
-		m_lightPassGeoVS->VSetShaderResourceView("LightBuffer", m_lightBuffer->GetSRV());
+		_model->GetMaterial()->GetVertexShader()->VSetShaderResourceView("LightBuffer", m_lightBuffer->GetSRV());
+		
 
-		m_lightPassGeoVS->Activate();
-		m_lightPassGeoPS->Activate();
-
-		//Need to render using light pass shaders and render the light sphere model
-		_model->RenderAsLight(camera);
-
-		m_lightPassGeoVS->Deactivate();
-		m_lightPassGeoPS->Deactivate();
+		_model->VRender(0.0f, 0.0f, camera);
 	}
 
 	void DXRenderer::ReleaseBuffers()
@@ -432,9 +423,12 @@ namespace Vixen {
         //m_DefferedBuffers->UnbindRenderTargets(m_ImmediateContext);
 		m_ImmediateContext->OMSetRenderTargets(1, &m_RenderTargetView, m_DepthStencView);
 
-		/*m_FinalPassPS->VSetSamplerState("samLinear", m_FinalPassSS);
+		m_FinalPassPS->VSetSamplerState("samLinear", m_FinalPassSS);
         m_FinalPassPS->VSetShaderResourceView("txDiffuse", m_DefferedBuffers->GetShaderResourceView(0));
         m_FinalPassPS->VSetShaderResourceView("txNormal", m_DefferedBuffers->GetShaderResourceView(1));
+		m_FinalPassPS->VSetShaderResourceView("txWorld", m_DefferedBuffers->GetShaderResourceView(2));
+		m_FinalPassPS->VSetShaderResourceView("txLight", m_DefferedBuffers->GetShaderResourceView(3));
+		m_FinalPassPS->VSetShaderResourceView("LightBuffer", m_lightBuffer->GetSRV());
 
 		m_FinalPassVS->Activate();
 		m_FinalPassPS->Activate();
@@ -447,11 +441,13 @@ namespace Vixen {
 
 		m_ImmediateContext->Draw(3, 0);
 
-        m_FinalPassPS->VSetShaderResourceView("txDiffuse", NULL);
-        m_FinalPassPS->VSetShaderResourceView("txNormal", NULL);
+        m_FinalPassPS->VSetShaderResourceView("txDiffuse", 0);
+        m_FinalPassPS->VSetShaderResourceView("txNormal", 0);
+		m_FinalPassPS->VSetShaderResourceView("txWorld", 0);
+		m_FinalPassPS->VSetShaderResourceView("txLight", 0);
 
         m_FinalPassVS->Deactivate();
-        m_FinalPassPS->Deactivate();*/
+        m_FinalPassPS->Deactivate();
 	}
 
 	void DXRenderer::VRenderTexture2D(Texture* texture, const Vector2& position, const Rect& source)
