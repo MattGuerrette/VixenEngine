@@ -389,6 +389,7 @@ namespace Vixen {
 	{
 		using namespace DirectX;
 
+		m_DefferedBuffers->ClearDepthStencil(m_ImmediateContext);
 		m_DefferedBuffers->BindRenderTarget(3, m_ImmediateContext);
 
 		DXModel* _model = (DXModel*)model;

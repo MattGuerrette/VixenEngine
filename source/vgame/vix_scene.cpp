@@ -123,7 +123,8 @@ namespace Vixen {
 			for (auto& model : models)
 			{
 				if (model.second)
-					model.second->VRender(Time::DeltaTime(), Time::TotalTime(), camera);
+					if(model.first != L"icosahedron.obj")
+						model.second->VRender(Time::DeltaTime(), Time::TotalTime(), camera);
 			}
 
 			//Render all lights in scene
@@ -398,7 +399,6 @@ namespace Vixen {
 		Camera3DComponent* _camera = new Camera3DComponent();
 		if (isMainCamera)
 			scene->m_mainCamera = _camera->GetCamera();
-		scene->m_cameras.push_back(_camera->GetCamera());
 
 		const XMLElement* _viewportElement = element->FirstChildElement("viewport");
 		if (_viewportElement)
@@ -425,9 +425,9 @@ namespace Vixen {
             v.sHeight = Window::Height();
 
 			_camera->GetCamera()->VSetViewport(v);
-
-            scene->AddCamera(_camera->GetCamera());
 		}
+
+		scene->AddCamera(_camera->GetCamera());
 
 		return _camera;
 	}
