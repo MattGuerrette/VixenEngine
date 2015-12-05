@@ -40,6 +40,16 @@ namespace Vixen {
 		LightManager::RegisterLight(&m_light, m_parent->GetTransform()->GetWorldMatrix());
 	}
 
+	PointLight PointLightComponent::GetLight()
+	{
+		return m_light;
+	}
+
+	void PointLightComponent::SetLight(PointLight light)
+	{
+		m_light = light;
+	}
+
     void PointLightComponent::SetColor(Color color)
     {
         m_light.color = color;

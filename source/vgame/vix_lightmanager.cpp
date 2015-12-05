@@ -45,4 +45,8 @@ namespace Vixen {
 
 		_manager.m_lights.clear();
 	}
+	Material* LightManager::GetMaterial()
+	{
+		return LightManager::instance().m_lightMaterial;
+	}
 }

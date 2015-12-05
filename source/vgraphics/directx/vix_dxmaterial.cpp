@@ -79,6 +79,10 @@ namespace Vixen {
 		return (DXVertexShader*)m_shaders[ShaderRole::Vertex];
 	}
 
+	DXPixelShader* DXMaterial::GetPixelShader()
+	{
+		return (DXPixelShader*)m_shaders[ShaderRole::Pixel];
+	}
 
 	bool DXMaterial::VInitFromFile(File* file)
 	{

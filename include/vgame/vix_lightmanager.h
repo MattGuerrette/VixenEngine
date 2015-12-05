@@ -21,6 +21,8 @@ namespace Vixen {
 
 		static void ClearLights();
 
+		static Material* GetMaterial();
+
 	private:
 		std::vector<Light*> m_lights;
 		Model*				m_lightModel;

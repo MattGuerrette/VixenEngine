@@ -39,6 +39,7 @@
 #include <vix_scenemanager.h>
 #include <vix_prefabmanager.h>
 #include <vix_components.h>
+#include <vix_lightmanager.h>
 
 namespace Vixen {
 
@@ -245,6 +246,15 @@ namespace Vixen {
 			.beginClass<ICamera3D>("Camera")
 			.addFunction("SetViewPort", &ICamera3D::VSetViewportVariables)
 			.addFunction("SetFOV", &ICamera3D::VSetFOV)
+			.endClass();
+
+		////////////////////////////////////////////////////////////////////////////////////
+		/* Light manager (used for modifying light materials)                             */
+		////////////////////////////////////////////////////////////////////////////////////
+
+		LuaBinding(LuaEngine::L())
+			.beginClass<LightManager>("LightManager")
+			.addStaticFunction("GetMaterial", &LightManager::GetMaterial)
 			.endClass();
 
 		////////////////////////////////////////////////////////////////////////////////////

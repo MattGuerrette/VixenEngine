@@ -110,7 +110,8 @@ namespace Vixen {
 		DXVertexShader*			m_lightPassShadeVS;
 		DXPixelShader*			m_lightPassGeoPS;
 		DXPixelShader*			m_lightPassShadePS;
-
+		ID3D11BlendState*       m_lightBlendState;
+		ID3D11DepthStencilState* m_lightDSState;
 
         ////////////////////////////////////////
         // Final Render Pass Variables

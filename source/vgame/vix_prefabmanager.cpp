@@ -229,53 +229,53 @@ namespace Vixen {
 
 	Component* PrefabManager::ParseLightComponent(const tinyxml2::XMLElement* element)
 	{
-        using namespace tinyxml2;
+		using namespace tinyxml2;
 
-        std::string type(element->Attribute("type"));
-        if (type == "point") {
+		std::string type(element->Attribute("type"));
+		if (type == "point") {
 
-            PointLightComponent* light = new PointLightComponent;
+			PointLightComponent* light = new PointLightComponent;
 
-            const XMLElement* colorElement = element->FirstChildElement("color");
-            if (colorElement)
-            {
-                float r = colorElement->FloatAttribute("r");
-                float g = colorElement->FloatAttribute("g");
-                float b = colorElement->FloatAttribute("b");
-                float a = colorElement->FloatAttribute("a");
-                light->SetColor({ r, g, b, a });
-            }
+			const XMLElement* colorElement = element->FirstChildElement("color");
+			if (colorElement)
+			{
+				float r = colorElement->FloatAttribute("r");
+				float g = colorElement->FloatAttribute("g");
+				float b = colorElement->FloatAttribute("b");
+				float a = colorElement->FloatAttribute("a");
+				light->SetColor({ r, g, b, a });
+			}
 
-            const XMLElement* attenElement = element->FirstChildElement("attenuation");
-            if (attenElement)
-            {
-                float range = attenElement->FloatAttribute("range");
-                float constant = attenElement->FloatAttribute("constant");
-                float linear = attenElement->FloatAttribute("linear");
-                float quadratic = attenElement->FloatAttribute("quadratic");
+			const XMLElement* attenElement = element->FirstChildElement("attenuation");
+			if (attenElement)
+			{
+				float range = attenElement->FloatAttribute("range");
+				float constant = attenElement->FloatAttribute("constant");
+				float linear = attenElement->FloatAttribute("linear");
+				float quadratic = attenElement->FloatAttribute("quadratic");
 
-                light->SetAttenuationRange(range);
-                light->SetAttenuationConstant(constant);
-                light->SetAttenuationLinear(linear);
-                light->SetAttenuationQuadratic(quadratic);
-            }
+				light->SetAttenuationRange(range);
+				light->SetAttenuationConstant(constant);
+				light->SetAttenuationLinear(linear);
+				light->SetAttenuationQuadratic(quadratic);
+			}
 
-            return light;
-        }
-        else if (type == "directional") {
-            /*float dirX = element->FloatAttribute("dirX");
-            float dirY = element->FloatAttribute("dirY");
-            float dirZ = element->FloatAttribute("dirZ");
-            light = new DirectionalLight;
-            light->m_ambientColor = Vector3(red, green, blue);
-            ((DirectionalLight*)light)->m_direction = Vector3(dirX, dirY, dirZ);*/
-        }
-        else {
-            /*light = new ILight;
-            light->m_ambientColor = Vector3(red, green, blue);*/
-        }
+			return light;
+		}
+		else if (type == "directional") {
+			/*float dirX = element->FloatAttribute("dirX");
+			float dirY = element->FloatAttribute("dirY");
+			float dirZ = element->FloatAttribute("dirZ");
+			light = new DirectionalLight;
+			light->m_ambientColor = Vector3(red, green, blue);
+			((DirectionalLight*)light)->m_direction = Vector3(dirX, dirY, dirZ);*/
+		}
+		else {
+			/*light = new ILight;
+			light->m_ambientColor = Vector3(red, green, blue);*/
+		}
 
-        return nullptr;
+		return nullptr;
 	}
 
 	Component* PrefabManager::ParseLuaScriptComponent(const tinyxml2::XMLElement* element)

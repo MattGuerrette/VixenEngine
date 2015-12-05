@@ -21,6 +21,10 @@ namespace Vixen {
 
 		void VRender(ICamera3D* camera);
 
+
+		PointLight GetLight();
+
+		void SetLight(PointLight light);
         void SetColor(Color color);
         void SetRange(float range);
         void SetAttenuation(Attenuation att);

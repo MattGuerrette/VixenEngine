@@ -48,6 +48,7 @@ namespace Vixen {
         void VUnbind();
 
 		DXVertexShader* GetVertexShader();
+		DXPixelShader*  GetPixelShader();
 		
 
 		bool VInitFromFile(File* file);

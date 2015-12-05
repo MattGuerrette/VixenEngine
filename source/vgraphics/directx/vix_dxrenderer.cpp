@@ -76,6 +76,7 @@ namespace Vixen {
 		ResourceManager::DecrementAssetRef(m_lightPassGeoVS);
 		ResourceManager::DecrementAssetRef(m_lightPassGeoPS);
         ReleaseCOM(m_FinalPassSS);
+		ReleaseCOM(m_lightBlendState);
 
 	}
 
@@ -202,23 +203,31 @@ namespace Vixen {
 
 		D3D11_BLEND_DESC blendDesc;
 		ZeroMemory(&blendDesc, sizeof(D3D11_BLEND_DESC));
-		blendDesc.AlphaToCoverageEnable = false;
-		blendDesc.IndependentBlendEnable = false;
-		blendDesc.RenderTarget[0].BlendEnable = true;
-		blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
-		blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
-		blendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+		/*blendDesc.AlphaToCoverageEnable = true;
+		blendDesc.IndependentBlendEnable = true;*/
+		for (int i = 0; i < 8; i++)
+		{
+			//blendDesc.RenderTarget[i].BlendEnable = true;
+			//blendDesc.RenderTarget[i].SrcBlend = D3D11_BLEND_ONE;
+			//blendDesc.RenderTarget[i].DestBlend = D3D11_BLEND_ZERO;
+			//blendDesc.RenderTarget[i].BlendOp = D3D11_BLEND_OP_ADD;
 
-		blendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_SRC_ALPHA;
-		blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_DEST_ALPHA;
-		blendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
-		blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
-
-		ID3D11BlendState* state;
-		m_Device->CreateBlendState(&blendDesc, &state);
-		m_ImmediateContext->OMSetBlendState(NULL, NULL, 0xfffffffff);
-
-		ReleaseCOM(state);
+			///*blendDesc.RenderTarget[i].SrcBlendAlpha = D3D11_BLEND_ONE;
+			//blendDesc.RenderTarget[i].DestBlendAlpha = D3D11_BLEND_ONE;
+			//blendDesc.RenderTarget[i].BlendOpAlpha = D3D11_BLEND_OP_ADD;*/
+			//blendDesc.RenderTarget[i].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+			blendDesc.RenderTarget[i].BlendEnable = true;
+			blendDesc.RenderTarget[i].SrcBlend = D3D11_BLEND_ONE;
+			blendDesc.RenderTarget[i].DestBlend = D3D11_BLEND_ONE;
+			blendDesc.RenderTarget[i].BlendOp = D3D11_BLEND_OP_ADD;
+			blendDesc.RenderTarget[i].SrcBlendAlpha = D3D11_BLEND_ONE;
+			blendDesc.RenderTarget[i].DestBlendAlpha = D3D11_BLEND_ZERO;
+			blendDesc.RenderTarget[i].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+			blendDesc.RenderTarget[i].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+		}
+		hr = m_Device->CreateBlendState(&blendDesc, &m_lightBlendState);
+		if (FAILED(hr))
+			return false;
 
 		// Create the sample state
 		D3D11_SAMPLER_DESC sampDesc;
@@ -231,6 +240,30 @@ namespace Vixen {
 		sampDesc.MinLOD = 0;
 		sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
 		hr = m_Device->CreateSamplerState(&sampDesc, &m_FinalPassSS);
+
+
+		D3D11_DEPTH_STENCIL_DESC depthStencilDesc;
+		depthStencilDesc.DepthEnable = TRUE;
+		depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+		depthStencilDesc.DepthFunc = D3D11_COMPARISON_ALWAYS;
+		depthStencilDesc.StencilEnable = FALSE;
+		depthStencilDesc.StencilReadMask = 0xFF;
+		depthStencilDesc.StencilWriteMask = 0xFF;
+
+		// Stencil operations if pixel is front-facing
+		depthStencilDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+		depthStencilDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_INCR;
+		depthStencilDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+		depthStencilDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+
+		// Stencil operations if pixel is back-facing
+		depthStencilDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+		depthStencilDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_DECR;
+		depthStencilDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+		depthStencilDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+
+		m_Device->CreateDepthStencilState(&depthStencilDesc, &m_lightDSState);
+		
 
 
         m_lightBuffer = new DXLightBuffer(256, m_Device, m_ImmediateContext);
@@ -390,7 +423,21 @@ namespace Vixen {
 		using namespace DirectX;
 
 		m_DefferedBuffers->ClearDepthStencil(m_ImmediateContext);
+		//m_ImmediateContext->OMSetRenderTargets(1, &m_RenderTargetView, m_DepthStencView);
 		m_DefferedBuffers->BindRenderTarget(3, m_ImmediateContext);
+
+		float blendFactor[4];
+
+
+		// Setup the blend factor.
+		blendFactor[0] = 1.0f;
+		blendFactor[1] = 1.0f;
+		blendFactor[2] = 1.0f;
+		blendFactor[3] = 1.0f;
+
+		m_ImmediateContext->OMSetBlendState(m_lightBlendState, blendFactor, 0xffffffff);
+		m_ImmediateContext->OMSetDepthStencilState(m_lightDSState, 0);
+		//->OMSetBlendState(m_lightBlendState, NULL, 0xfffffffff);
 
 		DXModel* _model = (DXModel*)model;
 
@@ -401,9 +448,21 @@ namespace Vixen {
         m_lightBuffer->VUpdateSubData(0, sizeof(PointLight), data.size(), &data[0]);
 
 		_model->GetMaterial()->GetVertexShader()->VSetShaderResourceView("LightBuffer", m_lightBuffer->GetSRV());
-		
+		_model->GetMaterial()->GetPixelShader()->VSetShaderResourceView("txDiffuse", m_DefferedBuffers->GetShaderResourceView(0));
+		_model->GetMaterial()->GetPixelShader()->VSetShaderResourceView("txNormal", m_DefferedBuffers->GetShaderResourceView(1));
+		_model->GetMaterial()->GetPixelShader()->VSetShaderResourceView("txWorld", m_DefferedBuffers->GetShaderResourceView(2));
+		_model->GetMaterial()->GetPixelShader()->VSetSamplerState("samLinear", m_FinalPassSS);
+		_model->GetMaterial()->GetPixelShader()->VSetFloat("width", camera->VGetViewport().width);
+		_model->GetMaterial()->GetPixelShader()->VSetFloat("height", camera->VGetViewport().height);
 
 		_model->VRender(0.0f, 0.0f, camera);
+
+		_model->GetMaterial()->GetPixelShader()->VSetShaderResourceView("txDiffuse", NULL);
+		_model->GetMaterial()->GetPixelShader()->VSetShaderResourceView("txNormal", NULL);
+		_model->GetMaterial()->GetPixelShader()->VSetShaderResourceView("txWorld", NULL);
+
+		m_ImmediateContext->OMSetBlendState(NULL, NULL, 0xfffffffff);
+		m_ImmediateContext->OMSetDepthStencilState(NULL, 0);
 	}
 
 	void DXRenderer::ReleaseBuffers()

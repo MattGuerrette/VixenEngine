@@ -163,6 +163,19 @@ namespace Vixen {
 
 					} break;
 
+					case Component::Type::POINT_LIGHT:
+					{
+
+						PointLightComponent* _component = (PointLightComponent*)component;
+
+						PointLightComponent* _newComponent = new PointLightComponent;
+						_newComponent->SetLight(_component->GetLight());
+
+						_newComponent->VBindParent(_object);
+						_object->AddComponent(_newComponent);
+
+					} break;
+
 					case Component::Type::UI_TEXT:
 					{
                         UIText* _textComponent = (UIText*)component;
