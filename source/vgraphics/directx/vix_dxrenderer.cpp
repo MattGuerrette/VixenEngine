@@ -77,6 +77,7 @@ namespace Vixen {
 		ResourceManager::DecrementAssetRef(m_lightPassGeoPS);
         ReleaseCOM(m_FinalPassSS);
 		ReleaseCOM(m_lightBlendState);
+		ReleaseCOM(m_lightDSState);
 
 	}
 
@@ -422,7 +423,7 @@ namespace Vixen {
 	{
 		using namespace DirectX;
 
-		m_DefferedBuffers->ClearDepthStencil(m_ImmediateContext);
+		//m_DefferedBuffers->ClearDepthStencil(m_ImmediateContext);
 		//m_ImmediateContext->OMSetRenderTargets(1, &m_RenderTargetView, m_DepthStencView);
 		m_DefferedBuffers->BindRenderTarget(3, m_ImmediateContext);
 
@@ -448,6 +449,7 @@ namespace Vixen {
         m_lightBuffer->VUpdateSubData(0, sizeof(PointLight), data.size(), &data[0]);
 
 		_model->GetMaterial()->GetVertexShader()->VSetShaderResourceView("LightBuffer", m_lightBuffer->GetSRV());
+		_model->GetMaterial()->GetPixelShader()->SetMatrix4x4("invViewProj", ((DXCamera3D*)camera)->InvViewProj());
 		_model->GetMaterial()->GetPixelShader()->VSetShaderResourceView("txDiffuse", m_DefferedBuffers->GetShaderResourceView(0));
 		_model->GetMaterial()->GetPixelShader()->VSetShaderResourceView("txNormal", m_DefferedBuffers->GetShaderResourceView(1));
 		_model->GetMaterial()->GetPixelShader()->VSetShaderResourceView("txWorld", m_DefferedBuffers->GetShaderResourceView(2));

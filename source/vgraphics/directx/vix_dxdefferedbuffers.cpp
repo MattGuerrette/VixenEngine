@@ -59,7 +59,7 @@ namespace Vixen {
         texDesc.Height = height;
         texDesc.MipLevels = 1;
         texDesc.ArraySize = 1;
-        texDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+        texDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
         texDesc.SampleDesc.Count = 1;
         texDesc.SampleDesc.Quality = 0;
         texDesc.Usage = D3D11_USAGE_DEFAULT;
@@ -67,14 +67,33 @@ namespace Vixen {
         texDesc.CPUAccessFlags = 0;
         texDesc.MiscFlags = 0;
 
+
+		D3D11_TEXTURE2D_DESC dtexDesc;
+		ZeroMemory(&dtexDesc, sizeof(D3D11_TEXTURE2D_DESC));
+		dtexDesc.Width = width;
+		dtexDesc.Height = height;
+		dtexDesc.MipLevels = 1;
+		dtexDesc.ArraySize = 1;
+		dtexDesc.Format = DXGI_FORMAT_R32_FLOAT;
+		dtexDesc.SampleDesc.Count = 1;
+		dtexDesc.SampleDesc.Quality = 0;
+		dtexDesc.Usage = D3D11_USAGE_DEFAULT;
+		dtexDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+		dtexDesc.CPUAccessFlags = 0;
+		dtexDesc.MiscFlags = 0;
+
         //Create render target textures
         int i = 0;
         for (i = 0; i < BUFFER_COUNT; i++)
         {
-            hr = device->CreateTexture2D(&texDesc, NULL, &m_RenderTargetTextures[i]);
+			if(i == 2)
+				hr = device->CreateTexture2D(&dtexDesc, NULL, &m_RenderTargetTextures[i]);
+            else
+				hr = device->CreateTexture2D(&texDesc, NULL, &m_RenderTargetTextures[i]);
             if (FAILED(hr))
                 return false;
         }
+
 
         //Setup Render Target View Desc
         D3D11_RENDER_TARGET_VIEW_DESC rtvDesc;
@@ -85,6 +104,11 @@ namespace Vixen {
         //Create render target views
         for (i = 0; i < BUFFER_COUNT; i++)
         {
+			if (i == 2)
+				rtvDesc.Format = dtexDesc.Format;
+			else
+				rtvDesc.Format = texDesc.Format;
+
             hr = device->CreateRenderTargetView(m_RenderTargetTextures[i], &rtvDesc, &m_RenderTargetViews[i]);
             if (FAILED(hr))
                 return false;
@@ -100,6 +124,11 @@ namespace Vixen {
         //Create shader resource views
         for (i = 0; i < BUFFER_COUNT; i++)
         {
+			if (i == 2)
+				srvDesc.Format = dtexDesc.Format;
+			else
+				srvDesc.Format = texDesc.Format;
+
             hr = device->CreateShaderResourceView(m_RenderTargetTextures[i], &srvDesc, &m_ShaderResourceViews[i]);
             if (FAILED(hr))
                 return false;
@@ -112,7 +141,7 @@ namespace Vixen {
         dsd.Height = height;
         dsd.MipLevels = 1;
         dsd.ArraySize = 1;
-        dsd.Format = DXGI_FORMAT_D24_UNORM_S8_UINT; //D24 S8                     
+        dsd.Format = DXGI_FORMAT_D32_FLOAT_S8X24_UINT; //D24 S8                     
         dsd.SampleDesc.Count = 1; 
         dsd.SampleDesc.Quality = 0;
         dsd.Usage = D3D11_USAGE_DEFAULT;
