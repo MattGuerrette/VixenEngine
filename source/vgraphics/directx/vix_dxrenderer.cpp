@@ -265,7 +265,11 @@ namespace Vixen {
 
 		m_Device->CreateDepthStencilState(&depthStencilDesc, &m_lightDSState);
 		
+		D3D11_RASTERIZER_DESC rdesc;
+		ZeroMemory(&rdesc, sizeof(D3D11_RASTERIZER_DESC));
+		rdesc.CullMode = D3D11_CULL_NONE;
 
+		hr = m_Device->CreateRasterizerState(&rdesc, &m_lightRSState);
 
         m_lightBuffer = new DXLightBuffer(256, m_Device, m_ImmediateContext);
 
@@ -438,6 +442,7 @@ namespace Vixen {
 
 		m_ImmediateContext->OMSetBlendState(m_lightBlendState, blendFactor, 0xffffffff);
 		m_ImmediateContext->OMSetDepthStencilState(m_lightDSState, 0);
+		m_ImmediateContext->RSSetState(m_lightRSState);
 		//->OMSetBlendState(m_lightBlendState, NULL, 0xfffffffff);
 
 		DXModel* _model = (DXModel*)model;
@@ -465,6 +470,7 @@ namespace Vixen {
 
 		m_ImmediateContext->OMSetBlendState(NULL, NULL, 0xfffffffff);
 		m_ImmediateContext->OMSetDepthStencilState(NULL, 0);
+		m_ImmediateContext->RSSetState(NULL);
 	}
 
 	void DXRenderer::ReleaseBuffers()
