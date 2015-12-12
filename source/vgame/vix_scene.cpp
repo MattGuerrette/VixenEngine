@@ -123,7 +123,7 @@ namespace Vixen {
 			for (auto& model : models)
 			{
 				if (model.second)
-					if(model.first != L"icosahedron.obj")
+					if(model.first != L"sphere.obj")
 						model.second->VRender(Time::DeltaTime(), Time::TotalTime(), camera);
 			}
 
@@ -140,12 +140,12 @@ namespace Vixen {
 			//NOTE: this is expensive, as we are iterating over the list of objects again...
 			//      what should happen is the list should be sorted once, leaving all late render objects
 			//      last to be drawn.
-			/*for (int i = 0; i < m_topLevelObjects.size(); i++)
+			for (int i = 0; i < m_topLevelObjects.size(); i++)
 			{
 				GameObject* obj = m_topLevelObjects.at(i);
 				if (obj->IsMarkedForLateRender() && obj->GetEnabled())
 					obj->Render(camera);
-			}*/
+			}
 		}
 
 		

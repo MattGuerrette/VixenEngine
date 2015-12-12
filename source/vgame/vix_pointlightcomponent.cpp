@@ -17,7 +17,7 @@ namespace Vixen {
 
     void PointLightComponent::VOnEnable()
     {
-		//LightManager::RegisterLight(&m_light, m_parent->GetTransform()->GetWorldMatrix());
+		
     }
 
     void PointLightComponent::VUpdate()
@@ -27,12 +27,12 @@ namespace Vixen {
 
     void PointLightComponent::VOnDisable()
     {
-		DebugPrintF(VTEXT("PointLight disabled\n"));
+		
     }
 
     void PointLightComponent::VOnDestroy()
     {
-		DebugPrintF(VTEXT("PointLight destroyed\n"));
+		
     }
 
 	void PointLightComponent::VRender(ICamera3D* camera)
