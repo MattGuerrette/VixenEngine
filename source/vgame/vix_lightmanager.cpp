@@ -8,7 +8,7 @@ namespace Vixen {
 	{
 		LightManager& _manager = LightManager::instance();
 
-		_manager.m_lightModel = ResourceManager::OpenModel(VTEXT("sphere.obj"));
+		_manager.m_lightModel = ResourceManager::OpenModel(VTEXT("pointlight.obj"));
 		_manager.m_lightMaterial = ResourceManager::OpenMaterial(VTEXT("Light.vmt"));
 		_manager.m_lightMaterial->IncrementRefCount();
 		_manager.m_lightModel->VSetMaterial(_manager.m_lightMaterial);

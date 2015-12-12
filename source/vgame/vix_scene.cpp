@@ -123,7 +123,7 @@ namespace Vixen {
 			for (auto& model : models)
 			{
 				if (model.second)
-					if(model.first != L"sphere.obj")
+					if(model.first != L"pointlight.obj")
 						model.second->VRender(Time::DeltaTime(), Time::TotalTime(), camera);
 			}
 
