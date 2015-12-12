@@ -44,10 +44,10 @@ namespace Vixen {
 
         DXVertexPosTex _verts[4] =
         {
-            { DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f), DirectX::XMFLOAT2(0.0f, 0.0f) },
-            { DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f), DirectX::XMFLOAT2(1.0f, 0.0f) },
-            { DirectX::XMFLOAT3(0.0, 1.0f, 0.0f), DirectX::XMFLOAT2(0.0f, 1.0f) },
-            { DirectX::XMFLOAT3(1.0f, 1.0f, 0.0f), DirectX::XMFLOAT2(1.0f, 1.0f) }
+			DXVertexPosTex(0.0f, 0.0f, 0.0f, 0.0f, 0.0f),
+			DXVertexPosTex(1.0f, 0.0f, 0.0f, 1.0f, 0.0f),
+			DXVertexPosTex(0.0, 1.0f, 0.0f, 0.0f, 1.0f),
+			DXVertexPosTex(1.0f, 1.0f, 0.0f, 1.0f, 1.0f)
         };
 
         D3D11_BUFFER_DESC vbd;
@@ -98,11 +98,23 @@ namespace Vixen {
             context->VSSetConstantBuffers(0, 1, &m_constantBuffer);
         if (m_pShader)
             context->PSSetShader(m_pShader, nullptr, 0);
+<<<<<<< HEAD:source/unused/vgraphics/vix_dxquad.cpp
 
         ID3D11ShaderResourceView* RV = m_texture->ResourceView();
         context->PSSetShaderResources(0, 1, &m_RV);
         ID3D11SamplerState* SS = m_texture->SampleState();
         context->PSSetSamplers(0, 1, &m_SS);
+=======
+        
+		if(m_texture)
+		{
+			ID3D11ShaderResourceView* RV = m_texture->ResourceView();
+			context->PSSetShaderResources(0, 1, &m_RV);
+			ID3D11SamplerState* SS = m_texture->SampleState();
+			context->PSSetSamplers(0, 1, &m_SS);
+		}
+       
+>>>>>>> 378c4eaf54b4848d281243b6b7f0ff3c5bcfaf80:source/vgraphics/directx/vix_dxquad.cpp
 
         context->DrawIndexed(6, 0, 0);
 

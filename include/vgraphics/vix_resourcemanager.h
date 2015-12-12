@@ -69,8 +69,11 @@ namespace Vixen {
 		static void			MapAsset(UString assetName, Asset* asset);
 		static void			ReleaseAsset(Asset* asset);
 
+
 		static uint32_t     NumLoadedModels();
 		static Model*		ModelAsset(uint32_t index);
+
+		static std::map<UString, Model*>& LoadedModels();
 
         static void         IncrementAssetRef(Asset* asset);
         static void         DecrementAssetRef(Asset* asset);
@@ -81,7 +84,7 @@ namespace Vixen {
         IResourceLoader* m_resourceLoader;
 
 		std::map<UString, Asset*> m_assetMap;
-		std::vector<Model*>	  m_models;
+		std::map<UString, Model*> m_models;
     };
 
 

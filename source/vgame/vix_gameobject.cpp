@@ -146,7 +146,6 @@ namespace Vixen {
 				_renderComponent2D->VRender(Renderer::Camera2D(), camera->VGetViewport());
 			}
 
-
 			IRenderComponent* _renderComponent = dynamic_cast<IRenderComponent*>(m_components[i]);
 			if (_renderComponent)
 				_renderComponent->VRender(camera);
@@ -315,3 +314,4 @@ namespace Vixen {
 	}
 
 }
+

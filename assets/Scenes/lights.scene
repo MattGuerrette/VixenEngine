@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<scene id="lights">
+  <object-list>
+
+    <gameobject name="floor" enabled="true">
+      <transform x="0.0" y="0.0" z="0.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
+      <components>
+        <model file="floor.obj" material="floor.vmt"/>
+      </components>
+      <children>
+      </children>
+    </gameobject>
+
+    <gameobject name="cube" enabled="true">
+      <transform x="0.0" y="0.0" z="0.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="0.2" scaleY="0.2" scaleZ="0.2"/>
+      <components>
+        <model file="raptor.obj" material="Raptor.vmt"/>
+      </components>
+      <children>
+      </children>
+    </gameobject>
+
+    <gameobject name="test" enabled="true">
+      <transform x="0.0" y="10.0" z="0.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
+      <components>
+        
+        <script file="rotate.lua"/>
+      </components>
+      <children>
+        <gameobject name="lighttest" enabled="true">
+          <transform x="20.0" y="10.0" z="0.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
+          <components>
+            <model file="monkey.obj" material="white.vmt"/>
+            <light type="point">
+              <color r="0.0" g="0.0" b="1.0" a="1.0"/>
+              <attenuation range="50.0" constant="0.0" linear="0.0" quadratic="1.0"/>
+            </light>
+          </components>
+          <children>
+          </children>
+        </gameobject>
+      </children>
+    </gameobject>
+
+    
+    
+    <gameobject name="camera" enabled="true">
+      <transform x="0.0" y="6.0" z="-5.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
+      <components>
+        <camera mainCamera="true">
+          <viewport x="0.0" y="0.0" width="1.0" height="1.0" min="0.0" max="1.0"/>
+        </camera>
+        <script file="camera.lua"/>
+        <script file="game.lua"/>
+      </components>
+      <children>
+      </children>
+    </gameobject>
+
+  </object-list>
+</scene>

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<material>
-  <vertex-shader file="Model_VS.hlsl">
-  </vertex-shader>
-  <pixel-shader file="Model_Rainbow_PS.hlsl">
-  </pixel-shader>
-</material>

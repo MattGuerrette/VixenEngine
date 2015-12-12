@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /**
 **	Vixen Engine
 **	Copyright(c) 2015 Matt Guerrette
@@ -12,6 +13,8 @@
 **
 **/
 
+=======
+>>>>>>> 378c4eaf54b4848d281243b6b7f0ff3c5bcfaf80
 #include <vix_game.h>
 #include <vix_version.h>
 

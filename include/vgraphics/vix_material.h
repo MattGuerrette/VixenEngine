@@ -53,7 +53,7 @@ namespace Vixen {
         virtual ~Material() { };
 
         virtual void VBind() = 0;
-        virtual void VUnbind() = 0;
+        virtual void VUnbind() = 0; 
 
 		virtual UString VFilePath() = 0;
 
@@ -62,11 +62,10 @@ namespace Vixen {
 		void SetShaderVariableInt(ShaderRole shader, std::string name, int val);
 		void SetShaderVariableMatrix4(ShaderRole shader, std::string name, const float val[16]);
 
-
 	protected:
 		VariableMap								m_vsVariables;
 		VariableMap								m_psVariables;
-
+		
 		static bool ReadShaderChildren(tinyxml2::XMLElement* shaderElement, VariableMap& variableMap);
     };
 

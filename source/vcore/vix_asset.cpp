@@ -1,3 +1,4 @@
+
 /**
 **	Vixen Engine
 **	Copyright(c) 2015 Matt Guerrette
@@ -45,4 +46,6 @@ namespace Vixen {
 	{
 		m_fileName = fileName;
 	}
+
 }
+

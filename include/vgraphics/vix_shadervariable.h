@@ -1,3 +1,4 @@
+
 /**
 **	Vixen Engine
 **	Copyright(c) 2015 Matt Guerrette
@@ -27,6 +28,7 @@ namespace Vixen {
 	public:
 		virtual ~IShaderVariable() { };
 		virtual void VBind(std::string name, Shader* shader) = 0;
+        virtual void VUnbind(std::string name, Shader* shader) = 0;
 	};
 
 	class VIX_API FloatVariable : public IShaderVariable
@@ -38,6 +40,7 @@ namespace Vixen {
 
 		void SetData(float val);
 		void VBind(std::string name, Shader* shader);
+        void VUnbind(std::string name, Shader* shader);
 
 	private:
 		float m_val;
@@ -52,6 +55,7 @@ namespace Vixen {
 
 		void SetData(float x, float y, float z, float w);
 		void VBind(std::string name, Shader* shader);
+        void VUnbind(std::string name, Shader* shader);
 
 	private:
 		float m_x;
@@ -69,6 +73,7 @@ namespace Vixen {
 
 		void SetData(int val);
 		void VBind(std::string name, Shader* shader);
+        void VUnbind(std::string name, Shader* shader);
 
 	private:
 		int m_val;
@@ -83,6 +88,8 @@ namespace Vixen {
 
 		void SetData(const float val[16]);
 		void VBind(std::string name, Shader* shader);
+        void VUnbind(std::string name, Shader* shader);
+
 
 	private:
 		float m_val[16];
@@ -97,6 +104,7 @@ namespace Vixen {
 
 		void SetData(Texture* texture);
 		void VBind(std::string name, Shader* shader);
+        void VUnbind(std::string name, Shader* shader);
 
 	private:
 		Texture* m_texture;

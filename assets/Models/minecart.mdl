@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<model>
-  <file val="Minecart.obj"/>
-  <vertex-shader val="Model_VS.hlsl"/>
-  <pixel-shader val="Model_Textured_PS.hlsl"/>
-</model>

@@ -27,6 +27,7 @@ namespace Vixen {
         m_textureCount = 0;
         m_device = device;
         m_context = context;
+        m_blendState = NULL;
 
         m_vBuffer = new DXVPTBuffer(MAX_VERT_COUNT, m_device, m_context);
         m_iBuffer = new DXIndexBuffer(INDICES_PER_TEX * MAX_BATCH_SIZE, m_device, m_context);
@@ -44,6 +45,41 @@ namespace Vixen {
             size_t offset = sizeof(unsigned short) * INDICES_PER_TEX;
             m_iBuffer->VUpdateSubData(i == 0 ? 0 : offset, sizeof(unsigned short), INDICES_PER_TEX, temp.data());
         }
+
+        D3D11_BLEND_DESC blendDesc;
+        ZeroMemory(&blendDesc, sizeof(D3D11_BLEND_DESC));
+        blendDesc.AlphaToCoverageEnable = false;
+        blendDesc.IndependentBlendEnable = false;
+        blendDesc.RenderTarget[0].BlendEnable = true;
+        blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+        blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+        blendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+
+        blendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_SRC_ALPHA;
+        blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_DEST_ALPHA;
+        blendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+        blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+        
+        m_device->CreateBlendState(&blendDesc, &m_blendState);
+
+
+        D3D11_DEPTH_STENCIL_DESC dsDesc;
+
+        dsDesc.DepthEnable = FALSE;
+        dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+        dsDesc.DepthFunc = D3D11_COMPARISON_LESS;
+        dsDesc.StencilEnable = false;
+        dsDesc.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
+        dsDesc.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
+        dsDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+        dsDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+        dsDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_REPLACE;
+        dsDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+        dsDesc.BackFace = dsDesc.FrontFace;
+
+       
+        m_device->CreateDepthStencilState(&dsDesc, &m_depthState);
     }
 
     DXSpriteBatcher::~DXSpriteBatcher()
@@ -53,6 +89,9 @@ namespace Vixen {
 
         delete m_vBuffer;
         delete m_iBuffer;
+
+        ReleaseCOM(m_blendState);
+        ReleaseCOM(m_depthState);
     }
 
     void DXSpriteBatcher::Begin(BatchSortMode mode)
@@ -276,25 +315,9 @@ namespace Vixen {
 
     void DXSpriteBatcher::render_textures()
     {
-        D3D11_DEPTH_STENCIL_DESC dsDesc;
+        m_context->OMSetDepthStencilState(m_depthState, 0);
+        m_context->OMSetBlendState(m_blendState, NULL, 0xfffffffff);
 
-        dsDesc.DepthEnable = FALSE;
-        dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
-        dsDesc.DepthFunc = D3D11_COMPARISON_LESS;
-        dsDesc.StencilEnable = false;
-        dsDesc.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
-        dsDesc.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
-        dsDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
-        dsDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
-        dsDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_REPLACE;
-        dsDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
-        dsDesc.BackFace = dsDesc.FrontFace;
-        ID3D11DepthStencilState* dsState;
-        m_device->CreateDepthStencilState(&dsDesc, &dsState);
-
-        m_context->OMSetDepthStencilState(dsState, 0);
-
-        ReleaseCOM(dsState);
 
         m_vShader->SetMatrix4x4("projection", m_camera2D->Projection());
         m_pShader->VSetSamplerState("samLinear",  ((DXTexture*)m_texture)->SampleState());
@@ -315,6 +338,7 @@ namespace Vixen {
         m_texture = NULL;
 
         m_context->OMSetDepthStencilState(NULL, 0);
+        m_context->OMSetBlendState(NULL, NULL, 0xfffffffff);
     }
 
     void DXSpriteBatcher::flush()

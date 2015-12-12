@@ -3,7 +3,6 @@ function floor.OnInit()
 end
 
 function floor.OnEnable()
-	this.moveSpeed = 15.0;
 end
 
 function floor.Update(dt)
@@ -18,7 +17,8 @@ function floor.Update(dt)
 	if GameObject.GetTransformZ() < -35.0 then
 		GameObject.SetTransformPos(GameObject.GetTransformPos() + Vector3(0.0, 0.0, 250.0));
 	end
-
+    
+    this.GameObject:GetModelComponent():GetMaterial():SetFloat(0, "distance", this.manager.distance); 
 end
 
 function floor.OnDisable()

@@ -1,3 +1,4 @@
+
 /**
 **	Vixen Engine
 **	Copyright(c) 2015 Matt Guerrette
@@ -38,5 +39,5 @@ namespace Vixen {
 		m_shape = new btStaticPlaneShape(m_planeNormal, m_planeConstant);
 	}
 
-
 }
+

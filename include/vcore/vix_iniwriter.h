@@ -1,3 +1,4 @@
+
 /**
 **	Vixen Engine
 **	Copyright(c) 2015 Matt Guerrette
@@ -12,6 +13,7 @@
 **
 **/
 
+
 #ifndef VIX_INIWRITER_H
 #define VIX_INIWRITER_H
 
@@ -22,11 +24,13 @@
 #include <algorithm>
 #include <utility>
 
+
 namespace Vixen {
 
     class VIX_API INIWriter
     {
         typedef std::vector<std::pair<std::string, std::string> > ValuePairList;
+
     public:
         INIWriter();
 
@@ -39,6 +43,7 @@ namespace Vixen {
         std::map<std::string, ValuePairList> _values;
 
         static std::string  MakeKey(std::string section);
+
     };
 
     template <>

@@ -1,3 +1,4 @@
+
 /**
 **	Vixen Engine
 **	Copyright(c) 2015 Matt Guerrette
@@ -39,7 +40,7 @@ namespace Vixen {
     void INIReader::PrintValues()
     {
         for(auto& value : _values)
-            DebugPrintF(VTEXT("Key: %s \tValue: %s"), value.first.c_str(), value.second.c_str());
+            DebugPrintF(VTEXT("Key: %s \tValue: %s\n"), UStringFromCharArray(value.first.c_str()).c_str(), UStringFromCharArray(value.second.c_str()).c_str());
     }
 
     std::string INIReader::Get(std::string section, std::string name)

@@ -126,6 +126,10 @@ namespace Vixen {
 
     void SDLGameWindow::VPollEvents()
     {
+		std::stringstream ss;
+		ss << "Vixen Engine   " << "FPS: " << Time::FPS();
+		SDL_SetWindowTitle(m_windowHandle, ss.str().c_str());
+
         SDL_Event event;
         while (SDL_PollEvent(&event))
         {
@@ -228,7 +232,6 @@ namespace Vixen {
                         Renderer::ResizeBuffers(event.window.data1, event.window.data2);
 
                         SceneManager::UpdateCameraViewports(event.window.data1, event.window.data2);
-
                     } break;
 
                     default:

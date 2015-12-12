@@ -18,6 +18,7 @@
 #include <vix_pathmanager.h>
 #include <vix_window_singleton.h>
 #include <vix_renderer_singleton.h>
+#include <vix_lightmanager.h>
 #include <vix_objectmanager.h>
 #include <vix_scenemanager.h>
 #include <vix_luaengine.h>
@@ -36,7 +37,7 @@ namespace Vixen {
 	{
         FileManager::Initialize();
         PathManager::Initialize();
-        if(!Window::Initialize(GameConfig()))
+        if (!Window::Initialize(GameConfig()))
             return -1;
 
         if (!Renderer::Initialize(Window::Handle()))
@@ -44,20 +45,20 @@ namespace Vixen {
 
         Input::SetMouseState(Window::Mouse());
         Input::SetKeyboardState(Window::Keyboard());
-		Input::SetControllerState(Window::Controller());
+        Input::SetControllerState(Window::Controller());
 
-
-		/*
         ResourceManager::Initialize();
+
         Renderer::InitializeSpriteBatch();
         ObjectManager::Initialize();
+        LightManager::Initialize();
         LuaEngine::Initialize();
         LuaScriptManager::Initialize();
-		BulletSimulator::Initialize(btVector3(0.0f, -10.0f, 0.0f));
+        BulletSimulator::Initialize(btVector3(0.0f, -10.0f, 0.0f));
         SceneManager::Initialize();
 
 
-		*/
+
         Renderer::SetClearColor(Colors::Black);
 
         Time::Start();
@@ -69,11 +70,11 @@ namespace Vixen {
 
             Renderer::ClearBuffer(ClearArgs::COLOR_DEPTH_STENCIL_BUFFER);
 
-			//BulletSimulator::Step(Time::DeltaTime());
+            BulletSimulator::Step(Time::DeltaTime());
 
-            //SceneManager::UpdateScenes();
+            SceneManager::UpdateScenes();
 
-            //SceneManager::RenderScenes();
+            SceneManager::RenderScenes();
 
             Renderer::SwapBuffers();
 
@@ -84,26 +85,24 @@ namespace Vixen {
             Time::CalculateFPS();
         }
 
-		/*
-		SceneManager::DeInitialize();
-		PrefabManager::Cleanup();
+        SceneManager::DeInitialize();
+        PrefabManager::Cleanup();
 
-		BulletSimulator::DeInitialize();
-
+        BulletSimulator::DeInitialize();
 
         LuaEngine::DeInitialize();
+        LightManager::DeInitialize();
         ObjectManager::DeInitialize();
-        ResourceManager::DeInitialize();
-		ResourceManager::PrintLoaded();
-		*/
 
-		Renderer::DeInitialize();
+        ResourceManager::DeInitialize();
+        Renderer::DeInitialize();
+        ResourceManager::PrintLoaded();
+
         Window::DeInitialize();
         PathManager::DeInitialize();
         FileManager::DeInitialize();
 
-
-		return 0;
+        return 0;
 	}
 
 

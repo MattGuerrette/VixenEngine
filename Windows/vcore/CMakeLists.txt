@@ -1,10 +1,11 @@
 
 include_directories("${PROJECT_SOURCE_DIR}/../include"
                     "${PROJECT_SOURCE_DIR}/../include/vcore"
-                    "${PROJECT_SOURCE_DIR}/../dependencies/x64/tinyxml2")
+                    "${PROJECT_SOURCE_DIR}/../dependencies/x64/tinyxml2"
+					"${PROJECT_SOURCE_DIR}/../dependencies/x64/inih")
 					
 file(GLOB VCORE_INC ../../include/vcore/*.h)
-file(GLOB VCORE_SRC ../../source/vcore/*.cpp)
+file(GLOB VCORE_SRC ../../source/vcore/*.cpp ${PROJECT_SOURCE_DIR}/../dependencies/x64/inih/*.c)
 
 
 if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 19.0)

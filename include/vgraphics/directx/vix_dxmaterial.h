@@ -27,7 +27,6 @@
 namespace Vixen {
 
 
-
     class VIX_API DXMaterial : public Material
     {
     public:
@@ -40,6 +39,8 @@ namespace Vixen {
 
 		DXVertexShader* GetVertexShader();
 
+		DXPixelShader*  GetPixelShader();
+		
 
 		bool VInitFromFile(File* file);
 

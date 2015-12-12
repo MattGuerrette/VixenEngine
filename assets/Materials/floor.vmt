@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <material>
-  <vertex-shader file="Model_VS.hlsl">
+  <vertex-shader file="Model_Inst_VS.hlsl">
+    <float name="distance" val="1"/>
   </vertex-shader>
-  <pixel-shader file="Model_Textured_PS.hlsl">
-	  <texture name="txDiffuse" file="dirt.png"/>
+  <pixel-shader file="Model_Textured_Deferred_NoNormal_PS.hlsl">
+	  <texture name="txDiffuse" file="floortest.jpg"/>
   </pixel-shader>
 </material>

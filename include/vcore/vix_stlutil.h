@@ -24,7 +24,6 @@ void STLMAP_DELETE(std::map<K, T>& _map)
 {
     typename std::map<K, T>::iterator it = _map.begin();
     for(; it != _map.end(); it++) {
-
         if(it->second)
             delete it->second;
 

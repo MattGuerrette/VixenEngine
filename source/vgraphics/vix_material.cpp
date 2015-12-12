@@ -1,3 +1,4 @@
+
 /**
 **	Vixen Engine
 **	Copyright(c) 2015 Matt Guerrette
@@ -135,7 +136,7 @@ namespace Vixen {
 				float d2 = shaderChild->FloatAttribute("d2");
 				float d3 = shaderChild->FloatAttribute("d3");
 				float d4 = shaderChild->FloatAttribute("d4");
-				float val[16] = { a1, a2, a3, a4,
+				float val[16] = {   a1, a2, a3, a4,
 									b1, b2, b3, b4,
 									c1, c2, c3, c4,
 									d1, d2, d3, d4 };

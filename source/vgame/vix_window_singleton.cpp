@@ -147,3 +147,4 @@ namespace Vixen {
         _window.m_window->VStopTextCapture();
     }
 }
+

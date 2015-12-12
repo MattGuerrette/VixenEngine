@@ -64,6 +64,9 @@ namespace Vixen {
         ID3D11Device*          m_device;
 
         ID3D11DeviceContext*   m_context;
+        
+        ID3D11BlendState*           m_blendState;
+        ID3D11DepthStencilState*    m_depthState;
 
     public:
         DXSpriteBatcher(ID3D11Device* device, ID3D11DeviceContext* context);

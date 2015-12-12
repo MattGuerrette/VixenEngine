@@ -37,7 +37,13 @@ namespace Vixen {
     void DXCamera3D::VUpdateViewport(Viewport v)
     {
         m_viewport = v;
-
+        
+        m_d3dViewport.TopLeftX = v.x;
+        m_d3dViewport.TopLeftY = v.y;
+        m_d3dViewport.Width = v.width;
+        m_d3dViewport.Height = v.height;
+        m_d3dViewport.MinDepth = v.minDepth;
+        m_d3dViewport.MaxDepth = v.maxDepth;
     }
 
 	void DXCamera3D::VSetViewportVariables(float x, float y, float width, float height, float minDepth, float maxDepth)
@@ -61,16 +67,10 @@ namespace Vixen {
 	}
 
 	D3D11_VIEWPORT DXCamera3D::GetViewport()
-	{
-        D3D11_VIEWPORT viewport;
-        viewport.TopLeftX = m_viewport.x;
-        viewport.TopLeftY = m_viewport.y;
-        viewport.Width = m_viewport.width;
-        viewport.Height = m_viewport.height;
-        viewport.MinDepth = m_viewport.minDepth;
-        viewport.MaxDepth = m_viewport.maxDepth;
+    {
+        VUpdateViewport(m_viewport);
 
-        return viewport;
+        return m_d3dViewport;
 	}
 
 	Viewport DXCamera3D::VGetViewport()
@@ -119,4 +119,19 @@ namespace Vixen {
     {
         return m_view;
     }
+
+	XMFLOAT4X4 DXCamera3D::InvViewProj()
+	{
+		XMMATRIX p = XMLoadFloat4x4(&m_projection);
+		XMMATRIX v = XMLoadFloat4x4(&m_view);
+		XMMATRIX viewProj = DirectX::XMMatrixMultiply(p, v);
+
+		XMVECTOR det = DirectX::XMMatrixDeterminant(viewProj);
+		XMMATRIX invViewProj = DirectX::XMMatrixInverse(&det, viewProj);
+
+		XMFLOAT4X4 vp;
+		DirectX::XMStoreFloat4x4(&vp, invViewProj);
+		
+		return vp;
+	}
 }

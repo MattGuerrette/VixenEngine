@@ -35,7 +35,6 @@ namespace Vixen {
 		m_parent = NULL;
     }
 
-
     UIText::UIText(UString text, Font* font)
 		: Component(Component::Type::UI_TEXT)
     {

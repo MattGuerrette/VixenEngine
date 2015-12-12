@@ -35,8 +35,6 @@ namespace Vixen {
         virtual Model*     LoadModel(File* file) = 0;
         virtual Font*      LoadFont(File* file) = 0;
 		virtual Material*  LoadMaterial(File* file) = 0;
-
-
     };
 
 }

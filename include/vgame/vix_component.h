@@ -32,7 +32,9 @@ namespace Vixen {
 		{
 			UNUSED,
 			LUA_SCRIPT,
-			LIGHT,
+			POINT_LIGHT,
+            DIRECTIONAL_LIGHT,
+            SPOT_LIGHT,
 			UI_TEXT,
 			UI_BUTTON,
 			UI_TEXTURE,

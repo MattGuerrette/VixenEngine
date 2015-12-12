@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <material>
-  <vertex-shader file="Model_VS.hlsl">
+  <vertex-shader file="Model_Inst_VS.hlsl">
+    <float name="distance" val="1"/>
   </vertex-shader>
-  <pixel-shader file="Model_Textured_PS.hlsl">
+  <pixel-shader file="Model_Textured_Deferred_PS.hlsl">
 	  <texture name="txDiffuse" file="Raptor.jpg"/>
+    <texture name="txNormal" file="raptor_normal.jpg"/>
 	  <vec4 name="tint" x="1.0" y="1.0" z="1.0" w="1.0"/>
   </pixel-shader>
 </material>

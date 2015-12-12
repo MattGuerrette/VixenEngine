@@ -2,48 +2,10 @@
 <prefab>
 	<gameobject defaultName="cube" enabled="true">
     <transform x="5.0" y="0.0" z="5.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
-	  <model file="raptor.mdl"/>
-		<scripts>
-      <script file="raptor.lua"/>
-		</scripts>
+    <components>
+      <model file="raptor.obj" material="Raptor.vmt"/>
+    </components>
 		<children>
-      <!--<gameobject defaultName="raptor1" enabled = "true">
-        <transform x="0.0" y="0.0" z="5.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="0.5" scaleY="0.5" scaleZ="0.5"/>
-        <model file="raptor.mdl"/>
-        <scripts>
-          <script file="raptor.lua"/>
-        </scripts>
-        <children>
-          <gameobject defaultName="raptor1" enabled = "true">
-            <transform x="0.0" y="0.0" z="5.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="0.5" scaleY="0.5" scaleZ="0.5"/>
-            <model file="raptor.mdl"/>
-            <scripts>
-              <script file="raptor.lua"/>
-            </scripts>
-            <children>
-              <gameobject defaultName="raptor1" enabled = "true">
-                <transform x="0.0" y="0.0" z="5.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="0.5" scaleY="0.5" scaleZ="0.5"/>
-                <model file="raptor.mdl"/>
-                <scripts>
-                  <script file="raptor.lua"/>
-                </scripts>
-                <children>
-                  <gameobject defaultName="raptor1" enabled = "true">
-                    <transform x="0.0" y="0.0" z="5.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="0.5" scaleY="0.5" scaleZ="0.5"/>
-                    <model file="raptor.mdl"/>
-                    <scripts>
-                      <script file="raptor.lua"/>
-                    </scripts>
-                    <children>
-
-                    </children>
-                  </gameobject>
-                </children>
-              </gameobject>
-            </children>
-          </gameobject>
-        </children>
-      </gameobject>-->
 		</children>
 	</gameobject>
 </prefab>

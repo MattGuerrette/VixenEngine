@@ -1,3 +1,4 @@
+
 /**
 **	Vixen Engine
 **	Copyright(c) 2015 Matt Guerrette
@@ -32,7 +33,7 @@ namespace Vixen {
 		virtual bool VInitFromFile(File* file) = 0;
 
 		void IncrementRefCount();
-
+		
 		void DecrementRefCount();
 
 		uint32_t RefCount();
@@ -49,3 +50,4 @@ namespace Vixen {
 }
 
 #endif
+

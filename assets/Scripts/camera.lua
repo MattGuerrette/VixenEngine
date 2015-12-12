@@ -61,16 +61,16 @@ function camera.Update(dt)
 
 	    --Handle Mouse Look Controls
 
-	    --deltaX = Input.MouseDeltaX(Window.Width/2);
-	    --deltaY = Input.MouseDeltaY(Window.Height/2);
+	    deltaX = Input.MouseDeltaX(Window.Width/2);
+	    deltaY = Input.MouseDeltaY(Window.Height/2);
         --controller input
-	    deltaX = Input.ControllerAxis(IAXIS.RIGHTX, 0);
-	    deltaY = Input.ControllerAxis(IAXIS.RIGHTY, 0);
+	    --deltaX = Input.ControllerAxis(IAXIS.RIGHTX, 0);
+	    --deltaY = Input.ControllerAxis(IAXIS.RIGHTY, 0);
 	    transform:RotateX(deltaY * this.mouseLook);
 	    transform:RotateY(deltaX * this.mouseLook);
-    end
 
-    Window.TrapCursorCenter();
+        Window.TrapCursorCenter();
+    end
 end
 
 function camera.OnDisable()

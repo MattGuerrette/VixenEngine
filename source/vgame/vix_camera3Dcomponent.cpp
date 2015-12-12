@@ -31,6 +31,7 @@
 #include <vix_input.h>
 #include <vix_scenemanager.h>
 
+
 namespace Vixen {
 
     bool Camera3DComponent::s_MainCameraExists = false;
@@ -87,8 +88,6 @@ namespace Vixen {
 
     void Camera3DComponent::VOnEnable()
     {
-		SceneManager::ActiveScene()->AddCamera(m_camera);
-
 		if (m_camera)
 		{
 			m_camera->VSetView(m_parentTransform->GetWorldPosition(),

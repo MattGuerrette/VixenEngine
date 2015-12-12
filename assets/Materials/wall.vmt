@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<material>
-  <vertex-shader file="Model_VS.hlsl">
-  </vertex-shader>
-  <pixel-shader file="Model_Textured_PS.hlsl">
-	  <texture name="txDiffuse" file="wall.png"/>
-	  <texture name="txNormal" file="wall_normal.png"/>
-  </pixel-shader>
-</material>

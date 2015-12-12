@@ -57,6 +57,7 @@ namespace Vixen {
 		virtual bool	VSetMatrix4x4(std::string name, const float data[16]) = 0;
 
 		virtual bool    VBindTexture(std::string name, Texture* texture) = 0;
+        virtual bool    VUnbindTexture(std::string name, Texture* texture) = 0;
 
     protected:
         virtual void VBind() = 0;

@@ -55,7 +55,14 @@ namespace Vixen {
 
     void DXMaterial::VUnbind()
     {
+        for (auto& vsVariable : m_vsVariables)
+            vsVariable.second->VUnbind(vsVariable.first, m_shaders[ShaderRole::Vertex]);
+        for (auto& psVariable : m_psVariables)
+            psVariable.second->VUnbind(psVariable.first, m_shaders[ShaderRole::Pixel]);
 
+        //activate all shaders
+        m_shaders[ShaderRole::Vertex]->Deactivate();
+        m_shaders[ShaderRole::Pixel]->Deactivate();
     }
 
 	DXVertexShader* DXMaterial::GetVertexShader()
@@ -63,6 +70,10 @@ namespace Vixen {
 		return (DXVertexShader*)m_shaders[ShaderRole::Vertex];
 	}
 
+	DXPixelShader* DXMaterial::GetPixelShader()
+	{
+		return (DXPixelShader*)m_shaders[ShaderRole::Pixel];
+	}
 
 	bool DXMaterial::VInitFromFile(File* file)
 	{
@@ -120,9 +131,9 @@ namespace Vixen {
 
 		if (!ReadShaderChildren(psElement, m_psVariables))
 			return false;
-
+		
 		return true;
 	}
 
-
+	
 }

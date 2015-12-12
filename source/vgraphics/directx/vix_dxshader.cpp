@@ -125,6 +125,10 @@ namespace Vixen {
             case D3D_SIT_SAMPLER:
                 m_sampTable.insert(std::pair<std::string, size_t>(resourceDesc.Name, resourceDesc.BindPoint));
                 break;
+
+            case D3D_SIT_STRUCTURED:
+                m_texTable.insert(std::pair<std::string, size_t>(resourceDesc.Name, resourceDesc.BindPoint));
+                break;
             }
         }
 
@@ -301,4 +305,14 @@ namespace Vixen {
 
 		return success;
 	}
+
+    bool DXShader::VUnbindTexture(std::string name, Texture* texture)
+    {
+        bool success = true;
+        success = VSetSamplerState("samLinear", nullptr);
+        success = VSetShaderResourceView(name, nullptr);
+
+        return success;
+    }
+
 }

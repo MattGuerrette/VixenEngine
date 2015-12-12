@@ -23,7 +23,9 @@
 #include <vix_dxcamera2d.h>
 #include <vix_dxcamera3d.h>
 #include <vix_dxtexture.h>
+#include <vix_dxdefferedbuffers.h>
 #include <vix_dxspritebatcher.h>
+#include <vix_dxlightbuffer.h>
 
 namespace Vixen {
 
@@ -54,6 +56,12 @@ namespace Vixen {
 
         void    VResizeBuffers(uint32_t width, uint32_t height) override;
 
+		void	VRenderBackBuffer() override;
+
+		void    VLightPass(ICamera3D* camera, Model* model, std::vector<Light*>& lights) override;
+
+		void	VBeginDeferred() override;
+
 		ICamera2D* VCamera2D();
 
         ID3D11Device* Device();
@@ -65,7 +73,6 @@ namespace Vixen {
     private:
         bool CreateBuffers(uint32_t width, uint32_t height);
         void ReleaseBuffers();
-
 
     private:
         DirectX::XMVECTORF32    m_clearColor;
@@ -80,6 +87,29 @@ namespace Vixen {
 
         DXCamera2D*             m_camera2D;
         DXSpriteBatcher*        m_spriteBatch;
+        DXDefferedBuffers*      m_DefferedBuffers;
+
+
+        
+
+		////////////////////////////////////////
+		// Light Render Pass Variables
+		////////////////////////////////////////
+		DXLightBuffer*          m_lightBuffer;
+		DXVertexShader*			m_lightPassGeoVS;
+		DXVertexShader*			m_lightPassShadeVS;
+		DXPixelShader*			m_lightPassGeoPS;
+		DXPixelShader*			m_lightPassShadePS;
+		ID3D11BlendState*       m_lightBlendState;
+		ID3D11DepthStencilState* m_lightDSState;
+		ID3D11RasterizerState*   m_lightRSState;
+
+        ////////////////////////////////////////
+        // Final Render Pass Variables
+        ////////////////////////////////////////
+        DXVertexShader*         m_FinalPassVS;
+        DXPixelShader*			m_FinalPassPS;
+        ID3D11SamplerState*     m_FinalPassSS;
     };
 
 }

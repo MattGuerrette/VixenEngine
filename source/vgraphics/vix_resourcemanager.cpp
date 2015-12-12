@@ -80,11 +80,9 @@ namespace Vixen {
 					ResourceManager::MapAsset(file->FileName(), (Asset*)_texture);
 
 				}
-
 				FileManager::CloseFile(file);
 			}
-
-
+               
         }
 
 		return _texture;
@@ -116,7 +114,7 @@ namespace Vixen {
 					ResourceManager::MapAsset(file->FileName(), _shader);
 				}
 
-               FileManager::CloseFile(assetPath);
+               FileManager::CloseFile(file);
             }
         }
 
@@ -147,7 +145,7 @@ namespace Vixen {
 					//Need to load a model object into memory
 					_model = _RM.m_resourceLoader->LoadModel(file);
 
-					_RM.m_models.push_back(_model);
+					_RM.m_models[file->FileName()] = _model;
 
 					ResourceManager::MapAsset(file->FileName(), _model);
 				}
@@ -260,6 +258,7 @@ namespace Vixen {
 			asset->DecrementRefCount();
 	}
 
+
 	uint32_t ResourceManager::NumLoadedModels()
 	{
 		ResourceManager& _RM = ResourceManager::instance();
@@ -267,15 +266,14 @@ namespace Vixen {
 		return _RM.m_models.size();
 	}
 
-	Model* ResourceManager::ModelAsset(uint32_t index)
+
+	std::map<UString, Model*>& ResourceManager::LoadedModels()
 	{
 		ResourceManager& _RM = ResourceManager::instance();
 
-		if (index <= _RM.m_models.size())
-			return _RM.m_models[index];
-		else
-			return NULL;
+		return _RM.m_models;
 	}
+
 
     void ResourceManager::IncrementAssetRef(Asset* asset)
     {
@@ -285,18 +283,27 @@ namespace Vixen {
 
     void ResourceManager::DecrementAssetRef(Asset* asset)
     {
+
+        if (!asset)
+            return;
+
 		ResourceManager& _RM = ResourceManager::instance();
 
 		if (asset->RefCount() <= 1) {
 
 			UString fileName = asset->FileName();
 
+
+			//THIS IS PERMABAD, DONT DO THIS
+			Model* _isModel = static_cast<Model*>(asset);
+			if (_isModel)
+				_RM.m_models[fileName] = nullptr;
 			delete asset;
 			asset = nullptr;
 
 			_RM.m_assetMap[fileName] = nullptr;
+			
 		}
-
 
         if (asset)
             asset->DecrementRefCount();
