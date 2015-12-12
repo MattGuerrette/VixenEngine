@@ -29,6 +29,7 @@ Vixen Engine currently targets the following platforms:
 * Lua
 * lua-intf
 * bullet3
+* inih
 
 # Building
 
