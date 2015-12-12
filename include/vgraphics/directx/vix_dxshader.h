@@ -46,6 +46,13 @@ namespace Vixen {
         BYTE*           LocalDataBuffer;
     };
 
+    struct StructuredBuffer
+    {
+        size_t          BindIndex;
+        ID3D11Buffer*   Buffer;
+        BYTE*           LocalDataBuffer;
+    };
+
     struct ShaderVariable
     {
         size_t ByteOffset;
@@ -56,6 +63,7 @@ namespace Vixen {
     class VIX_API DXShader : public Shader
     {
         typedef std::unordered_map<std::string, ConstantBuffer*> CBTable;
+        typedef std::unordered_map<std::string, StructuredBuffer*> SBTable;
         typedef std::unordered_map<std::string, ShaderVariable>  SVTable;
         typedef std::unordered_map<std::string, size_t> TextureTable;
         typedef std::unordered_map<std::string, size_t> SampleTable;
@@ -107,9 +115,11 @@ namespace Vixen {
     protected:
         ShaderType              m_type;
         size_t                  m_cbCount;
+        size_t                  m_sbCount;
         ConstantBuffer*         m_cbArray;
         CBTable                 m_cbTable;
         SVTable                 m_svTable;
+        SBTable                 m_sbTable;
         TextureTable            m_texTable;
         SampleTable             m_sampTable;
         ID3D11Device*           m_device;

@@ -127,4 +127,19 @@ namespace Vixen {
     {
         return m_view;
     }
+
+	XMFLOAT4X4 DXCamera3D::InvViewProj()
+	{
+		XMMATRIX p = XMLoadFloat4x4(&m_projection);
+		XMMATRIX v = XMLoadFloat4x4(&m_view);
+		XMMATRIX viewProj = DirectX::XMMatrixMultiply(p, v);
+
+		XMVECTOR det = DirectX::XMMatrixDeterminant(viewProj);
+		XMMATRIX invViewProj = DirectX::XMMatrixInverse(&det, viewProj);
+
+		XMFLOAT4X4 vp;
+		DirectX::XMStoreFloat4x4(&vp, invViewProj);
+		
+		return vp;
+	}
 }

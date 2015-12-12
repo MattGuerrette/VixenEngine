@@ -292,6 +292,9 @@ namespace Vixen {
 
     void ResourceManager::DecrementAssetRef(Asset* asset)
     {
+        if (!asset)
+            return;
+
 		ResourceManager& _RM = ResourceManager::instance();
 
 		if (asset->RefCount() <= 1) {

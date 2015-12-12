@@ -27,6 +27,7 @@
 #include <vix_pathmanager.h>
 #include <vix_window_singleton.h>
 #include <vix_renderer_singleton.h>
+#include <vix_lightmanager.h>
 #include <vix_objectmanager.h>
 #include <vix_scenemanager.h>
 #include <vix_luaengine.h>
@@ -56,11 +57,12 @@ namespace Vixen {
         Input::SetKeyboardState(Window::Keyboard());
 		Input::SetControllerState(Window::Controller());
 
-
-        Curl::Initialize();
         ResourceManager::Initialize();
+        Curl::Initialize();
+        
         Renderer::InitializeSpriteBatch();
         ObjectManager::Initialize();
+		LightManager::Initialize();
         LuaEngine::Initialize();
         LuaScriptManager::Initialize();
 		BulletSimulator::Initialize(btVector3(0.0f, -10.0f, 0.0f));
@@ -93,14 +95,16 @@ namespace Vixen {
 
             Time::CalculateFPS();
         }
-
+        
 		SceneManager::DeInitialize();
 		PrefabManager::Cleanup();
 
 		BulletSimulator::DeInitialize();
 	
         LuaEngine::DeInitialize();
+		LightManager::DeInitialize();
         ObjectManager::DeInitialize();
+        
         ResourceManager::DeInitialize();
         Renderer::DeInitialize();
 		ResourceManager::PrintLoaded();

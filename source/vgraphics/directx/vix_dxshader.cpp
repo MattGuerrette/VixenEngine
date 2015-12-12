@@ -134,6 +134,10 @@ namespace Vixen {
             case D3D_SIT_SAMPLER:
                 m_sampTable.insert(std::pair<std::string, size_t>(resourceDesc.Name, resourceDesc.BindPoint));
                 break;
+
+            case D3D_SIT_STRUCTURED:
+                m_texTable.insert(std::pair<std::string, size_t>(resourceDesc.Name, resourceDesc.BindPoint));
+                break;
             }
         }
 

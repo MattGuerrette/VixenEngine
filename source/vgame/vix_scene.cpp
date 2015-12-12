@@ -29,6 +29,7 @@
 #include <vix_time.h>
 #include <vix_luaengine.h>
 #include <vix_resourcemanager.h>
+#include <vix_lightmanager.h>
 #include <vix_components.h>
 
 #include <vix_bullet_boxcollider.h>
@@ -36,6 +37,7 @@
 #include <vix_bullet_spherecollider.h>
 
 #include <vix_window_singleton.h>
+#include <vix_renderer_singleton.h>
 
 namespace Vixen {
 
@@ -115,13 +117,24 @@ namespace Vixen {
 					obj->Render(camera);
 			}
 
+			Renderer::RenderDeferred();
 
 			std::map<UString, Model*>& models = ResourceManager::LoadedModels();
 			for (auto& model : models)
 			{
 				if (model.second)
-					model.second->VRender(Time::DeltaTime(), Time::TotalTime(), camera);
+					if(model.first != L"sphere.obj")
+						model.second->VRender(Time::DeltaTime(), Time::TotalTime(), camera);
 			}
+
+			//Render all lights in scene
+
+			LightManager::RenderLights(camera);
+			
+			Renderer::RenderFinal();
+
+
+			LightManager::ClearLights();
 
 			//render all late render (UI) scene objects
 			//NOTE: this is expensive, as we are iterating over the list of objects again...
@@ -337,7 +350,7 @@ namespace Vixen {
 		const XMLElement* child = element->FirstChildElement();
 		while (child) {
 			std::string name(child->Name());
-			Component* component;
+			Component* component = nullptr;
 			if (name == "script")
 			{
 				//PARSE SCRIPT
@@ -369,7 +382,9 @@ namespace Vixen {
 				component = ParseRigidBodyComponent(child);
 			}
 
-			components.push_back(component);
+            if(component)
+			    components.push_back(component);
+
 			child = child->NextSiblingElement();
 		}
 
@@ -384,7 +399,6 @@ namespace Vixen {
 		Camera3DComponent* _camera = new Camera3DComponent();
 		if (isMainCamera)
 			scene->m_mainCamera = _camera->GetCamera();
-		scene->m_cameras.push_back(_camera->GetCamera());
 
 		const XMLElement* _viewportElement = element->FirstChildElement("viewport");
 		if (_viewportElement)
@@ -411,9 +425,9 @@ namespace Vixen {
             v.sHeight = Window::Height();
 
 			_camera->GetCamera()->VSetViewport(v);
-
-            scene->AddCamera(_camera->GetCamera());
 		}
+
+		scene->AddCamera(_camera->GetCamera());
 
 		return _camera;
 	}
@@ -422,37 +436,51 @@ namespace Vixen {
 	{
 		using namespace tinyxml2;
 
-		ILight* light;
-		float red = element->FloatAttribute("r");
-		float green = element->FloatAttribute("g");
-		float blue = element->FloatAttribute("b");
+		std::string type(element->Attribute("type"));
+		if (type == "point") {
 
-		std::string kind(element->Attribute("kind"));
-		if (kind == "point") {
-			float x = element->FloatAttribute("x");
-			float y = element->FloatAttribute("y");
-			float z = element->FloatAttribute("z");
-			float radius = element->FloatAttribute("radius");
+            PointLightComponent* light = new PointLightComponent;
 
-			light = new PointLight;
-			light->m_ambientColor = Vector3(red, green, blue);
-			((PointLight*)light)->m_position = Vector3(x, y, z);
-			((PointLight*)light)->m_radius = radius;
+            const XMLElement* colorElement = element->FirstChildElement("color");
+            if (colorElement)
+            {
+                float r = colorElement->FloatAttribute("r");
+                float g = colorElement->FloatAttribute("g");
+                float b = colorElement->FloatAttribute("b");
+                float a = colorElement->FloatAttribute("a");
+                light->SetColor({ r, g, b, a });
+            }
+			
+            const XMLElement* attenElement = element->FirstChildElement("attenuation");
+            if (attenElement)
+            {
+                float range = attenElement->FloatAttribute("range");
+                float constant = attenElement->FloatAttribute("constant");
+                float linear = attenElement->FloatAttribute("linear");
+                float quadratic = attenElement->FloatAttribute("quadratic");
+
+                light->SetAttenuationRange(range);
+                light->SetAttenuationConstant(constant);
+                light->SetAttenuationLinear(linear);
+                light->SetAttenuationQuadratic(quadratic);
+            }
+
+            return light;
 		}
-		else if (kind == "directional") {
-			float dirX = element->FloatAttribute("dirX");
+		else if (type == "directional") {
+			/*float dirX = element->FloatAttribute("dirX");
 			float dirY = element->FloatAttribute("dirY");
 			float dirZ = element->FloatAttribute("dirZ");
 			light = new DirectionalLight;
 			light->m_ambientColor = Vector3(red, green, blue);
-			((DirectionalLight*)light)->m_direction = Vector3(dirX, dirY, dirZ);
+			((DirectionalLight*)light)->m_direction = Vector3(dirX, dirY, dirZ);*/
 		}
 		else {
-			light = new ILight;
-			light->m_ambientColor = Vector3(red, green, blue);
+			/*light = new ILight;
+			light->m_ambientColor = Vector3(red, green, blue);*/
 		}
-		LightComponent* component = new LightComponent(light);
-		return component;
+
+		return nullptr;
 	}
 
     Component* Scene::ParseLuaScriptComponent(const tinyxml2::XMLElement * element)

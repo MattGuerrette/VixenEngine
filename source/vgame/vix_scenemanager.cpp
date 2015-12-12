@@ -67,10 +67,10 @@ namespace Vixen {
 
 				Scene* scene = _manager.LoadScene(sceneFile, initial);
 				if (scene) {
-					DebugPrintF(VTEXT("SceneManager: loaded scene %s successfully \n"), sceneFile);
+					DebugPrintF(VTEXT("SceneManager: loaded scene %s successfully \n"), UStringFromCharArray(sceneFile).c_str());
 				}
 				else {
-					DebugPrintF(VTEXT("SceneManager: scene %s not found\n"), sceneFile);
+					DebugPrintF(VTEXT("SceneManager: scene %s not found\n"), UStringFromCharArray(sceneFile).c_str());
 				}
                 sceneNode = sceneNode->NextSiblingElement("scene");
             }

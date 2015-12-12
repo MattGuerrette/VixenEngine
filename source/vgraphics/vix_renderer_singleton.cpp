@@ -64,6 +64,20 @@ namespace Vixen {
         _renderer.m_renderer->VRenderText2D(font, text, position);
     }
 
+	void Renderer::RenderFinal()
+	{
+		Renderer& _renderer = Renderer::instance();
+
+		_renderer.m_renderer->VRenderBackBuffer();
+	}
+
+	void Renderer::RenderDeferred()
+	{
+		Renderer& _renderer = Renderer::instance();
+
+		_renderer.m_renderer->VBeginDeferred();
+	}
+
     void Renderer::ResizeBuffers(uint32_t width, uint32_t height)
     {
         Renderer& _renderer = Renderer::instance();
@@ -83,6 +97,13 @@ namespace Vixen {
 		Renderer& _renderer = Renderer::instance();
 
 		return _renderer.m_renderer->VCamera2D();
+	}
+
+	void Renderer::RenderLights(ICamera3D* camera, Model* model, std::vector<Light*>& lights)
+	{
+		Renderer& _renderer = Renderer::instance();
+
+		_renderer.m_renderer->VLightPass(camera, model, lights);
 	}
 
 }

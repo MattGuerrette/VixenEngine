@@ -231,37 +231,51 @@ namespace Vixen {
 	{
 		using namespace tinyxml2;
 
-		ILight* light = NULL;
-		float red = element->FloatAttribute("r");
-		float green = element->FloatAttribute("g");
-		float blue = element->FloatAttribute("b");
+		std::string type(element->Attribute("type"));
+		if (type == "point") {
 
-		std::string kind(element->Attribute("kind"));
-		if (kind == "point") {
-			float x = element->FloatAttribute("x");
-			float y = element->FloatAttribute("y");
-			float z = element->FloatAttribute("z");
-			float radius = element->FloatAttribute("radius");
+			PointLightComponent* light = new PointLightComponent;
 
-			light = new PointLight;
-			light->m_ambientColor = Vector3(red, green, blue);
-			((PointLight*)light)->m_position = Vector3(x, y, z);
-			((PointLight*)light)->m_radius = radius;
+			const XMLElement* colorElement = element->FirstChildElement("color");
+			if (colorElement)
+			{
+				float r = colorElement->FloatAttribute("r");
+				float g = colorElement->FloatAttribute("g");
+				float b = colorElement->FloatAttribute("b");
+				float a = colorElement->FloatAttribute("a");
+				light->SetColor({ r, g, b, a });
+			}
+
+			const XMLElement* attenElement = element->FirstChildElement("attenuation");
+			if (attenElement)
+			{
+				float range = attenElement->FloatAttribute("range");
+				float constant = attenElement->FloatAttribute("constant");
+				float linear = attenElement->FloatAttribute("linear");
+				float quadratic = attenElement->FloatAttribute("quadratic");
+
+				light->SetAttenuationRange(range);
+				light->SetAttenuationConstant(constant);
+				light->SetAttenuationLinear(linear);
+				light->SetAttenuationQuadratic(quadratic);
+			}
+
+			return light;
 		}
-		else if (kind == "directional") {
-			float dirX = element->FloatAttribute("dirX");
+		else if (type == "directional") {
+			/*float dirX = element->FloatAttribute("dirX");
 			float dirY = element->FloatAttribute("dirY");
 			float dirZ = element->FloatAttribute("dirZ");
 			light = new DirectionalLight;
 			light->m_ambientColor = Vector3(red, green, blue);
-			((DirectionalLight*)light)->m_direction = Vector3(dirX, dirY, dirZ);
+			((DirectionalLight*)light)->m_direction = Vector3(dirX, dirY, dirZ);*/
 		}
 		else {
-			light = new ILight;
-			light->m_ambientColor = Vector3(red, green, blue);
+			/*light = new ILight;
+			light->m_ambientColor = Vector3(red, green, blue);*/
 		}
-		LightComponent* component = new LightComponent(light);
-		return component;
+
+		return nullptr;
 	}
 
 	Component* PrefabManager::ParseLuaScriptComponent(const tinyxml2::XMLElement* element)
