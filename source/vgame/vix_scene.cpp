@@ -123,7 +123,7 @@ namespace Vixen {
 			for (auto& model : models)
 			{
 				if (model.second)
-					if(model.first != L"pointlight.obj")
+					if(model.first != L"pointlight.obj" && model.first != L"spotlight.obj")
 						model.second->VRender(Time::DeltaTime(), Time::TotalTime(), camera);
 			}
 
@@ -466,6 +466,36 @@ namespace Vixen {
             }
 
             return light;
+		}
+		else if (type == "spot") {
+
+			SpotLightComponent* light = new SpotLightComponent;
+
+			const XMLElement* colorElement = element->FirstChildElement("color");
+			if (colorElement)
+			{
+				float r = colorElement->FloatAttribute("r");
+				float g = colorElement->FloatAttribute("g");
+				float b = colorElement->FloatAttribute("b");
+				float a = colorElement->FloatAttribute("a");
+				light->SetColor({ r, g, b, a });
+			}
+
+			const XMLElement* attenElement = element->FirstChildElement("attenuation");
+			if (attenElement)
+			{
+				float range = attenElement->FloatAttribute("range");
+				float constant = attenElement->FloatAttribute("constant");
+				float linear = attenElement->FloatAttribute("linear");
+				float quadratic = attenElement->FloatAttribute("quadratic");
+
+				light->SetAttenuationRange(range);
+				light->SetAttenuationConstant(constant);
+				light->SetAttenuationLinear(linear);
+				light->SetAttenuationQuadratic(quadratic);
+			}
+
+			return light;
 		}
 		else if (type == "directional") {
 			/*float dirX = element->FloatAttribute("dirX");

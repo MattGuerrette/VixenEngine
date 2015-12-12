@@ -26,6 +26,7 @@ SOFTWARE.
 
 #include <vix_platform.h>
 #include <vix_pointlightcomponent.h>
+#include <vix_spotlightcomponent.h>
 #include <vix_camera3Dcomponent.h>
 #include <vix_modelcomponent.h>
 #include <vix_rigidbody_component.h>

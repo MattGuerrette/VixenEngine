@@ -37,7 +37,7 @@ namespace Vixen {
 
 	void PointLightComponent::VRender(ICamera3D* camera)
 	{
-		LightManager::RegisterLight(&m_light, m_parent->GetTransform()->GetWorldMatrix());
+		LightManager::RegisterPointLight(&m_light, m_parent->GetTransform()->GetWorldMatrix());
 	}
 
 	PointLight PointLightComponent::GetLight()
