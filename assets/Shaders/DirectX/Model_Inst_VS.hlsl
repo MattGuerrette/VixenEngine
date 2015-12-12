@@ -42,7 +42,7 @@ VertexToPixel main(VertexShaderInput input, uint instanceID : SV_InstanceID)
 
     float4 position = mul(float4(input.position, 1.0f), world);
 	
-    float worldz = position.z / position.w;
+    float worldz = position.z;
 
 	position = mul(mul(position, view), projection);
 

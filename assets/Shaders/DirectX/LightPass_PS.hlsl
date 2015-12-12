@@ -58,7 +58,7 @@ float4 main( PS_INPUT input ) : SV_TARGET
 
 	//attenuation
 	float lightDist = length(input.center.xyz - pos.xyz) / input.light.range;
-	float atten = saturate(1 - (lightDist * lightDist * input.light.attenQuadratic + lightDist * input.light.attenLinear + input.light.attenConstant));
+	float atten = min(1 / (lightDist * lightDist * input.light.attenQuadratic + lightDist * input.light.attenLinear + input.light.attenConstant), 1);
 
 	//combine everything
 	float3 finalLight = input.light.color * ndotl * atten;

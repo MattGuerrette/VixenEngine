@@ -27,7 +27,7 @@ float4 main( PixelInput input ) : SV_TARGET
 
 	float4 lightDiffuse = txLight.Sample(samLinear, input.uv);
 
-	float4 color = saturate(diffuse * (lightDiffuse * (1 - depth * 1) + ambientLight * (1 - depth * 2)));
+	float4 color = saturate(diffuse * (lightDiffuse * (1 - depth * .5) + ambientLight * (1 - depth * 2)));
 
 	//return (1-input.depth*input.depth*.0001);
 	//return float4((1 + input.normal)*.5, 1.0);
