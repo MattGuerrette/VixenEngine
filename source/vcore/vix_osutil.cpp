@@ -30,23 +30,19 @@
 namespace Vixen {
 
 
-	void os_mkdir(const UString& dir)
+	void os_mkdir(const std::string& dir)
 	{
 #ifdef VIX_SYS_WINDOWS
-	#ifdef UNICODE
-			_wmkdir(dir.c_str());
-	#else
 			_mkdir(dir.c_str());
-	#endif
 #elif  defined(VIX_SYS_LINUX)
 		mkdir(dir.c_str(), S_IRWXU);
 #endif
 	}
 
-	bool os_isdir(const UString& dir)
+	bool os_isdir(const std::string& dir)
 	{
 		//convert path
-		UString path = os_path(dir);
+		std::string path = os_path(dir);
 #ifdef VIX_SYS_WINDOWS
 		DWORD dwAttrib = GetFileAttributes(dir.c_str());
 		return (dwAttrib != INVALID_FILE_ATTRIBUTES &&
@@ -60,9 +56,9 @@ namespace Vixen {
 #endif
 	}
 
-	UString os_path(const UString& path)
+	std::string os_path(const std::string& path)
 	{
-		UString temp = path;
+		std::string temp = path;
 #ifdef VIX_SYS_WINDOWS
 		str_replaceAll(temp, UNIX_PATH_DELIM, WIN_PATH_DELIM);
 #else
@@ -71,9 +67,9 @@ namespace Vixen {
 		return temp;
 	}
 
-	UString os_dir(const UString& path, bool wt)
+	std::string os_dir(const std::string& path, bool wt)
 	{
-		UString dir = VTEXT("");
+		std::string dir = "";
 		if (path.empty())
 			return dir;
 
@@ -81,7 +77,7 @@ namespace Vixen {
 		dir = path.substr(0, path.size() - 1);
 
 		size_t back_slash = 0;
-		UChar   c_slash;
+		char   c_slash;
 #ifdef VIX_SYS_WINDOWS
 		c_slash = WIN_PATH_DELIM[0];
 		back_slash = dir.find_last_of(c_slash);
@@ -89,7 +85,7 @@ namespace Vixen {
 		c_slash = UNIX_PATH_DELIM[0];
 		back_slash = dir.find_last_of(c_slash);
 #endif
-		if (back_slash != UString::npos)
+		if (back_slash != std::string::npos)
 			dir = dir.substr(0, back_slash);
 		if (wt)
 			dir += c_slash;
@@ -98,20 +94,18 @@ namespace Vixen {
 
 	}
 
-	UString os_exec_dir()
+	std::string os_exec_dir()
 	{
 #ifdef VIX_SYS_WINDOWS
-		UChar path[MAX_PATH];
+		char path[MAX_PATH];
 		GetModuleFileName(NULL, path, MAX_PATH);
 		return os_dir(path);
-		//return UString(path);
 #else
-		//LINUX VERSION HERE
         char arg1[20];
         char exepath[PATH_MAX + 1] = {0};
         sprintf( arg1, "/proc/%d/exe", getpid() );
         readlink( arg1, exepath, 1024 );
-        return os_dir(UString( exepath ));
+        return os_dir(exepath);
 #endif
 	}
 

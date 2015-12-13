@@ -20,13 +20,13 @@ namespace Vixen {
 
     INIWriter::INIWriter()
     {
-        
+
     }
 
     void INIWriter::Write(std::string outname)
     {
 
-        File* file = FileManager::OpenFile(UStringFromCharArray(outname.c_str()), Vixen::FileMode::WriteBinary);
+        File* file = FileManager::OpenFile(outname.c_str(), Vixen::FileMode::WriteBinary);
         if(file)
         {
             for(auto& key : _values)

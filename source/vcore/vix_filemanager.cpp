@@ -40,16 +40,16 @@ namespace Vixen {
         FileManager& manager = FileManager::instance();
 
         int i = 0;
-        DebugPrintF(VTEXT("Open File List:\n"));
+        DebugPrintF("Open File List:\n");
         for(auto it = manager.m_files.begin(); it != manager.m_files.end(); it++)
         {
             File* file = it->second;
-            DebugPrintF(VTEXT("\tFile[%i]: %s\n"), i, file->FilePath().c_str());
+            DebugPrintF("\tFile[%i]: %s\n", i, file->FilePath().c_str());
             i++;
         }
     }
 
-    File* FileManager::OpenFile(UString filePath, FileMode mode)
+    File* FileManager::OpenFile(std::string filePath, FileMode mode)
     {
 
         FileManager& manager = FileManager::instance();
@@ -80,7 +80,7 @@ namespace Vixen {
 
 
         if (file) {
-            UString filePath = file->FilePath();
+            std::string filePath = file->FilePath();
 
             //Close file
             file->Close();
@@ -92,7 +92,7 @@ namespace Vixen {
         }
     }
 
-    void FileManager::CloseFile(UString filePath)
+    void FileManager::CloseFile(std::string filePath)
     {
         FileManager& manager = FileManager::instance();
 
@@ -105,7 +105,7 @@ namespace Vixen {
         }
         else {
             //File not found
-            DebugPrintF(VTEXT("File: %s\nNot Found.\n"), filePath.c_str());
+            DebugPrintF("File: %s\nNot Found.\n", filePath.c_str());
         }
 
         if(file) {
@@ -120,7 +120,7 @@ namespace Vixen {
 
     }
 
-    File* FileManager::AccessFile(UString filePath)
+    File* FileManager::AccessFile(std::string filePath)
     {
         FileManager& manager = FileManager::instance();
 
@@ -133,7 +133,7 @@ namespace Vixen {
         }
         else {
             //File not found
-            DebugPrintF(VTEXT("File: %s\nNot Found."), filePath.c_str());
+            DebugPrintF("File: %s\nNot Found.", filePath.c_str());
         }
 
         return file;

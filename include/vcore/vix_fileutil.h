@@ -29,7 +29,7 @@ namespace Vixen {
 	* @param wd
 	* Flag determines if user wants (.) included in extension
 	*/
-	VIX_API UString getFileExtension(const UString& filePath, bool wd = true);
+	VIX_API std::string getFileExtension(const std::string& filePath, bool wd = true);
 
 	/*
 	* Retrieves filename with extension.
@@ -38,7 +38,7 @@ namespace Vixen {
 	* @param we
 	* Flag determines if user wants fullName or baseName (no extension)
 	*/
-	VIX_API UString getFileName(const UString& filePath, bool we = true);
+	VIX_API std::string getFileName(const std::string& filePath, bool we = true);
 
 }
 

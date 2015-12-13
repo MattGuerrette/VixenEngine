@@ -21,14 +21,18 @@
 #include <vix_inireader.h>
 #include <vix_iniwriter.h>
 #include <vix_debugutil.h>
-#include <vix_game.h>
+//#include <vix_game.h>
 
 using namespace Vixen;
 
 int main(int argc, char* argv[])
 {
-    Vixen::Game _game;
+    DebugPrintF(os_exec_dir());
+
+    return 0;
+
+    //Vixen::Game _game;
 
 
-    return _game.Run();
+    //return _game.Run();
 }

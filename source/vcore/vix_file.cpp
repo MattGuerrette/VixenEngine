@@ -37,7 +37,7 @@ namespace Vixen {
 	}
 
 
-	bool File::Open(UString path, FileMode mode)
+	bool File::Open(std::string path, FileMode mode)
 	{
 		m_filePath = os_path(path);
 		m_fileName = getFileName(m_filePath);
@@ -48,7 +48,7 @@ namespace Vixen {
             case FileMode::ReadBinary:
             {
 #ifdef VIX_SYS_WINDOWS
-                _wfopen_s(&m_handle, m_filePath.c_str(), VTEXT("rb"));
+                fopen_s(&m_handle, m_filePath.c_str(), "rb");
 #else
                 m_handle = fopen(m_filePath.c_str(), "rb");
 #endif
@@ -57,7 +57,7 @@ namespace Vixen {
             case FileMode::ReadText:
             {
 #ifdef VIX_SYS_WINDOWS
-                _wfopen_s(&m_handle, m_filePath.c_str(), VTEXT("r"));
+                fopen_s(&m_handle, m_filePath.c_str(), "r");
 #else
                 m_handle = fopen(m_filePath.c_str(), "r");
 #endif
@@ -66,7 +66,7 @@ namespace Vixen {
             case FileMode::WriteBinary:
             {
 #ifdef VIX_SYS_WINDOWS
-                _wfopen_s(&m_handle, m_filePath.c_str(), VTEXT("wb"));
+                fopen_s(&m_handle, m_filePath.c_str(), "wb");
 #else
                 m_handle = fopen(m_filePath.c_str(), "wb");
 #endif
@@ -75,7 +75,7 @@ namespace Vixen {
             case FileMode::WriteText:
             {
 #ifdef VIX_SYS_WINDOWS
-                _wfopen_s(&m_handle, m_filePath.c_str(), VTEXT("w"));
+                fopen_s(&m_handle, m_filePath.c_str(), "w");
 #else
                 m_handle = fopen(m_filePath.c_str(), "w");
 #endif
@@ -84,7 +84,7 @@ namespace Vixen {
             case FileMode::AppendBinary:
             {
 #ifdef VIX_SYS_WINDOWS
-                _wfopen_s(&m_handle, m_filePath.c_str(), VTEXT("ab"));
+                fopen_s(&m_handle, m_filePath.c_str(), "ab");
 #else
                 m_handle = fopen(m_filePath.c_str(), "ab");
 #endif
@@ -93,7 +93,7 @@ namespace Vixen {
             case FileMode::AppendText:
             {
 #ifdef VIX_SYS_WINDOWS
-                _wfopen_s(&m_handle, m_filePath.c_str(), VTEXT("a"));
+                fopen_s(&m_handle, m_filePath.c_str(), "a");
 #else
                 m_handle = fopen(m_filePath.c_str(), "a");
 #endif
@@ -180,11 +180,11 @@ namespace Vixen {
 	bool File::PError(int err /* = 0 */)
 	{
 #ifdef VIX_SYS_WINDOWS
-		UChar s_buffer[VIX_BUFSIZE];
-		_wcserror_s(s_buffer, errno);
-		DebugPrintF(VTEXT("FileError: %s"), s_buffer);
+		char s_buffer[VIX_BUFSIZE];
+		strerror_s(s_buffer, errno);
+		DebugPrintF("FileError: %s", s_buffer);
 #else
-		DebugPrintF(VTEXT("FileError: %s"), strerror(errno));
+		DebugPrintF("FileError: %s", strerror(errno));
 #endif
 		return (err < 0) ? true : false;
 	}
@@ -233,17 +233,17 @@ namespace Vixen {
 		return m_error;
 	}
 
-	UString File::BaseName()
+	std::string File::BaseName()
 	{
 		return m_baseName;
 	}
 
-	UString File::FileName()
+	std::string File::FileName()
 	{
 		return m_fileName;
 	}
 
-	UString File::FilePath()
+	std::string File::FilePath()
 	{
 		return m_filePath;
 	}

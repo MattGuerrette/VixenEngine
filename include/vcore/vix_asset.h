@@ -1,10 +1,10 @@
 
 /**
-**	Vixen Engine
-**	Copyright(c) 2015 Matt Guerrette
+**    Vixen Engine
+**    Copyright(c) 2015 Matt Guerrette
 **
-**	GNU Lesser General Public License
-**	This file may be used under the terms of the GNU Lesser
+**    GNU Lesser General Public License
+**    This file may be used under the terms of the GNU Lesser
 **  General Public License version 3 as published by the Free
 **  Software Foundation and appearing in the file LICENSE.LGPLv3 included
 **  in the packaging of this file. Please review the following information
@@ -23,31 +23,30 @@
 
 namespace Vixen {
 
-	class VIX_API Asset
-	{
-	public:
-		Asset();
+    class VIX_API Asset
+    {
+    public:
+        Asset();
 
-		virtual ~Asset() { };
+        virtual ~Asset() { };
 
-		virtual bool VInitFromFile(File* file) = 0;
+        virtual bool VInitFromFile(File* file) = 0;
 
-		void IncrementRefCount();
-		
-		void DecrementRefCount();
+        void IncrementRefCount();
 
-		uint32_t RefCount();
+        void DecrementRefCount();
 
-		UString FileName();
+        uint32_t RefCount();
 
-		void SetFileName(UString fileName);
+        std::string FileName();
 
-	private:
-		UString  m_fileName;
-		uint32_t m_refCount;
-	};
+        void SetFileName(std::string fileName);
+
+    private:
+        std::string  m_fileName;
+        uint32_t      m_refCount;
+    };
 
 }
 
 #endif
-

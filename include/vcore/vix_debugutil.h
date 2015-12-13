@@ -1,14 +1,14 @@
 /**
-**	Vixen Engine
-**	Copyright(c) 2015 Matt Guerrette
+**    Vixen Engine
+**    Copyright(c) 2015 Matt Guerrette
 **
-**	GNU Lesser General Public License
-**	This file may be used under the terms of the GNU Lesser
-**  General Public License version 3 as published by the Free
-**  Software Foundation and appearing in the file LICENSE.LGPLv3 included
-**  in the packaging of this file. Please review the following information
-**  to ensure the GNU Lesser General Public License requirements
-**  will be met: https://www.gnu.org/licenses/lgpl.html
+**    GNU Lesser General Public License
+**    This file may be used under the terms of the GNU Lesser
+**    General Public License version 3 as published by the Free
+**    Software Foundation and appearing in the file LICENSE.LGPLv3 included
+**    in the packaging of this file. Please review the following information
+**    to ensure the GNU Lesser General Public License requirements
+**    will be met: https://www.gnu.org/licenses/lgpl.html
 **
 **/
 
@@ -67,68 +67,55 @@
 
 namespace Vixen {
 
-	inline void ConsoleWriteErr(const UString& text)
-	{
-#if defined(VIX_SYS_WINDOWS) && defined(UNICODE)
-		std::wcerr << text;
-#else
-		std::cerr << text << std::endl;
-#endif
-	}
-
-	//NOTE:
-	//  This is declared as an "assumed" virtual definition of the
-	//  debug print function, that way we can make different version
-	//  of the same print function if we so choose
-	//
-	//  Reason:
-	//		It is impossible to pass va_list around so
-	//      we must create a new function with new args if
-	//      we want to have different params
-	//
-	inline int VDebugPrintF(const UChar* format, va_list argList)
-	{
-		static UChar s_buffer[VIX_BUFSIZE];
-		int written = -1;
+    //NOTE:
+    //  This is declared as an "assumed" virtual definition of the
+    //  debug print function, that way we can make different version
+    //  of the same print function if we so choose
+    //
+    //  Reason:
+    //        It is impossible to pass va_list around so
+    //      we must create a new function with new args if
+    //      we want to have different params
+    //
+    inline int VDebugPrintF(const char* format, va_list argList)
+    {
+        static char s_buffer[VIX_BUFSIZE];
+        int written = -1;
 
 #ifdef VIX_SYS_WINDOWS
-	#ifdef UNICODE
-			written = _vsnwprintf_s(s_buffer, VIX_BUFSIZE, format, argList);
-	#else
-			written = vsnprintf_s(s_buffer, VIX_BUFSIZE, format, argList);
-	#endif
+        written = vsnprintf_s(s_buffer, VIX_BUFSIZE, format, argList);
 #else
-                written = vsnprintf(s_buffer, sizeof(s_buffer), format, argList);
+        written = vsnprintf(s_buffer, sizeof(s_buffer), format, argList);
 #endif
 
-		//Call Win32 API with formatted string
+        //Call Win32 API with formatted string
 #ifdef VIX_SYS_WINDOWS
-		ConsoleWriteErr(UString(s_buffer));
-		OutputDebugString(s_buffer);
-#else
-		std::cerr << s_buffer << std::endl;
+        OutputDebugString(s_buffer);
 #endif
-		return written;
-	}
+        std::cerr << s_buffer << std::endl;
 
-	//NOTE:
-	//  This version of the VDebugPrintF takes an ellipses
-	//  as the argList param, allowing us to specify as many
-	//  parameters as we want in the buffer
-	//
-	inline int DebugPrintF(const UChar* format, ...)
-	{
-		va_list argList;
-		va_start(argList, format);
+        return written;
+    }
 
-		int written = VDebugPrintF(format, argList);
+    //NOTE:
+    //  This version of the VDebugPrintF takes an ellipses
+    //  as the argList param, allowing us to specify as many
+    //  parameters as we want in the buffer
+    //
+    inline int DebugPrintF(const char* format, ...)
+    {
+        va_list argList;
+        va_start(argList, format);
 
-		va_end(argList);
-		return written;
-	}
+        int written = VDebugPrintF(format, argList);
+
+        va_end(argList);
+
+        return written;
+    }
 
 
-	VIX_API UString DebugTimeStamp();
+    VIX_API std::string DebugTimeStamp();
 
 }
 

@@ -37,15 +37,14 @@ namespace Vixen {
 		return m_refCount;
 	}
 
-	UString Asset::FileName()
+	std::string Asset::FileName()
 	{
 		return m_fileName;
 	}
 
-	void Asset::SetFileName(UString fileName)
+	void Asset::SetFileName(std::string fileName)
 	{
 		m_fileName = fileName;
 	}
 
 }
-

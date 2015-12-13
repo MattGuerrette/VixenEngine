@@ -1,9 +1,9 @@
 /**
-**	Vixen Engine
-**	Copyright(c) 2015 Matt Guerrette
+**    Vixen Engine
+**    Copyright(c) 2015 Matt Guerrette
 **
-**	GNU Lesser General Public License
-**	This file may be used under the terms of the GNU Lesser
+**    GNU Lesser General Public License
+**    This file may be used under the terms of the GNU Lesser
 **  General Public License version 3 as published by the Free
 **  Software Foundation and appearing in the file LICENSE.LGPLv3 included
 **  in the packaging of this file. Please review the following information
@@ -61,7 +61,7 @@ namespace Vixen {
 
     /**
     *
-    *   IFIle interface
+    *   IFile interface
     *
     *   Describes base class of all File I/O classes
     */
@@ -71,10 +71,10 @@ namespace Vixen {
         virtual ~IFile() { };
 
         virtual FileError Error() = 0;
-        virtual UString   FileName() = 0;
-        virtual UString   FilePath() = 0;
-        virtual UString   BaseName() = 0;
-        virtual bool      Open(UString path, FileMode mode) = 0;
+        virtual std::string   FileName() = 0;
+        virtual std::string   FilePath() = 0;
+        virtual std::string   BaseName() = 0;
+        virtual bool      Open(std::string path, FileMode mode) = 0;
         virtual bool      Flush() = 0;
         virtual bool      Seek(size_t offset, FileSeek mode) = 0;
         virtual bool      Close() = 0;

@@ -28,22 +28,22 @@ namespace Vixen
 
         static void    Initialize();
         static void    DeInitialize();
-        static UString AssetPath();
-        static UString ScenePath();
-        static UString ModelPath();
-		static UString MaterialPath();
-        static UString ShaderPath();
-        static UString ScriptPath();
-		static UString PrefabPath();
+        static std::string AssetPath();
+        static std::string ScenePath();
+        static std::string ModelPath();
+		static std::string MaterialPath();
+        static std::string ShaderPath();
+        static std::string ScriptPath();
+		static std::string PrefabPath();
 
     private:
-        static UString _AssetPath;
-        static UString _ScenePath;
-        static UString _ModelPath;
-		static UString _MaterialPath;
-        static UString _ShaderPath;
-        static UString _ScriptPath;
-		static UString _PrefabPath;
+        static std::string _AssetPath;
+        static std::string _ScenePath;
+        static std::string _ModelPath;
+		static std::string _MaterialPath;
+        static std::string _ShaderPath;
+        static std::string _ScriptPath;
+		static std::string _PrefabPath;
     };
 }
 

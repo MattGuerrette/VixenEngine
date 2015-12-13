@@ -16,30 +16,10 @@
 
 namespace Vixen {
 
-    UString UStringFromCharArray(const char* data)
-    {
-        #ifdef VIX_SYS_WINDOWS
-        UConverter cv;
-        return cv.from_bytes(data);
-        #else
-        return UString(data);
-        #endif
-    }
-
-    std::string UStringToStd(const UString& str)
-    {
-        #ifdef VIX_SYS_WINDOWS
-        UConverter cv;
-        return cv.to_bytes(str);
-        #else
-        return UString(str);
-        #endif
-    }
-
-	void str_replaceAll(UString& input, const UString& from, const UString& to)
+	void str_replaceAll(std::string& input, const std::string& from, const std::string& to)
 	{
 		size_t pos = 0;
-		while ((pos = input.find(from, pos)) != UString::npos) {
+		while ((pos = input.find(from, pos)) != std::string::npos) {
 			input.replace(pos, from.length(), to);
 			pos += to.length();
 		}
