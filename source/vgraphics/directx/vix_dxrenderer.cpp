@@ -417,7 +417,32 @@ namespace Vixen {
 		return true;
 	}
 
-	void DXRenderer::VLightPass(ICamera3D* camera, Model* model, std::vector<Light*>& lights)
+	void DXRenderer::VLightPass(ICamera3D* camera, Model* model, std::vector<PointLight*>& lights)
+	{
+		std::vector<PointLight> data;
+		std::transform(lights.begin(), lights.end(), std::back_inserter(data),
+			[](PointLight* light) { return *light; });
+
+		if (data.size() <= 0) return;
+
+		m_lightBuffer->VUpdateSubData(0, sizeof(PointLight), data.size(), &data[0]);
+		this->VLightPass(camera, model);
+	}
+
+	void DXRenderer::VLightPass(ICamera3D* camera, Model* model, std::vector<SpotLight*>& lights)
+	{
+		std::vector<SpotLight> data;
+		std::transform(lights.begin(), lights.end(), std::back_inserter(data),
+			[](SpotLight* light) { return *light; });
+		
+		if (data.size() <= 0) return;
+
+		m_lightBuffer->VUpdateSubData(0, sizeof(SpotLight), data.size(), &data[0]);
+		this->VLightPass(camera, model);
+
+	}
+
+	void DXRenderer::VLightPass(ICamera3D* camera, Model* model)
 	{
 		using namespace DirectX;
 
@@ -439,12 +464,6 @@ namespace Vixen {
 		//->OMSetBlendState(m_lightBlendState, NULL, 0xfffffffff);
 
 		DXModel* _model = (DXModel*)model;
-
-        std::vector<PointLight> data;
-        std::transform(lights.begin(), lights.end(), std::back_inserter(data),
-            [](Light* light) { return *static_cast<PointLight*>(light); });
-		if (data.size() <= 0) return;
-        m_lightBuffer->VUpdateSubData(0, sizeof(PointLight), data.size(), &data[0]);
 
 		_model->GetMaterial()->GetVertexShader()->VSetShaderResourceView("LightBuffer", m_lightBuffer->GetSRV());
 		_model->GetMaterial()->GetPixelShader()->SetMatrix4x4("invViewProj", ((DXCamera3D*)camera)->InvViewProj());

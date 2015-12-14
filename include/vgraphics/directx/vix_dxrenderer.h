@@ -67,7 +67,11 @@ namespace Vixen {
 
 		void	VRenderBackBuffer() override;
 
-		void    VLightPass(ICamera3D* camera, Model* model, std::vector<Light*>& lights) override;
+		void    VLightPass(ICamera3D* camera, Model* model, std::vector<PointLight*>& lights) override;
+
+		void    VLightPass(ICamera3D* camera, Model* model, std::vector<SpotLight*>& lights) override;
+
+		void    VLightPass(ICamera3D* camera, Model* model) override;
 
 		void	VBeginDeferred() override;
 

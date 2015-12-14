@@ -254,10 +254,10 @@ namespace Vixen {
 				float linear = attenElement->FloatAttribute("linear");
 				float quadratic = attenElement->FloatAttribute("quadratic");
 
-				light->SetAttenuationRange(range);
-				light->SetAttenuationConstant(constant);
-				light->SetAttenuationLinear(linear);
-				light->SetAttenuationQuadratic(quadratic);
+				light->SetRange(range);
+				light->SetConstant(constant);
+				light->SetLinear(linear);
+				light->SetQuadratic(quadratic);
 			}
 
 			return light;

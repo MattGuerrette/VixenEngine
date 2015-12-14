@@ -40,12 +40,12 @@ namespace Vixen {
 		LightManager::RegisterSpotLight(&m_light, m_parent->GetTransform()->GetWorldMatrix());
 	}
 
-	PointLight SpotLightComponent::GetLight()
+	SpotLight SpotLightComponent::GetLight()
 	{
 		return m_light;
 	}
 
-	void SpotLightComponent::SetLight(PointLight light)
+	void SpotLightComponent::SetLight(SpotLight light)
 	{
 		m_light = light;
 	}
@@ -57,32 +57,22 @@ namespace Vixen {
 
 	void SpotLightComponent::SetRange(float range)
 	{
-		m_light.attenuation.range = range;
+		m_light.range = range;
 	}
 
-	void SpotLightComponent::SetAttenuation(Attenuation attenuation)
+	void SpotLightComponent::SetConstant(float constant)
 	{
-		m_light.attenuation = attenuation;
+		m_light.constant = constant;
 	}
 
-	void SpotLightComponent::SetAttenuationRange(float range)
+	void SpotLightComponent::SetLinear(float linear)
 	{
-		m_light.attenuation.range = range;
+		m_light.linear = linear;
 	}
 
-	void SpotLightComponent::SetAttenuationConstant(float constant)
+	void SpotLightComponent::SetQuadratic(float quadratic)
 	{
-		m_light.attenuation.constant = constant;
-	}
-
-	void SpotLightComponent::SetAttenuationLinear(float linear)
-	{
-		m_light.attenuation.linear = linear;
-	}
-
-	void SpotLightComponent::SetAttenuationQuadratic(float quadratic)
-	{
-		m_light.attenuation.quadratic = quadratic;
+		m_light.quadratic = quadratic;
 	}
 
 }

@@ -99,7 +99,14 @@ namespace Vixen {
 		return _renderer.m_renderer->VCamera2D();
 	}
 
-	void Renderer::RenderLights(ICamera3D* camera, Model* model, std::vector<Light*>& lights)
+	void Renderer::RenderLights(ICamera3D* camera, Model* model, std::vector<PointLight*>& lights)
+	{
+		Renderer& _renderer = Renderer::instance();
+
+		_renderer.m_renderer->VLightPass(camera, model, lights);
+	}
+
+	void Renderer::RenderLights(ICamera3D* camera, Model* model, std::vector<SpotLight*>& lights)
 	{
 		Renderer& _renderer = Renderer::instance();
 

@@ -27,7 +27,7 @@ namespace Vixen {
 		ResourceManager::DecrementAssetRef(_manager.m_lightMaterial);
 	}
 
-	void LightManager::RegisterPointLight(Light* light, MATRIX* transform)
+	void LightManager::RegisterPointLight(PointLight* light, MATRIX* transform)
 	{
 		LightManager& _manager = LightManager::instance();
 
@@ -36,7 +36,7 @@ namespace Vixen {
 		_manager.m_pointLightModel->VBatchRender(transform);
 	}
 
-	void LightManager::RegisterSpotLight(Light* light, MATRIX* transform)
+	void LightManager::RegisterSpotLight(SpotLight* light, MATRIX* transform)
 	{
 		LightManager& _manager = LightManager::instance();
 
@@ -50,7 +50,7 @@ namespace Vixen {
 		LightManager& _manager = LightManager::instance();
 
 		Renderer::RenderLights(camera, _manager.m_pointLightModel, _manager.m_pointLights);
-		Renderer::RenderLights(camera, _manager.m_spotLightModel, _manager.m_spotLights);
+		//Renderer::RenderLights(camera, _manager.m_spotLightModel, _manager.m_spotLights);
 	}
 	
 	void LightManager::ClearLights()
