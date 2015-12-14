@@ -22,7 +22,7 @@ namespace Vixen {
 
 	void SpotLightComponent::VUpdate()
 	{
-		m_light.position = m_parent->GetTransform()->GetWorldPosition();
+
 	}
 
 	void SpotLightComponent::VOnDisable()

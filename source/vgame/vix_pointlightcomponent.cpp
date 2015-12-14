@@ -22,7 +22,7 @@ namespace Vixen {
 
     void PointLightComponent::VUpdate()
     {
-		m_light.position = m_parent->GetTransform()->GetWorldPosition();
+
     }
 
     void PointLightComponent::VOnDisable()
