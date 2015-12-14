@@ -485,6 +485,7 @@ namespace Vixen {
 			if (attenElement)
 			{
 				float range = attenElement->FloatAttribute("range");
+				float angle = attenElement->FloatAttribute("angle");
 				float constant = attenElement->FloatAttribute("constant");
 				float linear = attenElement->FloatAttribute("linear");
 				float quadratic = attenElement->FloatAttribute("quadratic");
@@ -493,6 +494,8 @@ namespace Vixen {
 				light->SetConstant(constant);
 				light->SetLinear(linear);
 				light->SetQuadratic(quadratic);
+				light->SetAngle(angle);
+
 			}
 
 			return light;

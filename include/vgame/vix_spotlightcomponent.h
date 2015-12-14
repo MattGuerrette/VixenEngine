@@ -27,6 +27,7 @@ namespace Vixen {
 		void SetLight(SpotLight light);
 		void SetColor(Color color);
 		void SetRange(float range);
+		void SetAngle(float angle);
 		void SetConstant(float constant);
 		void SetLinear(float linear);
 		void SetQuadratic(float quadratic);

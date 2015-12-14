@@ -60,6 +60,11 @@ namespace Vixen {
 		m_light.range = range;
 	}
 
+	void SpotLightComponent::SetAngle(float angle)
+	{
+		m_light.angle = angle;
+	}
+
 	void SpotLightComponent::SetConstant(float constant)
 	{
 		m_light.constant = constant;

@@ -29,7 +29,8 @@ namespace Vixen {
 		std::vector<SpotLight*> m_spotLights;
 		Model*				m_pointLightModel;
 		Model*				m_spotLightModel;
-		Material*			m_lightMaterial;
+		Material*			m_pointLightMaterial;
+		Material*			m_spotLightMaterial;
 		
 	};
 

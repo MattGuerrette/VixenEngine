@@ -72,9 +72,6 @@ namespace Vixen {
         //////////////////////////////////////////
         ResourceManager::DecrementAssetRef(m_FinalPassVS);
         ResourceManager::DecrementAssetRef(m_FinalPassPS);
-
-		ResourceManager::DecrementAssetRef(m_lightPassGeoVS);
-		ResourceManager::DecrementAssetRef(m_lightPassGeoPS);
         ReleaseCOM(m_FinalPassSS);
 		ReleaseCOM(m_lightBlendState);
 		ReleaseCOM(m_lightDSState);
@@ -284,11 +281,6 @@ namespace Vixen {
 
 		m_spriteBatch->SetCamera(m_camera2D);
 
-		m_lightPassGeoVS = (DXVertexShader*)ResourceManager::OpenShader(VTEXT("LightPass_VS.hlsl"), ShaderType::VERTEX_SHADER);
-		m_lightPassGeoVS->IncrementRefCount();
-
-		m_lightPassGeoPS = (DXPixelShader*)ResourceManager::OpenShader(VTEXT("LightPass_PS.hlsl"), ShaderType::PIXEL_SHADER);
-		m_lightPassGeoPS->IncrementRefCount();
 
 		m_FinalPassVS = (DXVertexShader*)ResourceManager::OpenShader(VTEXT("BackBufferTarget_Deferred_VS.hlsl"), ShaderType::VERTEX_SHADER);
 		m_FinalPassVS->IncrementRefCount();

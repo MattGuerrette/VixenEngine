@@ -9,13 +9,16 @@ namespace Vixen {
 		LightManager& _manager = LightManager::instance();
 
 		_manager.m_pointLightModel = ResourceManager::OpenModel(VTEXT("pointlight.obj"));
-		_manager.m_spotLightModel = ResourceManager::OpenModel(VTEXT("spotlight.obj"));
-		_manager.m_lightMaterial = ResourceManager::OpenMaterial(VTEXT("Light.vmt"));
-		_manager.m_lightMaterial->IncrementRefCount();
-		_manager.m_pointLightModel->VSetMaterial(_manager.m_lightMaterial);
 		_manager.m_pointLightModel->IncrementRefCount();
-		_manager.m_spotLightModel->VSetMaterial(_manager.m_lightMaterial);
+		_manager.m_pointLightMaterial = ResourceManager::OpenMaterial(VTEXT("PointLight.vmt"));
+		_manager.m_pointLightMaterial->IncrementRefCount();
+		_manager.m_pointLightModel->VSetMaterial(_manager.m_pointLightMaterial);
+
+		_manager.m_spotLightModel = ResourceManager::OpenModel(VTEXT("spotlight.obj"));
 		_manager.m_spotLightModel->IncrementRefCount();
+		_manager.m_spotLightMaterial = ResourceManager::OpenMaterial(VTEXT("SpotLight.vmt"));
+		_manager.m_spotLightMaterial->IncrementRefCount();
+		_manager.m_spotLightModel->VSetMaterial(_manager.m_spotLightMaterial);
 	}
 
 	void LightManager::DeInitialize()
@@ -23,8 +26,10 @@ namespace Vixen {
 		LightManager& _manager = LightManager::instance();
 		
 		ResourceManager::DecrementAssetRef(_manager.m_pointLightModel);
+		ResourceManager::DecrementAssetRef(_manager.m_pointLightMaterial);
+
 		ResourceManager::DecrementAssetRef(_manager.m_spotLightModel);
-		ResourceManager::DecrementAssetRef(_manager.m_lightMaterial);
+		ResourceManager::DecrementAssetRef(_manager.m_spotLightMaterial);
 	}
 
 	void LightManager::RegisterPointLight(PointLight* light, MATRIX* transform)
@@ -50,7 +55,7 @@ namespace Vixen {
 		LightManager& _manager = LightManager::instance();
 
 		Renderer::RenderLights(camera, _manager.m_pointLightModel, _manager.m_pointLights);
-		//Renderer::RenderLights(camera, _manager.m_spotLightModel, _manager.m_spotLights);
+		Renderer::RenderLights(camera, _manager.m_spotLightModel, _manager.m_spotLights);
 	}
 	
 	void LightManager::ClearLights()
@@ -62,6 +67,6 @@ namespace Vixen {
 	}
 	Material* LightManager::GetMaterial()
 	{
-		return LightManager::instance().m_lightMaterial;
+		return LightManager::instance().m_pointLightMaterial;
 	}
 }
