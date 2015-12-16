@@ -65,8 +65,14 @@ namespace Vixen {
 		_manager.m_pointLights.clear();
 		_manager.m_spotLights.clear();
 	}
-	Material* LightManager::GetMaterial()
+	
+	Material* LightManager::GetPointMaterial()
 	{
 		return LightManager::instance().m_pointLightMaterial;
+	}
+
+	Material* LightManager::GetSpotMaterial()
+	{
+		return LightManager::instance().m_spotLightMaterial;
 	}
 }

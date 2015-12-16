@@ -22,7 +22,8 @@ namespace Vixen {
 
 		static void ClearLights();
 
-		static Material* GetMaterial();
+		static Material* GetPointMaterial();
+		static Material* GetSpotMaterial();
 
 	private:
 		std::vector<PointLight*> m_pointLights;

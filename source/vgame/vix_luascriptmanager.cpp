@@ -254,7 +254,8 @@ namespace Vixen {
 
 		LuaBinding(LuaEngine::L())
 			.beginClass<LightManager>("LightManager")
-			.addStaticFunction("GetMaterial", &LightManager::GetMaterial)
+			.addStaticFunction("GetPointMaterial", &LightManager::GetPointMaterial)
+			.addStaticFunction("GetSpotMaterial", &LightManager::GetSpotMaterial)
 			.endClass();
 
 		////////////////////////////////////////////////////////////////////////////////////
