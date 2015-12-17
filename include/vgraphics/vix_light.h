@@ -29,6 +29,7 @@ namespace Vixen {
 		float		constant;
 		float		linear;
 		float		quadratic;
+		Vector3		unused;
 	};
 
 }

@@ -2,21 +2,22 @@
 
 namespace Vixen {
 
-	DXLightBuffer::DXLightBuffer(size_t count, ID3D11Device* device, ID3D11DeviceContext* context)
+	DXLightBuffer::DXLightBuffer(size_t count, size_t size, ID3D11Device* device, ID3D11DeviceContext* context)
 	{
 		m_count = count;
 		m_device = device;
 		m_context = context;
 		m_buffer = nullptr;
+		m_size = size;
 
 		D3D11_BUFFER_DESC bd;
 		ZeroMemory(&bd, sizeof(bd));
 		bd.Usage = D3D11_USAGE_DYNAMIC;
-		bd.ByteWidth = sizeof(PointLight) * m_count;
+		bd.ByteWidth = size * m_count;
 		bd.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 		bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 		bd.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
-		bd.StructureByteStride = sizeof(PointLight);
+		bd.StructureByteStride = size;
 		m_device->CreateBuffer(&bd, nullptr, &m_buffer);
 
 
@@ -24,7 +25,7 @@ namespace Vixen {
 		ZeroMemory(&svd, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
 		svd.Format = DXGI_FORMAT_UNKNOWN;
 		svd.ViewDimension = D3D11_SRV_DIMENSION_BUFFER;
-		svd.Buffer.ElementWidth = sizeof(PointLight);
+		svd.Buffer.ElementWidth = size;
 		svd.Buffer.ElementOffset = 0;
 		svd.Buffer.NumElements = m_count;
 		svd.Buffer.FirstElement = 0;
@@ -71,7 +72,7 @@ namespace Vixen {
 
 	void DXLightBuffer::VBind()
 	{
-		unsigned stride = sizeof(PointLight);
+		unsigned stride = m_size;
 		unsigned offset = 0;
 		m_context->IASetVertexBuffers(0, 1, &m_buffer, &stride, &offset);
 	}

@@ -109,7 +109,8 @@ namespace Vixen {
 		////////////////////////////////////////
 		// Light Render Pass Variables
 		////////////////////////////////////////
-		DXLightBuffer*				m_lightBuffer;
+		DXLightBuffer*				m_pointLightBuffer;
+		DXLightBuffer*              m_spotLightBuffer;
 		DXVertexShader*				m_pointLightPassGeoVS;
 		DXVertexShader*				m_lightPassShadeVS;
 		DXPixelShader*				m_pointLightPassGeoPS;
