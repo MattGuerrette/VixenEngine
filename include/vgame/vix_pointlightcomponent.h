@@ -27,11 +27,9 @@ namespace Vixen {
 		void SetLight(PointLight light);
         void SetColor(Color color);
         void SetRange(float range);
-        void SetAttenuation(Attenuation att);
-        void SetAttenuationRange(float range);
-        void SetAttenuationConstant(float constant);
-        void SetAttenuationLinear(float linear);
-        void SetAttenuationQuadratic(float quadratic);
+        void SetConstant(float constant);
+        void SetLinear(float linear);
+        void SetQuadratic(float quadratic);
 
     private:
         PointLight m_light;

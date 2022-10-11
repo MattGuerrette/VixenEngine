@@ -15,18 +15,23 @@ namespace Vixen {
 		
 		static void DeInitialize();
 
-		static void RegisterLight(Light* light, MATRIX* transform);
+		static void RegisterPointLight(PointLight* light, MATRIX* transform);
+		static void RegisterSpotLight(SpotLight* light, MATRIX* transform);
 
 		static void RenderLights(ICamera3D* camera);
 
 		static void ClearLights();
 
-		static Material* GetMaterial();
+		static Material* GetPointMaterial();
+		static Material* GetSpotMaterial();
 
 	private:
-		std::vector<Light*> m_lights;
-		Model*				m_lightModel;
-		Material*			m_lightMaterial;
+		std::vector<PointLight*> m_pointLights;
+		std::vector<SpotLight*> m_spotLights;
+		Model*				m_pointLightModel;
+		Model*				m_spotLightModel;
+		Material*			m_pointLightMaterial;
+		Material*			m_spotLightMaterial;
 		
 	};
 

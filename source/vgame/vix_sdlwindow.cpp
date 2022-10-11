@@ -1,4 +1,4 @@
-/**
+﻿/**
 **	Vixen Engine
 **	Copyright(c) 2015 Matt Guerrette
 **
@@ -126,9 +126,9 @@ namespace Vixen {
 
     void SDLGameWindow::VPollEvents()
     {
-		std::stringstream ss;
-		ss << "Vixen Engine   " << "FPS: " << Time::FPS();
-		SDL_SetWindowTitle(m_windowHandle, ss.str().c_str());
+		/*std::stringstream ss;
+		ss << "FPS: " << Time::FPS();
+		SDL_SetWindowTitle(m_windowHandle, ss.str().c_str());*/
 
         SDL_Event event;
         while (SDL_PollEvent(&event))
