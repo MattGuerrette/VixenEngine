@@ -32,7 +32,8 @@ namespace Vixen {
 		m_spriteBatch = NULL;
 		m_DefferedBuffers = new DXDefferedBuffers;
 
-        m_lightBuffer = NULL;
+		m_pointLightBuffer = NULL;
+		m_spotLightBuffer = NULL;
 
         m_FinalPassVS = NULL;
         m_FinalPassPS = NULL;
@@ -56,16 +57,14 @@ namespace Vixen {
        
 		delete m_spriteBatch;
 		delete m_DefferedBuffers;
-        delete m_lightBuffer;
+        delete m_pointLightBuffer;
+		delete m_spotLightBuffer;
 
         //////////////////////////////////////////
         // Release Final Pass Variables
         //////////////////////////////////////////
         ResourceManager::DecrementAssetRef(m_FinalPassVS);
         ResourceManager::DecrementAssetRef(m_FinalPassPS);
-
-		ResourceManager::DecrementAssetRef(m_lightPassGeoVS);
-		ResourceManager::DecrementAssetRef(m_lightPassGeoPS);
         ReleaseCOM(m_FinalPassSS);
 		ReleaseCOM(m_lightBlendState);
 		ReleaseCOM(m_lightDSState);
@@ -256,8 +255,8 @@ namespace Vixen {
 
 		m_Device->CreateDepthStencilState(&depthStencilDesc, &m_lightDSState);
 
-        m_lightBuffer = new DXLightBuffer(256, m_Device, m_ImmediateContext);
-
+        m_pointLightBuffer = new DXLightBuffer(256, sizeof(PointLight), m_Device, m_ImmediateContext);
+		m_spotLightBuffer = new DXLightBuffer(256, sizeof(SpotLight), m_Device, m_ImmediateContext);
 		return true;
 	}
 
@@ -275,11 +274,6 @@ namespace Vixen {
 
 		m_spriteBatch->SetCamera(m_camera2D);
 
-		m_lightPassGeoVS = (DXVertexShader*)ResourceManager::OpenShader(VTEXT("LightPass_VS.hlsl"), ShaderType::VERTEX_SHADER);
-		m_lightPassGeoVS->IncrementRefCount();
-
-		m_lightPassGeoPS = (DXPixelShader*)ResourceManager::OpenShader(VTEXT("LightPass_PS.hlsl"), ShaderType::PIXEL_SHADER);
-		m_lightPassGeoPS->IncrementRefCount();
 
 		m_FinalPassVS = (DXVertexShader*)ResourceManager::OpenShader(VTEXT("BackBufferTarget_Deferred_VS.hlsl"), ShaderType::VERTEX_SHADER);
 		m_FinalPassVS->IncrementRefCount();
@@ -408,8 +402,17 @@ namespace Vixen {
 		return true;
 	}
 
-	void DXRenderer::VLightPass(ICamera3D* camera, Model* model, std::vector<Light*>& lights)
+	void DXRenderer::VLightPass(ICamera3D* camera, Model* model, std::vector<PointLight*>& lights)
 	{
+		std::vector<PointLight> data;
+		std::transform(lights.begin(), lights.end(), std::back_inserter(data),
+			[](PointLight* light) { return *light; });
+
+		if (data.size() <= 0) return;
+
+		m_pointLightBuffer->VUpdateSubData(0, sizeof(PointLight), data.size(), &data[0]);
+		//this->VLightPass(camera, model);
+
 		using namespace DirectX;
 
 		//m_DefferedBuffers->ClearDepthStencil(m_ImmediateContext);
@@ -431,13 +434,7 @@ namespace Vixen {
 
 		DXModel* _model = (DXModel*)model;
 
-        std::vector<PointLight> data;
-        std::transform(lights.begin(), lights.end(), std::back_inserter(data),
-            [](Light* light) { return *static_cast<PointLight*>(light); });
-		if (data.size() <= 0) return;
-        m_lightBuffer->VUpdateSubData(0, sizeof(PointLight), data.size(), &data[0]);
-
-		_model->GetMaterial()->GetVertexShader()->VSetShaderResourceView("LightBuffer", m_lightBuffer->GetSRV());
+		_model->GetMaterial()->GetVertexShader()->VSetShaderResourceView("LightBuffer", m_pointLightBuffer->GetSRV());
 		_model->GetMaterial()->GetPixelShader()->SetMatrix4x4("invViewProj", ((DXCamera3D*)camera)->InvViewProj());
 		_model->GetMaterial()->GetPixelShader()->VSetShaderResourceView("txDiffuse", m_DefferedBuffers->GetShaderResourceView(0));
 		_model->GetMaterial()->GetPixelShader()->VSetShaderResourceView("txNormal", m_DefferedBuffers->GetShaderResourceView(1));
@@ -454,6 +451,101 @@ namespace Vixen {
 
 		m_ImmediateContext->OMSetBlendState(NULL, NULL, 0xfffffffff);
 		m_ImmediateContext->OMSetDepthStencilState(NULL, 0);
+	}
+
+	void DXRenderer::VLightPass(ICamera3D* camera, Model* model, std::vector<SpotLight*>& lights)
+	{
+		std::vector<SpotLight> data;
+		std::transform(lights.begin(), lights.end(), std::back_inserter(data),
+			[](SpotLight* light) { return *light; });
+		
+		if (data.size() <= 0) return;
+
+		m_spotLightBuffer->VUpdateSubData(0, sizeof(SpotLight), data.size(), &data[0]);
+		//this->VLightPass(camera, model);
+
+
+		using namespace DirectX;
+
+		//m_DefferedBuffers->ClearDepthStencil(m_ImmediateContext);
+		//m_ImmediateContext->OMSetRenderTargets(1, &m_RenderTargetView, m_DepthStencView);
+		m_DefferedBuffers->BindRenderTarget(3, m_ImmediateContext);
+
+		float blendFactor[4];
+
+
+		// Setup the blend factor.
+		blendFactor[0] = 1.0f;
+		blendFactor[1] = 1.0f;
+		blendFactor[2] = 1.0f;
+		blendFactor[3] = 1.0f;
+
+		m_ImmediateContext->OMSetBlendState(m_lightBlendState, blendFactor, 0xffffffff);
+		m_ImmediateContext->OMSetDepthStencilState(m_lightDSState, 0);
+		//->OMSetBlendState(m_lightBlendState, NULL, 0xfffffffff);
+
+		DXModel* _model = (DXModel*)model;
+
+		_model->GetMaterial()->GetVertexShader()->VSetShaderResourceView("LightBuffer", m_spotLightBuffer->GetSRV());
+		_model->GetMaterial()->GetPixelShader()->SetMatrix4x4("invViewProj", ((DXCamera3D*)camera)->InvViewProj());
+		_model->GetMaterial()->GetPixelShader()->VSetShaderResourceView("txDiffuse", m_DefferedBuffers->GetShaderResourceView(0));
+		_model->GetMaterial()->GetPixelShader()->VSetShaderResourceView("txNormal", m_DefferedBuffers->GetShaderResourceView(1));
+		_model->GetMaterial()->GetPixelShader()->VSetShaderResourceView("txWorld", m_DefferedBuffers->GetShaderResourceView(2));
+		_model->GetMaterial()->GetPixelShader()->VSetSamplerState("samLinear", m_FinalPassSS);
+		_model->GetMaterial()->GetPixelShader()->VSetFloat("width", camera->VGetViewport().width);
+		_model->GetMaterial()->GetPixelShader()->VSetFloat("height", camera->VGetViewport().height);
+
+		_model->VRender(0.0f, 0.0f, camera);
+
+		_model->GetMaterial()->GetPixelShader()->VSetShaderResourceView("txDiffuse", NULL);
+		_model->GetMaterial()->GetPixelShader()->VSetShaderResourceView("txNormal", NULL);
+		_model->GetMaterial()->GetPixelShader()->VSetShaderResourceView("txWorld", NULL);
+
+		m_ImmediateContext->OMSetBlendState(NULL, NULL, 0xfffffffff);
+		m_ImmediateContext->OMSetDepthStencilState(NULL, 0);
+
+	}
+
+	void DXRenderer::VLightPass(ICamera3D* camera, Model* model)
+	{
+		//using namespace DirectX;
+
+		////m_DefferedBuffers->ClearDepthStencil(m_ImmediateContext);
+		////m_ImmediateContext->OMSetRenderTargets(1, &m_RenderTargetView, m_DepthStencView);
+		//m_DefferedBuffers->BindRenderTarget(3, m_ImmediateContext);
+
+		//float blendFactor[4];
+
+
+		//// Setup the blend factor.
+		//blendFactor[0] = 1.0f;
+		//blendFactor[1] = 1.0f;
+		//blendFactor[2] = 1.0f;
+		//blendFactor[3] = 1.0f;
+
+		//m_ImmediateContext->OMSetBlendState(m_lightBlendState, blendFactor, 0xffffffff);
+		//m_ImmediateContext->OMSetDepthStencilState(m_lightDSState, 0);
+		////->OMSetBlendState(m_lightBlendState, NULL, 0xfffffffff);
+
+		//DXModel* _model = (DXModel*)model;
+
+		//_model->GetMaterial()->GetVertexShader()->VSetShaderResourceView("LightBuffer", m_lightBuffer->GetSRV());
+		//_model->GetMaterial()->GetPixelShader()->SetMatrix4x4("invViewProj", ((DXCamera3D*)camera)->InvViewProj());
+		//_model->GetMaterial()->GetPixelShader()->VSetShaderResourceView("txDiffuse", m_DefferedBuffers->GetShaderResourceView(0));
+		//_model->GetMaterial()->GetPixelShader()->VSetShaderResourceView("txNormal", m_DefferedBuffers->GetShaderResourceView(1));
+		//_model->GetMaterial()->GetPixelShader()->VSetShaderResourceView("txWorld", m_DefferedBuffers->GetShaderResourceView(2));
+		//_model->GetMaterial()->GetPixelShader()->VSetSamplerState("samLinear", m_FinalPassSS);
+		//_model->GetMaterial()->GetPixelShader()->VSetFloat("width", camera->VGetViewport().width);
+		//_model->GetMaterial()->GetPixelShader()->VSetFloat("height", camera->VGetViewport().height);
+
+		//_model->VRender(0.0f, 0.0f, camera);
+
+		//_model->GetMaterial()->GetPixelShader()->VSetShaderResourceView("txDiffuse", NULL);
+		//_model->GetMaterial()->GetPixelShader()->VSetShaderResourceView("txNormal", NULL);
+		//_model->GetMaterial()->GetPixelShader()->VSetShaderResourceView("txWorld", NULL);
+
+		//m_ImmediateContext->OMSetBlendState(NULL, NULL, 0xfffffffff);
+		//m_ImmediateContext->OMSetDepthStencilState(NULL, 0);
 	}
 
 	void DXRenderer::ReleaseBuffers()
@@ -479,7 +571,6 @@ namespace Vixen {
         m_FinalPassPS->VSetShaderResourceView("txNormal", m_DefferedBuffers->GetShaderResourceView(1));
 		m_FinalPassPS->VSetShaderResourceView("txWorld", m_DefferedBuffers->GetShaderResourceView(2));
 		m_FinalPassPS->VSetShaderResourceView("txLight", m_DefferedBuffers->GetShaderResourceView(3));
-		m_FinalPassPS->VSetShaderResourceView("LightBuffer", m_lightBuffer->GetSRV());
 
 		m_FinalPassVS->Activate();
 		m_FinalPassPS->Activate();

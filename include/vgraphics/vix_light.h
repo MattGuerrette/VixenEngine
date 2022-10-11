@@ -25,22 +25,26 @@ namespace Vixen {
     {
         
     };
-    
-    struct Attenuation
-    {
-        float range;
-        float constant;
-        float linear;
-        float quadratic;
-    };
 
     struct PointLight : Light
     {
 		Color		color;
-		float		diffuseIntensity;
-	    Vector3     position;
-        Attenuation attenuation;
+		float		range;
+		float		constant;
+		float		linear;
+		float		quadratic;
     };
+
+	struct SpotLight : Light
+	{
+		Color		color;
+		float		range;
+		float		angle;
+		float		constant;
+		float		linear;
+		float		quadratic;
+		Vector3		unused;
+	};
 
 }
 

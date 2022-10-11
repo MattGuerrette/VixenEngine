@@ -8,45 +8,71 @@ namespace Vixen {
 	{
 		LightManager& _manager = LightManager::instance();
 
-		_manager.m_lightModel = ResourceManager::OpenModel(VTEXT("sphere.obj"));
-		_manager.m_lightMaterial = ResourceManager::OpenMaterial(VTEXT("Light.vmt"));
-		_manager.m_lightMaterial->IncrementRefCount();
-		_manager.m_lightModel->VSetMaterial(_manager.m_lightMaterial);
-		_manager.m_lightModel->IncrementRefCount();
+		_manager.m_pointLightModel = ResourceManager::OpenModel(VTEXT("pointlight.obj"));
+		_manager.m_pointLightModel->IncrementRefCount();
+		_manager.m_pointLightMaterial = ResourceManager::OpenMaterial(VTEXT("PointLight.vmt"));
+		_manager.m_pointLightMaterial->IncrementRefCount();
+		_manager.m_pointLightModel->VSetMaterial(_manager.m_pointLightMaterial);
+
+		_manager.m_spotLightModel = ResourceManager::OpenModel(VTEXT("spotlight.obj"));
+		_manager.m_spotLightModel->IncrementRefCount();
+		_manager.m_spotLightMaterial = ResourceManager::OpenMaterial(VTEXT("SpotLight.vmt"));
+		_manager.m_spotLightMaterial->IncrementRefCount();
+		_manager.m_spotLightModel->VSetMaterial(_manager.m_spotLightMaterial);
 	}
 
 	void LightManager::DeInitialize()
 	{
 		LightManager& _manager = LightManager::instance();
 		
-		ResourceManager::DecrementAssetRef(_manager.m_lightModel);
-		ResourceManager::DecrementAssetRef(_manager.m_lightMaterial);
+		ResourceManager::DecrementAssetRef(_manager.m_pointLightModel);
+		ResourceManager::DecrementAssetRef(_manager.m_pointLightMaterial);
+
+		ResourceManager::DecrementAssetRef(_manager.m_spotLightModel);
+		ResourceManager::DecrementAssetRef(_manager.m_spotLightMaterial);
 	}
 
-	void LightManager::RegisterLight(Light* light, MATRIX* transform)
+	void LightManager::RegisterPointLight(PointLight* light, MATRIX* transform)
 	{
 		LightManager& _manager = LightManager::instance();
 
-		_manager.m_lights.push_back(light);
+		_manager.m_pointLights.push_back(light);
 
-		_manager.m_lightModel->VBatchRender(transform);
+		_manager.m_pointLightModel->VBatchRender(transform);
+	}
+
+	void LightManager::RegisterSpotLight(SpotLight* light, MATRIX* transform)
+	{
+		LightManager& _manager = LightManager::instance();
+
+		_manager.m_spotLights.push_back(light);
+
+		_manager.m_spotLightModel->VBatchRender(transform);
 	}
 
 	void LightManager::RenderLights(ICamera3D* camera)
 	{
 		LightManager& _manager = LightManager::instance();
 
-		Renderer::RenderLights(camera, _manager.m_lightModel, _manager.m_lights);
+		Renderer::RenderLights(camera, _manager.m_pointLightModel, _manager.m_pointLights);
+		Renderer::RenderLights(camera, _manager.m_spotLightModel, _manager.m_spotLights);
 	}
 	
 	void LightManager::ClearLights()
 	{
 		LightManager& _manager = LightManager::instance();
 
-		_manager.m_lights.clear();
+		_manager.m_pointLights.clear();
+		_manager.m_spotLights.clear();
 	}
-	Material* LightManager::GetMaterial()
+	
+	Material* LightManager::GetPointMaterial()
 	{
-		return LightManager::instance().m_lightMaterial;
+		return LightManager::instance().m_pointLightMaterial;
+	}
+
+	Material* LightManager::GetSpotMaterial()
+	{
+		return LightManager::instance().m_spotLightMaterial;
 	}
 }

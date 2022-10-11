@@ -21,6 +21,7 @@
 #include <map>
 #include <cstdlib>
 #include <algorithm>
+#include <string>
 
 namespace Vixen {
 

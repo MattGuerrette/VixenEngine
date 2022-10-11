@@ -22,7 +22,7 @@ namespace Vixen {
 
     void PointLightComponent::VUpdate()
     {
-		m_light.position = m_parent->GetTransform()->GetWorldPosition();
+
     }
 
     void PointLightComponent::VOnDisable()
@@ -37,7 +37,7 @@ namespace Vixen {
 
 	void PointLightComponent::VRender(ICamera3D* camera)
 	{
-		LightManager::RegisterLight(&m_light, m_parent->GetTransform()->GetWorldMatrix());
+		LightManager::RegisterPointLight(&m_light, m_parent->GetTransform()->GetWorldMatrix());
 	}
 
 	PointLight PointLightComponent::GetLight()
@@ -57,32 +57,22 @@ namespace Vixen {
 
     void PointLightComponent::SetRange(float range)
     {
-        m_light.attenuation.range = range;
+        m_light.range = range;
     }
 
-    void PointLightComponent::SetAttenuation(Attenuation attenuation)
+    void PointLightComponent::SetConstant(float constant)
     {
-        m_light.attenuation = attenuation;
+        m_light.constant = constant;
     }
 
-    void PointLightComponent::SetAttenuationRange(float range)
+    void PointLightComponent::SetLinear(float linear)
     {
-        m_light.attenuation.range = range;
+        m_light.linear = linear;
     }
 
-    void PointLightComponent::SetAttenuationConstant(float constant)
+    void PointLightComponent::SetQuadratic(float quadratic)
     {
-        m_light.attenuation.constant = constant;
-    }
-
-    void PointLightComponent::SetAttenuationLinear(float linear)
-    {
-        m_light.attenuation.linear = linear;
-    }
-
-    void PointLightComponent::SetAttenuationQuadratic(float quadratic)
-    {
-        m_light.attenuation.quadratic = quadratic;
+        m_light.quadratic = quadratic;
     }
 
 }

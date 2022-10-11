@@ -11,7 +11,7 @@ namespace Vixen {
 	class VIX_API DXLightBuffer : public LightBuffer
 	{
 	public:
-		DXLightBuffer(size_t count, ID3D11Device* device, ID3D11DeviceContext* context);
+		DXLightBuffer(size_t count, size_t size, ID3D11Device* device, ID3D11DeviceContext* context);
 
 		~DXLightBuffer();
 
@@ -26,6 +26,7 @@ namespace Vixen {
 		ID3D11Device*          m_device;
 		ID3D11DeviceContext*   m_context;
 		ID3D11Buffer*          m_buffer;
+		size_t				   m_size;
 
 		ID3D11ShaderResourceView* m_srv;
 	};
