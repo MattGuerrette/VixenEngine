@@ -22,13 +22,11 @@
 #include "vix_resourcemanager.h"
 #include <vix_lightmanager.h>
 #include <vix_components.h>
-#include <vix_bullet_boxcollider.h>
-#include <vix_bullet_planecollider.h>
-#include <vix_bullet_spherecollider.h>
 #include <vix_window_singleton.h>
 #include "vix_renderer_singleton.h"
 
-namespace Vixen {
+namespace Vixen
+{
 
 
 
@@ -67,14 +65,13 @@ namespace Vixen {
 		}
 	}
 
-
 	void Scene::Update()
 	{
 		//update all scene objects
 		for (uint32_t i = 0; i < m_topLevelObjects.size(); i++)
 		{
 			GameObject* obj = m_topLevelObjects.at(i);
-			if(obj->IsMarkedForDestroy())
+			if (obj->IsMarkedForDestroy())
 			{
 				//destroy the object and skip over the index
 				ObjectManager::DestroyGameObject(obj);
@@ -88,7 +85,7 @@ namespace Vixen {
 
 	void Scene::Render()
 	{
-		
+
 		//For each camera in the scene, we need to render all geometry and 
 		//ui elements, twice. One for each camera viewport
 
@@ -101,7 +98,8 @@ namespace Vixen {
 			for (int i = 0; i < m_topLevelObjects.size(); i++)
 			{
 				GameObject* obj = m_topLevelObjects.at(i);
-				if (!obj->IsMarkedForDestroy() && !obj->IsMarkedForLateRender() && obj->GetEnabled())
+				if (!obj->IsMarkedForDestroy() && !obj->IsMarkedForLateRender()
+					&& obj->GetEnabled())
 					obj->Render(camera);
 			}
 
@@ -111,16 +109,16 @@ namespace Vixen {
 			for (auto& model : models)
 			{
 				if (model.second)
-					if(model.first != L"pointlight.obj" && model.first != L"spotlight.obj")
+					if (model.first != L"pointlight.obj"
+						&& model.first != L"spotlight.obj")
 						model.second->VRender(Time::DeltaTime(), Time::TotalTime(), camera);
 			}
 
 			//Render all lights in scene
 
 			LightManager::RenderLights(camera);
-			
-			Renderer::RenderFinal();
 
+			Renderer::RenderFinal();
 
 			LightManager::ClearLights();
 
@@ -163,17 +161,17 @@ namespace Vixen {
 		m_fileName = name;
 	}
 
-	void Scene::SetMainCamera(ICamera3D * camera)
+	void Scene::SetMainCamera(ICamera3D* camera)
 	{
 		m_mainCamera = camera;
 	}
 
-	void Scene::AddCamera(ICamera3D * camera)
+	void Scene::AddCamera(ICamera3D* camera)
 	{
 		m_cameras.push_back(camera);
 	}
 
-	void Scene::RemoveCamera(ICamera3D * camera)
+	void Scene::RemoveCamera(ICamera3D* camera)
 	{
 
 		for (uint32_t i = 0; i < m_cameras.size(); i++)
@@ -195,8 +193,6 @@ namespace Vixen {
 	{
 		m_hidden = hidden;
 	}
-
-
 
 	/*GETTER FUNCTIONS*/
 	const std::string& Scene::GetID()
@@ -275,11 +271,12 @@ namespace Vixen {
 		const char* objectName = element->Attribute("name");
 		const bool enabled = element->BoolAttribute("enabled");
 
-		Transform * transform = ParseTransform(element->FirstChildElement("transform"));
+		Transform* transform = ParseTransform(element->FirstChildElement("transform"));
 
 		const XMLElement* model = element->FirstChildElement("model");
 		std::string modelFile = "";
-		if (model) {
+		if (model)
+		{
 			modelFile = model->Attribute("file");
 		}
 
@@ -312,7 +309,7 @@ namespace Vixen {
 		return _object;
 	}
 
-	Transform* Scene::ParseTransform(const tinyxml2::XMLElement * element)
+	Transform* Scene::ParseTransform(const tinyxml2::XMLElement* element)
 	{
 		if (!element)
 			return nullptr;
@@ -328,14 +325,16 @@ namespace Vixen {
 		return new Transform(posX, posY, posZ, rotX, rotY, rotZ, scaleX, scaleY, scaleZ);
 	}
 
-	std::vector<Component*> Scene::ParseComponents(Scene* scene, const tinyxml2::XMLElement * element)
+	std::vector<Component*>
+	Scene::ParseComponents(Scene* scene, const tinyxml2::XMLElement* element)
 	{
 		using namespace tinyxml2;
 
 		std::vector<Component*> components;
 
 		const XMLElement* child = element->FirstChildElement();
-		while (child) {
+		while (child)
+		{
 			std::string name(child->Name());
 			Component* component = nullptr;
 			if (name == "script")
@@ -353,24 +352,35 @@ namespace Vixen {
 				//PARSE LIGHT
 				component = ParseLightComponent(child);
 			}
-            else if (name == "ui-text")
-            {
-                //PARSE UI-TEXT
-                component = ParseUITextComponent(child);
-            }
+			else if (name == "ui-text")
+			{
+				//PARSE UI-TEXT
+				component = ParseUITextComponent(child);
+			}
 			else if (name == "model")
 			{
 				//PARSE MODEL COMPONENT
 				component = ParseModelComponent(child);
 			}
-			else if (name == "rigidbody")
+			else if (name == "pause-script")
 			{
-				//PARSE RIGIDBODY COMPONENT
-				component = ParseRigidBodyComponent(child);
+				component = ParsePauseScript(child);
+			}
+			else if (name == "fps-script")
+			{
+				component = ParseFpsScript(child);
+			}
+			else if (name == "mineshaft-script")
+			{
+				component = ParseMineshaftScript(child);
+			}
+			else if (name == "player-script")
+			{
+				component = ParsePlayerScript(child);
 			}
 
-            if(component)
-			    components.push_back(component);
+			if (component)
+				components.push_back(component);
 
 			child = child->NextSiblingElement();
 		}
@@ -378,7 +388,8 @@ namespace Vixen {
 		return components;
 	}
 
-	Component* Scene::ParseCameraComponent(Scene* scene, const tinyxml2::XMLElement * element)
+	Component*
+	Scene::ParseCameraComponent(Scene* scene, const tinyxml2::XMLElement* element)
 	{
 		using namespace tinyxml2;
 
@@ -398,18 +409,18 @@ namespace Vixen {
 			float maxDepth = _viewportElement->FloatAttribute("max");
 
 			Viewport v;
-            v.xPercent = x;
-            v.yPercent = y;
-            v.wPercent = w;
-            v.hPercent = h;
+			v.xPercent = x;
+			v.yPercent = y;
+			v.wPercent = w;
+			v.hPercent = h;
 			v.x = x * Window::Width();         //x as percentage of Screen Width
 			v.y = y * Window::Height();        //y as percentage of Screen Height
 			v.width = w * Window::Width();     //width as percentage of Screen Width
 			v.height = h * Window::Height();   //height as percentage of Screen Height
 			v.minDepth = minDepth;
 			v.maxDepth = maxDepth;
-            v.sWidth = Window::Width();
-            v.sHeight = Window::Height();
+			v.sWidth = Window::Width();
+			v.sHeight = Window::Height();
 
 			_camera->GetCamera()->VSetViewport(v);
 		}
@@ -418,42 +429,44 @@ namespace Vixen {
 		return _camera;
 	}
 
-    Component* Scene::ParseLightComponent(const tinyxml2::XMLElement * element)
+	Component* Scene::ParseLightComponent(const tinyxml2::XMLElement* element)
 	{
 		using namespace tinyxml2;
 
 		std::string type(element->Attribute("type"));
-		if (type == "point") {
+		if (type == "point")
+		{
 
-            PointLightComponent* light = new PointLightComponent;
+			PointLightComponent* light = new PointLightComponent;
 
-            const XMLElement* colorElement = element->FirstChildElement("color");
-            if (colorElement)
-            {
-                float r = colorElement->FloatAttribute("r");
-                float g = colorElement->FloatAttribute("g");
-                float b = colorElement->FloatAttribute("b");
-                float a = colorElement->FloatAttribute("a");
-                light->SetColor({ r, g, b, a });
-            }
-			
-            const XMLElement* attenElement = element->FirstChildElement("attenuation");
-            if (attenElement)
-            {
-                float range = attenElement->FloatAttribute("range");
-                float constant = attenElement->FloatAttribute("constant");
-                float linear = attenElement->FloatAttribute("linear");
-                float quadratic = attenElement->FloatAttribute("quadratic");
+			const XMLElement* colorElement = element->FirstChildElement("color");
+			if (colorElement)
+			{
+				float r = colorElement->FloatAttribute("r");
+				float g = colorElement->FloatAttribute("g");
+				float b = colorElement->FloatAttribute("b");
+				float a = colorElement->FloatAttribute("a");
+				light->SetColor({ r, g, b, a });
+			}
 
-                light->SetRange(range);
-                light->SetConstant(constant);
-                light->SetLinear(linear);
-                light->SetQuadratic(quadratic);
-            }
+			const XMLElement* attenElement = element->FirstChildElement("attenuation");
+			if (attenElement)
+			{
+				float range = attenElement->FloatAttribute("range");
+				float constant = attenElement->FloatAttribute("constant");
+				float linear = attenElement->FloatAttribute("linear");
+				float quadratic = attenElement->FloatAttribute("quadratic");
 
-            return light;
+				light->SetRange(range);
+				light->SetConstant(constant);
+				light->SetLinear(linear);
+				light->SetQuadratic(quadratic);
+			}
+
+			return light;
 		}
-		else if (type == "spot") {
+		else if (type == "spot")
+		{
 
 			SpotLightComponent* light = new SpotLightComponent;
 
@@ -486,7 +499,8 @@ namespace Vixen {
 
 			return light;
 		}
-		else if (type == "directional") {
+		else if (type == "directional")
+		{
 			/*float dirX = element->FloatAttribute("dirX");
 			float dirY = element->FloatAttribute("dirY");
 			float dirZ = element->FloatAttribute("dirZ");
@@ -494,7 +508,8 @@ namespace Vixen {
 			light->m_ambientColor = Vector3(red, green, blue);
 			((DirectionalLight*)light)->m_direction = Vector3(dirX, dirY, dirZ);*/
 		}
-		else {
+		else
+		{
 			/*light = new ILight;
 			light->m_ambientColor = Vector3(red, green, blue);*/
 		}
@@ -502,7 +517,7 @@ namespace Vixen {
 		return nullptr;
 	}
 
-    Component* Scene::ParseLuaScriptComponent(const tinyxml2::XMLElement * element)
+	Component* Scene::ParseLuaScriptComponent(const tinyxml2::XMLElement* element)
 	{
 		using namespace tinyxml2;
 
@@ -513,21 +528,52 @@ namespace Vixen {
 		return script;
 	}
 
-    Component* Scene::ParseUITextComponent(const tinyxml2::XMLElement* element)
-    {
-        using namespace tinyxml2;
+	Component* Scene::ParseUITextComponent(const tinyxml2::XMLElement* element)
+	{
+		using namespace tinyxml2;
 
-        const char* text = element->Attribute("text");
-        const char* font = element->Attribute("font");
+		const char* text = element->Attribute("text");
+		const char* font = element->Attribute("font");
 
-
-        Font*  _font = ResourceManager::OpenFont(UStringFromCharArray(font));
+		Font* _font = ResourceManager::OpenFont(UStringFromCharArray(font));
 		_font->IncrementRefCount();
 
-        UIText* _text = new UIText(UStringFromCharArray(text), _font);
+		UIText* _text = new UIText(UStringFromCharArray(text), _font);
 
-        return _text;
-    }
+		return _text;
+	}
+
+	Component* Scene::ParsePauseScript(const tinyxml2::XMLElement* element)
+	{
+		using namespace tinyxml2;
+
+		PauseScript* script = new PauseScript;
+		return script;
+	}
+
+	Component* Scene::ParseFpsScript(const tinyxml2::XMLElement* element)
+	{
+		using namespace tinyxml2;
+
+		FpsScript* script = new FpsScript;
+		return script;
+	}
+
+	Component* Scene::ParseMineshaftScript(const tinyxml2::XMLElement* element)
+	{
+		using namespace tinyxml2;
+
+		MineshaftScript* script = new MineshaftScript;
+		return script;
+	}
+
+	Component* Scene::ParsePlayerScript(const tinyxml2::XMLElement* element)
+	{
+		using namespace tinyxml2;
+
+		PlayerScript* script = new PlayerScript;
+		return script;
+	}
 
 	Component* Scene::ParseModelComponent(const tinyxml2::XMLElement* element)
 	{
@@ -537,14 +583,16 @@ namespace Vixen {
 		const char* materialFile = element->Attribute("material");
 
 		Model* _model = ResourceManager::OpenModel(UStringFromCharArray(file));
-		if (!_model) {
+		if (!_model)
+		{
 			DebugPrintF(VTEXT("Failed to open model.\n"));
 			return NULL;
 		}
 		_model->IncrementRefCount();
 
 		Material* _material = ResourceManager::OpenMaterial(UStringFromCharArray(materialFile));
-		if (!_material) {
+		if (!_material)
+		{
 			DebugPrintF(VTEXT("Failed to open material.\n"));
 			return NULL;
 		}
@@ -555,78 +603,6 @@ namespace Vixen {
 		_modelComponent->SetMaterial(_material);
 
 		return _modelComponent;
-	}
-
-	Component* Scene::ParseRigidBodyComponent(const tinyxml2::XMLElement* element)
-	{
-		using namespace tinyxml2;
-
-		RigidBodyComponent* _component = new RigidBodyComponent;
-
-		btScalar friction = element->FloatAttribute("friction");
-		btScalar mass = element->FloatAttribute("mass");
-		btScalar restitution = element->FloatAttribute("restitution");
-
-
-		const XMLElement* shape = element->FirstChildElement("shape");
-		if (shape)
-		{
-			std::string type = shape->Attribute("type");
-			if (type == "SPHERE")
-			{
-				//PARSE SPHERE COLLIDER
-				btScalar radius = shape->FloatAttribute("radius");
-
-				BulletSphereCollider* _sphere = new BulletSphereCollider;
-				_sphere->SetRadius(radius);
-
-				_component->SetColliderShape(_sphere);
-			}
-			else if (type == "PLANE")
-			{
-				//PARSE PLANE COLLIDER
-
-				btVector3 planeNormal;
-
-				planeNormal.setX(shape->FloatAttribute("normalX"));
-				planeNormal.setY(shape->FloatAttribute("normalY"));
-				planeNormal.setZ(shape->FloatAttribute("normalZ"));
-
-				btScalar planeConstant = shape->FloatAttribute("constant");
-
-				BulletPlaneCollider* _plane = new BulletPlaneCollider;
-				_plane->SetPlaneNormal(planeNormal);
-				_plane->SetPlaneContant(planeConstant);
-
-				_component->SetColliderShape(_plane);
-			}
-			else if (type == "BOX")
-			{
-				//PARSE BOX COLLIDER
-
-				btVector3 extents;
-
-				extents.setX(shape->FloatAttribute("extentX"));
-				extents.setY(shape->FloatAttribute("extentY"));
-				extents.setZ(shape->FloatAttribute("extentZ"));
-
-				BulletBoxCollider* _box = new BulletBoxCollider;
-				_box->SetExtents(extents);
-
-				_component->SetColliderShape(_box);
-			}
-			else
-			{
-				DebugPrintF(VTEXT("Rigidbody is missing collider shape. ERROR\n"));
-				return NULL;
-			}
-		}
-
-		_component->SetFriction(friction);
-		_component->SetMass(mass);
-		_component->SetRestitution(restitution);
-
-		return _component;
 	}
 }
 

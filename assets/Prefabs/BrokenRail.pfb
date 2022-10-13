@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<prefab id="rail">
+  <gameobject name="brokenRail" enabled="true">
+    <transform x="0.0" y="0.0" z="0.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
+    <components>
+      <model file="BrokenRails.obj" material="brokenRail.vmt"/>
+      <script file = "Rail.lua"></script>
+      <script file = "Hazard.lua"></script>
+    </components>
+    <children>
+      <!-- children go here -->
+    </children>
+  </gameobject>
+</prefab>

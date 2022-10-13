@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<prefab id="rail">
+	<gameobject name="bufferRail" enabled="true">
+		<transform x="0.0" y="0.0" z="0.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
+		<components>
+			<script file = "Rail.lua"></script>
+		</components>
+		<children>
+			<gameobject name="buffer1" enabled="true">
+				<transform x="0.0" y="0.0" z="-1.9" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
+				<components>
+					<model file="Buffer.obj" material="buffer.vmt"/>
+					<script file = "Hazard.lua"></script>
+				</components>
+				<children>
+				</children>
+			</gameobject>
+			<gameobject name="buffer2" enabled="true">
+				<transform x="0.0" y="0.0" z="2.8" rotX="0.0" rotY="180.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
+				<components>
+					<model file="Buffer.obj" material="buffer.vmt"/>
+					<script file = "Hazard.lua"></script>
+				</components>
+				<children>
+				</children>
+			</gameobject>
+		</children>
+	</gameobject>
+</prefab>

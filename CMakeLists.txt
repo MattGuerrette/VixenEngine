@@ -144,12 +144,6 @@ set(GRAPHICS_SOURCE
 set(GAME_SOURCE
         include/spotlightcomponent.h
         include/vix_aabb.h
-        include/vix_bullet.h
-        include/vix_bullet_boxcollider.h
-        include/vix_bullet_collidershape.h
-        include/vix_bullet_planecollider.h
-        include/vix_bullet_spherecollider.h
-        include/vix_bulletsimulator.h
         include/vix_camera2Dcomponent.h
         include/vix_camera3Dcomponent.h
         include/vix_component.h
@@ -176,7 +170,6 @@ set(GAME_SOURCE
         include/vix_prefabmanager.h
         include/vix_rendercomponent.h
         include/vix_rendercomponent2D.h
-        include/vix_rigidbody_component.h
         include/vix_scene.h
         include/vix_scenemanager.h
         include/vix_sdlinput.h
@@ -188,11 +181,6 @@ set(GAME_SOURCE
         include/vix_uitext.h
         include/vix_window_singleton.h
         source/vix_aabb.cpp
-        source/vix_bullet_boxcollider.cpp
-        source/vix_bullet_collidershape.cpp
-        source/vix_bullet_planecollider.cpp
-        source/vix_bullet_spherecollider.cpp
-        source/vix_bulletsimulator.cpp
         source/vix_camera2Dcomponent.cpp
         source/vix_camera3Dcomponent.cpp
         source/vix_game.cpp
@@ -209,7 +197,6 @@ set(GAME_SOURCE
         source/vix_pointlightcomponent.cpp
         source/vix_prefab.cpp
         source/vix_prefabmanager.cpp
-        source/vix_rigidbody_component.cpp
         source/vix_scene.cpp
         source/vix_scenemanager.cpp
         source/vix_sdlinput.cpp
@@ -219,14 +206,14 @@ set(GAME_SOURCE
         source/vix_transform.cpp
         source/vix_uitext.cpp
         source/vix_window_singleton.cpp
-        )
+        include/vix_script.h include/vix_pause_script.h source/vix_pause_script.cpp include/vix_fps_script.h source/vix_fps_script.cpp include/vix_mineshaft_script.h source/vix_mineshaft_script.cpp include/vix_player_script.h source/vix_player_script.cpp)
 
 add_library(${PROJECT_NAME} SHARED
         ${CORE_SOURCE}
         ${GRAPHICS_SOURCE}
         ${GAME_SOURCE}
         )
-target_include_directories(${PROJECT_NAME} PUBLIC include PRIVATE ${inih_SOURCE_DIR} ${luaintf_SOURCE_DIR} ${LUA_INCLUDE_DIR})
+target_include_directories(${PROJECT_NAME} PUBLIC include ${inih_SOURCE_DIR} PRIVATE ${luaintf_SOURCE_DIR} ${LUA_INCLUDE_DIR})
 target_link_libraries(${PROJECT_NAME} PUBLIC d3d11 d3dcompiler SDL2::SDL2 tinyxml2::tinyxml2 assimp::assimp freeimage::FreeImage
         freeimage::FreeImagePlus LinearMath Bullet3Common BulletCollision BulletDynamics BulletSoftBody ${LUA_LIBRARIES})
 target_compile_definitions(${PROJECT_NAME} PRIVATE VIX_NONCLIENT_BUILD UNICODE)

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<material>
+  <vertex-shader file="Model_Inst_VS.hlsl">
+    <float name="distance" val="1"/>
+  </vertex-shader>
+  <pixel-shader file="Model_Textured_Deferred_PS.hlsl">
+	  <texture name="txDiffuse" file="wall.png"/>
+	  <texture name="txNormal" file="wall_normal.png"/>
+  </pixel-shader>
+</material>

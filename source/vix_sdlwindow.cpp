@@ -88,7 +88,7 @@ namespace Vixen {
 											m_params.y <= 0 ? SDL_WINDOWPOS_CENTERED : m_params.y,
 											m_params.width,
 											m_params.height,
-											SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_SHOWN);
+                                            SDL_WINDOW_RESIZABLE | SDL_WINDOW_SHOWN);
 		if (!m_windowHandle) {
 			SDL_Quit();
 			DebugPrintF(VTEXT("Failed to created SDL_Window handle"));

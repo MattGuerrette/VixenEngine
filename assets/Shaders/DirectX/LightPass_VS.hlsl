@@ -12,12 +12,12 @@ StructuredBuffer<InstanceData> InstanceBuffer;
 struct PointLight
 {
 	float4 color;
-	float  intensity;
 	float3 position;
 	float  range;
 	float  attenConstant;
 	float  attenLinear;
 	float  attenQuadratic;
+	float  intensity;
 };
 
 StructuredBuffer<PointLight> LightBuffer;
@@ -86,8 +86,14 @@ PS_INPUT main(VertexShaderInput input, uint instanceID : SV_InstanceID)
 
 	depthDistortion = mul(mul(depthDistortion, depthDistortion2), depthDistortion3);
 
+
+	float3 vertexOffset = mul(input.position, (float3x3)world);
+
 	pos = mul(pos, depthDistortion);
 	output.center = pos.xyz;
+
+
+
 
 	pos = float4(input.position * -light.range * 1.1, 0.0) + pos;
 	output.position = mul(pos, mul(view, projection));

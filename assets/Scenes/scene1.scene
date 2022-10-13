@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<scene id="scene1">
+  <object-list>
+
+    <gameobject name="game-manager" enabled="true">
+      <transform x="0.0" y="6.0" z="-5.0" rotX="15.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
+      <components>
+        <script file="game.lua"/>
+      </components>
+      <children>
+      </children>
+    </gameobject>
+
+    <gameobject name="ui-fps" enabled="true">
+      <transform x="20.0" y="20.0" z="0.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
+      <components>
+        <fps-script/>
+        <ui-text text="FPS:" font="Consolas_14.fnt"/>
+      </components>
+      <children></children>
+    </gameobject>
+    
+    <!--
+    <gameobject name="ui-title" enabled="true">
+      <transform x="-1.0" y="60.0" z="0.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
+      <components>
+        <ui-text text="Mineshaft Mayhem" font="mineshaft_72.fnt"/>
+      </components>
+      <children></children>
+    </gameobject>
+    -->
+    
+    <gameobject name="camera" enabled="true">
+      <transform x="0.0" y="6.0" z="-5.0" rotX="15.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
+      <components>
+        <camera mainCamera="true">
+          <viewport x="0.0" y="0.0" width="1.0" height="1.0" min="0.0" max="1.0"/>
+        </camera>
+        <script file="camera.lua"/>
+      </components>
+      <children>
+      </children>
+    </gameobject>
+  
+
+    <!--<gameobject name="lighttest" enabled="true">
+      <transform x="0.0" y="4.0" z="6.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
+      <components>
+        <light type="point">
+          <color r="1.0" g="0.0" b="0.0" a="1.0"/>
+          <attenuation range="10.0" constant="0.0" linear="0.0" quadratic=".5"/>
+        </light>
+      </components>
+      <children>
+      </children>
+    </gameobject>-->
+    
+    
+    <gameobject name="minecart1" enabled="true">
+      <transform x="0.0" y="0.35" z="5.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
+      <components>
+        <model file="minecart.obj" material="minecart.vmt"/>
+        <!--<script file="player.lua"/>-->
+        <player-script/>
+      </components>
+      <children>
+        <gameobject name="lighttest" enabled="true">
+          <transform x="0.0" y="2.0" z="2.2" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="0.0"/>
+          <components>
+            <light type="spot">
+              <color r="1" g=".8" b=".5" a="1.0"/>
+              <attenuation range="24.0" angle="15.0" constant="0" linear=".2" quadratic=".2"/>
+            </light>
+            <light type="spot">
+              <color r="1" g=".8" b=".5" a="1.0"/>
+              <attenuation range="16.0" angle="60.0" constant="0" linear=".2" quadratic=".5"/>
+            </light>
+          </components>
+          <children>
+          </children>
+        </gameobject>
+        <gameobject name="wheel" enabled="true">
+          <transform x="0.0" y="0.0" z="1.2" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
+          <components>
+            <model file="Wheels.obj" material="wheel.vmt"/>
+          </components>
+          <children>
+          </children>
+        </gameobject>
+        <gameobject name="whee2" enabled="true">
+          <transform x="0.0" y="0.0" z="-1.2" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
+          <components>
+            <model file="Wheels.obj" material="wheel.vmt"/>
+          </components>
+          <children>
+          </children>
+        </gameobject>        
+      </children>
+    </gameobject>
+    
+    
+    <gameobject name="railspawner" enabled="true">
+      <transform x="20.0" y="40.0" z="-1.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
+      <components>
+        <mineshaft-script/>
+        <!--<script file="MineShaft.lua"/>-->
+        <ui-text text="Score: " font="Consolas_14.fnt"/>
+      </components>
+      <children>
+      </children>
+    </gameobject>
+    
+  </object-list>
+</scene>

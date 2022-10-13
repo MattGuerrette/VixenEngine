@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<scene id="GameOver">
+  <object-list>
+
+    <gameobject name="camera" enabled="true">
+      <transform x="0.0" y="6.0" z="-5.0" rotX="15.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
+      <components>
+        <camera mainCamera="false">
+          <viewport x="0.0" y="0.0" width="1.0" height="1.0" min="0.0" max="1.0"/>
+        </camera>
+        <script file="camera.lua"/>
+      </components>
+      <children>
+      </children>
+    </gameobject>
+
+    <gameobject name="game-manager" enabled="true">
+      <transform x="0.0" y="6.0" z="-5.0" rotX="15.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
+      <components>
+        <script file="GameOver.lua"/>
+      </components>
+      <children>
+      </children>
+    </gameobject>
+
+    <gameobject name="ui-title" enabled="true">
+      <transform x="-1.0" y="60.0" z="0.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
+      <components>
+        <ui-text text="Game Over" font="mineshaft_72.fnt"/>
+      </components>
+      <children></children>
+    </gameobject>
+
+  </object-list>
+</scene>

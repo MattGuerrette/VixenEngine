@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<material>
+  <vertex-shader file="PointLightPass_VS.hlsl">
+    <float name="distance" val=".5"/>
+  </vertex-shader>
+  <pixel-shader file="PointLightPass_PS.hlsl">
+  </pixel-shader>
+</material>

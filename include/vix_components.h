@@ -20,8 +20,11 @@
 #include "vix_spotlightcomponent.h"
 #include "vix_camera3Dcomponent.h"
 #include "vix_modelcomponent.h"
-#include "vix_rigidbody_component.h"
 #include "vix_luascript.h"
 #include "vix_uitext.h"
+#include "vix_pause_script.h"
+#include "vix_fps_script.h"
+#include "vix_mineshaft_script.h"
+#include "vix_player_script.h"
 
 #endif

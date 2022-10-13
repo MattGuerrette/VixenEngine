@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<material>
+  <vertex-shader file="Model_Inst_VS.hlsl">
+    <float name="distance" val="1"/>
+  </vertex-shader>
+  <pixel-shader file="Model_Rainbow_Deferred_PS.hlsl">
+    <float name="distance" val="1"/>
+  </pixel-shader>
+</material>

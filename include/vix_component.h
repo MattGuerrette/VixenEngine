@@ -41,7 +41,11 @@ namespace Vixen {
 			SPRITE,
 			MODEL,
 			CAMERA,
-			PHYSICS_RIGIDBODY
+			PHYSICS_RIGIDBODY,
+			PAUSE_SCRIPT,
+			FPS_SCRIPT,
+			MINESHAFT_SCRIPT,
+			PLAYER_SCRIPT
 		};
 
 		Component(Type type)

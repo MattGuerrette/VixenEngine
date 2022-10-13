@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<prefab id="point-light">
+  <gameobject name="pointLight" enabled="true">
+    <transform x="0.0" y="0.0" z="0.0" rotX="0.0" rotY="0.0" rotZ="0.0" scaleX="1.0" scaleY="1.0" scaleZ="1.0"/>
+    <components>
+      <model file="icosahedron.obj" material="white.vmt"/>
+      <light type="point">
+        <color r="1.0" g="0.0" b="0.0" a="1.0"/>
+        <attenuation range="10.0" constant="0.0" linear="0.0" quadratic="1.0"/>
+      </light>
+    </components>
+    <children>
+    </children>
+  </gameobject>
+</prefab>
